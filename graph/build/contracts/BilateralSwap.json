@@ -1,0 +1,360 @@
+{
+  "contractName": "BilateralSwap",
+  "abi": [
+    {
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function",
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256[6]"
+        }
+      ],
+      "name": "validateBilateralSwap",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.7+commit.6da8b019\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"fallback\"}],\"devdoc\":{\"author\":\"AZTEC\",\"details\":\"Don't include this as an internal library. This contract uses  a static memory table to cache elliptic curve primitives and hashes. Calling this internally from another function will lead to memory  mutation and undefined behaviour. The intended use case is to call this externally via `staticcall`. External  calls to OptimizedAZTEC can be treated as pure functions as this contract  contains no storage and makes no external calls (other than to precompiles) Copyright Spilbury Holdings Ltd 2019. All rights reserved.*\",\"methods\":{},\"title\":\"Library to validate AZTEC Bilateral Swap zero-knowledge proofs\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/bilateralSwap/BilateralSwap.sol\":\"BilateralSwap\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/bilateralSwap/BilateralSwap.sol\":{\"keccak256\":\"0xb03e19b179e93e21e334de8d81e78e5cc78bc2d15b9a7235afedad02047c7740\",\"urls\":[\"bzzr://93173ef9d4599281513ea080842a976969616114e509b3d88c43043c2e67b999\"]},\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/bilateralSwap/BilateralSwapABIEncoder.sol\":{\"keccak256\":\"0x7bb83c13f9f12fbd0e8d20341af6b0dc6f50267e4f142516719ef6d6613a1170\",\"urls\":[\"bzzr://350af470c37ec936b525bdbf212721e05a9f03393aa6189e92960ce3b49782d6\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610581806100206000396000f3fe608060405234801561001057600080fd5b50610019610023565b606060405261018f565b60443560805260643560a052610144356101040180356004811461004d5761019060005260206000fd5b7f30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f00000018061012435066024356102e0526100858385610241565b608083026103000160005b848110156101685760c081026020870101600060208201358560018511600181146100c05780156100cd576100d2565b61018085033593506100d2565b843593505b506100de828486610194565b60406080850160e037604080850160203780880361012052826060528160c05260406101a0606060e060075afa60406101206060602060075afa1660406101606060608060075afa166040610160608061012060065afa16604087608061016060065afa16806101545761019060005260206000fd5b505050604093909301925050600101610090565b50826102e082036102e020068281146101875761019460005260206000fd5b505050505050565b61023c565b7f30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f00000017f30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd4760408301356060840135608085013560a086013584838409856003878789898a090908148582830986600388868a888909090814166001891189888b06141660018b118b898d06141616166102315761019060005260206000fd5b505050505050505050565b610278565b60005b8281101561026a57606060c0820283010160808160808402610300013750600101610244565b505060800261030020600052565b610280610282565b005b61014435610104016101643561012401610184356101440160208203356004146020820335600214166102b457600080fd5b60206101605260026101a05260806101c05260c06102205261020061024052600061026052600061028052610124356102a0526101206102c05260016102e052606061030052600160005260806060840160203760c06103205260016103405281356103605260a06000206103805260406103a052600160ff1b60016040511602602051176103c052600160ff1b60016080511602606051176103e05260016104205260606104405260806101e0840160203760016104805260408201356104a05260a06000206104c052803580604083030135806040016104e052600160ff1b600160405116026020511761050052600160ff1b60016080511602606051176105205280602084038301610540378060c00161046052806101200161040052806103200161020052806103c0016101e052806105400160c06020820152610200604082015260006060820152600060808201526101243560e052602060e02060a082015261012060c0820152600160e0820152606061010082015260806102a0870160203760c06101208201526001610140820152606085013561016082015260a060002061018082015260406101a0820152600160ff1b60016040511602602051176101c0820152600160ff1b60016080511602606051176101e08201526001610220820152606061024082015260806101208701602037600161028082015260208501356102a082015260a06000206102c082015260208401359250826040850301359150816040016102e0820152600160ff1b6001604051160260205117610300820152600160ff1b6001608051160260605117610320820152816020850384016103408301378160c00161026082015281610120016102008201528161032001815261020051826103c001016101805260406101805101610160f3fea165627a7a7230582075244b4618a974e291378e238eb52d0992d39b0dd54ccb5a58e8ae1fd3ca653f0029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50610019610023565b606060405261018f565b60443560805260643560a052610144356101040180356004811461004d5761019060005260206000fd5b7f30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f00000018061012435066024356102e0526100858385610241565b608083026103000160005b848110156101685760c081026020870101600060208201358560018511600181146100c05780156100cd576100d2565b61018085033593506100d2565b843593505b506100de828486610194565b60406080850160e037604080850160203780880361012052826060528160c05260406101a0606060e060075afa60406101206060602060075afa1660406101606060608060075afa166040610160608061012060065afa16604087608061016060065afa16806101545761019060005260206000fd5b505050604093909301925050600101610090565b50826102e082036102e020068281146101875761019460005260206000fd5b505050505050565b61023c565b7f30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f00000017f30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd4760408301356060840135608085013560a086013584838409856003878789898a090908148582830986600388868a888909090814166001891189888b06141660018b118b898d06141616166102315761019060005260206000fd5b505050505050505050565b610278565b60005b8281101561026a57606060c0820283010160808160808402610300013750600101610244565b505060800261030020600052565b610280610282565b005b61014435610104016101643561012401610184356101440160208203356004146020820335600214166102b457600080fd5b60206101605260026101a05260806101c05260c06102205261020061024052600061026052600061028052610124356102a0526101206102c05260016102e052606061030052600160005260806060840160203760c06103205260016103405281356103605260a06000206103805260406103a052600160ff1b60016040511602602051176103c052600160ff1b60016080511602606051176103e05260016104205260606104405260806101e0840160203760016104805260408201356104a05260a06000206104c052803580604083030135806040016104e052600160ff1b600160405116026020511761050052600160ff1b60016080511602606051176105205280602084038301610540378060c00161046052806101200161040052806103200161020052806103c0016101e052806105400160c06020820152610200604082015260006060820152600060808201526101243560e052602060e02060a082015261012060c0820152600160e0820152606061010082015260806102a0870160203760c06101208201526001610140820152606085013561016082015260a060002061018082015260406101a0820152600160ff1b60016040511602602051176101c0820152600160ff1b60016080511602606051176101e08201526001610220820152606061024082015260806101208701602037600161028082015260208501356102a082015260a06000206102c082015260208401359250826040850301359150816040016102e0820152600160ff1b6001604051160260205117610300820152600160ff1b6001608051160260605117610320820152816020850384016103408301378160c00161026082015281610120016102008201528161032001815261020051826103c001016101805260406101805101610160f3fea165627a7a7230582075244b4618a974e291378e238eb52d0992d39b0dd54ccb5a58e8ae1fd3ca653f0029",
+  "sourceMap": "722:12673:4:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;722:12673:4;;;;;;;",
+  "deployedSourceMap": "722:12673:4:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;722:12673:4;1522:23;;;;1812:4;1806;1799:18;4199:5473;;;4430:4;4417:18;4411:4;4404:32;4486:4;4473:18;4467:4;4460:32;4553:5;4540:19;4533:5;4529:31;4626:5;4613:19;4717:4;4714:1;4711:11;4701:2;;4800:3;4794:4;4787:17;4900:4;4894;4887:18;4701:2;4959:66;5084:9;5076:5;5063:19;5059:35;5139:4;5126:18;5119:5;5112:33;5207:25;5230:1;5223:5;5207:25;;;5276:4;5273:1;5269:12;5262:5;5258:24;5657:1;5642:3060;5667:1;5664;5661:8;5642:3060;;;5846:4;5843:1;5839:12;5832:4;5825:5;5821:16;5817:35;;5936:4;5925:9;5921:20;5908:34;5972:9;6016:1;6013;6010:8;6087:1;6082:222;;;;6351:107;;;;6003:455;;6082:222;6275:5;6264:9;6260:21;6247:35;6242:40;;6082:222;;6351:107;6426:9;6413:23;6408:28;;6003:455;;6541:35;6574:1;6571;6560:9;6541:35;;;7143:4;7136;7125:9;7121:20;7115:4;7102:46;7210:4;7203;7192:9;7188:20;7182:4;7169:46;7265:1;7254:9;7250:17;7243:5;7236:32;7303:1;7297:4;7290:15;7339:1;7333:4;7326:15;7745:4;7738:5;7732:4;7726;7723:1;7718:3;7707:43;7831:4;7824:5;7818:4;7812;7809:1;7804:3;7793:43;7781:56;7918:4;7911:5;7905:4;7899;7896:1;7891:3;7880:43;7868:56;8205:4;8198:5;8192:4;8185:5;8182:1;8177:3;8166:44;8154:57;8440:4;8437:1;8431:4;8424:5;8421:1;8416:3;8405:40;8393:53;;8555:2;;8588:3;8582:4;8575:17;8606:4;8600;8593:18;8555:2;-1:-1:-1;;;8646:4:4;8639:12;;;;;-1:-1:-1;;5684:4:4;5677:12;5642:3060;;;5646:14;9449:9;9440:5;9437:1;9433:13;9426:5;9416:31;9412:47;9500:9;9490:8;9487:23;9477:2;;9597:3;9591:4;9584:17;9635:4;9629;9622:18;9477:2;4232:5440;;;;;;;;10011:2065;;;10086:66;10188;10308:4;10302;10298:15;10285:29;10368:4;10362;10358:15;10345:29;10428:4;10422;10418:15;10405:29;10488:4;10482;10478:15;10465:29;11857:11;11849:6;11841;11834:35;11788:11;11785:1;11734:11;11689:6;11638:11;11630:6;11622;11615:35;11571:175;11564:236;11510:389;11438:11;11430:6;11422;11415:35;11369:11;11329:1;11278:11;11270:6;11256:11;11248:6;11240;11233:35;11189:101;11182:199;11128:352;11095:830;10976:1;10973;10970:8;10902:1;10890:9;10887:1;10883:17;10880:24;10843:200;10737:1;10734;10731:8;10663:1;10651:9;10648:1;10644:17;10641:24;10604:209;10571:498;10542:1405;10511:2;;12001:3;11995:4;11988:17;12039:4;12033;12026:18;10511:2;10051:2025;;;;;;;;;;;12686:475;;;12754:1;12739:202;12764:1;12761;12758:8;12739:202;;;12850:4;12842;12839:1;12835:12;12828:5;12824:24;12820:35;12918:4;12911:5;12903:4;12900:1;12896:12;12889:5;12885:24;12872:51;-1:-1:-1;12781:4:4;12774:12;12739:202;;;-1:-1:-1;;13140:4:4;13133:12;13126:5;13116:30;13110:4;13103:44;12721:440;;13347:39;:37;:39::i;:::-;722:12673;1484:26104:5;1633:5;1620:19;1613:5;1609:31;1695:5;1682:19;1675:5;1671:31;1797:5;1784:19;1777:5;1773:31;2276:4;2264:10;2260:21;2247:35;2241:4;2238:45;2213:4;2200:11;2196:22;2183:36;2177:4;2174:46;2153:144;2143:2;;2330:4;2324;2317:18;2143:2;5584:4;5577:5;5570:19;6365:4;6358:5;6351:19;6513:4;6506:5;6499:19;7334:4;7327:5;7320:19;7718:5;7711;7704:20;7907:4;7900:5;7893:19;7982:4;7975:5;7968:19;8070:5;8057:19;8050:5;8043:34;8958:5;8951;8944:20;9035:4;9028:5;9021:19;9144:4;9137:5;9130:19;9966:4;9960;9953:18;10438:4;10431;10424:5;10420:16;10414:4;10401:42;10554:4;10547:5;10540:19;10638:4;10631:5;10624:19;10798:10;10785:24;10778:5;10771:39;10947:4;10941;10931:21;10924:5;10917:36;11053:4;11046:5;11039:19;-1:-1:-1;;;11974:4:5;11967;11961:11;11957:22;11885:208;11837:4;11831:11;11807:304;11784:5;11760:365;-1:-1:-1;;;12326:4:5;12319;12313:11;12309:22;12284:157;12257:4;12251:11;12227:232;12204:5;12180:293;13195:4;13188:5;13181:19;13294:4;13287:5;13280:19;14586:4;14578:5;14571;14567:17;14561:4;14548:43;14751:4;14744:5;14737:19;14990:4;14978:10;14974:21;14961:35;14954:5;14947:50;15088:4;15082;15072:21;15065:5;15058:36;15516:11;15503:25;16658:13;16651:4;16638:11;16634:22;16630:42;16617:56;16775:14;16769:4;16765:25;16758:5;16751:40;-1:-1:-1;;;17011:4:5;17004;16998:11;16994:22;16965:165;16938:4;16932:11;16908:240;16885:5;16861:301;-1:-1:-1;;;17382:4:5;17375;17369:11;17365:22;17336:165;17309:4;17303:11;17279:240;17256:5;17232:301;18153:14;18145:4;18132:11;18128:22;18113:13;18109:42;18102:5;18089:79;18643:14;18637:4;18633:25;18626:5;18619:40;18861:14;18854:5;18850:26;18843:5;18836:41;19084:14;19077:5;19073:26;19066:5;19059:41;19645:14;19638:5;19634:26;19627:5;19620:41;19984:14;19977:5;19973:26;20175:4;20168;20158:8;20154:19;20147:33;20287:5;20280:4;20270:8;20266:19;20259:34;20386:4;20379;20369:8;20365:19;20358:33;20499:4;20492;20482:8;20478:19;20471:33;20709:5;20696:19;20690:4;20683:33;20773:4;20767;20757:21;20750:4;20740:8;20736:19;20729:50;21031:5;21024:4;21014:8;21010:19;21003:34;21143:4;21136;21126:8;21122:19;21115:33;21269:4;21261:5;21251:8;21247:20;21240:34;21624:4;21616:5;21609;21605:17;21599:4;21586:43;21741:4;21733:5;21723:8;21719:20;21712:34;21877:4;21869:5;21859:8;21855:20;21848:34;22030:4;22018:10;22014:21;22001:35;21993:5;21983:8;21979:20;21972:65;22156:4;22150;22140:21;22132:5;22122:8;22118:20;22111:51;22283:4;22275:5;22265:8;22261:20;22254:34;-1:-1:-1;;;22533:4:5;22526;22520:11;22516:22;22487:165;22460:4;22454:11;22430:240;22406:5;22396:8;22392:20;22368:316;-1:-1:-1;;;22929:4:5;22922;22916:11;22912:22;22883:165;22856:4;22850:11;22826:240;22802:5;22792:8;22788:20;22764:316;23407:4;23399:5;23389:8;23385:20;23378:34;23521:4;23513:5;23503:8;23499:20;23492:34;23871:4;23863:5;23856;23852:17;23846:4;23833:43;24056:4;24048:5;24038:8;24034:20;24027:34;24209:4;24197:10;24193:21;24180:35;24172:5;24162:8;24158:20;24151:65;24321:4;24315;24305:21;24297:5;24287:8;24283:20;24276:51;24528:4;24515:11;24511:22;24498:36;24481:53;;24606:13;24599:4;24586:11;24582:22;24578:42;24565:56;24547:74;;24750:14;24744:4;24740:25;24732:5;24722:8;24718:20;24711:55;-1:-1:-1;;;25011:4:5;25004;24998:11;24994:22;24965:165;24938:4;24932:11;24908:240;24884:5;24874:8;24870:20;24846:316;-1:-1:-1;;;25407:4:5;25400;25394:11;25390:22;25361:165;25334:4;25328:11;25304:240;25280:5;25270:8;25266:20;25242:316;25710:14;25702:4;25689:11;25685:22;25670:13;25666:42;25658:5;25648:8;25644:20;25631:94;25943:14;25937:4;25933:25;25925:5;25915:8;25911:20;25904:55;26109:14;26102:5;26098:26;26090:5;26080:8;26076:20;26069:56;26245:14;26238:5;26234:26;26224:8;26217:44;27071:5;27065:12;27048:14;27041:5;27037:26;27033:45;27026:5;27019:60;27548:4;27540:5;27534:12;27530:23;27523:5;27516:38",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\nimport \"./BilateralSwapABIEncoder.sol\";\n\n/**\n * @title Library to validate AZTEC Bilateral Swap zero-knowledge proofs\n * @author AZTEC\n * @dev Don't include this as an internal library. This contract uses \n * a static memory table to cache elliptic curve primitives and hashes.\n * Calling this internally from another function will lead to memory \n * mutation and undefined behaviour.\n * The intended use case is to call this externally via `staticcall`. External \n * calls to OptimizedAZTEC can be treated as pure functions as this contract \n * contains no storage and makes no external calls (other than to precompiles)\n * Copyright Spilbury Holdings Ltd 2019. All rights reserved.\n **/\ncontract BilateralSwap {\n\n    /**\n     * @dev AZTECBilateralSwap will take any transaction sent to it and attempt to validate a zero knowledge proof.\n     * If the proof is not valid, the transaction throws.\n     * @notice See BilateralSwapInterface for how method calls should be constructed.\n     * AZTECBilateralSwap is written in YUL to enable manual memory management and for other efficiency savings.\n     **/\n    // solhint-disable payable-fallback\n    function() external {\n        assembly {\n\n            // We don't check for function signatures, there's only one function that \n            // ever gets called: validateBilateralSwap()\n            // We still assume calldata is offset by 4 bytes so that we can represent \n            // this contract through a comp\\atible ABI\n            validateBilateralSwap()\n\n            // if we get to here, the proof is valid. We now 'fall through' the assembly block\n            // and into JoinSplitABI.validateJoinSplit()\n            // reset the free memory pointer because we're touching Solidity code again\n            mstore(0x40, 0x60)\n            /**\n             * New calldata map\n             * 0x04:0x24      = calldata location of proofData byte array \n             * 0x24:0x44      = message sender // sender\n             * 0x44:0x64      = h_x     // crs\n             * 0x64:0x84      = h_y     // crs\n             * 0x84:0xa4      = t2_x0   // crs\n             * 0xa4:0xc4      = t2_x1   // crs\n             * 0xa4:0xc4      = t2_x1   // crs\n             * 0xc4:0xe4      = t2_y0   // crs\n             * 0xe4:0x104     = t2_y1   // crs\n             * 0x104:0x124    = length of proofData byte array \n             * 0x124:0x144    = challenge\n             * 0x144:0x164    = offset in byte array to notes\n             * 0x164:0x184    = offset in byte array to inputOwners\n             * 0x184:0x1a4    = offset in byte array to outputOwners\n             * 0x1a4:0x1c4    = offset in byte array to metadata\n             *\n             *\n             * Note data map (uint[6]) is\n             * 0x00:0x20       = Z_p element \\bar{k}_i\n             * 0x20:0x40       = Z_p element \\bar{a}_i\n             * 0x40:0x80       = G1 element \\gamma_i\n             * 0x80:0xc0       = G1 element \\sigma_i\n             *\n             * We use a hard-coded memory map to reduce gas costs - if this is not called as an \n             * external contract then terrible things will happen!\n             *\n             * 0x00:0x20       = scratch data to store result of keccak256 calls\n             * 0x20:0x80       = scratch data to store \\gamma_i and a multiplication scalar\n             * 0x80:0xc0       = x-coordinate of generator h\n             * 0xc0:0xe0       = y-coordinate of generator h\n             * 0xe0:0x100      = scratch data to store a scalar we plan to multiply h by\n             * 0x100:0x160     = scratch data to store \\sigma_i and a multiplication scalar\n             * 0x160:0x1a0     = stratch data to store result of G1 point additions\n             * 0x1a0:0x1c0     = scratch data to store result of \\sigma_i^{-cx_{i-m-1}}\n             * 0x220:0x260     = scratch data to store \\gamma_i^{cx_{i-m-1}}\n             * 0x2e0:0x300     = msg.sender (contract should be called via delegatecall/staticcall)\n             * 0x300:???       = block of memory that contains (\\gamma_i, \\sigma_i)_{i=0}^{n-1} \n             *                   concatenated with (B_i)_{i=0}^{n-1}\n             **/\n            function validateBilateralSwap() {\n                /*\n                ///////////////////////////////////////////  SETUP  //////////////////////////////////////////////\n                */\n\n                mstore(0x80, calldataload(0x44)) // h_x\n                mstore(0xa0, calldataload(0x64)) // h_y\n                let notes := add(0x104, calldataload(0x144)) // start position of notes\n                let n := calldataload(notes) // first element of the notes array is it's length\n\n                if iszero(eq(n, 0x04)) { // eq(n, 4) will resolve to 0 if n != 4\n\n                    mstore(0x00, 400) // 400 error code - due to incorrect number of notes supplied\n                    revert(0x00, 0x20)\n\n                }\n\n                let gen_order := 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001\n                let challenge := mod(calldataload(0x124), gen_order)\n\n                mstore(0x2e0, calldataload(0x24)) // store the msg.sender, to be hashed later\n\n                hashCommitments(notes, n)\n                let b := add(0x300, mul(n, 0x80)) // set pointer to memory location of commitments where the commitments\n\n                /*\n                ///////////////////////////  CALCULATE BLINDING FACTORS  /////////////////////////////////////\n                */\n\n                // Iterate over every note and calculate the blinding factor B_i = \\gamma_i^{kBar}h^{aBar}\\sigma_i^{-c}.\n                for { let i := 0 } lt(i, n) { i := add(i, 0x01) } {\n\n                    // Get the calldata index of this note and associated parameters\n                    let noteIndex := add(add(notes, 0x20), mul(i, 0xc0))\n                    let k\n                    let a := calldataload(add(noteIndex, 0x20))\n                    let c := challenge\n\n                    switch gt(i, 1) // i (an indexer) > 1 denotes a taker note\n                    case 1 { // if it's a taker note\n\n                        // indexing the k value of the note that is 2 indices behind the current note\n                        k := calldataload(sub(noteIndex, 0x180))\n                    } \n                        \n                    case 0 { // if it's a maker note\n                        k := calldataload(noteIndex)\n                    }\n\n\n                    // Check this commitment is well formed\n                    validateCommitment(noteIndex, k, a)\n                    \n                    // Calculate the G1 element \\gamma_i^{k}h^{a}\\sigma_i^{-c} = B_i\n                    // Memory map:\n                    // 0x20: \\gamma_iX\n                    // 0x40: \\gamma_iY\n                    // 0x60: k_i\n                    // 0x80: hX\n                    // 0xa0: hY\n                    // 0xc0: a_i\n                    // 0xe0: \\sigma_iX\n                    // 0x100: \\sigma_iY\n                    // 0x120: -c\n\n                    // loading into memory\n                    calldatacopy(0xe0, add(noteIndex, 0x80), 0x40)\n                    calldatacopy(0x20, add(noteIndex, 0x40), 0x40)\n                    mstore(0x120, sub(gen_order, c)) \n                    mstore(0x60, k)\n                    mstore(0xc0, a)\n\n                    // Call bn128 scalar multiplication precompiles\n                    // Represent point + multiplication scalar in 3 consecutive blocks of memory\n                    // Store \\sigma_i^{-c} at 0x1a0:0x200\n                    // Store \\gamma_i^{k} at 0x120:0x160\n                    // Store h^{a} at 0x160:0x1a0\n                    let result := staticcall(gas, 7, 0xe0, 0x60, 0x1a0, 0x40)\n                    result := and(result, staticcall(gas, 7, 0x20, 0x60, 0x120, 0x40))\n                    result := and(result, staticcall(gas, 7, 0x80, 0x60, 0x160, 0x40))\n\n                    // Call bn128 group addition precompiles\n                    // \\gamma_i^{k} and h^{a} in memory block 0x120:0x1a0\n                    // Store result of addition at 0x160:0x1a0\n                    result := and(result, staticcall(gas, 6, 0x120, 0x80, 0x160, 0x40))\n\n                    // \\gamma_i^{k}h^{a} and \\sigma^{-c} in memory block 0x160:0x1e0\n                    // Store resulting point B at memory index b\n                    result := and(result, staticcall(gas, 6, 0x160, 0x80, b, 0x40))\n\n\n                    // throw transaction if any calls to precompiled contracts failed\n                    if iszero(result) { mstore(0x00, 400) revert(0x00, 0x20) }\n                    b := add(b, 0x40) // increase B pointer by 2 words\n                }\n                // Both bid notes already exist in their revelant AZTEC note registries - so can inductively \n                // infer that the ask notes are in the required range\n                // Therefore, don't need a range proof\n            \n                /*\n                ////////////////////  RECONSTRUCT INITIAL CHALLENGE AND VERIFY A MATCH  ////////////////////////////////\n                */\n\n                // We now have the note commitments and the calculated blinding factors in a block of memory\n                // starting at 0x2e0, of size (b - 0x2e0).\n                // Hash this block to reconstruct the initial challenge and validate that they match\n                let expected := mod(keccak256(0x2e0, sub(b, 0x2e0)), gen_order)\n\n                if iszero(eq(expected, challenge)) {\n\n                    // No! Bad! No soup for you!\n                    mstore(0x00, 404)\n                    revert(0x00, 0x20)\n                }\n            }\n\n            /**\n             * @dev check that this note's points are on the altbn128 curve(y^2 = x^3 + 3)\n             * and that signatures 'k' and 'a' are modulo the order of the curve. Transaction\n             * throws if this is not the case.\n             * @param note the calldata loation of the note\n             **/\n            function validateCommitment(note, k, a) {\n                let gen_order := 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001\n                let field_order := 0x30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd47\n                let gammaX := calldataload(add(note, 0x40))\n                let gammaY := calldataload(add(note, 0x60))\n                let sigmaX := calldataload(add(note, 0x80))\n                let sigmaY := calldataload(add(note, 0xa0))\n                if iszero(\n                    and(\n                        and(\n                            and(\n                                eq(mod(a, gen_order), a), // a is modulo generator order?\n                                gt(a, 1)                  // can't be 0 or 1 either!\n                            ),\n                            and(\n                                eq(mod(k, gen_order), k), // k is modulo generator order?\n                                gt(k, 1)                  // and not 0 or 1\n                            )\n                        ),\n                        and(\n                            eq( // y^2 ?= x^3 + 3\n                                addmod(mulmod(\n                                    mulmod(sigmaX, sigmaX, field_order), sigmaX, field_order), \n                                    3, \n                                    field_order),\n                                mulmod(sigmaY, sigmaY, field_order)\n                            ),\n                            eq( // y^2 ?= x^3 + 3\n                                addmod(mulmod(\n                                    mulmod(gammaX, gammaX, field_order), \n                                    gammaX, \n                                    field_order), \n                                    3, field_order),\n                                mulmod(gammaY, gammaY, field_order)\n                            )\n                        )\n                    )\n                ) {\n                    mstore(0x00, 400)\n                    revert(0x00, 0x20)\n                }\n            }\n\n            /**\n             * @dev Calculate the keccak256 hash of the commitments for both \n             * input notes and output notes. This is used both as an input to \n             * validate the challenge `c` and also to generate pseudorandom relationships\n             * between commitments for different outputNotes, so that we can combine \n             * them into a single multi-exponentiation for the purposes of validating \n             * the bilinear pairing relationships.\n             * @param notes calldata location notes\n             * @param n number of notes\n             **/\n            function hashCommitments(notes, n) {\n                for { let i := 0 } lt(i, n) { i := add(i, 0x01) } {\n                let index := add(add(notes, mul(i, 0xc0)), 0x60)\n                calldatacopy(add(0x300, mul(i, 0x80)), index, 0x80)\n                }\n                // storing at position 0x00 in memory, the kecca hash of everything from \n                // start of the commitments to the end\n                mstore(0x00, keccak256(0x300, mul(n, 0x80)))\n            }\n        }\n        // if we've reached here, we've validated the bilateral swap and haven't thrown an error.\n        // Encode the output according to the ACE standard and exit.\n        BilateralSwapABIEncoder.encodeAndExit();\n    }\n}\n",
+  "sourcePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/bilateralSwap/BilateralSwap.sol",
+  "ast": {
+    "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/bilateralSwap/BilateralSwap.sol",
+    "exportedSymbols": {
+      "BilateralSwap": [
+        1460
+      ]
+    },
+    "id": 1461,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1448,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:4"
+      },
+      {
+        "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/bilateralSwap/BilateralSwapABIEncoder.sol",
+        "file": "./BilateralSwapABIEncoder.sol",
+        "id": 1449,
+        "nodeType": "ImportDirective",
+        "scope": 1461,
+        "sourceUnit": 1469,
+        "src": "33:39:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Library to validate AZTEC Bilateral Swap zero-knowledge proofs\n@author AZTEC\n@dev Don't include this as an internal library. This contract uses \na static memory table to cache elliptic curve primitives and hashes.\nCalling this internally from another function will lead to memory \nmutation and undefined behaviour.\nThe intended use case is to call this externally via `staticcall`. External \ncalls to OptimizedAZTEC can be treated as pure functions as this contract \ncontains no storage and makes no external calls (other than to precompiles)\nCopyright Spilbury Holdings Ltd 2019. All rights reserved.*",
+        "fullyImplemented": true,
+        "id": 1460,
+        "linearizedBaseContracts": [
+          1460
+        ],
+        "name": "BilateralSwap",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 1458,
+              "nodeType": "Block",
+              "src": "1202:12191:4",
+              "statements": [
+                {
+                  "externalReferences": [],
+                  "id": 1452,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    validateBilateralSwap()\n    mstore(0x40, 0x60)\n    function validateBilateralSwap()\n    {\n        mstore(0x80, calldataload(0x44))\n        mstore(0xa0, calldataload(0x64))\n        let notes := add(0x104, calldataload(0x144))\n        let n := calldataload(notes)\n        if iszero(eq(n, 0x04))\n        {\n            mstore(0x00, 400)\n            revert(0x00, 0x20)\n        }\n        let gen_order := 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001\n        let challenge := mod(calldataload(0x124), gen_order)\n        mstore(0x2e0, calldataload(0x24))\n        hashCommitments(notes, n)\n        let b := add(0x300, mul(n, 0x80))\n        for {\n            let i := 0\n        }\n        lt(i, n)\n        {\n            i := add(i, 0x01)\n        }\n        {\n            let noteIndex := add(add(notes, 0x20), mul(i, 0xc0))\n            let k\n            let a := calldataload(add(noteIndex, 0x20))\n            let c := challenge\n            switch gt(i, 1)\n            case 1 {\n                k := calldataload(sub(noteIndex, 0x180))\n            }\n            case 0 {\n                k := calldataload(noteIndex)\n            }\n            validateCommitment(noteIndex, k, a)\n            calldatacopy(0xe0, add(noteIndex, 0x80), 0x40)\n            calldatacopy(0x20, add(noteIndex, 0x40), 0x40)\n            mstore(0x120, sub(gen_order, c))\n            mstore(0x60, k)\n            mstore(0xc0, a)\n            let result := staticcall(gas(), 7, 0xe0, 0x60, 0x1a0, 0x40)\n            result := and(result, staticcall(gas(), 7, 0x20, 0x60, 0x120, 0x40))\n            result := and(result, staticcall(gas(), 7, 0x80, 0x60, 0x160, 0x40))\n            result := and(result, staticcall(gas(), 6, 0x120, 0x80, 0x160, 0x40))\n            result := and(result, staticcall(gas(), 6, 0x160, 0x80, b, 0x40))\n            if iszero(result)\n            {\n                mstore(0x00, 400)\n                revert(0x00, 0x20)\n            }\n            b := add(b, 0x40)\n        }\n        let expected := mod(keccak256(0x2e0, sub(b, 0x2e0)), gen_order)\n        if iszero(eq(expected, challenge))\n        {\n            mstore(0x00, 404)\n            revert(0x00, 0x20)\n        }\n    }\n    function validateCommitment(note, k, a)\n    {\n        let gen_order := 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001\n        let field_order := 0x30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd47\n        let gammaX := calldataload(add(note, 0x40))\n        let gammaY := calldataload(add(note, 0x60))\n        let sigmaX := calldataload(add(note, 0x80))\n        let sigmaY := calldataload(add(note, 0xa0))\n        if iszero(and(and(and(eq(mod(a, gen_order), a), gt(a, 1)), and(eq(mod(k, gen_order), k), gt(k, 1))), and(eq(addmod(mulmod(mulmod(sigmaX, sigmaX, field_order), sigmaX, field_order), 3, field_order), mulmod(sigmaY, sigmaY, field_order)), eq(addmod(mulmod(mulmod(gammaX, gammaX, field_order), gammaX, field_order), 3, field_order), mulmod(gammaY, gammaY, field_order)))))\n        {\n            mstore(0x00, 400)\n            revert(0x00, 0x20)\n        }\n    }\n    function hashCommitments(notes, n)\n    {\n        for {\n            let i := 0\n        }\n        lt(i, n)\n        {\n            i := add(i, 0x01)\n        }\n        {\n            let index := add(add(notes, mul(i, 0xc0)), 0x60)\n            calldatacopy(add(0x300, mul(i, 0x80)), index, 0x80)\n        }\n        mstore(0x00, keccak256(0x300, mul(n, 0x80)))\n    }\n}",
+                  "src": "1212:12158:4"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1453,
+                        "name": "BilateralSwapABIEncoder",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1468,
+                        "src": "13347:23:4",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_BilateralSwapABIEncoder_$1468_$",
+                          "typeString": "type(library BilateralSwapABIEncoder)"
+                        }
+                      },
+                      "id": 1455,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "encodeAndExit",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1467,
+                      "src": "13347:37:4",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$__$returns$__$",
+                        "typeString": "function () pure"
+                      }
+                    },
+                    "id": 1456,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "13347:39:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1457,
+                  "nodeType": "ExpressionStatement",
+                  "src": "13347:39:4"
+                }
+              ]
+            },
+            "documentation": "@dev AZTECBilateralSwap will take any transaction sent to it and attempt to validate a zero knowledge proof.\nIf the proof is not valid, the transaction throws.\n@notice See BilateralSwapInterface for how method calls should be constructed.\nAZTECBilateralSwap is written in YUL to enable manual memory management and for other efficiency savings.*",
+            "id": 1459,
+            "implemented": true,
+            "kind": "fallback",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1450,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1190:2:4"
+            },
+            "returnParameters": {
+              "id": 1451,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1202:0:4"
+            },
+            "scope": 1460,
+            "src": "1182:12211:4",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 1461,
+        "src": "722:12673:4"
+      }
+    ],
+    "src": "0:13396:4"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/bilateralSwap/BilateralSwap.sol",
+    "exportedSymbols": {
+      "BilateralSwap": [
+        1460
+      ]
+    },
+    "id": 1461,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1448,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:4"
+      },
+      {
+        "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/bilateralSwap/BilateralSwapABIEncoder.sol",
+        "file": "./BilateralSwapABIEncoder.sol",
+        "id": 1449,
+        "nodeType": "ImportDirective",
+        "scope": 1461,
+        "sourceUnit": 1469,
+        "src": "33:39:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Library to validate AZTEC Bilateral Swap zero-knowledge proofs\n@author AZTEC\n@dev Don't include this as an internal library. This contract uses \na static memory table to cache elliptic curve primitives and hashes.\nCalling this internally from another function will lead to memory \nmutation and undefined behaviour.\nThe intended use case is to call this externally via `staticcall`. External \ncalls to OptimizedAZTEC can be treated as pure functions as this contract \ncontains no storage and makes no external calls (other than to precompiles)\nCopyright Spilbury Holdings Ltd 2019. All rights reserved.*",
+        "fullyImplemented": true,
+        "id": 1460,
+        "linearizedBaseContracts": [
+          1460
+        ],
+        "name": "BilateralSwap",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 1458,
+              "nodeType": "Block",
+              "src": "1202:12191:4",
+              "statements": [
+                {
+                  "externalReferences": [],
+                  "id": 1452,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    validateBilateralSwap()\n    mstore(0x40, 0x60)\n    function validateBilateralSwap()\n    {\n        mstore(0x80, calldataload(0x44))\n        mstore(0xa0, calldataload(0x64))\n        let notes := add(0x104, calldataload(0x144))\n        let n := calldataload(notes)\n        if iszero(eq(n, 0x04))\n        {\n            mstore(0x00, 400)\n            revert(0x00, 0x20)\n        }\n        let gen_order := 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001\n        let challenge := mod(calldataload(0x124), gen_order)\n        mstore(0x2e0, calldataload(0x24))\n        hashCommitments(notes, n)\n        let b := add(0x300, mul(n, 0x80))\n        for {\n            let i := 0\n        }\n        lt(i, n)\n        {\n            i := add(i, 0x01)\n        }\n        {\n            let noteIndex := add(add(notes, 0x20), mul(i, 0xc0))\n            let k\n            let a := calldataload(add(noteIndex, 0x20))\n            let c := challenge\n            switch gt(i, 1)\n            case 1 {\n                k := calldataload(sub(noteIndex, 0x180))\n            }\n            case 0 {\n                k := calldataload(noteIndex)\n            }\n            validateCommitment(noteIndex, k, a)\n            calldatacopy(0xe0, add(noteIndex, 0x80), 0x40)\n            calldatacopy(0x20, add(noteIndex, 0x40), 0x40)\n            mstore(0x120, sub(gen_order, c))\n            mstore(0x60, k)\n            mstore(0xc0, a)\n            let result := staticcall(gas(), 7, 0xe0, 0x60, 0x1a0, 0x40)\n            result := and(result, staticcall(gas(), 7, 0x20, 0x60, 0x120, 0x40))\n            result := and(result, staticcall(gas(), 7, 0x80, 0x60, 0x160, 0x40))\n            result := and(result, staticcall(gas(), 6, 0x120, 0x80, 0x160, 0x40))\n            result := and(result, staticcall(gas(), 6, 0x160, 0x80, b, 0x40))\n            if iszero(result)\n            {\n                mstore(0x00, 400)\n                revert(0x00, 0x20)\n            }\n            b := add(b, 0x40)\n        }\n        let expected := mod(keccak256(0x2e0, sub(b, 0x2e0)), gen_order)\n        if iszero(eq(expected, challenge))\n        {\n            mstore(0x00, 404)\n            revert(0x00, 0x20)\n        }\n    }\n    function validateCommitment(note, k, a)\n    {\n        let gen_order := 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001\n        let field_order := 0x30644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd47\n        let gammaX := calldataload(add(note, 0x40))\n        let gammaY := calldataload(add(note, 0x60))\n        let sigmaX := calldataload(add(note, 0x80))\n        let sigmaY := calldataload(add(note, 0xa0))\n        if iszero(and(and(and(eq(mod(a, gen_order), a), gt(a, 1)), and(eq(mod(k, gen_order), k), gt(k, 1))), and(eq(addmod(mulmod(mulmod(sigmaX, sigmaX, field_order), sigmaX, field_order), 3, field_order), mulmod(sigmaY, sigmaY, field_order)), eq(addmod(mulmod(mulmod(gammaX, gammaX, field_order), gammaX, field_order), 3, field_order), mulmod(gammaY, gammaY, field_order)))))\n        {\n            mstore(0x00, 400)\n            revert(0x00, 0x20)\n        }\n    }\n    function hashCommitments(notes, n)\n    {\n        for {\n            let i := 0\n        }\n        lt(i, n)\n        {\n            i := add(i, 0x01)\n        }\n        {\n            let index := add(add(notes, mul(i, 0xc0)), 0x60)\n            calldatacopy(add(0x300, mul(i, 0x80)), index, 0x80)\n        }\n        mstore(0x00, keccak256(0x300, mul(n, 0x80)))\n    }\n}",
+                  "src": "1212:12158:4"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1453,
+                        "name": "BilateralSwapABIEncoder",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1468,
+                        "src": "13347:23:4",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_BilateralSwapABIEncoder_$1468_$",
+                          "typeString": "type(library BilateralSwapABIEncoder)"
+                        }
+                      },
+                      "id": 1455,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "encodeAndExit",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1467,
+                      "src": "13347:37:4",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$__$returns$__$",
+                        "typeString": "function () pure"
+                      }
+                    },
+                    "id": 1456,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "13347:39:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1457,
+                  "nodeType": "ExpressionStatement",
+                  "src": "13347:39:4"
+                }
+              ]
+            },
+            "documentation": "@dev AZTECBilateralSwap will take any transaction sent to it and attempt to validate a zero knowledge proof.\nIf the proof is not valid, the transaction throws.\n@notice See BilateralSwapInterface for how method calls should be constructed.\nAZTECBilateralSwap is written in YUL to enable manual memory management and for other efficiency savings.*",
+            "id": 1459,
+            "implemented": true,
+            "kind": "fallback",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1450,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1190:2:4"
+            },
+            "returnParameters": {
+              "id": 1451,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1202:0:4"
+            },
+            "scope": 1460,
+            "src": "1182:12211:4",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 1461,
+        "src": "722:12673:4"
+      }
+    ],
+    "src": "0:13396:4"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.7+commit.6da8b019.Emscripten.clang"
+  },
+  "networks": {
+    "1563812874390": {
+      "events": {},
+      "links": {},
+      "address": "0xAc3Bd7b7d8CdC1d51a392A13CD0a102a29864763",
+      "transactionHash": "0x3254eba897fe66549b40127ba20c8e2979b5bd32dea4895e40d96cda4b930169"
+    },
+    "1563820924722": {
+      "events": {},
+      "links": {},
+      "address": "0xAc3Bd7b7d8CdC1d51a392A13CD0a102a29864763",
+      "transactionHash": "0x3254eba897fe66549b40127ba20c8e2979b5bd32dea4895e40d96cda4b930169"
+    }
+  },
+  "schemaVersion": "3.0.9",
+  "updatedAt": "2019-07-22T18:42:36.904Z",
+  "devdoc": {
+    "author": "AZTEC",
+    "details": "Don't include this as an internal library. This contract uses  a static memory table to cache elliptic curve primitives and hashes. Calling this internally from another function will lead to memory  mutation and undefined behaviour. The intended use case is to call this externally via `staticcall`. External  calls to OptimizedAZTEC can be treated as pure functions as this contract  contains no storage and makes no external calls (other than to precompiles) Copyright Spilbury Holdings Ltd 2019. All rights reserved.*",
+    "methods": {},
+    "title": "Library to validate AZTEC Bilateral Swap zero-knowledge proofs"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

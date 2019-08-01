@@ -1,0 +1,487 @@
+{
+  "contractName": "AdjustSupplyInterface",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256[6]"
+        }
+      ],
+      "name": "validateAdjustSupply",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.7+commit.6da8b019\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"bytes\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"uint256[6]\"}],\"name\":\"validateAdjustSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"AZTEC\",\"details\":\"An interface defining the AdjustSupplyInterface standard. Copyright Spilbury Holdings Ltd 2019. All rights reserved.*\",\"methods\":{},\"title\":\"AdjustSupplyInterface\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/interfaces/AdjustSupplyInterface.sol\":\"AdjustSupplyInterface\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/interfaces/AdjustSupplyInterface.sol\":{\"keccak256\":\"0x3b074bf4ac07f2ad7d425aa6459fb63b9ba7b9ff017d26e11499a88ee71d0a48\",\"urls\":[\"bzzr://faed44c41dc3eb30d46ae0b3eef05981d8c770260c248c4af43418149e587b90\"]},\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/libs/LibEIP712.sol\":{\"keccak256\":\"0xb7d3c535d35ec9e3163ce324c2bd0282d923bbb64ca34796ed74c5d1e2ded65a\",\"urls\":[\"bzzr://f63aa9631fe6746bf6246492541ee9861681bc07b80637858719103eeeff7b24\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\nimport \"../libs/LibEIP712.sol\";\n\n/**\n * @title AdjustSupplyInterface\n * @author AZTEC\n * @dev An interface defining the AdjustSupplyInterface standard.\n * Copyright Spilbury Holdings Ltd 2019. All rights reserved.\n **/\ninterface AdjustSupplyInterface {\n    /* solhint-disable-next-line var-name-mixedcase */\n\n    function validateAdjustSupply(\n        bytes calldata,\n        address,\n        uint[6] calldata\n    ) external pure returns (bytes memory);\n}\n",
+  "sourcePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/interfaces/AdjustSupplyInterface.sol",
+  "ast": {
+    "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/interfaces/AdjustSupplyInterface.sol",
+    "exportedSymbols": {
+      "AdjustSupplyInterface": [
+        2851
+      ]
+    },
+    "id": 2852,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2836,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:20"
+      },
+      {
+        "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/libs/LibEIP712.sol",
+        "file": "../libs/LibEIP712.sol",
+        "id": 2837,
+        "nodeType": "ImportDirective",
+        "scope": 2852,
+        "sourceUnit": 3436,
+        "src": "33:31:20",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title AdjustSupplyInterface\n@author AZTEC\n@dev An interface defining the AdjustSupplyInterface standard.\nCopyright Spilbury Holdings Ltd 2019. All rights reserved.*",
+        "fullyImplemented": false,
+        "id": 2851,
+        "linearizedBaseContracts": [
+          2851
+        ],
+        "name": "AdjustSupplyInterface",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 2850,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "validateAdjustSupply",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2846,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2839,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2850,
+                  "src": "385:14:20",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2838,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "385:5:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2841,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2850,
+                  "src": "409:7:20",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2840,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "409:7:20",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2845,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2850,
+                  "src": "426:16:20",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$6_calldata_ptr",
+                    "typeString": "uint256[6]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 2842,
+                      "name": "uint",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "426:4:20",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 2844,
+                    "length": {
+                      "argumentTypes": null,
+                      "hexValue": "36",
+                      "id": 2843,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "431:1:20",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_6_by_1",
+                        "typeString": "int_const 6"
+                      },
+                      "value": "6"
+                    },
+                    "nodeType": "ArrayTypeName",
+                    "src": "426:7:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$6_storage_ptr",
+                      "typeString": "uint256[6]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "375:73:20"
+            },
+            "returnParameters": {
+              "id": 2849,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2848,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2850,
+                  "src": "472:12:20",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2847,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "472:5:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "471:14:20"
+            },
+            "scope": 2851,
+            "src": "346:140:20",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 2852,
+        "src": "252:236:20"
+      }
+    ],
+    "src": "0:489:20"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/interfaces/AdjustSupplyInterface.sol",
+    "exportedSymbols": {
+      "AdjustSupplyInterface": [
+        2851
+      ]
+    },
+    "id": 2852,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2836,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:20"
+      },
+      {
+        "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/libs/LibEIP712.sol",
+        "file": "../libs/LibEIP712.sol",
+        "id": 2837,
+        "nodeType": "ImportDirective",
+        "scope": 2852,
+        "sourceUnit": 3436,
+        "src": "33:31:20",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title AdjustSupplyInterface\n@author AZTEC\n@dev An interface defining the AdjustSupplyInterface standard.\nCopyright Spilbury Holdings Ltd 2019. All rights reserved.*",
+        "fullyImplemented": false,
+        "id": 2851,
+        "linearizedBaseContracts": [
+          2851
+        ],
+        "name": "AdjustSupplyInterface",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 2850,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "validateAdjustSupply",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2846,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2839,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2850,
+                  "src": "385:14:20",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2838,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "385:5:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2841,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2850,
+                  "src": "409:7:20",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2840,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "409:7:20",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2845,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2850,
+                  "src": "426:16:20",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$6_calldata_ptr",
+                    "typeString": "uint256[6]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 2842,
+                      "name": "uint",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "426:4:20",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 2844,
+                    "length": {
+                      "argumentTypes": null,
+                      "hexValue": "36",
+                      "id": 2843,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "431:1:20",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_6_by_1",
+                        "typeString": "int_const 6"
+                      },
+                      "value": "6"
+                    },
+                    "nodeType": "ArrayTypeName",
+                    "src": "426:7:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$6_storage_ptr",
+                      "typeString": "uint256[6]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "375:73:20"
+            },
+            "returnParameters": {
+              "id": 2849,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2848,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2850,
+                  "src": "472:12:20",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2847,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "472:5:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "471:14:20"
+            },
+            "scope": 2851,
+            "src": "346:140:20",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 2852,
+        "src": "252:236:20"
+      }
+    ],
+    "src": "0:489:20"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.7+commit.6da8b019.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.9",
+  "updatedAt": "2019-07-22T18:42:36.436Z",
+  "devdoc": {
+    "author": "AZTEC",
+    "details": "An interface defining the AdjustSupplyInterface standard. Copyright Spilbury Holdings Ltd 2019. All rights reserved.*",
+    "methods": {},
+    "title": "AdjustSupplyInterface"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

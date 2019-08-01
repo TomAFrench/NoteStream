@@ -1,0 +1,1081 @@
+{
+  "contractName": "LibEIP712Test",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "EIP712_DOMAIN_HASH",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_hashStruct",
+          "type": "bytes32"
+        }
+      ],
+      "name": "_hashEIP712Message",
+      "outputs": [
+        {
+          "name": "_result",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_message",
+          "type": "bytes32"
+        },
+        {
+          "name": "_signature",
+          "type": "bytes"
+        }
+      ],
+      "name": "_recoverSignature",
+      "outputs": [
+        {
+          "name": "_signer",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.7+commit.6da8b019\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"_hashStruct\",\"type\":\"bytes32\"}],\"name\":\"_hashEIP712Message\",\"outputs\":[{\"name\":\"_result\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"EIP712_DOMAIN_HASH\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_message\",\"type\":\"bytes32\"},{\"name\":\"_signature\",\"type\":\"bytes\"}],\"name\":\"_recoverSignature\",\"outputs\":[{\"name\":\"_signer\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"AZTEC Copyright Spilsbury Holdings Ltd 2019. All rights reserved.*\",\"methods\":{\"_hashEIP712Message(bytes32)\":{\"details\":\"Calculates EIP712 encoding for a hash struct in this EIP712 Domain.\",\"params\":{\"_hashStruct\":\"The EIP712 hash struct.\"},\"return\":\"EIP712 hash applied to this EIP712 Domain.\"},\"_recoverSignature(bytes32,bytes)\":{\"details\":\"Extracts the address of the signer with ECDSA.\",\"params\":{\"_message\":\"The EIP712 message.\",\"_signature\":\"The ECDSA values, v, r and s.\"},\"return\":\"The address of the message signer.\"}},\"title\":\"Library of EIP712 utility constants and functions\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/libs/LibEIP712Test.sol\":\"LibEIP712Test\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/libs/LibEIP712.sol\":{\"keccak256\":\"0x105d65fa35288139cf0edb2749373df28800e31727a24c4923abf1eaf16486b0\",\"urls\":[\"bzzr://210a23f95cf0cba1fedc9d2c58f223f089a45fc35416e99fef2a89ee0723caaf\"]},\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/libs/LibEIP712Test.sol\":{\"keccak256\":\"0x1a159b1ae380f4b05134a8223b032eca11cc29b0aa09c9d010b9cf0c310fb5f6\",\"urls\":[\"bzzr://d7c957ace13ca280367519558b448182fb11c985495032aa34460685b69fe6d3\"]}},\"version\":1}",
+  "bytecode": "0x7f454950373132446f6d61696e280000000000000000000000000000000000000060a09081527f737472696e67206e616d652c000000000000000000000000000000000000000060ad527f737472696e672076657273696f6e2c000000000000000000000000000000000060b9527f6164647265737320766572696679696e67436f6e74726163740000000000000060c8527f290000000000000000000000000000000000000000000000000000000000000060e152604260808181529120601960e2527f415a5445435f43525950544f4752415048595f454e47494e4500000000000000610102526001610122527f3100000000000000000000000000000000000000000000000000000000000000610142526101829081527fc8066e2c715ce196630b273cd256d8959d5b9fefc55e9e6d999fb0f08bb7f75f6101a2527fc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc66101c252306101e252610162829052610202604052206000556102d1806101876000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c8063312d839b14610046578063e306f77914610075578063f7cc53f91461007d575b600080fd5b6100636004803603602081101561005c57600080fd5b5035610146565b60408051918252519081900360200190f35b610063610157565b61012a6004803603604081101561009357600080fd5b813591908101906040810160208201356401000000008111156100b557600080fd5b8201836020820111156100c757600080fd5b803590602001918460018302840111640100000000831117156100e957600080fd5b91908080601f01602080910402602001604051908101604052809392919081815260200183838082843760009201919091525092955061015d945050505050565b604080516001600160a01b039092168252519081900360200190f35b600061015182610170565b92915050565b60005481565b60006101698383610191565b9392505050565b60008054604080516119019093526020919091529182526042601e20915290565b6000808251848452602084015160208560808760015afa601c8214601b831417606084141616925084518614600081146101ca576101cf565b855194505b505083528080156101e757506001600160a01b038216155b61029e576001600160a01b0382166102495760408051600160e51b62461bcd02815260206004820152601a60248201527f7369676e657220616464726573732063616e6e6f742062652030000000000000604482015290519081900360640190fd5b8061029e5760408051600160e51b62461bcd02815260206004820152601960248201527f7369676e6174757265207265636f76657279206661696c656400000000000000604482015290519081900360640190fd5b509291505056fea165627a7a7230582086afb90060092229b87a334e40edcb84aa70309f8702a3ec8d0218eb0bdddd2d0029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c8063312d839b14610046578063e306f77914610075578063f7cc53f91461007d575b600080fd5b6100636004803603602081101561005c57600080fd5b5035610146565b60408051918252519081900360200190f35b610063610157565b61012a6004803603604081101561009357600080fd5b813591908101906040810160208201356401000000008111156100b557600080fd5b8201836020820111156100c757600080fd5b803590602001918460018302840111640100000000831117156100e957600080fd5b91908080601f01602080910402602001604051908101604052809392919081815260200183838082843760009201919091525092955061015d945050505050565b604080516001600160a01b039092168252519081900360200190f35b600061015182610170565b92915050565b60005481565b60006101698383610191565b9392505050565b60008054604080516119019093526020919091529182526042601e20915290565b6000808251848452602084015160208560808760015afa601c8214601b831417606084141616925084518614600081146101ca576101cf565b855194505b505083528080156101e757506001600160a01b038216155b61029e576001600160a01b0382166102495760408051600160e51b62461bcd02815260206004820152601a60248201527f7369676e657220616464726573732063616e6e6f742062652030000000000000604482015290519081900360640190fd5b8061029e5760408051600160e51b62461bcd02815260206004820152601960248201527f7369676e6174757265207265636f76657279206661696c656400000000000000604482015290519081900360640190fd5b509291505056fea165627a7a7230582086afb90060092229b87a334e40edcb84aa70309f8702a3ec8d0218eb0bdddd2d0029",
+  "sourceMap": "539:160:33:-;;;;;;;;;;;;;;;;;22:32:-1;218:832:47;6:49:-1;;;529:171:33;;539:160;;1011:18;;;;539:160;1011:18;1061:21;;;;922:199;;;;995:36;922:199;;1045:39;922:199;;1106:4;922:199;;1061:21;6:49:-1;;;922:199:33;218:832:47;922:199:33;912:210;-1:-1:-1;891:231:33;218:832:47;;;;;;",
+  "deployedSourceMap": "218:832:47:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;218:832:47;;;;;;;;;;;;;;;;;;;;;;;;;;;;;452:178;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;452:178:47;;:::i;:::-;;;;;;;;;;;;;;;;807:33:33;;;:::i;847:201:47:-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;847:201:47;;;;;;;;;;;;;;21:11:-1;5:28;;2:2;;;46:1;43;36:12;2:2;847:201:47;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;847:201:47;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;847:201:47;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;81:16;;74:27;;;;-1:-1;847:201:47;;-1:-1:-1;847:201:47;;-1:-1:-1;;;;;847:201:47:i;:::-;;;;-1:-1:-1;;;;;847:201:47;;;;;;;;;;;;;;452:178;546:15;587:36;611:11;587:23;:36::i;:::-;577:46;452:178;-1:-1:-1;;452:178:47:o;807:33:33:-;;;;:::o;847:201:47:-;960:15;997:44;1020:8;1030:10;997:22;:44::i;:::-;987:54;847:201;-1:-1:-1;;;847:201:47:o;1326:1049:33:-;1421:15;1479:18;;2022:4;2016:11;;2053:6;2040:20;;;2111:4;2104:30;;;;2173:25;;;2265:4;2259;2249:21;2339:20;;2249:21;1713:656::o;2592:1861::-;2706:15;2733:11;3203:10;3197:17;3290:8;3278:10;3271:28;3403:4;3391:10;3387:21;3381:28;3803:4;3791:10;3785:4;3773:10;3767:4;3762:3;3751:57;3655:2;3652:1;3649:9;3644:2;3641:1;3638:9;3635:24;3557:4;3545:10;3542:20;3454:223;3433:389;3423:399;;3956:10;3950:17;3940:8;3937:31;3986:1;3981:67;;;;3930:118;;3981:67;4023:10;4017:17;4006:28;;3930:118;-1:-1:-1;;4061:30:33;;4264:6;:35;;;;-1:-1:-1;;;;;;4275:23:33;;;4264:35;4258:189;;-1:-1:-1;;;;;4324:23:33;;4316:62;;;;;-1:-1:-1;;;;;4316:62:33;;;;;;;;;;;;;;;;;;;;;;;;;;;;4400:6;4392:44;;;;;-1:-1:-1;;;;;4392:44:33;;;;;;;;;;;;;;;;;;;;;;;;;;;;2592:1861;;;;;:::o",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\nimport \"../../libs/LibEIP712.sol\";\n\n/**\n * @title Library of EIP712 utility constants and functions\n * @author AZTEC\n * Copyright Spilsbury Holdings Ltd 2019. All rights reserved.\n **/\ncontract LibEIP712Test is LibEIP712 {\n\n    /// @dev Calculates EIP712 encoding for a hash struct in this EIP712 Domain.\n    /// @param _hashStruct The EIP712 hash struct.\n    /// @return EIP712 hash applied to this EIP712 Domain.\n    function _hashEIP712Message(bytes32 _hashStruct)\n        public\n        view\n        returns (bytes32 _result)\n    {\n        _result = super.hashEIP712Message(_hashStruct);\n    }\n\n    /// @dev Extracts the address of the signer with ECDSA.\n    /// @param _message The EIP712 message.\n    /// @param _signature The ECDSA values, v, r and s.\n    /// @return The address of the message signer.\n    function _recoverSignature(\n        bytes32 _message,\n        bytes memory _signature\n    ) public view returns (address _signer) {\n        _signer = super.recoverSignature(_message, _signature);\n    }\n}\n",
+  "sourcePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/libs/LibEIP712Test.sol",
+  "ast": {
+    "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/libs/LibEIP712Test.sol",
+    "exportedSymbols": {
+      "LibEIP712Test": [
+        4152
+      ]
+    },
+    "id": 4153,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4115,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:47"
+      },
+      {
+        "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/libs/LibEIP712.sol",
+        "file": "../../libs/LibEIP712.sol",
+        "id": 4116,
+        "nodeType": "ImportDirective",
+        "scope": 4153,
+        "sourceUnit": 3588,
+        "src": "33:34:47",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 4117,
+              "name": "LibEIP712",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3587,
+              "src": "244:9:47",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LibEIP712_$3587",
+                "typeString": "contract LibEIP712"
+              }
+            },
+            "id": 4118,
+            "nodeType": "InheritanceSpecifier",
+            "src": "244:9:47"
+          }
+        ],
+        "contractDependencies": [
+          3587
+        ],
+        "contractKind": "contract",
+        "documentation": "@title Library of EIP712 utility constants and functions\n@author AZTEC\nCopyright Spilsbury Holdings Ltd 2019. All rights reserved.*",
+        "fullyImplemented": true,
+        "id": 4152,
+        "linearizedBaseContracts": [
+          4152,
+          3587
+        ],
+        "name": "LibEIP712Test",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4132,
+              "nodeType": "Block",
+              "src": "567:63:47",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 4130,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 4125,
+                      "name": "_result",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4123,
+                      "src": "577:7:47",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 4128,
+                          "name": "_hashStruct",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4120,
+                          "src": "611:11:47",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 4126,
+                          "name": "super",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 5143,
+                          "src": "587:5:47",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_super$_LibEIP712Test_$4152",
+                            "typeString": "contract super LibEIP712Test"
+                          }
+                        },
+                        "id": 4127,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "hashEIP712Message",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3546,
+                        "src": "587:23:47",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_bytes32_$",
+                          "typeString": "function (bytes32) view returns (bytes32)"
+                        }
+                      },
+                      "id": 4129,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "587:36:47",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      }
+                    },
+                    "src": "577:46:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "id": 4131,
+                  "nodeType": "ExpressionStatement",
+                  "src": "577:46:47"
+                }
+              ]
+            },
+            "documentation": "@dev Calculates EIP712 encoding for a hash struct in this EIP712 Domain.\n @param _hashStruct The EIP712 hash struct.\n @return EIP712 hash applied to this EIP712 Domain.",
+            "id": 4133,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_hashEIP712Message",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4121,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4120,
+                  "name": "_hashStruct",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4133,
+                  "src": "480:19:47",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4119,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "480:7:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "479:21:47"
+            },
+            "returnParameters": {
+              "id": 4124,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4123,
+                  "name": "_result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4133,
+                  "src": "546:15:47",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4122,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "546:7:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "545:17:47"
+            },
+            "scope": 4152,
+            "src": "452:178:47",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 4150,
+              "nodeType": "Block",
+              "src": "977:71:47",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 4148,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 4142,
+                      "name": "_signer",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4140,
+                      "src": "987:7:47",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 4145,
+                          "name": "_message",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4135,
+                          "src": "1020:8:47",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        {
+                          "argumentTypes": null,
+                          "id": 4146,
+                          "name": "_signature",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4137,
+                          "src": "1030:10:47",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes_memory_ptr",
+                            "typeString": "bytes memory"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          },
+                          {
+                            "typeIdentifier": "t_bytes_memory_ptr",
+                            "typeString": "bytes memory"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 4143,
+                          "name": "super",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 5143,
+                          "src": "997:5:47",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_super$_LibEIP712Test_$4152",
+                            "typeString": "contract super LibEIP712Test"
+                          }
+                        },
+                        "id": 4144,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "recoverSignature",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3586,
+                        "src": "997:22:47",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_view$_t_bytes32_$_t_bytes_memory_ptr_$returns$_t_address_$",
+                          "typeString": "function (bytes32,bytes memory) view returns (address)"
+                        }
+                      },
+                      "id": 4147,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "997:44:47",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "987:54:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 4149,
+                  "nodeType": "ExpressionStatement",
+                  "src": "987:54:47"
+                }
+              ]
+            },
+            "documentation": "@dev Extracts the address of the signer with ECDSA.\n @param _message The EIP712 message.\n @param _signature The ECDSA values, v, r and s.\n @return The address of the message signer.",
+            "id": 4151,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_recoverSignature",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4138,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4135,
+                  "name": "_message",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4151,
+                  "src": "883:16:47",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4134,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "883:7:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4137,
+                  "name": "_signature",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4151,
+                  "src": "909:23:47",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4136,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "909:5:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "873:65:47"
+            },
+            "returnParameters": {
+              "id": 4141,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4140,
+                  "name": "_signer",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4151,
+                  "src": "960:15:47",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4139,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "960:7:47",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "959:17:47"
+            },
+            "scope": 4152,
+            "src": "847:201:47",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 4153,
+        "src": "218:832:47"
+      }
+    ],
+    "src": "0:1051:47"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/libs/LibEIP712Test.sol",
+    "exportedSymbols": {
+      "LibEIP712Test": [
+        4152
+      ]
+    },
+    "id": 4153,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4115,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:47"
+      },
+      {
+        "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/libs/LibEIP712.sol",
+        "file": "../../libs/LibEIP712.sol",
+        "id": 4116,
+        "nodeType": "ImportDirective",
+        "scope": 4153,
+        "sourceUnit": 3588,
+        "src": "33:34:47",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 4117,
+              "name": "LibEIP712",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3587,
+              "src": "244:9:47",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LibEIP712_$3587",
+                "typeString": "contract LibEIP712"
+              }
+            },
+            "id": 4118,
+            "nodeType": "InheritanceSpecifier",
+            "src": "244:9:47"
+          }
+        ],
+        "contractDependencies": [
+          3587
+        ],
+        "contractKind": "contract",
+        "documentation": "@title Library of EIP712 utility constants and functions\n@author AZTEC\nCopyright Spilsbury Holdings Ltd 2019. All rights reserved.*",
+        "fullyImplemented": true,
+        "id": 4152,
+        "linearizedBaseContracts": [
+          4152,
+          3587
+        ],
+        "name": "LibEIP712Test",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4132,
+              "nodeType": "Block",
+              "src": "567:63:47",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 4130,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 4125,
+                      "name": "_result",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4123,
+                      "src": "577:7:47",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 4128,
+                          "name": "_hashStruct",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4120,
+                          "src": "611:11:47",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 4126,
+                          "name": "super",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 5143,
+                          "src": "587:5:47",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_super$_LibEIP712Test_$4152",
+                            "typeString": "contract super LibEIP712Test"
+                          }
+                        },
+                        "id": 4127,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "hashEIP712Message",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3546,
+                        "src": "587:23:47",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_bytes32_$",
+                          "typeString": "function (bytes32) view returns (bytes32)"
+                        }
+                      },
+                      "id": 4129,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "587:36:47",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      }
+                    },
+                    "src": "577:46:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "id": 4131,
+                  "nodeType": "ExpressionStatement",
+                  "src": "577:46:47"
+                }
+              ]
+            },
+            "documentation": "@dev Calculates EIP712 encoding for a hash struct in this EIP712 Domain.\n @param _hashStruct The EIP712 hash struct.\n @return EIP712 hash applied to this EIP712 Domain.",
+            "id": 4133,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_hashEIP712Message",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4121,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4120,
+                  "name": "_hashStruct",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4133,
+                  "src": "480:19:47",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4119,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "480:7:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "479:21:47"
+            },
+            "returnParameters": {
+              "id": 4124,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4123,
+                  "name": "_result",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4133,
+                  "src": "546:15:47",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4122,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "546:7:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "545:17:47"
+            },
+            "scope": 4152,
+            "src": "452:178:47",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 4150,
+              "nodeType": "Block",
+              "src": "977:71:47",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 4148,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 4142,
+                      "name": "_signer",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4140,
+                      "src": "987:7:47",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 4145,
+                          "name": "_message",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4135,
+                          "src": "1020:8:47",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        {
+                          "argumentTypes": null,
+                          "id": 4146,
+                          "name": "_signature",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4137,
+                          "src": "1030:10:47",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes_memory_ptr",
+                            "typeString": "bytes memory"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          },
+                          {
+                            "typeIdentifier": "t_bytes_memory_ptr",
+                            "typeString": "bytes memory"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 4143,
+                          "name": "super",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 5143,
+                          "src": "997:5:47",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_super$_LibEIP712Test_$4152",
+                            "typeString": "contract super LibEIP712Test"
+                          }
+                        },
+                        "id": 4144,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "recoverSignature",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 3586,
+                        "src": "997:22:47",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_view$_t_bytes32_$_t_bytes_memory_ptr_$returns$_t_address_$",
+                          "typeString": "function (bytes32,bytes memory) view returns (address)"
+                        }
+                      },
+                      "id": 4147,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "997:44:47",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "987:54:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 4149,
+                  "nodeType": "ExpressionStatement",
+                  "src": "987:54:47"
+                }
+              ]
+            },
+            "documentation": "@dev Extracts the address of the signer with ECDSA.\n @param _message The EIP712 message.\n @param _signature The ECDSA values, v, r and s.\n @return The address of the message signer.",
+            "id": 4151,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_recoverSignature",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4138,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4135,
+                  "name": "_message",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4151,
+                  "src": "883:16:47",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4134,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "883:7:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4137,
+                  "name": "_signature",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4151,
+                  "src": "909:23:47",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4136,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "909:5:47",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "873:65:47"
+            },
+            "returnParameters": {
+              "id": 4141,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4140,
+                  "name": "_signer",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4151,
+                  "src": "960:15:47",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4139,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "960:7:47",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "959:17:47"
+            },
+            "scope": 4152,
+            "src": "847:201:47",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 4153,
+        "src": "218:832:47"
+      }
+    ],
+    "src": "0:1051:47"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.7+commit.6da8b019.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-07-30T19:04:03.770Z",
+  "devdoc": {
+    "author": "AZTEC Copyright Spilsbury Holdings Ltd 2019. All rights reserved.*",
+    "methods": {
+      "_hashEIP712Message(bytes32)": {
+        "details": "Calculates EIP712 encoding for a hash struct in this EIP712 Domain.",
+        "params": {
+          "_hashStruct": "The EIP712 hash struct."
+        },
+        "return": "EIP712 hash applied to this EIP712 Domain."
+      },
+      "_recoverSignature(bytes32,bytes)": {
+        "details": "Extracts the address of the signer with ECDSA.",
+        "params": {
+          "_message": "The EIP712 message.",
+          "_signature": "The ECDSA values, v, r and s."
+        },
+        "return": "The address of the message signer."
+      }
+    },
+    "title": "Library of EIP712 utility constants and functions"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

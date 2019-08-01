@@ -1,0 +1,601 @@
+{
+  "contractName": "SwapABIEncoderTest",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256[6]"
+        }
+      ],
+      "name": "validateSwap",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.7+commit.6da8b019\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"bytes\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"uint256[6]\"}],\"name\":\"validateSwap\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"AZTEC\",\"details\":\"Don't include this as an internal library. This contract uses a static memory table to cache elliptic curve primitives and hashes. Calling this internally from another function will lead to memory mutation and undefined behaviour. The intended use case is to call this externally via `staticcall`. External calls to OptimizedAZTEC can be treated as pure functions as this contract contains no storage and makes no external calls (other than to precompiles) Copyright Spilsbury Holdings Ltd 2019. All rights reserved.*\",\"methods\":{},\"title\":\"Swap ABI Encoder Test\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/ACE/validators/swap/SwapABIEncoderTest.sol\":\"SwapABIEncoderTest\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/swap/SwapABIEncoder.sol\":{\"keccak256\":\"0x752233ffbfc5c5a42d4ab5b5e2aa307a72cfb2d98e82a86eaa01c932d62d0377\",\"urls\":[\"bzzr://01ecb245b5e443eb821d58debd3e2301df6eb21669564690e2ce2de083cffb38\"]},\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/ACE/validators/swap/SwapABIEncoderTest.sol\":{\"keccak256\":\"0xe972e360fad91c2819780a6feffbe86c763cf9877148addd7cbd7da0ad2993e7\",\"urls\":[\"bzzr://a11458a7899bf16d7076b0e1744e79269b3d08e13d5a48dd2e6ac86dcc4cccaa\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610435806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c80632863433314610030575b600080fd5b6100af600480360361010081101561004757600080fd5b81019060208101813564010000000081111561006257600080fd5b82018360208201111561007457600080fd5b8035906020019184600183028401116401000000008311171561009657600080fd5b91935091506001600160a01b0381351690602001610124565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100e95781810151838201526020016100d1565b50505050905090810190601f1680156101165780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b606061012e610136565b949350505050565b610144356101040161016435610124016101843561014401602082033560041460208203356002141661016857600080fd5b60206101605260026101a05260806101c05260c06102205261020061024052600061026052600061028052610124356102a0526101206102c05260016102e052606061030052600160005260806060840160203760c06103205260016103405281356103605260a06000206103805260406103a052600160ff1b60016040511602602051176103c052600160ff1b60016080511602606051176103e05260016104205260606104405260806101e0840160203760016104805260408201356104a05260a06000206104c052803580604083030135806040016104e052600160ff1b600160405116026020511761050052600160ff1b60016080511602606051176105205280602084038301610540378060c00161046052806101200161040052806103200161020052806103c0016101e052806105400160c06020820152610200604082015260006060820152600060808201526101243560e052602060e02060a082015261012060c0820152600160e0820152606061010082015260806102a0870160203760c06101208201526001610140820152606085013561016082015260a060002061018082015260406101a0820152600160ff1b60016040511602602051176101c0820152600160ff1b60016080511602606051176101e08201526001610220820152606061024082015260806101208701602037600161028082015260208501356102a082015260a06000206102c082015260208401359250826040850301359150816040016102e0820152600160ff1b6001604051160260205117610300820152600160ff1b6001608051160260605117610320820152816020850384016103408301378160c00161026082015281610120016102008201528161032001815261020051826103c001016101805260406101805101610160f3fea165627a7a723058207df39e3ad55bec03a17267027424248b19534a73de8eab1c50c27e98373eaf970029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061002b5760003560e01c80632863433314610030575b600080fd5b6100af600480360361010081101561004757600080fd5b81019060208101813564010000000081111561006257600080fd5b82018360208201111561007457600080fd5b8035906020019184600183028401116401000000008311171561009657600080fd5b91935091506001600160a01b0381351690602001610124565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100e95781810151838201526020016100d1565b50505050905090810190601f1680156101165780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b606061012e610136565b949350505050565b610144356101040161016435610124016101843561014401602082033560041460208203356002141661016857600080fd5b60206101605260026101a05260806101c05260c06102205261020061024052600061026052600061028052610124356102a0526101206102c05260016102e052606061030052600160005260806060840160203760c06103205260016103405281356103605260a06000206103805260406103a052600160ff1b60016040511602602051176103c052600160ff1b60016080511602606051176103e05260016104205260606104405260806101e0840160203760016104805260408201356104a05260a06000206104c052803580604083030135806040016104e052600160ff1b600160405116026020511761050052600160ff1b60016080511602606051176105205280602084038301610540378060c00161046052806101200161040052806103200161020052806103c0016101e052806105400160c06020820152610200604082015260006060820152600060808201526101243560e052602060e02060a082015261012060c0820152600160e0820152606061010082015260806102a0870160203760c06101208201526001610140820152606085013561016082015260a060002061018082015260406101a0820152600160ff1b60016040511602602051176101c0820152600160ff1b60016080511602606051176101e08201526001610220820152606061024082015260806101208701602037600161028082015260208501356102a082015260a06000206102c082015260208401359250826040850301359150816040016102e0820152600160ff1b6001604051160260205117610300820152600160ff1b6001608051160260605117610320820152816020850384016103408301378160c00161026082015281610120016102008201528161032001815261020051826103c001016101805260406101805101610160f3fea165627a7a723058207df39e3ad55bec03a17267027424248b19534a73de8eab1c50c27e98373eaf970029",
+  "sourceMap": "696:243:36:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;696:243:36;;;;;;;",
+  "deployedSourceMap": "696:243:36:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;696:243:36;;;;;;;;;;;;;;;;;;;730:207;;;;;;13:3:-1;8;5:12;2:2;;;30:1;27;20:12;2:2;730:207:36;;;;;;;;21:11:-1;5:28;;2:2;;;46:1;43;36:12;2:2;730:207:36;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;730:207:36;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;730:207:36;;-1:-1:-1;730:207:36;-1:-1:-1;;;;;;730:207:36;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;730:207:36;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;872:12;900:30;:28;:30::i;:::-;730:207;;;;;;:::o;1425:26022:9:-;1574:5;1561:19;1554:5;1550:31;1636:5;1623:19;1616:5;1612:31;1738:5;1725:19;1718:5;1714:31;2209:4;2197:10;2193:21;2180:35;2174:4;2171:45;2146:4;2133:11;2129:22;2116:36;2110:4;2107:46;2086:144;2076:2;;2263:4;2257;2250:18;2076:2;5503:4;5496:5;5489:19;6276:4;6269:5;6262:19;6424:4;6417:5;6410:19;7245:4;7238:5;7231:19;7629:5;7622;7615:20;7808:4;7801:5;7794:19;7883:4;7876:5;7869:19;7971:5;7958:19;7951:5;7944:34;8859:5;8852;8845:20;8936:4;8929:5;8922:19;9045:4;9038:5;9031:19;9867:4;9861;9854:18;10339:4;10332;10325:5;10321:16;10315:4;10302:42;10455:4;10448:5;10441:19;10539:4;10532:5;10525:19;10699:10;10686:24;10679:5;10672:39;10848:4;10842;10832:21;10825:5;10818:36;10954:4;10947:5;10940:19;-1:-1:-1;;;11875:4:9;11868;11862:11;11858:22;11786:208;11738:4;11732:11;11708:304;11685:5;11661:365;-1:-1:-1;;;12215:4:9;12208;12202:11;12198:22;12173:157;12146:4;12140:11;12116:232;12093:5;12069:293;13084:4;13077:5;13070:19;13183:4;13176:5;13169:19;14475:4;14467:5;14460;14456:17;14450:4;14437:43;14640:4;14633:5;14626:19;14879:4;14867:10;14863:21;14850:35;14843:5;14836:50;14977:4;14971;14961:21;14954:5;14947:36;15405:11;15392:25;16547:13;16540:4;16527:11;16523:22;16519:42;16506:56;16664:14;16658:4;16654:25;16647:5;16640:40;-1:-1:-1;;;16900:4:9;16893;16887:11;16883:22;16854:165;16827:4;16821:11;16797:240;16774:5;16750:301;-1:-1:-1;;;17271:4:9;17264;17258:11;17254:22;17225:165;17198:4;17192:11;17168:240;17145:5;17121:301;18030:14;18022:4;18009:11;18005:22;17990:13;17986:42;17979:5;17966:79;18520:14;18514:4;18510:25;18503:5;18496:40;18738:14;18731:5;18727:26;18720:5;18713:41;18961:14;18954:5;18950:26;18943:5;18936:41;19522:14;19515:5;19511:26;19504:5;19497:41;19859:14;19852:5;19848:26;20050:4;20043;20033:8;20029:19;20022:33;20162:5;20155:4;20145:8;20141:19;20134:34;20261:4;20254;20244:8;20240:19;20233:33;20374:4;20367;20357:8;20353:19;20346:33;20584:5;20571:19;20565:4;20558:33;20648:4;20642;20632:21;20625:4;20615:8;20611:19;20604:50;20905:5;20898:4;20888:8;20884:19;20877:34;21017:4;21010;21000:8;20996:19;20989:33;21143:4;21135:5;21125:8;21121:20;21114:34;21497:4;21489:5;21482;21478:17;21472:4;21459:43;21614:4;21606:5;21596:8;21592:20;21585:34;21750:4;21742:5;21732:8;21728:20;21721:34;21903:4;21891:10;21887:21;21874:35;21866:5;21856:8;21852:20;21845:65;22029:4;22023;22013:21;22005:5;21995:8;21991:20;21984:51;22156:4;22148:5;22138:8;22134:20;22127:34;-1:-1:-1;;;22406:4:9;22399;22393:11;22389:22;22360:165;22333:4;22327:11;22303:240;22279:5;22269:8;22265:20;22241:316;-1:-1:-1;;;22802:4:9;22795;22789:11;22785:22;22756:165;22729:4;22723:11;22699:240;22675:5;22665:8;22661:20;22637:316;23279:4;23271:5;23261:8;23257:20;23250:34;23393:4;23385:5;23375:8;23371:20;23364:34;23742:4;23734:5;23727;23723:17;23717:4;23704:43;23927:4;23919:5;23909:8;23905:20;23898:34;24080:4;24068:10;24064:21;24051:35;24043:5;24033:8;24029:20;24022:65;24192:4;24186;24176:21;24168:5;24158:8;24154:20;24147:51;24399:4;24386:11;24382:22;24369:36;24352:53;;24477:13;24470:4;24457:11;24453:22;24449:42;24436:56;24418:74;;24621:14;24615:4;24611:25;24603:5;24593:8;24589:20;24582:55;-1:-1:-1;;;24882:4:9;24875;24869:11;24865:22;24836:165;24809:4;24803:11;24779:240;24755:5;24745:8;24741:20;24717:316;-1:-1:-1;;;25278:4:9;25271;25265:11;25261:22;25232:165;25205:4;25199:11;25175:240;25151:5;25141:8;25137:20;25113:316;25581:14;25573:4;25560:11;25556:22;25541:13;25537:42;25529:5;25519:8;25515:20;25502:94;25814:14;25808:4;25804:25;25796:5;25786:8;25782:20;25775:55;25980:14;25973:5;25969:26;25961:5;25951:8;25947:20;25940:56;26116:14;26109:5;26105:26;26095:8;26088:44;26930:5;26924:12;26907:14;26900:5;26896:26;26892:45;26885:5;26878:60;27407:4;27399:5;27393:12;27389:23;27382:5;27375:38",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\nimport \"../../../../ACE/validators/swap/SwapABIEncoder.sol\";\n\n/**\n * @title Swap ABI Encoder Test\n * @author AZTEC\n * @dev Don't include this as an internal library. This contract uses a static memory table to cache\n * elliptic curve primitives and hashes.\n * Calling this internally from another function will lead to memory mutation and undefined behaviour.\n * The intended use case is to call this externally via `staticcall`.\n * External calls to OptimizedAZTEC can be treated as pure functions as this contract contains no\n * storage and makes no external calls (other than to precompiles)\n * Copyright Spilsbury Holdings Ltd 2019. All rights reserved.\n **/\ncontract SwapABIEncoderTest {\n    function validateSwap(\n        bytes calldata,\n        address,\n        uint[6] calldata\n    )\n        external\n        pure\n        returns (bytes memory)\n    {\n        SwapABIEncoder.encodeAndExit();\n    }\n}\n",
+  "sourcePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/ACE/validators/swap/SwapABIEncoderTest.sol",
+  "ast": {
+    "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/ACE/validators/swap/SwapABIEncoderTest.sol",
+    "exportedSymbols": {
+      "SwapABIEncoderTest": [
+        3713
+      ]
+    },
+    "id": 3714,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3692,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:36"
+      },
+      {
+        "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/swap/SwapABIEncoder.sol",
+        "file": "../../../../ACE/validators/swap/SwapABIEncoder.sol",
+        "id": 3693,
+        "nodeType": "ImportDirective",
+        "scope": 3714,
+        "sourceUnit": 1515,
+        "src": "33:60:36",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Swap ABI Encoder Test\n@author AZTEC\n@dev Don't include this as an internal library. This contract uses a static memory table to cache\nelliptic curve primitives and hashes.\nCalling this internally from another function will lead to memory mutation and undefined behaviour.\nThe intended use case is to call this externally via `staticcall`.\nExternal calls to OptimizedAZTEC can be treated as pure functions as this contract contains no\nstorage and makes no external calls (other than to precompiles)\nCopyright Spilsbury Holdings Ltd 2019. All rights reserved.*",
+        "fullyImplemented": true,
+        "id": 3713,
+        "linearizedBaseContracts": [
+          3713
+        ],
+        "name": "SwapABIEncoderTest",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 3711,
+              "nodeType": "Block",
+              "src": "890:47:36",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 3706,
+                        "name": "SwapABIEncoder",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1514,
+                        "src": "900:14:36",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_SwapABIEncoder_$1514_$",
+                          "typeString": "type(library SwapABIEncoder)"
+                        }
+                      },
+                      "id": 3708,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "encodeAndExit",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1513,
+                      "src": "900:28:36",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$__$returns$__$",
+                        "typeString": "function () pure"
+                      }
+                    },
+                    "id": 3709,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "900:30:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 3710,
+                  "nodeType": "ExpressionStatement",
+                  "src": "900:30:36"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 3712,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "validateSwap",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3702,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3695,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3712,
+                  "src": "761:14:36",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 3694,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "761:5:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3697,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3712,
+                  "src": "785:7:36",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 3696,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "785:7:36",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3701,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3712,
+                  "src": "802:16:36",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$6_calldata_ptr",
+                    "typeString": "uint256[6]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 3698,
+                      "name": "uint",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "802:4:36",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 3700,
+                    "length": {
+                      "argumentTypes": null,
+                      "hexValue": "36",
+                      "id": 3699,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "807:1:36",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_6_by_1",
+                        "typeString": "int_const 6"
+                      },
+                      "value": "6"
+                    },
+                    "nodeType": "ArrayTypeName",
+                    "src": "802:7:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$6_storage_ptr",
+                      "typeString": "uint256[6]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "751:73:36"
+            },
+            "returnParameters": {
+              "id": 3705,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3704,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3712,
+                  "src": "872:12:36",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 3703,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "872:5:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "871:14:36"
+            },
+            "scope": 3713,
+            "src": "730:207:36",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 3714,
+        "src": "696:243:36"
+      }
+    ],
+    "src": "0:940:36"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/ACE/validators/swap/SwapABIEncoderTest.sol",
+    "exportedSymbols": {
+      "SwapABIEncoderTest": [
+        3713
+      ]
+    },
+    "id": 3714,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3692,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:36"
+      },
+      {
+        "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/swap/SwapABIEncoder.sol",
+        "file": "../../../../ACE/validators/swap/SwapABIEncoder.sol",
+        "id": 3693,
+        "nodeType": "ImportDirective",
+        "scope": 3714,
+        "sourceUnit": 1515,
+        "src": "33:60:36",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Swap ABI Encoder Test\n@author AZTEC\n@dev Don't include this as an internal library. This contract uses a static memory table to cache\nelliptic curve primitives and hashes.\nCalling this internally from another function will lead to memory mutation and undefined behaviour.\nThe intended use case is to call this externally via `staticcall`.\nExternal calls to OptimizedAZTEC can be treated as pure functions as this contract contains no\nstorage and makes no external calls (other than to precompiles)\nCopyright Spilsbury Holdings Ltd 2019. All rights reserved.*",
+        "fullyImplemented": true,
+        "id": 3713,
+        "linearizedBaseContracts": [
+          3713
+        ],
+        "name": "SwapABIEncoderTest",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 3711,
+              "nodeType": "Block",
+              "src": "890:47:36",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 3706,
+                        "name": "SwapABIEncoder",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1514,
+                        "src": "900:14:36",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_SwapABIEncoder_$1514_$",
+                          "typeString": "type(library SwapABIEncoder)"
+                        }
+                      },
+                      "id": 3708,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "encodeAndExit",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1513,
+                      "src": "900:28:36",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$__$returns$__$",
+                        "typeString": "function () pure"
+                      }
+                    },
+                    "id": 3709,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "900:30:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 3710,
+                  "nodeType": "ExpressionStatement",
+                  "src": "900:30:36"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 3712,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "validateSwap",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3702,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3695,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3712,
+                  "src": "761:14:36",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 3694,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "761:5:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3697,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3712,
+                  "src": "785:7:36",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 3696,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "785:7:36",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3701,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3712,
+                  "src": "802:16:36",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$6_calldata_ptr",
+                    "typeString": "uint256[6]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 3698,
+                      "name": "uint",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "802:4:36",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 3700,
+                    "length": {
+                      "argumentTypes": null,
+                      "hexValue": "36",
+                      "id": 3699,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "807:1:36",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_6_by_1",
+                        "typeString": "int_const 6"
+                      },
+                      "value": "6"
+                    },
+                    "nodeType": "ArrayTypeName",
+                    "src": "802:7:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$6_storage_ptr",
+                      "typeString": "uint256[6]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "751:73:36"
+            },
+            "returnParameters": {
+              "id": 3705,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3704,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3712,
+                  "src": "872:12:36",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 3703,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "872:5:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "871:14:36"
+            },
+            "scope": 3713,
+            "src": "730:207:36",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 3714,
+        "src": "696:243:36"
+      }
+    ],
+    "src": "0:940:36"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.7+commit.6da8b019.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-07-30T13:09:11.355Z",
+  "devdoc": {
+    "author": "AZTEC",
+    "details": "Don't include this as an internal library. This contract uses a static memory table to cache elliptic curve primitives and hashes. Calling this internally from another function will lead to memory mutation and undefined behaviour. The intended use case is to call this externally via `staticcall`. External calls to OptimizedAZTEC can be treated as pure functions as this contract contains no storage and makes no external calls (other than to precompiles) Copyright Spilsbury Holdings Ltd 2019. All rights reserved.*",
+    "methods": {},
+    "title": "Swap ABI Encoder Test"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

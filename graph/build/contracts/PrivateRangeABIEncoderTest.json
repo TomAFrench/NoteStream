@@ -1,0 +1,598 @@
+{
+  "contractName": "PrivateRangeABIEncoderTest",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256[6]"
+        }
+      ],
+      "name": "validatePrivateRange",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.7+commit.6da8b019\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"bytes\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"uint256[6]\"}],\"name\":\"validatePrivateRange\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/ACE/validators/privateRange/PrivateRangeABIEncoderTest.sol\":\"PrivateRangeABIEncoderTest\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/privateRange/PrivateRangeABIEncoder.sol\":{\"keccak256\":\"0x84aea06f709c5c4db0fd02635b68cb225de1a17b640a0488976259c858200ac0\",\"urls\":[\"bzzr://242994a0a4799211482f62c8680ef005a82b993f11156c9b708f782e84d97bbe\"]},\"/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/ACE/validators/privateRange/PrivateRangeABIEncoderTest.sol\":{\"keccak256\":\"0x7afa4576525bb257130e750b99245b716158479e70393f28865c2b7bc4c30b28\",\"urls\":[\"bzzr://e7c7c6f8b2e681d4c181f4f36ad4c6686c122321fb807cb8edfb7cbe9060e677\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061036a806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c80631fa23f2714610030575b600080fd5b6100af600480360361010081101561004757600080fd5b81019060208101813564010000000081111561006257600080fd5b82018360208201111561007457600080fd5b8035906020019184600183028401116401000000008311171561009657600080fd5b91935091506001600160a01b0381351690602001610124565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100e95781810151838201526020016100d1565b50505050905090810190601f1680156101165780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b606061012e610136565b949350505050565b610144356101040160036002610164356101240161018435610124016101a4356101440160016101a05260606101c05260c0610200526000610240526000806102605261012435610280526102a0856020820152602086026102e00160005b8781101561022d5760c0810260208b0101600160005260806040820160203760c083526001602084015260208202880135604084015260a0600020606084015260406080840152600160ff1b60016060830135160260408201351760a0840152600160ff1b600160a0830135160260808201351760c08401528383036020830260408601015260e08301925050600181019050610195565b50601f1982820390810190925260c0909101610220528587036020828101829052028101604001865b8881101561030f5760c0810260208b01016020898303028601358060408803013560016000526080604084016020378060c00185526001602086015260208b850302890135604086015260a06000206060860152806040016080860152600160ff1b600160405116026020511760a0860152600160ff1b600160805116026060511760c08601528060208903830160e087013785850360208c860302604088010152602085510185019450505050600181019050610256565b5060208282030382526102a081038060a0016101e0528061010001610180526020610160528061014001610160f3fea165627a7a7230582088ab342e978fd900539ae55353a55cdca34954a61a79e89b52643e68d9369e110029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061002b5760003560e01c80631fa23f2714610030575b600080fd5b6100af600480360361010081101561004757600080fd5b81019060208101813564010000000081111561006257600080fd5b82018360208201111561007457600080fd5b8035906020019184600183028401116401000000008311171561009657600080fd5b91935091506001600160a01b0381351690602001610124565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100e95781810151838201526020016100d1565b50505050905090810190601f1680156101165780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b606061012e610136565b949350505050565b610144356101040160036002610164356101240161018435610124016101a4356101440160016101a05260606101c05260c0610200526000610240526000806102605261012435610280526102a0856020820152602086026102e00160005b8781101561022d5760c0810260208b0101600160005260806040820160203760c083526001602084015260208202880135604084015260a0600020606084015260406080840152600160ff1b60016060830135160260408201351760a0840152600160ff1b600160a0830135160260808201351760c08401528383036020830260408601015260e08301925050600181019050610195565b50601f1982820390810190925260c0909101610220528587036020828101829052028101604001865b8881101561030f5760c0810260208b01016020898303028601358060408803013560016000526080604084016020378060c00185526001602086015260208b850302890135604086015260a06000206060860152806040016080860152600160ff1b600160405116026020511760a0860152600160ff1b600160805116026060511760c08601528060208903830160e087013785850360208c860302604088010152602085510185019450505050600181019050610256565b5060208282030382526102a081038060a0016101e0528061010001610180526020610160528061014001610160f3fea165627a7a7230582088ab342e978fd900539ae55353a55cdca34954a61a79e89b52643e68d9369e110029",
+  "sourceMap": "111:268:41:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;111:268:41;;;;;;;",
+  "deployedSourceMap": "111:268:41:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;111:268:41;;;;;;;;;;;;;;;;;;;154:223;;;;;;13:3:-1;8;5:12;2:2;;;30:1;27;20:12;2:2;154:223:41;;;;;;;;21:11:-1;5:28;;2:2;;;46:1;43;36:12;2:2;154:223:41;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;154:223:41;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;154:223:41;;-1:-1:-1;154:223:41;-1:-1:-1;;;;;;154:223:41;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;154:223:41;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;304:12;332:38;:36;:38::i;:::-;154:223;;;;;;:::o;1453:9210:9:-;1602:5;1589:19;1582:5;1578:31;1631:1;1654;1711:5;1698:19;1691:5;1687:31;1811:5;1798:19;1791:5;1787:31;1908:5;1895:19;1888:5;1884:31;3877:4;3870:5;3863:19;3956:4;3949:5;3942:19;4090:4;4083:5;4076:19;4229:4;4222:5;4215:19;4450:1;4478:7;4471:5;4464:22;4560:5;4547:19;4540:5;4533:34;4597:5;4698:1;4691:4;4681:8;4677:19;4670:30;4867:4;4864:1;4860:12;4853:5;4849:24;4902:1;4887:2127;4912:1;4909;4906:8;4887:2127;;;5001:4;4998:1;4994:12;4987:4;4980:5;4976:16;4972:35;5086:4;5080;5073:18;5176:4;5169;5158:9;5154:20;5148:4;5135:46;5274:4;5271:1;5264:15;5375:4;5368;5365:1;5361:12;5354:26;5505:4;5502:1;5498:12;5485:11;5481:30;5468:44;5461:4;5458:1;5454:12;5447:66;5629:4;5623;5613:21;5606:4;5603:1;5599:12;5592:43;5757:4;5750;5747:1;5743:12;5736:26;-1:-1:-1;;;6074:4:9;6066;6055:9;6051:20;6038:34;6034:45;6001:200;5969:4;5958:9;5954:20;5941:34;5913:310;5886:4;5883:1;5879:12;5851:390;-1:-1:-1;;;6553:4:9;6545;6534:9;6530:20;6517:34;6513:45;6480:200;6448:4;6437:9;6433:20;6420:34;6392:310;6365:4;6362:1;6358:12;6330:390;6875:8;6872:1;6868:16;6860:4;6857:1;6853:12;6846:4;6836:8;6832:19;6828:38;6821:64;6995:4;6992:1;6988:12;6983:17;;4937:2077;4929:4;4926:1;4922:12;4917:17;;4887:2127;;;-1:-1:-1;;;7184:16:9;;;7180:27;;;7163:45;;;7239:4;7235:27;;;7228:5;7221:42;7377:9;;;7202:4;7356:19;;;7349:38;;;7454:20;7437:39;;7448:4;7437:39;7384:1;7518:2474;7543:1;7540;7537:8;7518:2474;;;7666:4;7663:1;7659:12;7652:4;7645:5;7641:16;7637:35;7795:4;7791:1;7788;7784:9;7780:20;7770:8;7766:35;7753:49;7919:13;7912:4;7902:8;7898:19;7894:39;7881:53;7965:4;7959;7952:18;8104:4;8097;8086:9;8082:20;8076:4;8063:46;8211:14;8205:4;8201:25;8198:1;8191:36;8323:4;8316;8313:1;8309:12;8302:26;8473:4;8469:1;8466;8462:9;8458:20;8444:12;8440:39;8427:53;8420:4;8417:1;8413:12;8406:75;8570:4;8564;8554:21;8547:4;8544:1;8540:12;8533:43;8684:14;8678:4;8674:25;8667:4;8664:1;8660:12;8653:47;-1:-1:-1;;;8966:4:9;8959;8953:11;8949:22;8916:177;8885:4;8879:11;8851:264;8824:4;8821:1;8817:12;8789:344;-1:-1:-1;;;9379:4:9;9372;9366:11;9362:22;9333:165;9306:4;9300:11;9276:240;9253:4;9250:1;9246:12;9222:312;9668:14;9660:4;9650:8;9646:19;9631:13;9627:39;9620:4;9617:1;9613:12;9600:83;9846:8;9843:1;9839:16;9831:4;9827:1;9824;9820:9;9816:20;9809:4;9799:8;9795:19;9791:46;9784:72;9972:4;9968:1;9962:8;9958:19;9955:1;9951:27;9946:32;;7568:2424;;;7560:4;7557:1;7553:12;7548:17;;7518:2474;;;7522:14;10114:4;10103:8;10100:1;10096:16;10092:27;10082:8;10075:45;10214:5;10211:1;10207:13;10427:11;10421:4;10417:22;10410:5;10403:37;10478:11;10471:5;10467:23;10460:5;10453:38;10560:4;10553:5;10546:19;10603:11;10596:5;10592:23;10585:5;10578:38",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\nimport \"../../../../ACE/validators/privateRange/PrivateRangeABIEncoder.sol\";\n\ncontract PrivateRangeABIEncoderTest {\n\n    function validatePrivateRange(\n        bytes calldata,\n        address,\n        uint[6] calldata\n    )\n        external\n        pure\n        returns (bytes memory)\n    {\n        PrivateRangeABIEncoder.encodeAndExit();\n    }\n}\n",
+  "sourcePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/ACE/validators/privateRange/PrivateRangeABIEncoderTest.sol",
+  "ast": {
+    "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/ACE/validators/privateRange/PrivateRangeABIEncoderTest.sol",
+    "exportedSymbols": {
+      "PrivateRangeABIEncoderTest": [
+        3919
+      ]
+    },
+    "id": 3920,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3898,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:41"
+      },
+      {
+        "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/privateRange/PrivateRangeABIEncoder.sol",
+        "file": "../../../../ACE/validators/privateRange/PrivateRangeABIEncoder.sol",
+        "id": 3899,
+        "nodeType": "ImportDirective",
+        "scope": 3920,
+        "sourceUnit": 1516,
+        "src": "33:76:41",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 3919,
+        "linearizedBaseContracts": [
+          3919
+        ],
+        "name": "PrivateRangeABIEncoderTest",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 3917,
+              "nodeType": "Block",
+              "src": "322:55:41",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 3912,
+                        "name": "PrivateRangeABIEncoder",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1515,
+                        "src": "332:22:41",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_PrivateRangeABIEncoder_$1515_$",
+                          "typeString": "type(library PrivateRangeABIEncoder)"
+                        }
+                      },
+                      "id": 3914,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "encodeAndExit",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1514,
+                      "src": "332:36:41",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$__$returns$__$",
+                        "typeString": "function () pure"
+                      }
+                    },
+                    "id": 3915,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "332:38:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 3916,
+                  "nodeType": "ExpressionStatement",
+                  "src": "332:38:41"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 3918,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "validatePrivateRange",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3908,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3901,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3918,
+                  "src": "193:14:41",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 3900,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "193:5:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3903,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3918,
+                  "src": "217:7:41",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 3902,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "217:7:41",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3907,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3918,
+                  "src": "234:16:41",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$6_calldata_ptr",
+                    "typeString": "uint256[6]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 3904,
+                      "name": "uint",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "234:4:41",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 3906,
+                    "length": {
+                      "argumentTypes": null,
+                      "hexValue": "36",
+                      "id": 3905,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "239:1:41",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_6_by_1",
+                        "typeString": "int_const 6"
+                      },
+                      "value": "6"
+                    },
+                    "nodeType": "ArrayTypeName",
+                    "src": "234:7:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$6_storage_ptr",
+                      "typeString": "uint256[6]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "183:73:41"
+            },
+            "returnParameters": {
+              "id": 3911,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3910,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3918,
+                  "src": "304:12:41",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 3909,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "304:5:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "303:14:41"
+            },
+            "scope": 3919,
+            "src": "154:223:41",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 3920,
+        "src": "111:268:41"
+      }
+    ],
+    "src": "0:380:41"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/test/ACE/validators/privateRange/PrivateRangeABIEncoderTest.sol",
+    "exportedSymbols": {
+      "PrivateRangeABIEncoderTest": [
+        3919
+      ]
+    },
+    "id": 3920,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3898,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:41"
+      },
+      {
+        "absolutePath": "/Users/joeandrews/Documents/Code/AZTEC/packages/protocol/contracts/ACE/validators/privateRange/PrivateRangeABIEncoder.sol",
+        "file": "../../../../ACE/validators/privateRange/PrivateRangeABIEncoder.sol",
+        "id": 3899,
+        "nodeType": "ImportDirective",
+        "scope": 3920,
+        "sourceUnit": 1516,
+        "src": "33:76:41",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 3919,
+        "linearizedBaseContracts": [
+          3919
+        ],
+        "name": "PrivateRangeABIEncoderTest",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 3917,
+              "nodeType": "Block",
+              "src": "322:55:41",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 3912,
+                        "name": "PrivateRangeABIEncoder",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1515,
+                        "src": "332:22:41",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_PrivateRangeABIEncoder_$1515_$",
+                          "typeString": "type(library PrivateRangeABIEncoder)"
+                        }
+                      },
+                      "id": 3914,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "encodeAndExit",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1514,
+                      "src": "332:36:41",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$__$returns$__$",
+                        "typeString": "function () pure"
+                      }
+                    },
+                    "id": 3915,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "332:38:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 3916,
+                  "nodeType": "ExpressionStatement",
+                  "src": "332:38:41"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 3918,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "validatePrivateRange",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3908,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3901,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3918,
+                  "src": "193:14:41",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 3900,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "193:5:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3903,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3918,
+                  "src": "217:7:41",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 3902,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "217:7:41",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3907,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3918,
+                  "src": "234:16:41",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$6_calldata_ptr",
+                    "typeString": "uint256[6]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 3904,
+                      "name": "uint",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "234:4:41",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 3906,
+                    "length": {
+                      "argumentTypes": null,
+                      "hexValue": "36",
+                      "id": 3905,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "239:1:41",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_6_by_1",
+                        "typeString": "int_const 6"
+                      },
+                      "value": "6"
+                    },
+                    "nodeType": "ArrayTypeName",
+                    "src": "234:7:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$6_storage_ptr",
+                      "typeString": "uint256[6]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "183:73:41"
+            },
+            "returnParameters": {
+              "id": 3911,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3910,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3918,
+                  "src": "304:12:41",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 3909,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "304:5:41",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "303:14:41"
+            },
+            "scope": 3919,
+            "src": "154:223:41",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 3920,
+        "src": "111:268:41"
+      }
+    ],
+    "src": "0:380:41"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.7+commit.6da8b019.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-07-30T19:04:03.766Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
