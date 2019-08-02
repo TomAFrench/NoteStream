@@ -41,7 +41,7 @@ export const deposit = async ({
 
     initialERC20Balance = 200,
     scalingFactor = 1,
-    depositAmount = 50,
+    depositAmount = 100,
 }) => {
     
     const { aztec } = window;
@@ -117,7 +117,7 @@ let zkAssetAddress = Web3Service.contract('ZkAssetOwnable').address; // ADD EXIS
 
 
 export const send = async ({
-    amount = 20,
+    amount = 25,
     to,
 }) => {
     

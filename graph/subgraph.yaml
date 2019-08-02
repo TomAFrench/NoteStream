@@ -8,7 +8,7 @@ dataSources:
     name: ACE
     network: development
     source:
-      address: '0xe7C27fa6372964f8E1B5650e8e9E37c2807D0895'
+      address: '0xEc85f3D1FC95cA5e02a9E4b08998bd4BF92EF914'
       abi: ACE
     mapping:
       kind: ethereum/events
@@ -53,7 +53,7 @@ dataSources:
     name: AZTECAccountRegistry
     network: development
     source:
-      address: '0xB83723079E075Ca79f12dA66ED1C7F458BF0468D'
+      address: '0xf7D078360075F77C79F4Ccd3336E52EB107c6197'
       abi: AZTECAccountRegistry
     mapping:
       kind: ethereum/events

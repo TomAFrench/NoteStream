@@ -5,7 +5,7 @@
   "dependencies": {
     "@aztec/dev-utils": "^0.12.2",
     "@aztec/guacamole-ui": "^1.1.0-beta3",
-    "@aztec/protocol": "^0.8.1",
+    "@aztec/protocol": "0.9.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
