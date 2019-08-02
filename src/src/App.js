@@ -161,7 +161,7 @@ class App extends React.Component {
           return;
         }
         this.setState({sendLoading: true});
-        await send({amount: 20, to: this.state.to});
+        await send({amount: 25, to: this.state.to});
         const balance = await getBalance();
 
         this.setState({sendLoading: false, ...balance});

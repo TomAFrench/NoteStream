@@ -9,10 +9,10 @@
   dependencies:
     bn.js "^4.11.8"
 
-"@aztec/protocol@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@aztec/protocol/-/protocol-0.9.0.tgz#30b5297f0fe703693572359ebc81b17f0778bf07"
-  integrity sha512-AsDjMRGHGJBTEIR6CboeGE3AA9FaoGcj8lXgEyiNo1E6MYctw8+k9fppHcYCMr9VDivmKaUv9sUBr8a9hd+q1g==
+"@aztec/protocol@0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@aztec/protocol/-/protocol-0.9.1.tgz#870d2f04e292fd299a617271a14c76bc2888a3a9"
+  integrity sha512-hz/c3eSiXLW3zXmQm2sttvccUyluFv7P1bfzqsgQ74ABIsHXcJecUt5VBuLytbo/Tfu4+2itvqmS8kYXkACN/A==
   dependencies:
     openzeppelin-solidity "2.2.0"
 
