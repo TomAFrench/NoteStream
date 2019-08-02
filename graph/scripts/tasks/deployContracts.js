@@ -1,20 +1,14 @@
-import migrateContractsInstance from '../instances/migrateContractsInstance';
+import instance from '../utils/instance';
 
 export default function migrate({
     onError,
     onClose,
 } = {}) {
-    const migrateExtension = () => {
-        migrateContractsInstance({
-            packageName: 'extension',
+    return instance(
+        'truffle migrate --reset',
+        {
             onError,
             onClose,
-        })
-    };
-
-    migrateContractsInstance({
-        packageName: 'protocol',
-        onError,
-        onClose: migrateExtension,
-    });
+        },
+    );
 }

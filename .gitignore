@@ -1,2 +1,2 @@
-graph/node_modules
-src/node_modules
+node_modules
+.DS_Store

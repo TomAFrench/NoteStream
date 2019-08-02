@@ -21,7 +21,7 @@ dataSources:
         - name: ACE
           file: ./build/abis/ACE.json
       eventHandlers:
-        - event: CreateNoteRegistry(address,address,uint256,bool,bool)
+        - event: CreateNoteRegistry(address,address,uint256,address,bool,bool)
           handler: createNoteRegistry
     templates:
       - name: ZkAsset

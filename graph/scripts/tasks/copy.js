@@ -7,6 +7,7 @@ import {
     safeReadFileSync,
     ensureDirectory,
     copyFolder,
+    isDirectory,
     isFile,
 } from '../utils/fs';
 import {
@@ -26,18 +27,13 @@ const {
     manifest: manifestFilename,
 } = graphNodeConfig;
 
-const targetPackages = [
-    'protocol',
-    'extension',
-];
+const root = path.resolve(__dirname, '../../');
 
 const graphProtocolModule = '@graphprotocol';
 
 const destBuildFolder = 'build';
 const destAbisFolder = 'abis';
 const destContractsFolder = 'contracts';
-
-const extensionContractsFolder = 'build/protocol';
 
 const srcContractsFolder = 'build/contracts';
 
@@ -85,12 +81,10 @@ const retrieveAddresses = (dataSources) => {
     return addresses;
 };
 
-const copyAbi = (contractName, srcContractsPaths, destFilePath) =>
+const copyAbi = (contractName, srcFolderPath, destFilePath) =>
     new Promise((resolve, reject) => {
         let abi;
-        const requirePath = srcContractsPaths
-            .map(p => path.join(p, `${contractName}.json`))
-            .find(isFile);
+        const requirePath = path.join(srcFolderPath, `${contractName}.json`);
         if (!requirePath) {
             errorLog(`Cannot find contract '${contractName}'.`);
             reject();
@@ -122,7 +116,7 @@ const copyAbi = (contractName, srcContractsPaths, destFilePath) =>
         });
     });
 
-const copyContractAddresses = (prevAddresses, srcFolderPaths) =>
+const copyContractAddresses = (prevAddresses, srcFolderPath) =>
     new Promise((resolve) => {
         const originalConfig = safeReadFileSync(manifestPath);
         let newConfig = originalConfig;
@@ -130,12 +124,14 @@ const copyContractAddresses = (prevAddresses, srcFolderPaths) =>
             name,
             address,
         }) => {
-            const srcFilePath = srcFolderPaths
-                .map(p => path.join(p, `${name}.json`))
-                .find(isFile);
+            const filename = path.join(srcFolderPath, `${name}.json`);
+            if (!isFile(filename)) {
+                errorLog(`Cannot find file ${name}.json`);
+                return;
+            }
             const contract = require(path.relative( // eslint-disable-line global-require
                 __dirname,
-                srcFilePath,
+                filename,
             ));
             const {
                 networks,
@@ -172,19 +168,9 @@ export default async function copy({
     onError,
     onClose,
 } = {}) {
-    const packagePathsMap = {};
-    targetPackages.forEach((name) => {
-        packagePathsMap[name] = locatePackage(name);
-    });
-    const packagePaths = Object.values(packagePathsMap);
-
-    if (packagePaths.some(p => !p)) {
-        packagePaths.forEach((p, i) => {
-            if (!p) {
-                errorLog(`Package '${targetPackages[i]}' not found'`);
-            }
-        });
-        log('Please run `yarn install` to get required node_modules.');
+    const srcContractsPath = path.join(root, srcContractsFolder);
+    if (!isDirectory(srcContractsPath)) {
+        log('Please run `yarn build` to get contract artifacts.');
         if (onError) {
             onError();
         }
@@ -211,16 +197,11 @@ export default async function copy({
         return;
     }
 
-    ensureDirectory(path.join(projectRoot, destBuildFolder));
-
-    const srcContractsPaths = packagePaths
-        .map(p => path.join(p, srcContractsFolder));
-
     const addresses = retrieveAddresses(dataSources);
     if (addresses.length) {
         promises.push(copyContractAddresses(
             addresses,
-            srcContractsPaths,
+            srcContractsPath,
         ));
     }
 
@@ -234,36 +215,10 @@ export default async function copy({
         }) => {
             promises.push(copyAbi(
                 name,
-                srcContractsPaths,
+                srcContractsPath,
                 file,
             ));
         });
-    }
-
-    srcContractsPaths.forEach((srcContractsPath) => {
-        promises.push(copyFolder(
-            srcContractsPath,
-            path.join(projectRoot, destBuildFolder, destContractsFolder),
-        ));
-    });
-    promises.push(copyFolder(
-        path.join(packagePathsMap.protocol, srcContractsFolder),
-        path.join(packagePathsMap.extension, extensionContractsFolder),
-    ));
-
-    /*
-     * graph-cli (v) doesn't work with yarn workspaces
-     * So we need to manually copy the packages to current project's node_modules folder.
-     */
-    const graphProtocolPath = locateModule(graphProtocolModule);
-    const targetGraphProtocolPath = path.join(projectRoot, 'node_modules', graphProtocolModule);
-    if (graphProtocolPath
-        && (graphProtocolPath !== targetGraphProtocolPath)
-    ) {
-        promises.push(copyFolder(
-            graphProtocolPath,
-            targetGraphProtocolPath,
-        ));
     }
 
     const result = await Promise.all(promises);
