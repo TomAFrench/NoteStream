@@ -220,6 +220,7 @@ export default async function copy({
             ));
         });
     }
+    // promises.push(copyFolder(''));
 
     const result = await Promise.all(promises);
     const copiedMessages = [];

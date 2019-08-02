@@ -16,7 +16,7 @@
     "kill-port": "^1.5.0",
     "node-fetch": "^2.6.0",
     "path": "^0.12.7",
-    "terminal-kit": "^1.28.0",
+    "terminal-kit": "1.28.0",
     "truffle": "^5.0.19",
     "web3": "^1.0.0-beta.55"
   },

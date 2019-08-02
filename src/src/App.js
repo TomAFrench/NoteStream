@@ -5,22 +5,30 @@ import {
   Image, 
   Button, 
   FlexBox,
+  TextInput,
 } from '@aztec/guacamole-ui';
 import EthIndia from './images/ethindia.png';
 import Aztec from './images/aztec.png';
 import './App.css';
 
-import ACE from '@aztec/protocol/contracts/ACE/ACE.sol';
-import ZkAssetOwnable from '@aztec/protocol/contracts/ERC1724/ZkAssetOwnable.sol';
-import ERC20Mintable from '@aztec/protocol/contracts/ERC20/ERC20Mintable.sol';
 /* eslint-enable */
 import Web3Service from './services/Web3Service';
 import depositToERC20 from './utils/depositToERC20';
+
+import {
+  enable,
+  deposit,
+  send
+} from './demo';
 
 class App extends React.Component {
 
   state = {};
 
+
+  _updateToAddress(value) {
+      this.setState({ to: value });
+  }
 
 
   render () {
@@ -69,19 +77,9 @@ class App extends React.Component {
                 alert('Please install the aztec extension');
                 return;
               }
-
               this.setState({enableLoading: true});
+              await enable();
 
-
-
-              await window.aztec.enable();
-              Web3Service.registerContract(ACE);
-              Web3Service.registerInterface(ERC20Mintable, {
-                  name: 'ERC20',
-              });
-              Web3Service.registerInterface(ZkAssetOwnable, {
-                  name: 'ZkAsset',
-              });
               this.setState({enableLoading: false});
             }} />
           </Block>
@@ -98,7 +96,16 @@ class App extends React.Component {
               <Text text='This method will convert ERC20 Tokens into AZTEC notes.' />
             </FlexBox>
             <br/>
-              <Button text='Wrap ERC20' />
+            <Button text='Wrap ERC20' loading={this.state.depositLoading} onClick={async ()=> {
+              if (!window.aztec) {
+                alert('Please install the aztec extension');
+                return;
+              }
+              this.setState({depositLoading: true});
+              await deposit(50);
+
+              this.setState({depositLoading: false});
+            }} />
           </Block>
 
           <br/>
@@ -112,8 +119,18 @@ class App extends React.Component {
               <Text text='.asset.send([{amount, owner}])' weight='bold' size='l' />
               <Text text='This method will send another account AZTEC notes. NOTE, the recipient will need to have the AZTEC extension installed and have registered it on the same chain (ganache)' />
             </FlexBox>
+            <TextInput placeholder='Recipient' onChange={this._updateToAddress}/>
             <br/>
-              <Button text='Send AZTEC Notes' />
+            <Button text='Send AZTEC Notes' loading={this.state.sendLoading} onClick={async ()=> {
+              if (!window.aztec) {
+                alert('Please install the aztec extension');
+                return;
+              }
+              this.setState({sendLoading: true});
+              await send({amount: 20, to: this.state.to});
+
+              this.setState({sendLoading: false});
+            }} />
           </Block>
         </Block>
 
