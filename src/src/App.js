@@ -64,7 +64,7 @@ class App extends React.Component {
           <br/>
           <FlexBox padding='none' direction='column' align='flex-start'>
           <Text text='To get started please follow the steps to install the AZTEC extension:' colour='label' size ='s' weight='light' textAlign='left'/>
-          <a href='gitbooks.com' target="__blank"> <Text text='Install Extension' color='label' size='s' /> </a>
+          <a href='https://aztec-protocol.gitbook.io/aztec-documentation/eth-india/aztec.js' target="__blank"> <Text text='Install Extension' color='label' size='s' /> </a>
         </FlexBox>
         </Block>
         <br/>
