@@ -18,12 +18,16 @@ import depositToERC20 from './utils/depositToERC20';
 import {
   enable,
   deposit,
-  send
+  send,
+  getBalance
 } from './demo';
 
 class App extends React.Component {
 
-  state = {};
+  state = {
+    balance: 0,
+    address: ''
+  };
 
 
   _updateToAddress(value) {
@@ -60,6 +64,15 @@ class App extends React.Component {
           <Text text='To get started please follow the steps to install the AZTEC extension:' colour='label' size ='s' weight='light'/>
           <a href='gitbooks.com' target="__blank"> <Text text='Install Extension' color='label' size='s' /> </a>
         </Block>
+        <Block padding='l xxl' background='primary'>
+          <br/>
+          <br/>
+          <br/>
+          <FlexBox direction='column'>
+          <Text text={`ZkAsset Address:${this.state.address}`} colour='white' size ='l' weight='bold'/>
+          <Text text={`ZkAsset Balance:${this.state.balance}`} colour='white' size ='l' weight='bold'/>
+        </FlexBox>
+        </Block>
         <Block padding='xxl' align='left'>
 
           <Block 
@@ -72,15 +85,17 @@ class App extends React.Component {
               <Text text='This method will register the extension.' />
             </FlexBox>
             <br/>
-            <Button text='Enable AZTEC' loading={this.state.enableLoading} onClick={async ()=> {
+            <Button text='Enable AZTEC' isLoading={this.state.enableLoading} onClick={async ()=> {
               if (!window.aztec) {
                 alert('Please install the aztec extension');
                 return;
               }
               this.setState({enableLoading: true});
               await enable();
+              const balance = await getBalance();
+              
 
-              this.setState({enableLoading: false});
+              this.setState({enableLoading: false, ...balance});
             }} />
           </Block>
 
@@ -96,7 +111,7 @@ class App extends React.Component {
               <Text text='This method will convert ERC20 Tokens into AZTEC notes.' />
             </FlexBox>
             <br/>
-            <Button text='Wrap ERC20' loading={this.state.depositLoading} onClick={async ()=> {
+            <Button text='Wrap ERC20' isLoading={this.state.depositLoading} onClick={async ()=> {
               if (!window.aztec) {
                 alert('Please install the aztec extension');
                 return;
@@ -104,7 +119,8 @@ class App extends React.Component {
               this.setState({depositLoading: true});
               await deposit(50);
 
-              this.setState({depositLoading: false});
+              const balance = await getBalance();
+              this.setState({depositLoading: false, ...balance});
             }} />
           </Block>
 
@@ -121,15 +137,16 @@ class App extends React.Component {
             </FlexBox>
             <TextInput placeholder='Recipient' onChange={(value)=>this._updateToAddress(value)}/>
             <br/>
-            <Button text='Send AZTEC Notes' loading={this.state.sendLoading} onClick={async ()=> {
+            <Button text='Send AZTEC Notes' isLoading={this.state.sendLoading} onClick={async ()=> {
               if (!window.aztec) {
                 alert('Please install the aztec extension');
                 return;
               }
               this.setState({sendLoading: true});
               await send({amount: 20, to: this.state.to});
+              const balance = await getBalance();
 
-              this.setState({sendLoading: false});
+              this.setState({sendLoading: false, ...balance});
             }} />
           </Block>
         </Block>

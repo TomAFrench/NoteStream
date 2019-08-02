@@ -26,6 +26,17 @@ export const enable = async () => {
 
 }
 
+export const getBalance = async() => {
+    
+    const { aztec } = window;
+    let zkAssetAddress = Web3Service.contract('ZkAssetOwnable').address; // ADD EXISTING ASSET ADDRESS HERE
+    const asset = await aztec.asset(zkAssetAddress);
+    return {
+        balance: await asset.balance(),
+        address: zkAssetAddress
+    };
+}
+
 export const deposit = async ({
 
     initialERC20Balance = 200,
