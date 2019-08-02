@@ -110,7 +110,7 @@ let zkAssetAddress = Web3Service.contract('ZkAssetOwnable').address; // ADD EXIS
         notes: incomeNotes,
     });
 
-    await sleep(1000);
+    await sleep(2000);
     console.log(`Asset balance = ${await asset.balance()}`);
 
 }
@@ -164,7 +164,7 @@ export const send = async ({
     await sendProof.send();
     console.log(`Successfully sent ${sendAmount} to account '${receiver}'.`);
 
-    await sleep(1000);
+    await sleep(2000);
     console.log(`Asset balance = ${await asset.balance()}`);
 
 }
