@@ -1,30 +1,28 @@
 import Web3Service from '../services/Web3Service';
 import depositToERC20 from './helpers/depositToERC20';
 
-import ACE from '../../build/contracts/ACE';
-import ZkAssetOwnable from '../../build/contracts/ZkAssetOwnable';
-import AZTECAccountRegistry from '../../build/contracts/AZTECAccountRegistry';
-import ZkAssetMintable from '../../build/contracts/ZkAssetMintable';
-import ERC20Mintable from '../../build/contracts/ERC20Mintable';
-import ZkAsset from '../../build/contracts/ZkAsset';
+import ACE from '../build/ACE';
+import ZkAssetOwnable from '../build/ZkAssetOwnable';
+import AZTECAccountRegistry from '../build/AZTECAccountRegistry';
+import ERC20Mintable from '../build/ERC20Mintable';
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const enable = async () => {
 
+    await Web3Service.init();
+
     Web3Service.registerContract(ACE);
     Web3Service.registerContract(AZTECAccountRegistry);
 
-    await window.aztec.enable({contractAddress: {
+    await window.aztec.enable({contractAddresses: {
         ace: Web3Service.contract('ACE').address,
-        aztecAccountRegistry: AZTECAccountRegistry
+        aztecAccountRegistry: Web3Service.contract('AZTECAccountRegistry').address
     }});
     Web3Service.registerInterface(ERC20Mintable, {
         name: 'ERC20',
     });
-    Web3Service.registerInterface(ZkAssetOwnable, {
-        name: 'ZkAsset',
-    });
+    Web3Service.registerContract(ZkAssetOwnable);
 
 }
 
@@ -37,12 +35,13 @@ export const deposit = async ({
     
     const { aztec } = window;
 
+    await enable();
+
     const {
         address: userAddress,
     } = Web3Service.account;
 
-
-    let zkAssetAddress = Web3Service.contract('ZkAsset').address; // ADD EXISTING ASSET ADDRESS HERE
+let zkAssetAddress = Web3Service.contract('ZkAssetOwnable').address; // ADD EXISTING ASSET ADDRESS HERE
 
     const asset = await aztec.asset(zkAssetAddress);
     if (!asset.isValid()) {
@@ -113,12 +112,11 @@ export const send = async ({
     
     const { aztec } = window;
 
-    const {
-        address: userAddress,
-    } = Web3Service.account;
 
+    await enable();
+    console.log(Web3Service.contracts);
 
-    let zkAssetAddress = Web3Service.contract('ZkAsset').address; // ADD EXISTING ASSET ADDRESS HERE
+    let zkAssetAddress = Web3Service.contract('ZkAssetOwnable').address; // ADD EXISTING ASSET ADDRESS HERE
 
     const asset = await aztec.asset(zkAssetAddress);
     if (!asset.isValid()) {

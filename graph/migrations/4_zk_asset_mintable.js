@@ -16,7 +16,7 @@ module.exports = async (deployer) => {
     const ZkAssetContract = await deployer.deploy(
         ZkAssetMintable,
         ACE.address,
-        ERC20Contract.address,
+        ERC20Mintable.address,
         scalingFactor,
     );
     await ZkAssetContract.setProofs(1, 17);

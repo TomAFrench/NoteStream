@@ -5,7 +5,7 @@ export default function migrate({
     onClose,
 } = {}) {
     return instance(
-        'truffle migrate --reset',
+        'truffle compile --all && truffle migrate --reset',
         {
             onError,
             onClose,

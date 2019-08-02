@@ -11,12 +11,13 @@ const {
 
 module.exports = async (deployer) => {
     const ERC20Contract = await deployer.deploy(ERC20Mintable);
+    const ERC20ContractDeployed = await ERC20Mintable.deployed();
 
     const scalingFactor = 1;
     const ZkAssetContract = await deployer.deploy(
         ZkAssetOwnable,
         ACE.address,
-        ERC20Contract.address,
+        ERC20Mintable.address,
         scalingFactor,
     );
     await ZkAssetContract.setProofs(1, 17);

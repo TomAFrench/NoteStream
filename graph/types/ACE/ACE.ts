@@ -140,40 +140,6 @@ export class OwnershipTransferred__Params {
   }
 }
 
-export class CreateNoteRegistry1 extends EthereumEvent {
-  get params(): CreateNoteRegistry1__Params {
-    return new CreateNoteRegistry1__Params(this);
-  }
-}
-
-export class CreateNoteRegistry1__Params {
-  _event: CreateNoteRegistry1;
-
-  constructor(event: CreateNoteRegistry1) {
-    this._event = event;
-  }
-
-  get zkAssetAddress(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get linkedTokenAddress(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get scalingFactor(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-
-  get canAdjustSupply(): boolean {
-    return this._event.parameters[3].value.toBoolean();
-  }
-
-  get canConvert(): boolean {
-    return this._event.parameters[4].value.toBoolean();
-  }
-}
-
 export class ACE__getRegistryResult {
   value0: Address;
   value1: BigInt;

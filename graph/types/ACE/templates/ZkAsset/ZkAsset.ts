@@ -14,40 +14,6 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
-export class CreateNoteRegistry extends EthereumEvent {
-  get params(): CreateNoteRegistry__Params {
-    return new CreateNoteRegistry__Params(this);
-  }
-}
-
-export class CreateNoteRegistry__Params {
-  _event: CreateNoteRegistry;
-
-  constructor(event: CreateNoteRegistry) {
-    this._event = event;
-  }
-
-  get zkAssetAddress(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get linkedTokenAddress(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get scalingFactor(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-
-  get canAdjustSupply(): boolean {
-    return this._event.parameters[3].value.toBoolean();
-  }
-
-  get canConvert(): boolean {
-    return this._event.parameters[4].value.toBoolean();
-  }
-}
-
 export class CreateZkAsset extends EthereumEvent {
   get params(): CreateZkAsset__Params {
     return new CreateZkAsset__Params(this);
@@ -82,16 +48,16 @@ export class CreateZkAsset__Params {
   }
 }
 
-export class CreateNoteRegistry1 extends EthereumEvent {
-  get params(): CreateNoteRegistry1__Params {
-    return new CreateNoteRegistry1__Params(this);
+export class CreateNoteRegistry extends EthereumEvent {
+  get params(): CreateNoteRegistry__Params {
+    return new CreateNoteRegistry__Params(this);
   }
 }
 
-export class CreateNoteRegistry1__Params {
-  _event: CreateNoteRegistry1;
+export class CreateNoteRegistry__Params {
+  _event: CreateNoteRegistry;
 
-  constructor(event: CreateNoteRegistry1) {
+  constructor(event: CreateNoteRegistry) {
     this._event = event;
   }
 
@@ -149,28 +115,6 @@ export class DestroyNote__Params {
 
   get metadata(): Bytes {
     return this._event.parameters[2].value.toBytes();
-  }
-}
-
-export class UpdateNoteMetaData extends EthereumEvent {
-  get params(): UpdateNoteMetaData__Params {
-    return new UpdateNoteMetaData__Params(this);
-  }
-}
-
-export class UpdateNoteMetaData__Params {
-  _event: UpdateNoteMetaData;
-
-  constructor(event: UpdateNoteMetaData) {
-    this._event = event;
-  }
-
-  get noteHash(): Bytes {
-    return this._event.parameters[0].value.toBytes();
-  }
-
-  get metadata(): Bytes {
-    return this._event.parameters[1].value.toBytes();
   }
 }
 

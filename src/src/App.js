@@ -119,7 +119,7 @@ class App extends React.Component {
               <Text text='.asset.send([{amount, owner}])' weight='bold' size='l' />
               <Text text='This method will send another account AZTEC notes. NOTE, the recipient will need to have the AZTEC extension installed and have registered it on the same chain (ganache)' />
             </FlexBox>
-            <TextInput placeholder='Recipient' onChange={this._updateToAddress}/>
+            <TextInput placeholder='Recipient' onChange={(value)=>this._updateToAddress(value)}/>
             <br/>
             <Button text='Send AZTEC Notes' loading={this.state.sendLoading} onClick={async ()=> {
               if (!window.aztec) {

@@ -220,7 +220,7 @@ export default async function copy({
             ));
         });
     }
-    // promises.push(copyFolder(''));
+    promises.push(copyFolder(srcContractsPath, path.join(root,'../src/src/build')));
 
     const result = await Promise.all(promises);
     const copiedMessages = [];
