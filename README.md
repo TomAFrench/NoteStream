@@ -1,4 +1,4 @@
-### Eth India Starter Kit
+### Eth Global Starter Kit
 
 #####  **Install**
 
