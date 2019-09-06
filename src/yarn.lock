@@ -51,10 +51,10 @@
     svg-sprite-loader "^4.1.3"
     webpack "^4.29.6"
 
-"@aztec/protocol@^0.8.1":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@aztec/protocol/-/protocol-0.8.1.tgz#1edbb7d556518bec64f55d1d1db7d4c582b61dc3"
-  integrity sha512-evD/Uj2m1f8D18o22Cbzq9ZaRFx26Vs/y2OrYNqu5mWIJykzd88POFnk8TURXFkMC3SBYgaDcX5qss7/qsy2MA==
+"@aztec/protocol@0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@aztec/protocol/-/protocol-0.9.1.tgz#870d2f04e292fd299a617271a14c76bc2888a3a9"
+  integrity sha512-hz/c3eSiXLW3zXmQm2sttvccUyluFv7P1bfzqsgQ74ABIsHXcJecUt5VBuLytbo/Tfu4+2itvqmS8kYXkACN/A==
   dependencies:
     openzeppelin-solidity "2.2.0"
 

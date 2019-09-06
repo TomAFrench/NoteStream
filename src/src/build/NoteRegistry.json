@@ -20170,7 +20170,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-02T10:33:23.367Z",
+  "updatedAt": "2019-09-06T13:05:39.457Z",
   "devdoc": {
     "author": "AZTEC",
     "details": "The NoteRegistry defines the state of valid AZTEC notes. It enacts instructions to update the  state, given to it by the ACE and only the note registry owner can enact a state update.   Copyright Spilsbury Holdings Ltd 2019. All rights reserved.*",

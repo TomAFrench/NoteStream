@@ -333,55 +333,7 @@
     "version": "0.5.4+commit.9549d8ff.Emscripten.clang"
   },
   "networks": {
-    "1564733546659": {
-      "events": {},
-      "links": {},
-      "address": "0x11a878f996bB2E7930F5173bB584a72811b032e7",
-      "transactionHash": "0x8c86e1bc97db910504be00aad12d5e1f75d52ba53d2b378b9cb63fface0177a0"
-    },
-    "1564738249449": {
-      "events": {},
-      "links": {},
-      "address": "0x5b521eEeFdA79c9355aAA8190AdE1A128Af909a2",
-      "transactionHash": "0x638c9865112d78465b4e0d8810d0fa55026c542654c7fc87adb2c75168735cee"
-    },
-    "1564740446526": {
-      "events": {},
-      "links": {},
-      "address": "0x5b521eEeFdA79c9355aAA8190AdE1A128Af909a2",
-      "transactionHash": "0x638c9865112d78465b4e0d8810d0fa55026c542654c7fc87adb2c75168735cee"
-    },
-    "1564740686969": {
-      "events": {},
-      "links": {},
-      "address": "0x5b521eEeFdA79c9355aAA8190AdE1A128Af909a2",
-      "transactionHash": "0x638c9865112d78465b4e0d8810d0fa55026c542654c7fc87adb2c75168735cee"
-    },
-    "1564741053839": {
-      "events": {},
-      "links": {},
-      "address": "0x5b521eEeFdA79c9355aAA8190AdE1A128Af909a2",
-      "transactionHash": "0x638c9865112d78465b4e0d8810d0fa55026c542654c7fc87adb2c75168735cee"
-    },
-    "1564741287527": {
-      "events": {},
-      "links": {},
-      "address": "0x5b521eEeFdA79c9355aAA8190AdE1A128Af909a2",
-      "transactionHash": "0x638c9865112d78465b4e0d8810d0fa55026c542654c7fc87adb2c75168735cee"
-    },
-    "1564741380711": {
-      "events": {},
-      "links": {},
-      "address": "0x5b521eEeFdA79c9355aAA8190AdE1A128Af909a2",
-      "transactionHash": "0x638c9865112d78465b4e0d8810d0fa55026c542654c7fc87adb2c75168735cee"
-    },
-    "1564741806300": {
-      "events": {},
-      "links": {},
-      "address": "0x5b521eEeFdA79c9355aAA8190AdE1A128Af909a2",
-      "transactionHash": "0x638c9865112d78465b4e0d8810d0fa55026c542654c7fc87adb2c75168735cee"
-    },
-    "1564741979368": {
+    "1567775118773": {
       "events": {},
       "links": {},
       "address": "0x5b521eEeFdA79c9355aAA8190AdE1A128Af909a2",
@@ -389,7 +341,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-02T10:33:29.661Z",
+  "updatedAt": "2019-09-06T13:05:47.124Z",
   "devdoc": {
     "author": "Zachary Williamson, AZTEC",
     "details": "Don't include this as an internal library. This contract uses a static memory table to cache elliptic curve primitives and hashes. Calling this internally from another function will lead to memory mutation and undefined behaviour. The intended use case is to call this externally via `staticcall`. External calls to OptimizedAZTEC can be treated as pure functions as this contract contains no storage and makes no external calls (other than to precompiles) Copyright Spilsbury Holdings Ltd 2019. All rights reserved. We will be releasing AZTEC as an open-source protocol that provides efficient transaction privacy for Ethereum. Our full vision of the protocol includes confidential cross-asset interactions via our family of AZTEC zero-knowledge proofs and the AZTEC token standard, stay tuned for updates!*",

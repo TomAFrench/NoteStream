@@ -333,55 +333,7 @@
     "version": "0.5.4+commit.9549d8ff.Emscripten.clang"
   },
   "networks": {
-    "1564733546659": {
-      "events": {},
-      "links": {},
-      "address": "0x1eb0695b2945Cb5c72a37835D277E571765d2F9e",
-      "transactionHash": "0x34d3e580fc02a6936878d6aa5584c65b5385b1f4f9792765d458b8239548e4ad"
-    },
-    "1564738249449": {
-      "events": {},
-      "links": {},
-      "address": "0x7047E7c740512a90Dc83bb1325b79A3d587e907e",
-      "transactionHash": "0x0a4ac677347af8e798c47c49392cb808e857f2e05a505e8eeae667d34ecccac3"
-    },
-    "1564740446526": {
-      "events": {},
-      "links": {},
-      "address": "0x7047E7c740512a90Dc83bb1325b79A3d587e907e",
-      "transactionHash": "0x0a4ac677347af8e798c47c49392cb808e857f2e05a505e8eeae667d34ecccac3"
-    },
-    "1564740686969": {
-      "events": {},
-      "links": {},
-      "address": "0x7047E7c740512a90Dc83bb1325b79A3d587e907e",
-      "transactionHash": "0x0a4ac677347af8e798c47c49392cb808e857f2e05a505e8eeae667d34ecccac3"
-    },
-    "1564741053839": {
-      "events": {},
-      "links": {},
-      "address": "0x7047E7c740512a90Dc83bb1325b79A3d587e907e",
-      "transactionHash": "0x0a4ac677347af8e798c47c49392cb808e857f2e05a505e8eeae667d34ecccac3"
-    },
-    "1564741287527": {
-      "events": {},
-      "links": {},
-      "address": "0x7047E7c740512a90Dc83bb1325b79A3d587e907e",
-      "transactionHash": "0x0a4ac677347af8e798c47c49392cb808e857f2e05a505e8eeae667d34ecccac3"
-    },
-    "1564741380711": {
-      "events": {},
-      "links": {},
-      "address": "0x7047E7c740512a90Dc83bb1325b79A3d587e907e",
-      "transactionHash": "0x0a4ac677347af8e798c47c49392cb808e857f2e05a505e8eeae667d34ecccac3"
-    },
-    "1564741806300": {
-      "events": {},
-      "links": {},
-      "address": "0x7047E7c740512a90Dc83bb1325b79A3d587e907e",
-      "transactionHash": "0x0a4ac677347af8e798c47c49392cb808e857f2e05a505e8eeae667d34ecccac3"
-    },
-    "1564741979368": {
+    "1567775118773": {
       "events": {},
       "links": {},
       "address": "0x7047E7c740512a90Dc83bb1325b79A3d587e907e",
@@ -389,7 +341,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-02T10:33:29.658Z",
+  "updatedAt": "2019-09-06T13:05:47.121Z",
   "devdoc": {
     "author": "AZTEC",
     "details": "Don't include this as an internal library. This contract uses a static memory table to cache elliptic curve primitives and hashes. Calling this internally from another function will lead to memory mutation and undefined behaviour. The intended use case is to call this externally via `staticcall`. External calls to OptimizedAZTEC can be treated as pure functions as this contract contains no storage and makes no external calls (other than to precompiles). Copyright Spilsbury Holdings Ltd 2019. All rights reserved.*",

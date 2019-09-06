@@ -8,8 +8,8 @@ import {
   TextInput,
   Col,
 } from '@aztec/guacamole-ui';
-import EthIndia from './images/ethindia.png';
-import Aztec from './images/aztec.png';
+import EthBoston from './images/text-ethboston.png';
+import Aztec from './images/logo.png';
 import './App.css';
 
 /* eslint-enable */
@@ -44,18 +44,18 @@ class App extends React.Component {
           padding="xl"
           layer='3'
           style={{
-            background: 'linear-gradient(115deg, #808DFF 0%, #9FC4FF 100%, #7174FF 100%)',
+            background: 'white'
           }}
         >
           <FlexBox direction='row' align='space-around' valign='center' >
             <Image src={Aztec} width={'300'} />
             <Text 
-              text='Welcome to ETH India!'
+              text='Welcome to ETH BOSTON!'
               size = 'xxl' 
-              colour='white' 
+              color='primary'
               weight = 'bold'
             />
-            <Image src={EthIndia} width={'300'} />
+            <Image src={EthBoston} width={'300'} />
           </FlexBox>
         </Block>
         <Block padding='l xxl'>
@@ -64,7 +64,7 @@ class App extends React.Component {
           <br/>
           <FlexBox padding='none' direction='column' align='flex-start'>
           <Text text='To get started please follow the steps to install the AZTEC extension:' colour='label' size ='s' weight='light' textAlign='left'/>
-          <a href='https://aztec-protocol.gitbook.io/aztec-documentation/eth-india/aztec.js' target="__blank"> <Text text='Install Extension' color='label' size='s' /> </a>
+          <a href='https://aztec-protocol.gitbook.io/aztec-documentation/extension/aztec.js' target="__blank"> <Text text='Install Extension' color='label' size='s' /> </a>
         </FlexBox>
         </Block>
         <br/>

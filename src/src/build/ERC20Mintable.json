@@ -832,55 +832,7 @@
     "version": "0.5.4+commit.9549d8ff.Emscripten.clang"
   },
   "networks": {
-    "1564733546659": {
-      "events": {},
-      "links": {},
-      "address": "0xF5e5529E4afEB094b540057c86661E17dd2Bf5aa",
-      "transactionHash": "0x941c2de6ffd03cd6708fca7d3ba12fda93e76529648eff9aed80731f2a974951"
-    },
-    "1564738249449": {
-      "events": {},
-      "links": {},
-      "address": "0xCb622beb98B5DC8C3d1A53e0a75C6a7a2f805028",
-      "transactionHash": "0x0f72afdf9058ecba1ed6c620868ff1913836301602a9cfec95be835d63e5a9ce"
-    },
-    "1564740446526": {
-      "events": {},
-      "links": {},
-      "address": "0xCb622beb98B5DC8C3d1A53e0a75C6a7a2f805028",
-      "transactionHash": "0x0f72afdf9058ecba1ed6c620868ff1913836301602a9cfec95be835d63e5a9ce"
-    },
-    "1564740686969": {
-      "events": {},
-      "links": {},
-      "address": "0xCb622beb98B5DC8C3d1A53e0a75C6a7a2f805028",
-      "transactionHash": "0x0f72afdf9058ecba1ed6c620868ff1913836301602a9cfec95be835d63e5a9ce"
-    },
-    "1564741053839": {
-      "events": {},
-      "links": {},
-      "address": "0xCb622beb98B5DC8C3d1A53e0a75C6a7a2f805028",
-      "transactionHash": "0x0f72afdf9058ecba1ed6c620868ff1913836301602a9cfec95be835d63e5a9ce"
-    },
-    "1564741287527": {
-      "events": {},
-      "links": {},
-      "address": "0xCb622beb98B5DC8C3d1A53e0a75C6a7a2f805028",
-      "transactionHash": "0x0f72afdf9058ecba1ed6c620868ff1913836301602a9cfec95be835d63e5a9ce"
-    },
-    "1564741380711": {
-      "events": {},
-      "links": {},
-      "address": "0xCb622beb98B5DC8C3d1A53e0a75C6a7a2f805028",
-      "transactionHash": "0x0f72afdf9058ecba1ed6c620868ff1913836301602a9cfec95be835d63e5a9ce"
-    },
-    "1564741806300": {
-      "events": {},
-      "links": {},
-      "address": "0xCb622beb98B5DC8C3d1A53e0a75C6a7a2f805028",
-      "transactionHash": "0x0f72afdf9058ecba1ed6c620868ff1913836301602a9cfec95be835d63e5a9ce"
-    },
-    "1564741979368": {
+    "1567775118773": {
       "events": {},
       "links": {},
       "address": "0xCb622beb98B5DC8C3d1A53e0a75C6a7a2f805028",
@@ -888,7 +840,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-02T10:33:30.847Z",
+  "updatedAt": "2019-09-06T13:05:48.959Z",
   "devdoc": {
     "details": "ERC20 minting logic Sourced from OpenZeppelin and thoroughly butchered to remove security guards. Anybody can mint - STRICTLY FOR TEST PURPOSES",
     "methods": {
