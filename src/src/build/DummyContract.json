@@ -1,21 +1,21 @@
 {
   "contractName": "DummyContract",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.4+commit.9549d8ff\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/joeandrews/Documents/Code/eth-global-starter-kit/graph/contracts/ACEContracts.sol\":\"DummyContract\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":500},\"remappings\":[]},\"sources\":{\"/Users/joeandrews/Documents/Code/eth-global-starter-kit/graph/contracts/ACEContracts.sol\":{\"keccak256\":\"0x4a5e5eb70ef3b248e59893cf7cde910f27938f2176062a495ba5b5dcb9cee0a7\",\"urls\":[\"bzzr://a49b8529b694282106a9849fea1893347c9fb686bc4a0f985d1363db4c06ed83\"]},\"@aztec/protocol/contracts/ACE/ACE.sol\":{\"keccak256\":\"0x3cd0157c1e9b8b6e4e10b6b48e1e3b331a860bbec248a723ebe0ba0de7ddae3b\",\"urls\":[\"bzzr://504e865617592ffe0369ee73ab8d172a72252660434c7ab8d5e1f85bed4c093f\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/NoteRegistryManager.sol\":{\"keccak256\":\"0x0504b3971769b01611b7a4cb94b05a40c122c6da9184931fbbe006a6420bb92a\",\"urls\":[\"bzzr://1cb1f1059641618c11d1b97d7d2e63ded277636b641996567cadfa1701edf3a7\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/Behaviour201907.sol\":{\"keccak256\":\"0xa367da34f0f10ccb0fdecb204524be6fd20a55e4500d8614b8e0fabbb2f01357\",\"urls\":[\"bzzr://60ff7039883bf284e91d0ab3c3aa103fd41ab90a12ef61077ab1de3de36d4232\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/adjustable/BehaviourAdjustable201907.sol\":{\"keccak256\":\"0x3891b2e1dbf11d3bda830cff7b75b7af11e6e8df0132328b3c69187be4e752ce\",\"urls\":[\"bzzr://10639b29f347479a8702c4896817d31e1ea46039ed6104d2530baa094f98aaf5\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/adjustable/FactoryAdjustable201907.sol\":{\"keccak256\":\"0x8d05dd235d9a0f4f484597fe95784462cfb69810e1c72f6a74ed32f95ce33773\",\"urls\":[\"bzzr://f789e40b7fe03f14e5d4667d9f461b38bb866b97b24e2917c44f6220de7a5031\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/base/BehaviourBase201907.sol\":{\"keccak256\":\"0x829c071a5d807fc8645c8dc1be8c3a4d29d0e8db238adf6b1529746481be2983\",\"urls\":[\"bzzr://424ddd76fcf283d14e4ce170a346113fbf69874ebbd92280ac88dc8ef3aab626\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/base/FactoryBase201907.sol\":{\"keccak256\":\"0xc2c64ce8f7a47811c73f13f04bb8c624c6fcc377f3d8490a4190dc080099261b\",\"urls\":[\"bzzr://402d85560253803470338a4d2501fa98d28d9b8a148cecfdf4e0f53102265fe6\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/interfaces/NoteRegistryBehaviour.sol\":{\"keccak256\":\"0x986507efbfed2e0c77abd3fa4b9eeefd31d49afba73c67128b96c89835c724a3\",\"urls\":[\"bzzr://d0348be8649521d3e8ae4102c27a577676d0f4aba8187f000edd53992ef64de7\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/interfaces/NoteRegistryFactory.sol\":{\"keccak256\":\"0x6d389f12a20b14e541c9e2fa1c56c8389f1665798b5b4b54076ff3b5f2e7b330\",\"urls\":[\"bzzr://7ed7862fa8977f34d6c4654b598a477e0b7adae1dcd7ee529188d5f8b91a2b75\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/interfaces/ProxyAdmin.sol\":{\"keccak256\":\"0xfb15a3b73da7e46a34c8ccec4109ba346d21c28ff9ff01ae27a05f8919f8d5c8\",\"urls\":[\"bzzr://52fa558f442e4b7f4c3ec2deff311e06d64d9be4fd91103c481b7e23a65c0e0c\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/proxies/AdminUpgradeabilityProxy.sol\":{\"keccak256\":\"0x372cc54d297bac2de8056e642e269025dec0d53e9085fe24e0e345279cfc0352\",\"urls\":[\"bzzr://d404c0af5c7a00260a197178fc65bd56d6bbb996248e83327817bf85fbebfb0c\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/proxies/BaseAdminUpgradeabilityProxy.sol\":{\"keccak256\":\"0xbae4c9d71649131352df80342baba6d41827fd838c9cfc82034015d483c6b22e\",\"urls\":[\"bzzr://21f8eaf06530779a51c047b214cef8adb1887de49e7a3bebe90f9d91951a00ff\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/proxies/BaseUpgradeabilityProxy.sol\":{\"keccak256\":\"0x589e802a4e6d5e25ca9cabafa59689cd93a040282b1365896624b3b7c056aa46\",\"urls\":[\"bzzr://4556f8e1951912d46da9953629ae53cf22b4aa7c6c614754ce3000497aa452d8\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/proxies/Proxy.sol\":{\"keccak256\":\"0x26604c0c793b2ba5e43fc286b08c5dc44134382070cae7c00320569e6eebb00f\",\"urls\":[\"bzzr://bc58d5c5b824f4da7e13eba8e456f1ea83c0a2bf4ea1ac7767caa24fd53da63f\"]},\"@aztec/protocol/contracts/ACE/noteRegistry/proxies/UpgradeabilityProxy.sol\":{\"keccak256\":\"0xcae491a455d3b9589230ec1a89995de20774348417434fbf03eae3808f6871c8\",\"urls\":[\"bzzr://6c37cf8f009ab743e9ed5012e00d7c2ea25a401483d8bac4ef232e4f9c46dfa5\"]},\"@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol\":{\"keccak256\":\"0x5d299caef32c45b2aa730ecbccb3ad1db6221edfb711a496f5ab375e1507a72c\",\"urls\":[\"bzzr://33e9725331d821c18b0e4986a67c294160cc60419807958e84866d14d675c5b5\"]},\"@aztec/protocol/contracts/ACE/validators/dividend/DividendABIEncoder.sol\":{\"keccak256\":\"0xc354ceb5771fc281019b2b61beb7add087089f87e621eb4924544b48f41ca6a2\",\"urls\":[\"bzzr://ae49ffd93c1a4272905d9c29a3a8692fb86bf6c661b6a3e73c8c66e863303e59\"]},\"@aztec/protocol/contracts/ACE/validators/joinSplit/JoinSplit.sol\":{\"keccak256\":\"0x6f26a90306f67778b898775ccacac4446d6fd8e4ee6455d51e7a00572c205ded\",\"urls\":[\"bzzr://401fc2b659b4d1913e886d2c2574c1f0de89cf5fd8c765285076d45b56fb82f6\"]},\"@aztec/protocol/contracts/ACE/validators/joinSplit/JoinSplitABIEncoder.sol\":{\"keccak256\":\"0xdae4ff66664933fdf371ea974c492c8c9ff403042de9a5fae270f3633c78bbab\",\"urls\":[\"bzzr://321b7707c96964935fc67c978a9e34c5d0ee690986edd94ec24c2a65b3323ae1\"]},\"@aztec/protocol/contracts/ACE/validators/joinSplitFluid/JoinSplitFluid.sol\":{\"keccak256\":\"0x1d034da381da70bd8a0c0e8796834ebba199e760b1c32f40c874dd7455a1d2c7\",\"urls\":[\"bzzr://10af55794a25b26af803d6c79eb849d2a94a6a1ecc715348b877f1ea5f72c74e\"]},\"@aztec/protocol/contracts/ACE/validators/joinSplitFluid/JoinSplitFluidABIEncoder.sol\":{\"keccak256\":\"0xc120627e84cd0cf826cd119d6eeca7a60b9b9cac4cc20fc047a0a83893fa947e\",\"urls\":[\"bzzr://2c14256764cdecaf713d097aa7dd5f8c44dcef8f34d2b061d7e8d2145655579d\"]},\"@aztec/protocol/contracts/ACE/validators/privateRange/PrivateRange.sol\":{\"keccak256\":\"0xd985a7d1be53ccdfe62fe8168fd9c9d40bbe37bf869f503f3a6e612834686427\",\"urls\":[\"bzzr://861d74e9977d92718135c8e0b53245a84934dd86819d4c7071432ef4cff32a7e\"]},\"@aztec/protocol/contracts/ACE/validators/privateRange/PrivateRangeABIEncoder.sol\":{\"keccak256\":\"0x906463b4439fbe45af6cec3653039a9ca346800e7926ba9ba1776d996c3aad85\",\"urls\":[\"bzzr://2992a075d859d2103bb4bb8800303a1aabfca4502b88c8afd526ba252a4e3618\"]},\"@aztec/protocol/contracts/ACE/validators/swap/Swap.sol\":{\"keccak256\":\"0x731d1f7a08db99d52f92da261d85503bf86784fdb9567d32b7fb4f4ec17dbc9b\",\"urls\":[\"bzzr://2108d0d06cd426e6eab4cc20d2f59bdd6e428cb081e2b8c425c6faebc95377c6\"]},\"@aztec/protocol/contracts/ACE/validators/swap/SwapABIEncoder.sol\":{\"keccak256\":\"0x52fde88b919883d58aac5de1fcd6d84520a4ea30e762ced9463169d98148c93f\",\"urls\":[\"bzzr://69f1976fb6810b7894f023ec0046b36182d871e546a01d4aef03cf3e49b2d554\"]},\"@aztec/protocol/contracts/ERC1724/ZkAsset.sol\":{\"keccak256\":\"0x65e4c4d581e4cfd691b2fd86c9088225a2cbaf65b2f391c6889179903dbc2f79\",\"urls\":[\"bzzr://0ba5da52eafb7ac88c6835ce0bb97bf168f9e0c98524cb4c5025b2882beec5e6\"]},\"@aztec/protocol/contracts/ERC1724/ZkAssetMintable.sol\":{\"keccak256\":\"0x8144cb14ecc8b914a6c643d673fc32b7bb7c4525c911f0e6f88d3a757508007c\",\"urls\":[\"bzzr://3fa206862ddaf39e02b68c5ee8242f432a3a4811420d0711c8c06fdc3a4cefa7\"]},\"@aztec/protocol/contracts/ERC1724/ZkAssetOwnable.sol\":{\"keccak256\":\"0xeb1bf7dd2eada6af651226fea5e84048b0f876324352f45fb1a7345cd7da232e\",\"urls\":[\"bzzr://e32dd793a3658faf8817e4bc283af6c735a6d83f60cacbd331f3d6738df6b445\"]},\"@aztec/protocol/contracts/ERC1724/base/ZkAssetBase.sol\":{\"keccak256\":\"0xd6d88729868b51636071aeffd2a1361633f5de973c01954b41585653c79fd20b\",\"urls\":[\"bzzr://af50a27df23ba40f57712fe59929b42523fde48c647c831791a9d3742519cd4c\"]},\"@aztec/protocol/contracts/ERC1724/base/ZkAssetMintableBase.sol\":{\"keccak256\":\"0xc3c30045301a301a2ccdd71a760582a0881ec29dd9621a129f37b5dc1a130922\",\"urls\":[\"bzzr://3d821071d8b43cd37a6d721c123895246ceaaaefe36842931ed2d212c3610cec\"]},\"@aztec/protocol/contracts/ERC1724/base/ZkAssetOwnableBase.sol\":{\"keccak256\":\"0x14b0c3bf2a3c1b3eebc14decd4eaa2799a7d12a350048f506718d51441ee0959\",\"urls\":[\"bzzr://478937f9d28ed25c27fa03bbb1a6faf7e92212f5ce82e1dffdbc4ef3be427d56\"]},\"@aztec/protocol/contracts/ERC20/ERC20Mintable.sol\":{\"keccak256\":\"0xa0d397d0a88924cd8acb306642be3fca521e69a145826e5f916ef272c6e8e381\",\"urls\":[\"bzzr://ad5a55a815645594cb4b946d4d85430c40fbb4c926b6e15fc0cd0b19fdf552a1\"]},\"@aztec/protocol/contracts/interfaces/DividendInterface.sol\":{\"keccak256\":\"0xc33169d22496bddbbbc922c60a453bdb146d84b27f140e6f1a226ab2e724dc29\",\"urls\":[\"bzzr://a856604b528f78b07ab41a15a119e47ac8a1c1a2435ba5a04db1efcda1c8083a\"]},\"@aztec/protocol/contracts/interfaces/IAZTEC.sol\":{\"keccak256\":\"0x9ed2691f75867bb679240ac0e9e7888da0bcf970981c2d796fc67e5a450bf892\",\"urls\":[\"bzzr://636c8b91b356b7ec064642c465366f858f17b038575a972b10c5613a49b4810f\"]},\"@aztec/protocol/contracts/interfaces/IZkAsset.sol\":{\"keccak256\":\"0x265089b5d6a4f38d4e09e86bc23102f123e4287e2d83389cec33e7e9641b4e1b\",\"urls\":[\"bzzr://ef8b96b991599a569d76dfa7ce856b284fdfe8a402ee3374e0ca2261bb75b639\"]},\"@aztec/protocol/contracts/interfaces/JoinSplitFluidInterface.sol\":{\"keccak256\":\"0x2bd9608d067f4ee3d2cbc8d3687ae605f55eef15c5a01add2ef9f62d028c5fc9\",\"urls\":[\"bzzr://6f297564a4d997aa5fca4e24fb8b8fe60f55cbbea8c6f1470f52fdd29de09c89\"]},\"@aztec/protocol/contracts/interfaces/JoinSplitInterface.sol\":{\"keccak256\":\"0xf1015f43f123f140ef54c23e5c5eec77a79c8330c0e39c11c6bbac5cb9d47aad\",\"urls\":[\"bzzr://d24cd2073a26ef0b6aeb39aa27babf7db03402c8483bc7490ffa2ad147058cd3\"]},\"@aztec/protocol/contracts/interfaces/PrivateRangeInterface.sol\":{\"keccak256\":\"0xafa882c8a73727dca70b0a4113919a000928d503a42549b6f1fe168289a4a3b7\",\"urls\":[\"bzzr://196fb992b9a979e1f1aab9635879ffddd6973788aa6fd297ed313ceddee05cac\"]},\"@aztec/protocol/contracts/libs/LibEIP712.sol\":{\"keccak256\":\"0xe97b26bc039ea3289c1e12dc2e14d376272a6d8f2d851d699a8081fa2a0cf9cd\",\"urls\":[\"bzzr://7137ede21e1cc24336887cbb92815d430b8cd51e5782bf9f91ab1bca59900334\"]},\"@aztec/protocol/contracts/libs/MetaDataUtils.sol\":{\"keccak256\":\"0x3156881098e91204fb2175029b5c5fc00862ffff8660a0b5c10c4b8103a7968e\",\"urls\":[\"bzzr://dbba8d5531c9dd3326ee12af49bef4426df4bf4a09b0cc58c9250580beeb33e8\"]},\"@aztec/protocol/contracts/libs/NoteUtils.sol\":{\"keccak256\":\"0x9e9ad6979b86fac228022fa65c305bbc4b0ccdec12f4edd774c32a093ff94cdf\",\"urls\":[\"bzzr://d4b26f6575fa146a4523197fa5a2cc9ec4337182bffa095e7c2aa591d66cc994\"]},\"@aztec/protocol/contracts/libs/ProofUtils.sol\":{\"keccak256\":\"0x889e75f4c9cc58472348ee2806f3bed56ef509905b20a24aba445432916e057c\",\"urls\":[\"bzzr://4e78c750c50ab3d09da6a0a436248490629a902c213f9f00b294be2cc029f959\"]},\"@aztec/protocol/contracts/libs/SafeMath8.sol\":{\"keccak256\":\"0xc76f6fc71bb510c5a05e4439828c1b6b195034332f271bf097c9f04649abecf4\",\"urls\":[\"bzzr://b93dd66012f6171d3e1d2a0fc1bc58a3bda35f2bdb11b05aacf71d73ce16d39d\"]},\"@aztec/protocol/contracts/libs/VersioningUtils.sol\":{\"keccak256\":\"0x87b6dd89ee9241f783a7291531fabd83febfbc755d9ae5b15f754daa4e03ae2e\",\"urls\":[\"bzzr://78eb4ee688217ade0b38e5999da0d1e704205700deccd91c1c077cfc5ccdea71\"]},\"openzeppelin-solidity/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x4ccf2d7b51873db1ccfd54ca2adae5eac3b184f9699911ed4490438419f1c690\",\"urls\":[\"bzzr://1604f5b6d6e916c154efd8c6720cda069e5ba32dfa0a9dedf2b42e5b02d07f89\"]},\"openzeppelin-solidity/contracts/ownership/Ownable.sol\":{\"keccak256\":\"0xf79fb10e8235770eb4aea7249034076a3cc9f9119ad944fc48705bae9c9d20dc\",\"urls\":[\"bzzr://d12a11272051eb6586de8f7e0a82c04a98c9984ce8b2a6cf1ee439f65aba29a9\"]},\"openzeppelin-solidity/contracts/token/ERC20/ERC20.sol\":{\"keccak256\":\"0x852793a3c2f86d336a683b30d688ec3dcfc57451af5a2bf5975cda3b7191a901\",\"urls\":[\"bzzr://07fb42206812a17c1f71e548cfa5cec6f9aa1ae0ca5df870718ca4aa9759d1a5\"]},\"openzeppelin-solidity/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x90e8c2521653bbb1768b05889c5760031e688d9cd361f167489b89215e201b95\",\"urls\":[\"bzzr://aa8b45b57edafc3d67bc5d916327ea16807fae33f753ca163ae0c4061b789766\"]},\"openzeppelin-solidity/contracts/utils/Address.sol\":{\"keccak256\":\"0xf3358e5819ca73357abd6c90bdfffd0474af54364897f6b3e3234c4b71fbe9a1\",\"urls\":[\"bzzr://f7f6da60a184233fd666ac44e6fb2bd51ca6ebdc4867a310d368049aa4e62786\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a72305820e978d04d49778239ae5b21f7ab6a161ca4962aa5a1beaa5844d8119cb41302c20029",
-  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820e978d04d49778239ae5b21f7ab6a161ca4962aa5a1beaa5844d8119cb41302c20029",
-  "sourceMap": "1090:27:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1090:27:0;;;;;;;",
-  "deployedSourceMap": "1090:27:0:-;;;;;",
-  "source": "\npragma solidity >= 0.5.0 <0.7.0;\n// import the aztec contracts so truffle compiles them\nimport \"@aztec/protocol/contracts/interfaces/IAZTEC.sol\";\nimport \"@aztec/protocol/contracts/ACE/ACE.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/joinSplitFluid/JoinSplitFluid.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/swap/Swap.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/joinSplit/JoinSplit.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/privateRange/PrivateRange.sol\";\nimport \"@aztec/protocol/contracts/ERC1724/ZkAsset.sol\";\nimport \"@aztec/protocol/contracts/ERC1724/ZkAssetOwnable.sol\";\nimport \"@aztec/protocol/contracts/ERC1724/ZkAssetMintable.sol\";\nimport \"@aztec/protocol/contracts/ERC20/ERC20Mintable.sol\";\nimport \"@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/base/FactoryBase201907.sol\";\nimport \"@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/adjustable/FactoryAdjustable201907.sol\";\ncontract DummyContract {\n\n}\n",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.4+commit.9549d8ff\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/joeandrews/Documents/Code/eth-global-starter-kit/graph/contracts/ACEContracts.sol\":\"DummyContract\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":500},\"remappings\":[]},\"sources\":{\"/Users/joeandrews/Documents/Code/eth-global-starter-kit/graph/contracts/ACEContracts.sol\":{\"keccak256\":\"0x4eb21368eecb05909615a859739c4ec98f75f9d3a9f37619ad2bcbd5d335ce45\",\"urls\":[\"bzzr://aaa816bc7b2ee90a748bc7f5144cec476fbba14bf334af0cb6fd74d82ca3565b\"]},\"@aztec/protocol/contracts/ACE/ACE.sol\":{\"keccak256\":\"0xa5f74acb3e4c278284d44ef6e11b470537260d3d9a94a6fa7b61fb186477ecb4\",\"urls\":[\"bzzr://48fe086b3d49efd624728d5050c37ca17f5962b5557a9ad60d49f2676812d747\"]},\"@aztec/protocol/contracts/ACE/NoteRegistry.sol\":{\"keccak256\":\"0x94c7db807c9b316de5886d134821fdaf539e3480e06e8a9434ec8903076d3f86\",\"urls\":[\"bzzr://498808929c46c420f6a2085fb5d86be827898ba759f8e53072b177aaad8193c8\"]},\"@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol\":{\"keccak256\":\"0x3a0708e00b6bbe2865f5b7986513b9adf51afe24122faab2be5290833a8af46a\",\"urls\":[\"bzzr://e70b525863cd177d557a2c3b5a86fad89b688953e8af1153370b0e15656df6e8\"]},\"@aztec/protocol/contracts/ACE/validators/dividend/DividendABIEncoder.sol\":{\"keccak256\":\"0x752982fad1e85379d574d6f9f4d64894883cefed27758cb875f920888e33722f\",\"urls\":[\"bzzr://cd0f91b9118c85b9b07f841c673c560dfdfe58ee13b4b03a248188d1e1b33c31\"]},\"@aztec/protocol/contracts/ACE/validators/joinSplit/JoinSplit.sol\":{\"keccak256\":\"0x8304cf7a8a81cf0084bf4005d677447b4a2c6fe700d4a9b3b431954e58a93396\",\"urls\":[\"bzzr://c748b5f7b5416ef4a8f2b4d5ad6391b25d198e3c398f543e62c154cbef79e9da\"]},\"@aztec/protocol/contracts/ACE/validators/joinSplit/JoinSplitABIEncoder.sol\":{\"keccak256\":\"0xdbb2cfbf88f4499b6134eb0bd167146e923750eb42474df2811c9c71e47d8e5e\",\"urls\":[\"bzzr://2b8b94a4907370caf514febf49d511d589bdfa191a76b7fce175339c9d03c834\"]},\"@aztec/protocol/contracts/ACE/validators/joinSplitFluid/JoinSplitFluid.sol\":{\"keccak256\":\"0x928e098ef8713819008deb70229aca9ef3a23d1d9fde6ccbe824ce1d6d2b3e0c\",\"urls\":[\"bzzr://0ae03d51bb9b251d8c5e74fbaa5bd1e9c414649d44318310dd8b4d3a73002793\"]},\"@aztec/protocol/contracts/ACE/validators/joinSplitFluid/JoinSplitFluidABIEncoder.sol\":{\"keccak256\":\"0xab788f2f01d6e8e85e4793c1dce1d205d07f8139a6dba264b36c2903dc5e4370\",\"urls\":[\"bzzr://c1a9b7761626a5b2247abda838a3fcbbdc8611f8e3b721ad56beda1d1484ef46\"]},\"@aztec/protocol/contracts/ACE/validators/privateRange/PrivateRange.sol\":{\"keccak256\":\"0xf48b9cc66dfea620323b0c4c0b51b03a7decf0523ea5fb9e2a5d71905fda4d89\",\"urls\":[\"bzzr://468ed9e88c99e91327e47132e352f448b41d87e88c630fc5ee711715729960cd\"]},\"@aztec/protocol/contracts/ACE/validators/privateRange/PrivateRangeABIEncoder.sol\":{\"keccak256\":\"0x84aea06f709c5c4db0fd02635b68cb225de1a17b640a0488976259c858200ac0\",\"urls\":[\"bzzr://242994a0a4799211482f62c8680ef005a82b993f11156c9b708f782e84d97bbe\"]},\"@aztec/protocol/contracts/ACE/validators/swap/Swap.sol\":{\"keccak256\":\"0x498a6f5ef97e37255ecf977c67719e009c7094a8eb52b5c5c9da9396eaa297ee\",\"urls\":[\"bzzr://1b38d9c02b3c83e1aa841a36e94e40ebb6a802f1bb2cb31b187deb9ae21ab8d8\"]},\"@aztec/protocol/contracts/ACE/validators/swap/SwapABIEncoder.sol\":{\"keccak256\":\"0x752233ffbfc5c5a42d4ab5b5e2aa307a72cfb2d98e82a86eaa01c932d62d0377\",\"urls\":[\"bzzr://01ecb245b5e443eb821d58debd3e2301df6eb21669564690e2ce2de083cffb38\"]},\"@aztec/protocol/contracts/ERC1724/ZkAsset.sol\":{\"keccak256\":\"0x224f97dda164b010f8c7ca63ba7f214b3dda3873267a107c063b6ba0bda6d9b5\",\"urls\":[\"bzzr://80ffd456eed74f6fe3fff5bb373dd07756596de128dfe0181e2eb4b703e4c12b\"]},\"@aztec/protocol/contracts/ERC1724/ZkAssetMintable.sol\":{\"keccak256\":\"0xd41e21b2ca15c9311b124d424fd726ce041aae061f25e74e5a621210aa11dcd3\",\"urls\":[\"bzzr://ab9a470442040237bd5a3a88cd4b905c36e6eea4ec333e6db98b4ad9e7b7deb2\"]},\"@aztec/protocol/contracts/ERC1724/ZkAssetOwnable.sol\":{\"keccak256\":\"0xeb1bf7dd2eada6af651226fea5e84048b0f876324352f45fb1a7345cd7da232e\",\"urls\":[\"bzzr://e32dd793a3658faf8817e4bc283af6c735a6d83f60cacbd331f3d6738df6b445\"]},\"@aztec/protocol/contracts/ERC1724/base/ZkAssetBase.sol\":{\"keccak256\":\"0xa5030c9b785bf2c0a359079ad7afe64ad5182f4221320bb30e9b3b6500214563\",\"urls\":[\"bzzr://11ffa7045676bcce381b11d298290360e54548db357fd0c3b956c7754eb9059f\"]},\"@aztec/protocol/contracts/ERC1724/base/ZkAssetMintableBase.sol\":{\"keccak256\":\"0xdbd8059c36d81e20f628ac47eb97a98fbfe1254cb59303f163c678e2d7122e52\",\"urls\":[\"bzzr://3243e8515118540a4ec7682237c4222e710a08ea5363339d12d839b1400bb680\"]},\"@aztec/protocol/contracts/ERC1724/base/ZkAssetOwnableBase.sol\":{\"keccak256\":\"0xbbfef1d70e62eb03452b66c93a6a0333620022cc8ea2757459c5a4414afd4ce0\",\"urls\":[\"bzzr://d2b26e51e1402bc2fbf16e7225d22f5cd8721c3e5f345a711e75c06b36c7bd3a\"]},\"@aztec/protocol/contracts/ERC20/ERC20Mintable.sol\":{\"keccak256\":\"0xa0d397d0a88924cd8acb306642be3fca521e69a145826e5f916ef272c6e8e381\",\"urls\":[\"bzzr://ad5a55a815645594cb4b946d4d85430c40fbb4c926b6e15fc0cd0b19fdf552a1\"]},\"@aztec/protocol/contracts/interfaces/DividendInterface.sol\":{\"keccak256\":\"0xa7cd3e6dc0fc62efa0d19c91257a50490265cd445ca7ddb20da8b184502b65c4\",\"urls\":[\"bzzr://1c8ada08b93b258257d28780e2bccc58ad501e884d20f2d64ff9edacacd0b9a8\"]},\"@aztec/protocol/contracts/interfaces/IAZTEC.sol\":{\"keccak256\":\"0xfb7c05699bd7b182e7dd81facb093bd430bbf5ab11c4ed86f7d8fe0e8d17ffde\",\"urls\":[\"bzzr://208d0f482e8af0c18a68a73d3efe0e557a71764ac32a0f88bdc8571b2235964d\"]},\"@aztec/protocol/contracts/interfaces/IZkAsset.sol\":{\"keccak256\":\"0x7d05bbe65423c3f8d2844a12f131607008d4130916f4aef2e1b471838acb4d63\",\"urls\":[\"bzzr://566d1cc152979de4135912836fea71cdddd92c6e2b391ac111c74b3485c433bc\"]},\"@aztec/protocol/contracts/interfaces/JoinSplitFluidInterface.sol\":{\"keccak256\":\"0x3b22b3b401c1d6dcbba190646c9ba7ee501df0445e57f9839539a4d214068494\",\"urls\":[\"bzzr://c60008f765791ddf2d253cf035847f221f9a9d6af26b9a8cb641d603e5def8a8\"]},\"@aztec/protocol/contracts/interfaces/JoinSplitInterface.sol\":{\"keccak256\":\"0xf1015f43f123f140ef54c23e5c5eec77a79c8330c0e39c11c6bbac5cb9d47aad\",\"urls\":[\"bzzr://d24cd2073a26ef0b6aeb39aa27babf7db03402c8483bc7490ffa2ad147058cd3\"]},\"@aztec/protocol/contracts/interfaces/PrivateRangeInterface.sol\":{\"keccak256\":\"0x7f4757b460c1e8f85be08d80280679102841a8c5b714c75d7a2021797b88939f\",\"urls\":[\"bzzr://1f454d54773d120bcfdea4f58d489cdd28d4e393c279d4bb0e2b8ecf3860135e\"]},\"@aztec/protocol/contracts/libs/LibEIP712.sol\":{\"keccak256\":\"0x105d65fa35288139cf0edb2749373df28800e31727a24c4923abf1eaf16486b0\",\"urls\":[\"bzzr://210a23f95cf0cba1fedc9d2c58f223f089a45fc35416e99fef2a89ee0723caaf\"]},\"@aztec/protocol/contracts/libs/NoteUtils.sol\":{\"keccak256\":\"0x10ff71793eb11637967308474a63033830f86960f28754438ce5073abe52dd2c\",\"urls\":[\"bzzr://0f08d33a2839e9f40eaebe3047adbcd7eb8d0a0d7c2cde433ac8978fbf765fb3\"]},\"@aztec/protocol/contracts/libs/ProofUtils.sol\":{\"keccak256\":\"0xce4dfdc9af28abe040d0ae2fdff1ed32b225623dac56597810f6076204ab2b9b\",\"urls\":[\"bzzr://5284bf722d4353c6f3bdad07ac35271580bbceba7646287bd36d01061c704807\"]},\"@aztec/protocol/contracts/libs/SafeMath8.sol\":{\"keccak256\":\"0x803d6f285fcf450aaf882189dd52c47860ca1f388db767b09c10239872f59d99\",\"urls\":[\"bzzr://cd4012c351b38f431f626bd330421dae25d4d6e36e11267f58a3a63f69951577\"]},\"openzeppelin-solidity/contracts/math/SafeMath.sol\":{\"keccak256\":\"0xc2a200a877c4a9b2475c246c54ffecc69ffde3e11af83319c63c2dc5458bac80\",\"urls\":[\"bzzr://c8876e2c39b60f155d748d71d715c8f3903fae5a405ac599adcb6ad2f9a583f9\"]},\"openzeppelin-solidity/contracts/ownership/Ownable.sol\":{\"keccak256\":\"0xcb16adc00dcf0d75e0bdf94379f4d5a6d74dca7c74e4183b94e15721159f8a30\",\"urls\":[\"bzzr://b81e03f7203cd628cfed19255911a04a05e8670d248afb48a7b067dd03b4ff55\"]},\"openzeppelin-solidity/contracts/token/ERC20/ERC20.sol\":{\"keccak256\":\"0x3dceb7e4aa237a56111c13f77d7efadeceda7271d62bfac94ac79afab7c1f411\",\"urls\":[\"bzzr://2f34152a5bec385352002c31bc89f5e9935f628f1923ccea45c2281e0084a4db\"]},\"openzeppelin-solidity/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x59e7df16169a498cb8837963b2f5461d88e63bd1eb6c7d58b814d76b84ccbe61\",\"urls\":[\"bzzr://e572c9c4e02e37349702451bf3b5dcbbc86a19da5a51695b5b3e1bfe1e7825dc\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a72305820d5dd9bc015b0e59df8b991616a5b2aec9f795df499b629e3056fa90c4a770cfc0029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820d5dd9bc015b0e59df8b991616a5b2aec9f795df499b629e3056fa90c4a770cfc0029",
+  "sourceMap": "891:27:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;891:27:0;;;;;;;",
+  "deployedSourceMap": "891:27:0:-;;;;;",
+  "source": "\npragma solidity >= 0.5.0 <0.7.0;\n// import the aztec contracts so truffle compiles them\nimport \"@aztec/protocol/contracts/interfaces/IAZTEC.sol\";\nimport \"@aztec/protocol/contracts/ACE/ACE.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/joinSplitFluid/JoinSplitFluid.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/swap/Swap.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/joinSplit/JoinSplit.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol\";\nimport \"@aztec/protocol/contracts/ACE/validators/privateRange/PrivateRange.sol\";\nimport \"@aztec/protocol/contracts/ERC1724/ZkAsset.sol\";\nimport \"@aztec/protocol/contracts/ERC1724/ZkAssetOwnable.sol\";\nimport \"@aztec/protocol/contracts/ERC1724/ZkAssetMintable.sol\";\nimport \"@aztec/protocol/contracts/ERC20/ERC20Mintable.sol\";\n\ncontract DummyContract {\n\n}\n",
   "sourcePath": "/Users/joeandrews/Documents/Code/eth-global-starter-kit/graph/contracts/ACEContracts.sol",
   "ast": {
     "absolutePath": "/Users/joeandrews/Documents/Code/eth-global-starter-kit/graph/contracts/ACEContracts.sol",
     "exportedSymbols": {
       "DummyContract": [
-        16
+        14
       ]
     },
-    "id": 17,
+    "id": 15,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -37,8 +37,8 @@
         "file": "@aztec/protocol/contracts/interfaces/IAZTEC.sol",
         "id": 2,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 4738,
+        "scope": 15,
+        "sourceUnit": 3140,
         "src": "89:57:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -48,8 +48,8 @@
         "file": "@aztec/protocol/contracts/ACE/ACE.sol",
         "id": 3,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 879,
+        "scope": 15,
+        "sourceUnit": 983,
         "src": "147:47:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -59,8 +59,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/joinSplitFluid/JoinSplitFluid.sol",
         "id": 4,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3212,
+        "scope": 15,
+        "sourceUnit": 1754,
         "src": "195:84:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -70,8 +70,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/swap/Swap.sol",
         "id": 5,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3257,
+        "scope": 15,
+        "sourceUnit": 1799,
         "src": "280:64:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -81,8 +81,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/joinSplit/JoinSplit.sol",
         "id": 6,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3186,
+        "scope": 15,
+        "sourceUnit": 1728,
         "src": "345:74:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -92,8 +92,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol",
         "id": 7,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3163,
+        "scope": 15,
+        "sourceUnit": 1705,
         "src": "420:72:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -103,8 +103,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol",
         "id": 8,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3163,
+        "scope": 15,
+        "sourceUnit": 1705,
         "src": "493:72:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -114,8 +114,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/privateRange/PrivateRange.sol",
         "id": 9,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3235,
+        "scope": 15,
+        "sourceUnit": 1777,
         "src": "566:80:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -125,8 +125,8 @@
         "file": "@aztec/protocol/contracts/ERC1724/ZkAsset.sol",
         "id": 10,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3290,
+        "scope": 15,
+        "sourceUnit": 1833,
         "src": "647:55:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -136,8 +136,8 @@
         "file": "@aztec/protocol/contracts/ERC1724/ZkAssetOwnable.sol",
         "id": 11,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3361,
+        "scope": 15,
+        "sourceUnit": 1885,
         "src": "703:62:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -147,8 +147,8 @@
         "file": "@aztec/protocol/contracts/ERC1724/ZkAssetMintable.sol",
         "id": 12,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3336,
+        "scope": 15,
+        "sourceUnit": 1860,
         "src": "766:63:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -158,31 +158,9 @@
         "file": "@aztec/protocol/contracts/ERC20/ERC20Mintable.sol",
         "id": 13,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 4687,
+        "scope": 15,
+        "sourceUnit": 3092,
         "src": "830:59:0",
-        "symbolAliases": [],
-        "unitAlias": ""
-      },
-      {
-        "absolutePath": "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/base/FactoryBase201907.sol",
-        "file": "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/base/FactoryBase201907.sol",
-        "id": 14,
-        "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 2590,
-        "src": "890:93:0",
-        "symbolAliases": [],
-        "unitAlias": ""
-      },
-      {
-        "absolutePath": "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/adjustable/FactoryAdjustable201907.sol",
-        "file": "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/adjustable/FactoryAdjustable201907.sol",
-        "id": 15,
-        "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 2536,
-        "src": "984:105:0",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -192,27 +170,27 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 16,
+        "id": 14,
         "linearizedBaseContracts": [
-          16
+          14
         ],
         "name": "DummyContract",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 17,
-        "src": "1090:27:0"
+        "scope": 15,
+        "src": "891:27:0"
       }
     ],
-    "src": "1:1117:0"
+    "src": "1:918:0"
   },
   "legacyAST": {
     "absolutePath": "/Users/joeandrews/Documents/Code/eth-global-starter-kit/graph/contracts/ACEContracts.sol",
     "exportedSymbols": {
       "DummyContract": [
-        16
+        14
       ]
     },
-    "id": 17,
+    "id": 15,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -234,8 +212,8 @@
         "file": "@aztec/protocol/contracts/interfaces/IAZTEC.sol",
         "id": 2,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 4738,
+        "scope": 15,
+        "sourceUnit": 3140,
         "src": "89:57:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -245,8 +223,8 @@
         "file": "@aztec/protocol/contracts/ACE/ACE.sol",
         "id": 3,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 879,
+        "scope": 15,
+        "sourceUnit": 983,
         "src": "147:47:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -256,8 +234,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/joinSplitFluid/JoinSplitFluid.sol",
         "id": 4,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3212,
+        "scope": 15,
+        "sourceUnit": 1754,
         "src": "195:84:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -267,8 +245,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/swap/Swap.sol",
         "id": 5,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3257,
+        "scope": 15,
+        "sourceUnit": 1799,
         "src": "280:64:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -278,8 +256,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/joinSplit/JoinSplit.sol",
         "id": 6,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3186,
+        "scope": 15,
+        "sourceUnit": 1728,
         "src": "345:74:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -289,8 +267,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol",
         "id": 7,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3163,
+        "scope": 15,
+        "sourceUnit": 1705,
         "src": "420:72:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -300,8 +278,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol",
         "id": 8,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3163,
+        "scope": 15,
+        "sourceUnit": 1705,
         "src": "493:72:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -311,8 +289,8 @@
         "file": "@aztec/protocol/contracts/ACE/validators/privateRange/PrivateRange.sol",
         "id": 9,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3235,
+        "scope": 15,
+        "sourceUnit": 1777,
         "src": "566:80:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -322,8 +300,8 @@
         "file": "@aztec/protocol/contracts/ERC1724/ZkAsset.sol",
         "id": 10,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3290,
+        "scope": 15,
+        "sourceUnit": 1833,
         "src": "647:55:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -333,8 +311,8 @@
         "file": "@aztec/protocol/contracts/ERC1724/ZkAssetOwnable.sol",
         "id": 11,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3361,
+        "scope": 15,
+        "sourceUnit": 1885,
         "src": "703:62:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -344,8 +322,8 @@
         "file": "@aztec/protocol/contracts/ERC1724/ZkAssetMintable.sol",
         "id": 12,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 3336,
+        "scope": 15,
+        "sourceUnit": 1860,
         "src": "766:63:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -355,31 +333,9 @@
         "file": "@aztec/protocol/contracts/ERC20/ERC20Mintable.sol",
         "id": 13,
         "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 4687,
+        "scope": 15,
+        "sourceUnit": 3092,
         "src": "830:59:0",
-        "symbolAliases": [],
-        "unitAlias": ""
-      },
-      {
-        "absolutePath": "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/base/FactoryBase201907.sol",
-        "file": "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/base/FactoryBase201907.sol",
-        "id": 14,
-        "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 2590,
-        "src": "890:93:0",
-        "symbolAliases": [],
-        "unitAlias": ""
-      },
-      {
-        "absolutePath": "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/adjustable/FactoryAdjustable201907.sol",
-        "file": "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/adjustable/FactoryAdjustable201907.sol",
-        "id": 15,
-        "nodeType": "ImportDirective",
-        "scope": 17,
-        "sourceUnit": 2536,
-        "src": "984:105:0",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -389,18 +345,18 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 16,
+        "id": 14,
         "linearizedBaseContracts": [
-          16
+          14
         ],
         "name": "DummyContract",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 17,
-        "src": "1090:27:0"
+        "scope": 15,
+        "src": "891:27:0"
       }
     ],
-    "src": "1:1117:0"
+    "src": "1:918:0"
   },
   "compiler": {
     "name": "solc",
@@ -408,7 +364,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-09-06T17:17:03.091Z",
+  "updatedAt": "2019-09-06T13:05:39.446Z",
   "devdoc": {
     "methods": {}
   },

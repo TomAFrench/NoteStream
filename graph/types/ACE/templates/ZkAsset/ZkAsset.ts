@@ -48,28 +48,6 @@ export class CreateZkAsset__Params {
   }
 }
 
-export class ApprovedAddress extends EthereumEvent {
-  get params(): ApprovedAddress__Params {
-    return new ApprovedAddress__Params(this);
-  }
-}
-
-export class ApprovedAddress__Params {
-  _event: ApprovedAddress;
-
-  constructor(event: ApprovedAddress) {
-    this._event = event;
-  }
-
-  get addressApproved(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get noteHash(): Bytes {
-    return this._event.parameters[1].value.toBytes();
-  }
-}
-
 export class CreateNoteRegistry extends EthereumEvent {
   get params(): CreateNoteRegistry__Params {
     return new CreateNoteRegistry__Params(this);
@@ -184,16 +162,16 @@ export class RedeemTokens__Params {
   }
 }
 
-export class UpdateNoteMetaData extends EthereumEvent {
-  get params(): UpdateNoteMetaData__Params {
-    return new UpdateNoteMetaData__Params(this);
+export class UpdateNoteMetadata extends EthereumEvent {
+  get params(): UpdateNoteMetadata__Params {
+    return new UpdateNoteMetadata__Params(this);
   }
 }
 
-export class UpdateNoteMetaData__Params {
-  _event: UpdateNoteMetaData;
+export class UpdateNoteMetadata__Params {
+  _event: UpdateNoteMetadata;
 
-  constructor(event: UpdateNoteMetaData) {
+  constructor(event: UpdateNoteMetadata) {
     this._event = event;
   }
 
@@ -223,11 +201,6 @@ export class ZkAsset extends SmartContract {
   ZERO_VALUE_NOTE_HASH(): Bytes {
     let result = super.call("ZERO_VALUE_NOTE_HASH", []);
     return result[0].toBytes();
-  }
-
-  PUBLIC_RANGE_PROOF(): i32 {
-    let result = super.call("PUBLIC_RANGE_PROOF", []);
-    return result[0].toI32();
   }
 
   confidentialApproved(param0: Bytes, param1: Address): boolean {
@@ -272,43 +245,10 @@ export class ZkAsset extends SmartContract {
     let result = super.call("linkedToken", []);
     return result[0].toAddress();
   }
-}
 
-export class ConfidentialTransferCall extends EthereumCall {
-  get inputs(): ConfidentialTransferCall__Inputs {
-    return new ConfidentialTransferCall__Inputs(this);
-  }
-
-  get outputs(): ConfidentialTransferCall__Outputs {
-    return new ConfidentialTransferCall__Outputs(this);
-  }
-}
-
-export class ConfidentialTransferCall__Inputs {
-  _call: ConfidentialTransferCall;
-
-  constructor(call: ConfidentialTransferCall) {
-    this._call = call;
-  }
-
-  get _proofId(): i32 {
-    return this._call.inputValues[0].value.toI32();
-  }
-
-  get _proofData(): Bytes {
-    return this._call.inputValues[1].value.toBytes();
-  }
-
-  get _signatures(): Bytes {
-    return this._call.inputValues[2].value.toBytes();
-  }
-}
-
-export class ConfidentialTransferCall__Outputs {
-  _call: ConfidentialTransferCall;
-
-  constructor(call: ConfidentialTransferCall) {
-    this._call = call;
+  scalingFactor(): BigInt {
+    let result = super.call("scalingFactor", []);
+    return result[0].toBigInt();
   }
 }
 
@@ -375,7 +315,7 @@ export class UpdateNoteMetaDataCall__Inputs {
     return this._call.inputValues[0].value.toBytes();
   }
 
-  get metaData(): Bytes {
+  get metadata(): Bytes {
     return this._call.inputValues[1].value.toBytes();
   }
 }
@@ -388,20 +328,20 @@ export class UpdateNoteMetaDataCall__Outputs {
   }
 }
 
-export class ConfidentialTransfer1Call extends EthereumCall {
-  get inputs(): ConfidentialTransfer1Call__Inputs {
-    return new ConfidentialTransfer1Call__Inputs(this);
+export class ConfidentialTransferCall extends EthereumCall {
+  get inputs(): ConfidentialTransferCall__Inputs {
+    return new ConfidentialTransferCall__Inputs(this);
   }
 
-  get outputs(): ConfidentialTransfer1Call__Outputs {
-    return new ConfidentialTransfer1Call__Outputs(this);
+  get outputs(): ConfidentialTransferCall__Outputs {
+    return new ConfidentialTransferCall__Outputs(this);
   }
 }
 
-export class ConfidentialTransfer1Call__Inputs {
-  _call: ConfidentialTransfer1Call;
+export class ConfidentialTransferCall__Inputs {
+  _call: ConfidentialTransferCall;
 
-  constructor(call: ConfidentialTransfer1Call) {
+  constructor(call: ConfidentialTransferCall) {
     this._call = call;
   }
 
@@ -414,10 +354,10 @@ export class ConfidentialTransfer1Call__Inputs {
   }
 }
 
-export class ConfidentialTransfer1Call__Outputs {
-  _call: ConfidentialTransfer1Call;
+export class ConfidentialTransferCall__Outputs {
+  _call: ConfidentialTransferCall;
 
-  constructor(call: ConfidentialTransfer1Call) {
+  constructor(call: ConfidentialTransferCall) {
     this._call = call;
   }
 }

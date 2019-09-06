@@ -13,8 +13,7 @@ import "@aztec/protocol/contracts/ERC1724/ZkAsset.sol";
 import "@aztec/protocol/contracts/ERC1724/ZkAssetOwnable.sol";
 import "@aztec/protocol/contracts/ERC1724/ZkAssetMintable.sol";
 import "@aztec/protocol/contracts/ERC20/ERC20Mintable.sol";
-import "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/base/FactoryBase201907.sol";
-import "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201907/adjustable/FactoryAdjustable201907.sol";
+
 contract DummyContract {
 
 }
