@@ -80,6 +80,36 @@ export class IncrementLatestEpoch__Params {
   }
 }
 
+export class SetFactory extends EthereumEvent {
+  get params(): SetFactory__Params {
+    return new SetFactory__Params(this);
+  }
+}
+
+export class SetFactory__Params {
+  _event: SetFactory;
+
+  constructor(event: SetFactory) {
+    this._event = event;
+  }
+
+  get epoch(): i32 {
+    return this._event.parameters[0].value.toI32();
+  }
+
+  get cryptoSystem(): i32 {
+    return this._event.parameters[1].value.toI32();
+  }
+
+  get assetType(): i32 {
+    return this._event.parameters[2].value.toI32();
+  }
+
+  get factoryAddress(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+}
+
 export class CreateNoteRegistry extends EthereumEvent {
   get params(): CreateNoteRegistry__Params {
     return new CreateNoteRegistry__Params(this);
@@ -118,6 +148,32 @@ export class CreateNoteRegistry__Params {
   }
 }
 
+export class UpgradeNoteRegistry extends EthereumEvent {
+  get params(): UpgradeNoteRegistry__Params {
+    return new UpgradeNoteRegistry__Params(this);
+  }
+}
+
+export class UpgradeNoteRegistry__Params {
+  _event: UpgradeNoteRegistry;
+
+  constructor(event: UpgradeNoteRegistry) {
+    this._event = event;
+  }
+
+  get registryOwner(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get proxyAddress(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get newBehaviourAddress(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+}
+
 export class OwnershipTransferred extends EthereumEvent {
   get params(): OwnershipTransferred__Params {
     return new OwnershipTransferred__Params(this);
@@ -140,23 +196,57 @@ export class OwnershipTransferred__Params {
   }
 }
 
+export class ACE__registriesResult {
+  value0: Address;
+  value1: Address;
+  value2: i32;
+  value3: BigInt;
+  value4: BigInt;
+
+  constructor(
+    value0: Address,
+    value1: Address,
+    value2: i32,
+    value3: BigInt,
+    value4: BigInt
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+    this.value4 = value4;
+  }
+
+  toMap(): TypedMap<string, EthereumValue> {
+    let map = new TypedMap<string, EthereumValue>();
+    map.set("value0", EthereumValue.fromAddress(this.value0));
+    map.set("value1", EthereumValue.fromAddress(this.value1));
+    map.set("value2", EthereumValue.fromI32(this.value2));
+    map.set("value3", EthereumValue.fromUnsignedBigInt(this.value3));
+    map.set("value4", EthereumValue.fromUnsignedBigInt(this.value4));
+    return map;
+  }
+}
+
 export class ACE__getRegistryResult {
   value0: Address;
   value1: BigInt;
-  value2: BigInt;
+  value2: Bytes;
   value3: Bytes;
-  value4: Bytes;
-  value5: boolean;
+  value4: BigInt;
+  value5: BigInt;
   value6: boolean;
+  value7: boolean;
 
   constructor(
     value0: Address,
     value1: BigInt,
-    value2: BigInt,
+    value2: Bytes,
     value3: Bytes,
-    value4: Bytes,
-    value5: boolean,
-    value6: boolean
+    value4: BigInt,
+    value5: BigInt,
+    value6: boolean,
+    value7: boolean
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -165,17 +255,19 @@ export class ACE__getRegistryResult {
     this.value4 = value4;
     this.value5 = value5;
     this.value6 = value6;
+    this.value7 = value7;
   }
 
   toMap(): TypedMap<string, EthereumValue> {
     let map = new TypedMap<string, EthereumValue>();
     map.set("value0", EthereumValue.fromAddress(this.value0));
     map.set("value1", EthereumValue.fromUnsignedBigInt(this.value1));
-    map.set("value2", EthereumValue.fromUnsignedBigInt(this.value2));
+    map.set("value2", EthereumValue.fromFixedBytes(this.value2));
     map.set("value3", EthereumValue.fromFixedBytes(this.value3));
-    map.set("value4", EthereumValue.fromFixedBytes(this.value4));
-    map.set("value5", EthereumValue.fromBoolean(this.value5));
+    map.set("value4", EthereumValue.fromUnsignedBigInt(this.value4));
+    map.set("value5", EthereumValue.fromUnsignedBigInt(this.value5));
     map.set("value6", EthereumValue.fromBoolean(this.value6));
+    map.set("value7", EthereumValue.fromBoolean(this.value7));
     return map;
   }
 }
@@ -216,6 +308,23 @@ export class ACE extends SmartContract {
   ZERO_VALUE_NOTE_HASH(): Bytes {
     let result = super.call("ZERO_VALUE_NOTE_HASH", []);
     return result[0].toBytes();
+  }
+
+  PUBLIC_RANGE_PROOF(): i32 {
+    let result = super.call("PUBLIC_RANGE_PROOF", []);
+    return result[0].toI32();
+  }
+
+  getFactoryAddress(_factoryId: i32): Address {
+    let result = super.call("getFactoryAddress", [
+      EthereumValue.fromI32(_factoryId)
+    ]);
+    return result[0].toAddress();
+  }
+
+  defaultRegistryEpoch(): i32 {
+    let result = super.call("defaultRegistryEpoch", []);
+    return result[0].toI32();
   }
 
   disabledValidators(param0: BigInt, param1: BigInt, param2: BigInt): boolean {
@@ -266,6 +375,11 @@ export class ACE extends SmartContract {
     return result[0].toI32();
   }
 
+  defaultCryptoSystem(): i32 {
+    let result = super.call("defaultCryptoSystem", []);
+    return result[0].toI32();
+  }
+
   validatedProofs(param0: Bytes): boolean {
     let result = super.call("validatedProofs", [
       EthereumValue.fromFixedBytes(param0)
@@ -273,21 +387,35 @@ export class ACE extends SmartContract {
     return result[0].toBoolean();
   }
 
+  registries(param0: Address): ACE__registriesResult {
+    let result = super.call("registries", [EthereumValue.fromAddress(param0)]);
+    return new ACE__registriesResult(
+      result[0].toAddress(),
+      result[1].toAddress(),
+      result[2].toI32(),
+      result[3].toBigInt(),
+      result[4].toBigInt()
+    );
+  }
+
   BURN_PROOF(): i32 {
     let result = super.call("BURN_PROOF", []);
     return result[0].toI32();
   }
 
-  getRegistry(_owner: Address): ACE__getRegistryResult {
-    let result = super.call("getRegistry", [EthereumValue.fromAddress(_owner)]);
+  getRegistry(_registryOwner: Address): ACE__getRegistryResult {
+    let result = super.call("getRegistry", [
+      EthereumValue.fromAddress(_registryOwner)
+    ]);
     return new ACE__getRegistryResult(
       result[0].toAddress(),
       result[1].toBigInt(),
-      result[2].toBigInt(),
+      result[2].toBytes(),
       result[3].toBytes(),
-      result[4].toBytes(),
-      result[5].toBoolean(),
-      result[6].toBoolean()
+      result[4].toBigInt(),
+      result[5].toBigInt(),
+      result[6].toBoolean(),
+      result[7].toBoolean()
     );
   }
 
@@ -327,6 +455,62 @@ export class ACE extends SmartContract {
       EthereumValue.fromI32(_proof)
     ]);
     return result[0].toAddress();
+  }
+}
+
+export class IncrementDefaultRegistryEpochCall extends EthereumCall {
+  get inputs(): IncrementDefaultRegistryEpochCall__Inputs {
+    return new IncrementDefaultRegistryEpochCall__Inputs(this);
+  }
+
+  get outputs(): IncrementDefaultRegistryEpochCall__Outputs {
+    return new IncrementDefaultRegistryEpochCall__Outputs(this);
+  }
+}
+
+export class IncrementDefaultRegistryEpochCall__Inputs {
+  _call: IncrementDefaultRegistryEpochCall;
+
+  constructor(call: IncrementDefaultRegistryEpochCall) {
+    this._call = call;
+  }
+}
+
+export class IncrementDefaultRegistryEpochCall__Outputs {
+  _call: IncrementDefaultRegistryEpochCall;
+
+  constructor(call: IncrementDefaultRegistryEpochCall) {
+    this._call = call;
+  }
+}
+
+export class SetDefaultCryptoSystemCall extends EthereumCall {
+  get inputs(): SetDefaultCryptoSystemCall__Inputs {
+    return new SetDefaultCryptoSystemCall__Inputs(this);
+  }
+
+  get outputs(): SetDefaultCryptoSystemCall__Outputs {
+    return new SetDefaultCryptoSystemCall__Outputs(this);
+  }
+}
+
+export class SetDefaultCryptoSystemCall__Inputs {
+  _call: SetDefaultCryptoSystemCall;
+
+  constructor(call: SetDefaultCryptoSystemCall) {
+    this._call = call;
+  }
+
+  get _defaultCryptoSystem(): i32 {
+    return this._call.inputValues[0].value.toI32();
+  }
+}
+
+export class SetDefaultCryptoSystemCall__Outputs {
+  _call: SetDefaultCryptoSystemCall;
+
+  constructor(call: SetDefaultCryptoSystemCall) {
+    this._call = call;
   }
 }
 
@@ -382,6 +566,36 @@ export class RenounceOwnershipCall__Outputs {
   _call: RenounceOwnershipCall;
 
   constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class UpgradeNoteRegistryCall extends EthereumCall {
+  get inputs(): UpgradeNoteRegistryCall__Inputs {
+    return new UpgradeNoteRegistryCall__Inputs(this);
+  }
+
+  get outputs(): UpgradeNoteRegistryCall__Outputs {
+    return new UpgradeNoteRegistryCall__Outputs(this);
+  }
+}
+
+export class UpgradeNoteRegistryCall__Inputs {
+  _call: UpgradeNoteRegistryCall;
+
+  constructor(call: UpgradeNoteRegistryCall) {
+    this._call = call;
+  }
+
+  get _factoryId(): i32 {
+    return this._call.inputValues[0].value.toI32();
+  }
+}
+
+export class UpgradeNoteRegistryCall__Outputs {
+  _call: UpgradeNoteRegistryCall;
+
+  constructor(call: UpgradeNoteRegistryCall) {
     this._call = call;
   }
 }
@@ -466,6 +680,52 @@ export class CreateNoteRegistryCall__Outputs {
   }
 }
 
+export class CreateNoteRegistry1Call extends EthereumCall {
+  get inputs(): CreateNoteRegistry1Call__Inputs {
+    return new CreateNoteRegistry1Call__Inputs(this);
+  }
+
+  get outputs(): CreateNoteRegistry1Call__Outputs {
+    return new CreateNoteRegistry1Call__Outputs(this);
+  }
+}
+
+export class CreateNoteRegistry1Call__Inputs {
+  _call: CreateNoteRegistry1Call;
+
+  constructor(call: CreateNoteRegistry1Call) {
+    this._call = call;
+  }
+
+  get _linkedTokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _scalingFactor(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _canAdjustSupply(): boolean {
+    return this._call.inputValues[2].value.toBoolean();
+  }
+
+  get _canConvert(): boolean {
+    return this._call.inputValues[3].value.toBoolean();
+  }
+
+  get _factoryId(): i32 {
+    return this._call.inputValues[4].value.toI32();
+  }
+}
+
+export class CreateNoteRegistry1Call__Outputs {
+  _call: CreateNoteRegistry1Call;
+
+  constructor(call: CreateNoteRegistry1Call) {
+    this._call = call;
+  }
+}
+
 export class PublicApproveCall extends EthereumCall {
   get inputs(): PublicApproveCall__Inputs {
     return new PublicApproveCall__Inputs(this);
@@ -530,6 +790,40 @@ export class TransferOwnershipCall__Outputs {
   _call: TransferOwnershipCall;
 
   constructor(call: TransferOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class SetFactoryCall extends EthereumCall {
+  get inputs(): SetFactoryCall__Inputs {
+    return new SetFactoryCall__Inputs(this);
+  }
+
+  get outputs(): SetFactoryCall__Outputs {
+    return new SetFactoryCall__Outputs(this);
+  }
+}
+
+export class SetFactoryCall__Inputs {
+  _call: SetFactoryCall;
+
+  constructor(call: SetFactoryCall) {
+    this._call = call;
+  }
+
+  get _factoryId(): i32 {
+    return this._call.inputValues[0].value.toI32();
+  }
+
+  get _factoryAddress(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+}
+
+export class SetFactoryCall__Outputs {
+  _call: SetFactoryCall;
+
+  constructor(call: SetFactoryCall) {
     this._call = call;
   }
 }

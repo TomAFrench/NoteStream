@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@aztec/dev-utils@^0.12.2":
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/@aztec/dev-utils/-/dev-utils-0.12.2.tgz#12042b2b5d6b5e3917180201f791e11a72bbe9a2"
-  integrity sha512-JPZ1S5cEOx9ibedR27HTR8nb3BmXvkw8G+3FzHrPegPC1AdMntWJOuXlzFI7eQwRGhXb1T8/+StSgy4l8O1YZg==
+"@aztec/dev-utils@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@aztec/dev-utils/-/dev-utils-0.13.0.tgz#b49634acb747bfb7d6fe8f0b263e6f1e45aee07a"
+  integrity sha512-Fph62W5koBWDRZeOq+dXV2U2vMoG6aGcYzgvxungceOVHiXsEH6vBQNcY3WdGrVkzdPKfqAswUKUjjx7xfMftw==
   dependencies:
     bn.js "^4.11.8"
 
@@ -51,12 +51,12 @@
     svg-sprite-loader "^4.1.3"
     webpack "^4.29.6"
 
-"@aztec/protocol@0.9.1":
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/@aztec/protocol/-/protocol-0.9.1.tgz#870d2f04e292fd299a617271a14c76bc2888a3a9"
-  integrity sha512-hz/c3eSiXLW3zXmQm2sttvccUyluFv7P1bfzqsgQ74ABIsHXcJecUt5VBuLytbo/Tfu4+2itvqmS8kYXkACN/A==
+"@aztec/protocol@0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@aztec/protocol/-/protocol-0.10.0.tgz#39160ba6f55db5c7aea7f78f67c09722d4ab4c4d"
+  integrity sha512-rvuMR6KP5D+ORrELrKC1SdqwY96WjoRFw7N9r2PWUEudd4QMrb8vPjFNWMrItuJFChVD8pmfB0sX6XKDiFg+hA==
   dependencies:
-    openzeppelin-solidity "2.2.0"
+    openzeppelin-solidity "2.3.0"
 
 "@babel/code-frame@7.0.0", "@babel/code-frame@^7.0.0":
   version "7.0.0"
@@ -8276,10 +8276,10 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-openzeppelin-solidity@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-2.2.0.tgz#1f0e857f53bda29b77a8e72f9a629db81015fd34"
-  integrity sha512-HfQq0xyT+EPs/lTWEd5Odu4T7CYdYe+qwf54EH28FQZthp4Bs6IWvOlOumTdS2dvpwZoTXURAopHn2LN1pwAGQ==
+openzeppelin-solidity@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-2.3.0.tgz#1ab7b4cc3782a5472ed61eb740c56a8bfdd74119"
+  integrity sha512-QYeiPLvB1oSbDt6lDQvvpx7k8ODczvE474hb2kLXZBPKMsxKT1WxTCHBYrCU7kS7hfAku4DcJ0jqOyL+jvjwQw==
 
 opn@5.4.0:
   version "5.4.0"

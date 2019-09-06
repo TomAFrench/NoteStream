@@ -40,14 +40,14 @@
     "absolutePath": "@aztec/protocol/contracts/interfaces/JoinSplitInterface.sol",
     "exportedSymbols": {
       "JoinSplitInterface": [
-        3259
+        4863
       ]
     },
-    "id": 3260,
+    "id": 4864,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3245,
+        "id": 4849,
         "literals": [
           "solidity",
           ">=",
@@ -58,7 +58,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:31:26"
+        "src": "0:31:39"
       },
       {
         "baseContracts": [],
@@ -66,9 +66,9 @@
         "contractKind": "interface",
         "documentation": "@title JoinSplitInterface\n@author AZTEC\n@dev An interface defining the JoinSplitInterface standard.\nCopyright Spilsbury Holdings Ltd 2019. All rights reserved.*",
         "fullyImplemented": false,
-        "id": 3259,
+        "id": 4863,
         "linearizedBaseContracts": [
-          3259
+          4863
         ],
         "name": "JoinSplitInterface",
         "nodeType": "ContractDefinition",
@@ -76,23 +76,23 @@
           {
             "body": null,
             "documentation": null,
-            "id": 3258,
+            "id": 4862,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "validateJoinSplit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3254,
+              "id": 4858,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3247,
+                  "id": 4851,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3258,
-                  "src": "345:14:26",
+                  "scope": 4862,
+                  "src": "345:14:39",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -100,10 +100,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 3246,
+                    "id": 4850,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "345:5:26",
+                    "src": "345:5:39",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -114,11 +114,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3249,
+                  "id": 4853,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3258,
-                  "src": "370:7:26",
+                  "scope": 4862,
+                  "src": "370:7:39",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -126,10 +126,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3248,
+                    "id": 4852,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "370:7:26",
+                    "src": "370:7:39",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -141,11 +141,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3253,
+                  "id": 4857,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3258,
-                  "src": "388:16:26",
+                  "scope": 4862,
+                  "src": "388:16:39",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -154,27 +154,27 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 3250,
+                      "id": 4854,
                       "name": "uint",
                       "nodeType": "ElementaryTypeName",
-                      "src": "388:4:26",
+                      "src": "388:4:39",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "id": 3252,
+                    "id": 4856,
                     "length": {
                       "argumentTypes": null,
                       "hexValue": "36",
-                      "id": 3251,
+                      "id": 4855,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "kind": "number",
                       "lValueRequested": false,
                       "nodeType": "Literal",
-                      "src": "393:1:26",
+                      "src": "393:1:39",
                       "subdenomination": null,
                       "typeDescriptions": {
                         "typeIdentifier": null,
@@ -183,7 +183,7 @@
                       "value": "6"
                     },
                     "nodeType": "ArrayTypeName",
-                    "src": "388:7:26",
+                    "src": "388:7:39",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_uint256_$6_storage_ptr",
                       "typeString": "uint256[6]"
@@ -193,19 +193,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "335:75:26"
+              "src": "335:75:39"
             },
             "returnParameters": {
-              "id": 3257,
+              "id": 4861,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3256,
+                  "id": 4860,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3258,
-                  "src": "434:12:26",
+                  "scope": 4862,
+                  "src": "434:12:39",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -213,10 +213,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 3255,
+                    "id": 4859,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "434:5:26",
+                    "src": "434:5:39",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -226,33 +226,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "433:14:26"
+              "src": "433:14:39"
             },
-            "scope": 3259,
-            "src": "309:139:26",
+            "scope": 4863,
+            "src": "309:139:39",
             "stateMutability": "pure",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 3260,
-        "src": "214:236:26"
+        "scope": 4864,
+        "src": "214:236:39"
       }
     ],
-    "src": "0:451:26"
+    "src": "0:451:39"
   },
   "legacyAST": {
     "absolutePath": "@aztec/protocol/contracts/interfaces/JoinSplitInterface.sol",
     "exportedSymbols": {
       "JoinSplitInterface": [
-        3259
+        4863
       ]
     },
-    "id": 3260,
+    "id": 4864,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3245,
+        "id": 4849,
         "literals": [
           "solidity",
           ">=",
@@ -263,7 +263,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:31:26"
+        "src": "0:31:39"
       },
       {
         "baseContracts": [],
@@ -271,9 +271,9 @@
         "contractKind": "interface",
         "documentation": "@title JoinSplitInterface\n@author AZTEC\n@dev An interface defining the JoinSplitInterface standard.\nCopyright Spilsbury Holdings Ltd 2019. All rights reserved.*",
         "fullyImplemented": false,
-        "id": 3259,
+        "id": 4863,
         "linearizedBaseContracts": [
-          3259
+          4863
         ],
         "name": "JoinSplitInterface",
         "nodeType": "ContractDefinition",
@@ -281,23 +281,23 @@
           {
             "body": null,
             "documentation": null,
-            "id": 3258,
+            "id": 4862,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "validateJoinSplit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3254,
+              "id": 4858,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3247,
+                  "id": 4851,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3258,
-                  "src": "345:14:26",
+                  "scope": 4862,
+                  "src": "345:14:39",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -305,10 +305,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 3246,
+                    "id": 4850,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "345:5:26",
+                    "src": "345:5:39",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -319,11 +319,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3249,
+                  "id": 4853,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3258,
-                  "src": "370:7:26",
+                  "scope": 4862,
+                  "src": "370:7:39",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -331,10 +331,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3248,
+                    "id": 4852,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "370:7:26",
+                    "src": "370:7:39",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -346,11 +346,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3253,
+                  "id": 4857,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3258,
-                  "src": "388:16:26",
+                  "scope": 4862,
+                  "src": "388:16:39",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -359,27 +359,27 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 3250,
+                      "id": 4854,
                       "name": "uint",
                       "nodeType": "ElementaryTypeName",
-                      "src": "388:4:26",
+                      "src": "388:4:39",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "id": 3252,
+                    "id": 4856,
                     "length": {
                       "argumentTypes": null,
                       "hexValue": "36",
-                      "id": 3251,
+                      "id": 4855,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "kind": "number",
                       "lValueRequested": false,
                       "nodeType": "Literal",
-                      "src": "393:1:26",
+                      "src": "393:1:39",
                       "subdenomination": null,
                       "typeDescriptions": {
                         "typeIdentifier": null,
@@ -388,7 +388,7 @@
                       "value": "6"
                     },
                     "nodeType": "ArrayTypeName",
-                    "src": "388:7:26",
+                    "src": "388:7:39",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_uint256_$6_storage_ptr",
                       "typeString": "uint256[6]"
@@ -398,19 +398,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "335:75:26"
+              "src": "335:75:39"
             },
             "returnParameters": {
-              "id": 3257,
+              "id": 4861,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3256,
+                  "id": 4860,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3258,
-                  "src": "434:12:26",
+                  "scope": 4862,
+                  "src": "434:12:39",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -418,10 +418,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 3255,
+                    "id": 4859,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "434:5:26",
+                    "src": "434:5:39",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -431,20 +431,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "433:14:26"
+              "src": "433:14:39"
             },
-            "scope": 3259,
-            "src": "309:139:26",
+            "scope": 4863,
+            "src": "309:139:39",
             "stateMutability": "pure",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 3260,
-        "src": "214:236:26"
+        "scope": 4864,
+        "src": "214:236:39"
       }
     ],
-    "src": "0:451:26"
+    "src": "0:451:39"
   },
   "compiler": {
     "name": "solc",
@@ -452,7 +452,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-09-06T13:05:39.489Z",
+  "updatedAt": "2019-09-06T17:17:03.217Z",
   "devdoc": {
     "author": "AZTEC",
     "details": "An interface defining the JoinSplitInterface standard. Copyright Spilsbury Holdings Ltd 2019. All rights reserved.*",
