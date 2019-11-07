@@ -5,33 +5,8 @@
 Clone this repository:
 
 ```sh
-git clone https://github.com/AztecProtocol/eth-india-starter-kit.git
+git clone https://github.com/AztecProtocol/eth-global-starter-kit.git
+cd eth-global-starter-kit
+open index.html
 ```
 
-Inside both *`graph/`* and *`src/`* folders, run:
-
-```sh
-yarn install
-```
-
-
-#####  **Setup Development Environment**
-
-In *`graph/`*, run:
-
-```sh
-yarn start
-```
-
-This script will do the following:
- - start Ganache
- - deploy contracts
- - run a Docker image, which contains graph-node
- - copy contracts abis and addresses
- - generate and deploy schemas to graph-node
-
-In *`src/`*, run:
-
-```sh
-yarn start
-```
