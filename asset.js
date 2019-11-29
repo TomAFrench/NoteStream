@@ -1,6 +1,9 @@
 'use strict';
 
 const zkAssetAddress = document.body.getAttribute('asset');
+const {
+    address: accountAddress,
+} = window.aztec.web3.account();
 let asset;
 let allowanceStatus;
 let depositStatus;
@@ -42,17 +45,7 @@ async function refreshBalance() {
 }
 
 async function refreshAllowance() {
-  const account = window.aztec.web3.account();
-  const erc20Address = asset.linkedTokenAddress;
-  const aceAddress = window.aztec.web3.getAddress('ACE');
-  const allowance = await window.aztec.web3
-    .useContract('ERC20')
-    .at(erc20Address)
-    .method('allowance')
-    .call(
-        account.address,
-        aceAddress,
-    );
+  const allowance = await asset.allowanceOfLinkedToken();
   document.getElementById('erc20-allowance').innerHTML = `${allowance}`;
 }
 
@@ -72,12 +65,14 @@ async function initAsset() {
   const apisElem = document.getElementById('asset-apis');
   if (!asset.isValid()) {
     apisElem.innerHTML = 'This asset is not valid.';
+    apisElem.style.color = 'red';
   } else {
     allowanceStatus = makeStatusGenerator('allowance-status');
     depositStatus = makeStatusGenerator('deposit-status');
     withdrawStatus = makeStatusGenerator('withdraw-status');
     sendStatus = makeStatusGenerator('send-status');
     fetchStatus = makeStatusGenerator('fetch-status');
+    document.getElementById('linked-erc20-address').innerHTML = asset.linkedTokenAddress;
     refreshAssetBalances();
   }
   apisElem.style.display = 'block';
@@ -87,7 +82,7 @@ async function approveAllowance() {
   const allowanceInput = document.getElementById('erc20-allowance-value');
   const value = parseInt(allowanceInput.value);
   if (!value) {
-    allowanceStatus.log('× Allowance value must be larger than 0');
+    allowanceStatus.error('× Allowance value must be larger than 0');
     return;
   }
 
@@ -109,82 +104,57 @@ async function approveAllowance() {
 }
 
 async function deposit() {
-  const depositInput = document.getElementById('deposit-value');
   const numberOfOutputNotes = parseInt(document.getElementById('deposit-output-number').value, 10);
-  const value = parseInt(depositInput.value);
-  if (!value) {
-    depositStatus.log('× Deposit value must be larger than 0');
-    return;
-  }
-  if (!numberOfOutputNotes) {
-    depositStatus.log('× Number of output notes must be more than 0');
-    return;
-  }
+  const toAddress = document.getElementById('deposit-to-address').value;
+  const depositInput = document.getElementById('deposit-value');
+  const value = parseInt(depositInput.value, 10);
 
   depositStatus.clear();
 
-  const erc20Balance = await asset.balanceOfLinkedToken();
-  if (erc20Balance < value) {
-    depositStatus.log(`ERC20 balance (${erc20Balance}) is not enough to make a deposit of ${value}.`);
-    return;
-  }
-
-  const account = window.aztec.web3.account();
-  const response = await asset.deposit(
-    [
+  try {
+    await asset.deposit(
+      [
+        {
+          amount: value,
+          to: toAddress,
+        },
+      ],
       {
-        amount: value,
-        to: account.address,
+        numberOfOutputNotes,
       },
-    ],
-    {
-      numberOfOutputNotes,
-    },
-  );
-  console.log('api deposit response', response);
-
-  refreshAssetBalances();
-  depositInput.value = '';
+    );
+    refreshAssetBalances();
+    depositInput.value = '';
+  } catch (error) {
+    console.error(error);
+    depositStatus.error(error.message);
+  }
 }
 
 async function withdraw() {
   const withdrawInput = document.getElementById('withdraw-value');
+  const toAddress = document.getElementById('withdraw-to-address').value;
   const numberOfInputNotes = parseInt(document.getElementById('withdraw-input-number').value, 10);
   const value = parseInt(withdrawInput.value);
-  if (!value) {
-    withdrawStatus.log('× Withdraw value must be larger than 0');
-    return;
-  }
-  if (!numberOfInputNotes) {
-    withdrawStatus.log('× Number of input notes must be more than 0');
-    return;
-  }
 
   withdrawStatus.clear();
-
-  const balance = await asset.balance();
-  if (balance < value) {
-    withdrawStatus.log(`× Asset balance (${balance}) is not enough to make a withdraw of ${value}.`);
-    return;
-  }
 
   const account = window.aztec.web3.account();
   const transactions = [
     {
       amount: value,
-      to: account.address,
+      to: toAddress,
     },
   ];
 
   try {
-    const response = await asset.withdraw(
+    await asset.withdraw(
       transactions,
       {
           numberOfInputNotes,
       },
     );
 
-    console.log('withdraw api', response);
     refreshAssetBalances();
     withdrawInput.value = '';
   } catch (error) {
@@ -195,74 +165,79 @@ async function withdraw() {
 
 async function send() {
   const addressInput = document.getElementById('send-address');
+  let numberOfInputNotes = document.getElementById('send-input-number').value.trim();
+  numberOfInputNotes = numberOfInputNotes === ''
+    ? undefined
+    : parseInt(numberOfInputNotes);
+  let numberOfOutputNotes = document.getElementById('send-output-number').value.trim();
+  numberOfOutputNotes = numberOfOutputNotes === ''
+    ? undefined
+    : parseInt(numberOfOutputNotes);
   const valueInput = document.getElementById('send-value');
-  const address = addressInput.value;
-  const value = parseInt(valueInput.value);
-  if (!address || !value) {
-    return;
-  }
+  const address = addressInput.value.trim();
+  const value = parseInt(valueInput.value.trim());
 
   sendStatus.clear();
 
-  const balance = await asset.balance();
-  if (balance < value) {
-    sendStatus.log(`Asset balance (${balance}) is not enough.`);
-    return;
-  }
-
   const account = window.aztec.web3.account();
-  await asset.send(
-    [
-      {
-        to: address,
-        amount: value,
-      },
-    ],
-    {
-      from: account.address,
-      sender: account.address,
-    },
-  );
 
-  refreshAssetBalances();
-  addressInput.value = '';
-  valueInput.value = '';
+  try {
+    await asset.send(
+      [
+        {
+          to: address,
+          amount: value,
+        },
+      ],
+      {
+        numberOfInputNotes,
+        numberOfOutputNotes,
+      },
+    );
+
+    refreshAssetBalances();
+    addressInput.value = '';
+    valueInput.value = '';
+  } catch (error) {
+    console.error(error);
+    sendStatus.error(error.message);
+  }
 }
 
 async function fetchNotesFromBalance() {
   fetchStatus.clear();
 
-  let equalTo = document.getElementById('fetch-eq-value').value;
+  let equalTo = document.getElementById('fetch-eq-value').value.trim();
   equalTo = equalTo === ''
     ? undefined
     : parseInt(equalTo);
-  let greaterThan = document.getElementById('fetch-gt-value').value;
+  let greaterThan = document.getElementById('fetch-gt-value').value.trim();
   greaterThan = greaterThan === ''
     ? undefined
     : parseInt(greaterThan);
-  let lessThan = document.getElementById('fetch-lt-value').value;
+  let lessThan = document.getElementById('fetch-lt-value').value.trim();
   lessThan = lessThan === ''
     ? undefined
     : parseInt(lessThan);
-  if (equalTo === undefined && greaterThan === undefined && lessThan === undefined) {
-    fetchStatus.log('× You must define at least one of the following parameters: equalTo/greaterThan/lessThan');
+  let numberOfNotes = document.getElementById('fetch-count-value').value.trim();
+  numberOfNotes = numberOfNotes === ''
+    ? undefined
+    : parseInt(numberOfNotes);
+
+  let notes;
+  try {
+    notes = await asset.fetchNotesFromBalance({
+      equalTo,
+      lessThan,
+      greaterThan,
+      numberOfNotes,
+    });
+  } catch (error) {
+    console.error(error);
+    fetchStatus.error(error.message);
     return;
   }
 
-  const numberOfNotes = parseInt(document.getElementById('fetch-count-value').value);
-  if (numberOfNotes <= 0) {
-    fetchStatus.log('× Number of notes must be larger than 0');
-    return;
-  }
-
-  fetchStatus.clear();
-
-  const notes = await asset.fetchNotesFromBalance({
-    equalTo,
-    lessThan,
-    greaterThan,
-    numberOfNotes,
-  });
   if (!notes.length) {
     fetchStatus.log('Cannot find any notes that meet the requirements.');
   } else {
@@ -284,7 +259,7 @@ document.getElementById('app').innerHTML = `
     </div>
     <br/>
     <div>
-      Linked ERC20: <strong>${zkAssetAddress}</strong><br/>
+      Linked ERC20: <strong id="linked-erc20-address"></strong><br/>
       Balance: <span id="erc20-balance">...</span><br/>
       Allowance: <span id="erc20-allowance">...</span><br/>
     </div>
@@ -319,6 +294,13 @@ document.getElementById('app').innerHTML = `
           size="2"
           value="2"
         /><br/>
+        <label>To</label>
+        <input
+          id="deposit-to-address"
+          type="text"
+          size="42"
+          value="${accountAddress}"
+        /><br/>
         <button onclick="deposit()">Submit</button><br/>
         <br/>
         <div id="deposit-status"></div>
@@ -337,7 +319,14 @@ document.getElementById('app').innerHTML = `
           id="withdraw-input-number"
           type="number"
           size="2"
-          value="1"
+          value="2"
+        /><br/>
+        <label>To</label>
+        <input
+          id="withdraw-to-address"
+          type="text"
+          size="42"
+          value="${accountAddress}"
         /><br/>
         <button onclick="withdraw()">Submit</button><br/>
         <br/>
@@ -358,43 +347,58 @@ document.getElementById('app').innerHTML = `
           type="number"
           size="10"
         /><br/>
+        <label>Number of input notes</label>
+        <input
+          id="send-input-number"
+          type="number"
+          size="2"
+          value="2"
+        /><br/>
+        <label>Number of output notes</label>
+        <input
+          id="send-output-number"
+          type="number"
+          size="2"
+          value="2"
+        /><br/>
         <button onclick="send()">Submit</button><br/>
         <br/>
         <div id="send-status"></div>
       </div>
-    </div>
-    <div>
-      <div>Fetch note from balance:</div>
-      <label>Equal to</label>
-      <input
-        id="fetch-eq-value"
-        type="number"
-        size="10"
-      /><br/>
-      <label>Greater than</label>
-      <input
-        id="fetch-gt-value"
-        type="number"
-        size="10"
-        value="0"
-      /><br/>
-      <label>Less than</label>
-      <input
-        id="fetch-lt-value"
-        type="number"
-        size="10"
-        value="100"
-      /><br/>
-      <label>Number of notes</label>
-      <input
-        id="fetch-count-value"
-        type="number"
-        size="10"
-        value="1"
-      /><br/>
-      <button onclick="fetchNotesFromBalance()">Submit</button><br/>
       <br/>
-      <div id="fetch-status"></div>
+      <div>
+        <div>Fetch note from balance:</div>
+        <label>Equal to</label>
+        <input
+          id="fetch-eq-value"
+          type="number"
+          size="10"
+        /><br/>
+        <label>Greater than</label>
+        <input
+          id="fetch-gt-value"
+          type="number"
+          size="10"
+          value="0"
+        /><br/>
+        <label>Less than</label>
+        <input
+          id="fetch-lt-value"
+          type="number"
+          size="10"
+          value="100"
+        /><br/>
+        <label>Number of notes</label>
+        <input
+          id="fetch-count-value"
+          type="number"
+          size="10"
+          value="1"
+        /><br/>
+        <button onclick="fetchNotesFromBalance()">Submit</button><br/>
+        <br/>
+        <div id="fetch-status"></div>
+      </div>
     </div>
   </div>
 `;

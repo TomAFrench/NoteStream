@@ -13,12 +13,15 @@
       async function initAztecSdk() {
         const statusElem = document.getElementById('sdk-status');
         try {
-          await window.aztec.enable();
+          await window.aztec.enable({
+            apiKey: 'ethglobalstarterkit'
+          });
         } catch (error) {
           console.error(error);
           statusElem.innerHTML = `
             <div>
-              Failed to load AZTEC SDK.
+              Failed to load AZTEC SDK.<br/>
+              <button onclick="initAztecSdk()">Retry</button>
             </div>
           `;
           return;

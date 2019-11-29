@@ -13,7 +13,7 @@ function useExistingAsset() {
 }
 
 async function fetchContract(contractName) {
-  const response = await fetch('https://sdk.aztecprotocol.com/contracts/' + contractName + '.json');
+  const response = await fetch('http://localhost:5555/contracts/' + contractName + '.json');
   return response.json();
 }
 
