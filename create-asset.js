@@ -13,7 +13,7 @@ function useExistingAsset() {
 }
 
 async function fetchContract(contractName) {
-  const response = await fetch('https://sdk.aztecprotocol.com/contracts/' + contractName + '.json');
+  const response = await fetch('http://localhost:5555/contracts/' + contractName + '.json');
   return response.json();
 }
 
@@ -73,17 +73,6 @@ async function createAsset() {
         value,
       );
     addAssetStatus(`✓ ERC20 balance = ${value}`, true);
-
-    addAssetStatus(`Appoving ACE to spend ${value} from ERC20...`);
-    await window.aztec.web3
-      .useContract('ERC20')
-      .at(erc20Address)
-      .method('approve')
-      .send(
-        aceAddress,
-        value,
-      );
-    addAssetStatus(`✓ Permission to spend ${value} from ERC20 approved`, true);
   }
 
   addAssetStatus(`✓ ZkAsset created with initial ERC20 balance = ${value}`, true);

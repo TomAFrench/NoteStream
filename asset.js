@@ -10,6 +10,7 @@ let depositStatus;
 let withdrawStatus;
 let sendStatus;
 let fetchStatus;
+let createStatus;
 
 const makeStatusGenerator = (id) => {
   let statusLogs = [];
@@ -45,7 +46,10 @@ async function refreshBalance() {
 }
 
 async function refreshAllowance() {
-  const allowance = await asset.allowanceOfLinkedToken();
+  const allowance = await asset.allowanceOfLinkedToken(
+      accountAddress,
+      window.aztec.web3.getAddress('AZTECAccountRegistry'),
+  );
   document.getElementById('erc20-allowance').innerHTML = `${allowance}`;
 }
 
@@ -61,7 +65,7 @@ async function refreshAssetBalances() {
 }
 
 async function initAsset() {
-  asset = await window.aztec.asset(zkAssetAddress);
+  asset = await window.aztec.zkAsset(zkAssetAddress);
   const apisElem = document.getElementById('asset-apis');
   if (!asset.isValid()) {
     apisElem.innerHTML = 'This asset is not valid.';
@@ -72,6 +76,7 @@ async function initAsset() {
     withdrawStatus = makeStatusGenerator('withdraw-status');
     sendStatus = makeStatusGenerator('send-status');
     fetchStatus = makeStatusGenerator('fetch-status');
+    createStatus = makeStatusGenerator('create-status');
     document.getElementById('linked-erc20-address').innerHTML = asset.linkedTokenAddress;
     refreshAssetBalances();
   }
@@ -88,14 +93,14 @@ async function approveAllowance() {
 
   allowanceStatus.clear();
 
-  const aceAddress = window.aztec.web3.getAddress('ACE');
+  const registryAddress = window.aztec.web3.getAddress('AZTECAccountRegistry');
   const erc20Address = asset.linkedTokenAddress;
   await window.aztec.web3
     .useContract('ERC20')
     .at(erc20Address)
     .method('approve')
     .send(
-      aceAddress,
+      registryAddress,
       value,
     );
 
@@ -135,22 +140,17 @@ async function withdraw() {
   const withdrawInput = document.getElementById('withdraw-value');
   const toAddress = document.getElementById('withdraw-to-address').value;
   const numberOfInputNotes = parseInt(document.getElementById('withdraw-input-number').value, 10);
-  const value = parseInt(withdrawInput.value);
+  const value = parseInt(withdrawInput.value, 10);
 
   withdrawStatus.clear();
 
   const account = window.aztec.web3.account();
-  const transactions = [
-    {
-      amount: value,
-      to: toAddress,
-    },
-  ];
 
   try {
     await asset.withdraw(
-      transactions,
+      value,
       {
+          to: toAddress,
           numberOfInputNotes,
       },
     );
@@ -164,7 +164,6 @@ async function withdraw() {
 }
 
 async function send() {
-  const addressInput = document.getElementById('send-address');
   let numberOfInputNotes = document.getElementById('send-input-number').value.trim();
   numberOfInputNotes = numberOfInputNotes === ''
     ? undefined
@@ -174,8 +173,8 @@ async function send() {
     ? undefined
     : parseInt(numberOfOutputNotes);
   const valueInput = document.getElementById('send-value');
-  const address = addressInput.value.trim();
-  const value = parseInt(valueInput.value.trim());
+  const address = document.getElementById('send-address').value.trim();
+  const value = parseInt(valueInput.value.trim(), 10);
 
   sendStatus.clear();
 
@@ -196,11 +195,50 @@ async function send() {
     );
 
     refreshAssetBalances();
-    addressInput.value = '';
     valueInput.value = '';
   } catch (error) {
     console.error(error);
     sendStatus.error(error.message);
+  }
+}
+
+async function createNoteFromBalance() {
+  createStatus.clear();
+
+  let numberOfInputNotes = document.getElementById('create-input-number').value.trim();
+  numberOfInputNotes = numberOfInputNotes === ''
+    ? undefined
+    : parseInt(numberOfInputNotes);
+  let numberOfOutputNotes = document.getElementById('create-output-number').value.trim();
+  numberOfOutputNotes = numberOfOutputNotes === ''
+    ? undefined
+    : parseInt(numberOfOutputNotes);
+  const valueInput = document.getElementById('create-amount');
+  const value = parseInt(valueInput.value.trim());
+  const userAccess = [];
+  for (let i = 0; i < 10; i += 1) {
+    const elem = document.getElementById(`create-access-${i}`);
+    if (!elem) break;
+    userAccess.push(elem.value);
+  }
+
+  const account = window.aztec.web3.account();
+
+  try {
+    await asset.createNoteFromBalance(
+      value,
+      {
+        userAccess,
+        numberOfInputNotes,
+        numberOfOutputNotes,
+      },
+    );
+
+    refreshAssetBalances();
+    valueInput.value = '';
+  } catch (error) {
+    console.error(error);
+    createStatus.error(error.message);
   }
 }
 
@@ -261,7 +299,7 @@ document.getElementById('app').innerHTML = `
     <div>
       Linked ERC20: <strong id="linked-erc20-address"></strong><br/>
       Balance: <span id="erc20-balance">...</span><br/>
-      Allowance: <span id="erc20-allowance">...</span><br/>
+      Account Registry Allowance: <span id="erc20-allowance">...</span><br/>
     </div>
     <br/>
     <br/>
@@ -335,12 +373,6 @@ document.getElementById('app').innerHTML = `
       <br/>
       <div>
         <div>Send:</div>
-        <label>To</label>
-        <input
-          id="send-address"
-          type="text"
-          size="42"
-        /><br/>
         <label>Amount</label>
         <input
           id="send-value"
@@ -361,9 +393,49 @@ document.getElementById('app').innerHTML = `
           size="2"
           value="2"
         /><br/>
+        <label>To</label>
+        <input
+          id="send-address"
+          type="text"
+          size="42"
+          value="${accountAddress}"
+        /><br/>
         <button onclick="send()">Submit</button><br/>
         <br/>
         <div id="send-status"></div>
+      </div>
+      <br/>
+      <div>
+        <div>Create note from balance:</div>
+        <label>Amount</label>
+        <input
+          id="create-amount"
+          type="number"
+          size="10"
+        /><br/>
+        <label>Number of input notes</label>
+        <input
+          id="create-input-number"
+          type="number"
+          size="2"
+          value="2"
+        /><br/>
+        <label>Number of output notes</label>
+        <input
+          id="create-output-number"
+          type="number"
+          size="2"
+          value="2"
+        /><br/>
+        <label>Share note access with</label>
+        <input
+          id="create-access-0"
+          type="text"
+          size="42"
+        /><br/>
+        <button onclick="createNoteFromBalance()">Submit</button><br/>
+        <br/>
+        <div id="create-status"></div>
       </div>
       <br/>
       <div>
