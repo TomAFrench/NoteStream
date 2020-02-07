@@ -16,7 +16,6 @@ import {
   DEFAULT_GSN_RELAYER_PORT,
 } from '../config/constants';
 
-
 const killedSig = '137';
 
 export default async function gsnRelayerInstance({

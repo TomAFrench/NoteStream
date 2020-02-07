@@ -147,7 +147,7 @@ export default function ganacheInstance({
     ],
     {
       shouldStart: output => output.includes('Listening on')
-                && `Ganache is listening on ${host}:${port}\n`,
+        && `Ganache is listening on ${host}:${port}\n`,
       onStart: () => {
         if (onStart) {
           onStart(port);

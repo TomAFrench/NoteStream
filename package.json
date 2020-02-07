@@ -16,7 +16,8 @@
     "copy": "babel-node scripts/run copy",
     "deploy:contracts": "babel-node scripts/run deployContracts",
     "lint": "eslint ./ --color",
-    "start": "babel-node scripts/run start"
+    "start": "babel-node scripts/run start",
+    "start:ganache": "babel-node scripts/run startGanache"
   },
   "dependencies": {
     "@aztec/bn128": "^1.3.1",
