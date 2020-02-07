@@ -40,6 +40,32 @@ export default function start({
     log(`    ${chalk.cyan('yarn start:ganache')}                - start ganache.`);
     log(`    ${chalk.cyan('yarn deploy:contracts')}             - migrate contracts and copy artifacts.`);
     log('\n');
+
+    log('  Deployed contracts:\n');
+    [
+      'ACE',
+      'AccountRegistryManager',
+    ].forEach((contractName) => {
+      let contract;
+      let address = '';
+      let color = 'magenta';
+      try {
+        contract = require(`../../build/contracts/${contractName}.json`); // eslint-disable-line
+        const lastNetworkId = Object.keys(contract.networks).pop();
+        const network = contract.networks[lastNetworkId];
+        address = (network && network.address) || 'null';
+        if (!address) {
+          color = 'dim';
+        }
+      } catch (error) {
+        address = 'not found';
+        color = 'red';
+      }
+
+      log(`    ${contractName}${''.padEnd(34 - contractName.length, ' ')}- ${chalk[color](address)}`);
+    });
+    log('\n');
+
     log(`  Press ${chalk.yellow('h')} to show the above hints again.`);
     log('\n');
     log('\n');
