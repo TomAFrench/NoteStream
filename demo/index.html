@@ -10,33 +10,105 @@
     <div id="app" style="margin: 32px 0;"></div>
     <script type="module" src="https://sdk.aztecprotocol.com/aztec.js"></script>
     <script>
-      async function initAztecSdk() {
-        const statusElem = document.getElementById('sdk-status');
-        try {
-          await window.aztec.enable({
-            apiKey: 'ethglobalstarterkit'
-          });
-        } catch (error) {
-          console.error(error);
-          statusElem.innerHTML = `
-            <div>
-              Failed to load AZTEC SDK.<br/> <button onclick="initAztecSdk()">Retry</button>
-            </div>
-          `;
-          return;
-        }
+      window.__AZTEC_ARTIFACTS_URL__ = 'https://sdk.aztecprotocol.com/contracts';
+      window.__AZTEC_ARTIFACTS_URL_DEV__ = '/build/contracts';
+    </script>
+    <script>
+      async function fetchContract(contractName) {
+        const network = window.aztec.web3.getNetwork();
+        const url = network.name === 'ganache'
+          ? window.__AZTEC_ARTIFACTS_URL_DEV__
+          : window.__AZTEC_ARTIFACTS_URL__;
+        const response = await fetch(`${url}/${contractName}.json`);
+        return response.json();
+      }
 
-        const account = window.aztec.web3.account();
-        statusElem.innerHTML = `
+      async function fetchContractAddress(contractName) {
+        const contract = await fetchContract(contractName);
+        const lastNetworkId = Object.keys(contract.networks).pop();
+        const network = contract.networks[lastNetworkId];
+        return (network && network.address) || '';
+      }
+
+      function handleReload(type, value) {
+        let message;
+        if (type === 'accountChanged') {
+          message = `Switching account to ${value}...`;
+        } else if (type === 'networkChanged') {
+          message = `Switching network to ${value}...`;
+        } else {
+          message = 'Signing in to AZTEC account...';
+        }
+        document.getElementById('sdk-status').innerHTML = message;
+        document.getElementById('app').innerHTML = '';
+        const assetScript = document.getElementById('create-asset-script');
+        if (assetScript) {
+          assetScript.remove();
+        }
+      }
+
+      function handleRetry() {
+        handleReload();
+        initAztecSdk();
+      }
+
+      function handleLoadError(error) {
+        document.getElementById('sdk-status').innerHTML = `
+          <div>
+            Failed to load AZTEC SDK.<br/>
+            <button onclick="handleRetry()">Retry</button>
+          </div>
+        `;
+      }
+
+      function handleLoadSuccess() {
+        const account = window.aztec.web3.getAccount();
+        document.getElementById('sdk-status').innerHTML = `
           <div>
             AZTEC SDK loaded and enabled!<br/>
             User address: <strong>${account.address}</strong>
           </div>
         `;
 
+        const assetScript = document.getElementById('create-asset-script');
+        if (assetScript) {
+          assetScript.remove();
+        }
         const createAssetScript = document.createElement('script');
+        createAssetScript.id = 'create-asset-script';
         createAssetScript.src = './create-asset.js';
         document.body.appendChild(createAssetScript);
+      }
+
+      function handleProfileChanged(type, value, error) {
+        if (type === 'aztecAccountChanged') {
+          if (value) {
+            handleLoadSuccess();
+          } else {
+            handleLoadError(error);
+          }
+        } else {
+          handleReload(type, value);
+        }
+      }
+
+      async function initAztecSdk() {
+        window.aztec.addListener('profileChanged', handleProfileChanged);
+
+        const contractAddresses = {};
+        const network = window.aztec.web3.getNetwork();
+        if (network.name === 'ganache') {
+          contractAddresses.ACE = await fetchContractAddress('ACE');
+          contractAddresses.AccountRegistryManager = await fetchContractAddress('AccountRegistryManager');
+        }
+        try {
+          await window.aztec.enable({
+            apiKey: 'ethglobalstarterkit',
+            contractAddresses,
+          });
+        } catch (error) {
+          console.error('Failed to enable aztec', error);
+        }
       };
 
       if (window.aztec) {
