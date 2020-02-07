@@ -16,7 +16,10 @@ import instance from '../../utils/instance';
 const sourcePackage = 'protocol';
 const folderName = 'contracts';
 const sourceFolder = 'build';
-const destFolder = 'build';
+const destFolders = [
+  'build',
+  'demo/build',
+];
 
 export default function copyContracts({
   onError,
@@ -36,15 +39,21 @@ export default function copyContracts({
     return;
   }
 
-  const destPath = path.join(projectRoot, destFolder);
+  const commands = [];
+  destFolders.forEach((destFolder) => {
+    const destPath = path.join(projectRoot, destFolder);
+    commands.push(`cp -r ${contractsPath} ${destPath}`);
+  });
 
   instance(
-    `cp -r ${contractsPath} ${destPath}`,
+    commands.join(' && '),
     {
       onError,
       onClose: () => {
-        successLog('\nSuccessfully copied contracts!');
-        logEntries([`${sourcePackage} > ${destFolder}/${folderName}`]);
+        successLog('\nSuccessfully copied contracts!\n');
+        destFolders.forEach((destFolder) => {
+          logEntries([`${sourcePackage} > ${destFolder}/${folderName}`]);
+        });
         onClose();
       },
     },
