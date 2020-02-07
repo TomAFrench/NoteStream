@@ -33,12 +33,12 @@ export default function start({
   const showHints = () => {
     log('\n');
     log('\n');
-    log('  To see demo, run the following in another terminal window:\n');
-    log(`    ${chalk.cyan('http-server -p 3000')}               - run it in ${chalk.yellow('/demo')}.`);
+    log('  To see demo dapp, run the following in another terminal window:\n');
+    log(`    ${chalk.cyan('yarn demo')}                         - simple usage of the sdk written in pure html and js.`);
     log('\n');
     log('  Other available commands:\n');
+    log(`    ${chalk.cyan('yarn start:ganache')}                - start ganache.`);
     log(`    ${chalk.cyan('yarn deploy:contracts')}             - migrate contracts and copy artifacts.`);
-    log(`    ${chalk.cyan('yarn lint')}                         - run eslint on all files.`);
     log('\n');
     log(`  Press ${chalk.yellow('h')} to show the above hints again.`);
     log('\n');
@@ -61,19 +61,22 @@ export default function start({
       return;
     }
 
-    if (_port !== ganachePort) {
-      if (!argv('useExistingGanache')) {
-        warnLog(`There is already a process running on port ${ganachePort}`);
-        log(`Stop that instance or run ${chalk.cyan('yarn start --useExistingGanache')} to use the same ganache instance.'`);
+    const useExistingGanache = _port !== ganachePort;
+    if (useExistingGanache && !argv('useExistingGanache')) {
+      log('\n');
+      warnLog(`There is already a process running on port ${ganachePort}\n`);
+      log(`Stop that process or run ${chalk.cyan('yarn start --useExistingGanache')} to use the same ganache instance.\n`);
+      log(`If there is no GSN relayer running in that ganache, add ${chalk.cyan('--runRelayer')} to start a relayer.`);
+      log('\n');
 
-        if (onClose) {
-          onClose();
-        } else {
-          setTimeout(() => {
-            process.exit(0);
-          }, 100);
-        }
+      if (onClose) {
+        onClose();
+      } else {
+        setTimeout(() => {
+          process.exit(0);
+        }, 100);
       }
+
       return;
     }
 
@@ -82,6 +85,7 @@ export default function start({
       onError: handleError,
       onClose,
       showHints,
+      useExistingGanache,
     });
   });
 }

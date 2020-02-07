@@ -9,17 +9,18 @@ import {
   successLog,
   warnLog,
 } from '../utils/log';
-import pipeTasks, {
-  log as logTask,
-} from '../utils/pipeTasks';
+import {
+  argv,
+} from '../utils/cmd';
 import stopProcesses from '../utils/stopProcesses';
 import deployContracts from './deployContracts';
 
-export default function setup({
+export default async function setup({
   onStart,
   onError,
   onClose,
   showHints,
+  useExistingGanache,
 } = {}) {
   const runningProcesses = {};
   let confirmClose;
@@ -103,10 +104,15 @@ export default function setup({
 
   const doCloseGSNRelayer = makeCloseChildProcessCallback('gsnRelayer');
 
-  runningProcesses.ganache = ganacheInstance({
-    onClose: makeCloseChildProcessCallback('ganache'),
-    onError: handleError,
-  }).next(async () => {
+  const startGanache = () => {
+    runningProcesses.ganache = ganacheInstance({
+      onClose: makeCloseChildProcessCallback('ganache'),
+      onError: handleError,
+      useExistingGanache,
+    });
+  };
+
+  const startRelayer = async () => {
     runningProcesses.gsnRelayer = await gsnRelayerInstance({
       onClose: (code) => {
         if (code === 0) return;
@@ -114,21 +120,31 @@ export default function setup({
       },
       onError: handleError,
     });
+
     return runningProcesses.gsnRelayer;
-  }).next(() => {
-    pipeTasks(
-      [
-        deployContracts,
-        logTask('Successfully deployed contracts to ganache.'),
-      ],
-      {
-        onError: handleBuildError,
-        onClose: (error) => {
-          if (!error && onStart) {
-            onStart(runningProcesses);
-          }
-        },
+  };
+
+  const startDeploying = () => {
+    deployContracts({
+      onError: handleBuildError,
+      onClose: (error) => {
+        if (!error && onStart) {
+          onStart(runningProcesses);
+        }
       },
-    );
-  });
+    });
+  };
+
+  if (!useExistingGanache) {
+    startGanache();
+    runningProcesses.ganache
+      .next(startRelayer)
+      .next(startDeploying);
+  } else if (argv('runRelayer')) {
+    await startRelayer();
+    runningProcesses.gsnRelayer
+      .next(startDeploying);
+  } else {
+    startDeploying();
+  }
 }
