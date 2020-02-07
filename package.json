@@ -14,6 +14,7 @@
   "homepage": "https://github.com/AztecProtocol/eth-global-starter-kit#readme",
   "scripts": {
     "copy": "babel-node scripts/run copy",
+    "demo": "babel-node scripts/run startDemo",
     "deploy:contracts": "babel-node scripts/run deployContracts",
     "lint": "eslint ./ --color",
     "start": "babel-node scripts/run start",
