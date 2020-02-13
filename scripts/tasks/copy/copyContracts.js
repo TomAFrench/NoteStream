@@ -9,6 +9,7 @@ import {
   locatePackage,
 } from '../../utils/path';
 import {
+  ensureDirectory,
   isDirectory,
 } from '../../utils/fs';
 import instance from '../../utils/instance';
@@ -19,6 +20,7 @@ const sourceFolder = 'build';
 const destFolders = [
   'build',
   'demo/build',
+  'my-dapp/build',
 ];
 
 export default function copyContracts({
@@ -42,6 +44,7 @@ export default function copyContracts({
   const commands = [];
   destFolders.forEach((destFolder) => {
     const destPath = path.join(projectRoot, destFolder);
+    ensureDirectory(destPath);
     commands.push(`cp -r ${contractsPath} ${destPath}`);
   });
 
