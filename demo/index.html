@@ -10,23 +10,21 @@
     <div id="app" style="margin: 32px 0;"></div>
     <script type="module" src="https://sdk.aztecprotocol.com/aztec.js"></script>
     <script>
-      window.__AZTEC_ARTIFACTS_URL__ = 'https://sdk.aztecprotocol.com/contracts';
+      window.__AZTEC_ARTIFACTS_URL__ = 'https://raw.githubusercontent.com/AztecProtocol/AZTEC/develop/packages/contract-artifacts/artifacts';
       window.__AZTEC_ARTIFACTS_URL_DEV__ = '/build/contracts';
     </script>
     <script>
-      async function fetchContract(contractName) {
-        const network = window.aztec.web3.getNetwork();
-        const url = network.name === 'ganache'
-          ? window.__AZTEC_ARTIFACTS_URL_DEV__
-          : window.__AZTEC_ARTIFACTS_URL__;
-        const response = await fetch(`${url}/${contractName}.json`);
-        return response.json();
-      }
+      async function fetchGanacheContractAddress(contractName) {
+        let network;
+        try {
+          const response = await fetch(`${window.__AZTEC_ARTIFACTS_URL_DEV__}/${contractName}.json`);
+          const contract = await response.json();
+          const lastNetworkId = Object.keys(contract.networks).pop();
+          network = contract.networks[lastNetworkId];
+        } catch (error) {
+          return '';
+        }
 
-      async function fetchContractAddress(contractName) {
-        const contract = await fetchContract(contractName);
-        const lastNetworkId = Object.keys(contract.networks).pop();
-        const network = contract.networks[lastNetworkId];
         return (network && network.address) || '';
       }
 
@@ -95,12 +93,12 @@
       async function initAztecSdk() {
         window.aztec.addListener('profileChanged', handleProfileChanged);
 
-        const contractAddresses = {};
-        const network = window.aztec.web3.getNetwork();
-        if (network.name === 'ganache') {
-          contractAddresses.ACE = await fetchContractAddress('ACE');
-          contractAddresses.AccountRegistryManager = await fetchContractAddress('AccountRegistryManager');
-        }
+        const contractAddresses = {
+          ganache: {
+            ACE: await fetchGanacheContractAddress('ACE'),
+            AccountRegistryManager: await fetchGanacheContractAddress('AccountRegistryManager'),
+          },
+        };
         try {
           await window.aztec.enable({
             apiKey: 'ethglobalstarterkit',
