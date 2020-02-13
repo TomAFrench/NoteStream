@@ -48,7 +48,7 @@ async function refreshBalance() {
 async function refreshAllowance() {
   const allowance = await asset.allowanceOfLinkedToken(
       accountAddress,
-      window.aztec.web3.getAddress('AZTECAccountRegistry'),
+      window.aztec.web3.getAddress('AccountRegistry'),
   );
   document.getElementById('erc20-allowance').innerHTML = `${allowance}`;
 }
@@ -93,7 +93,7 @@ async function approveAllowance() {
 
   allowanceStatus.clear();
 
-  const registryAddress = window.aztec.web3.getAddress('AZTECAccountRegistry');
+  const registryAddress = window.aztec.web3.getAddress('AccountRegistry');
   const erc20Address = asset.linkedTokenAddress;
   await window.aztec.web3
     .useContract('ERC20')
