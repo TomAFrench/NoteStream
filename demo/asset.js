@@ -77,6 +77,7 @@ async function initAsset() {
     sendStatus = makeStatusGenerator('send-status');
     fetchStatus = makeStatusGenerator('fetch-status');
     createStatus = makeStatusGenerator('create-status');
+    document.getElementById('asset-scaling-factor').innerHTML = asset.scalingFactor;
     document.getElementById('linked-erc20-address').innerHTML = asset.linkedTokenAddress;
     refreshAssetBalances();
   }
@@ -293,6 +294,7 @@ document.getElementById('app').innerHTML = `
   <div>
     <div>
       Asset: <strong>${zkAssetAddress}</strong><br/>
+      Scaling Factor: <span id="asset-scaling-factor">...</span><br/>
       Balance: <span id="asset-balance">...</span><br/>
     </div>
     <br/>
