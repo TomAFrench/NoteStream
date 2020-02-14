@@ -74,7 +74,6 @@ class App extends PureComponent {
   };
 
   handleProfileChanged = (type, value, error) => {
-    console.log('handleProfileChanged', type, value, error);
     const {
       nextAccount,
       nextNetwork,
@@ -154,13 +153,6 @@ class App extends PureComponent {
       nextNetwork,
       error,
     } = this.state;
-    console.log('App.render', {
-      aztecAccount,
-      account,
-      network,
-      nextAccount,
-      nextNetwork,
-    });
 
     let contentNode = null;
     let loadingMessage = '';
