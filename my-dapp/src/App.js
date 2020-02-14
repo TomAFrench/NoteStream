@@ -99,14 +99,15 @@ class App extends PureComponent {
         const {
           aztecAccount: prevAztecAccount,
         } = this.state;
+        const account = window.aztec.web3.getAccount();
+        const network = window.aztec.web3.getNetwork();
+        nextState.account = account;
+        nextState.network = network;
+        nextState.nextAccount = null;
+        nextState.nextNetwork = null;
+
         if (value) {
-          const account = window.aztec.web3.getAccount();
-          const network = window.aztec.web3.getNetwork();
           nextState.aztecAccount = value;
-          nextState.account = account;
-          nextState.network = network;
-          nextState.nextAccount = null;
-          nextState.nextNetwork = null;
         } else if (prevAztecAccount || error) {
           nextState.error = error;
         }
