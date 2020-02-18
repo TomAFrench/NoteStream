@@ -61,7 +61,7 @@ class App extends PureComponent {
         },
       };
       await window.aztec.enable({
-        apiKey: 'ethglobalstarterkit',
+        apiKey: 'test1234',
         contractAddresses,
       });
     } catch (error) {
