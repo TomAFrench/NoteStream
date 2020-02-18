@@ -20,7 +20,7 @@ _Skip this step if you won't be running demo on Ganache._
 yarn start
 ```
 
-### Run demo
+### 2) Run demo
 
 ##### Styled dApp built with [create-react-app](https://github.com/facebook/create-react-app) and [guacamole-ui](https://github.com/AztecProtocol/guacamole-ui):
 
