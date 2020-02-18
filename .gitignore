@@ -1,2 +1,9 @@
+# folders
 node_modules
+build
+
+# files
 .DS_Store
+.env
+yarn-debug.log*
+yarn-error.log*

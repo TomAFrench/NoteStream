@@ -13,7 +13,11 @@ function useExistingAsset() {
 }
 
 async function fetchContract(contractName) {
-  const response = await fetch('https://sdk.aztecprotocol.com/contracts/' + contractName + '.json');
+  const network = window.aztec.web3.getNetwork();
+  const url = network.name === 'ganache'
+    ? window.__AZTEC_ARTIFACTS_URL_DEV__
+    : window.__AZTEC_ARTIFACTS_URL__;
+  const response = await fetch(`${url}/${contractName}.json`);
   return response.json();
 }
 
@@ -21,24 +25,26 @@ async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const newAssetStatus = [];
-function addAssetStatus(status, keepInLog = false) {
-  const elem = document.getElementById('new-asset-status');
-  elem.innerHTML = `
-    ${newAssetStatus.join('<br/>')}
-    ${newAssetStatus.length ? '<br/>' : ''}
-    ${status}
-  `;
-  if (keepInLog) {
-    newAssetStatus.push(status);
-  }
-}
-
 async function createAsset() {
   const value = document.getElementById('new-asset-value').value || 0;
 
   const existingAssetElem = document.getElementById('existing-asset');
   existingAssetElem.style.display = 'none';
+
+  const newAssetStatus = [];
+
+  function addAssetStatus(status, keepInLog = false) {
+
+    const elem = document.getElementById('new-asset-status');
+    elem.innerHTML = `
+      ${newAssetStatus.join('<br/>')}
+      ${newAssetStatus.length ? '<br/>' : ''}
+      ${status}
+    `;
+    if (keepInLog) {
+      newAssetStatus.push(status);
+    }
+  }
 
   const ERC20Mintable = await fetchContract('ERC20Mintable');
   addAssetStatus('Deploying ERC20Mintable...');
@@ -62,7 +68,7 @@ async function createAsset() {
   addAssetStatus(`✓ ZkAsset deployed - ${zkAssetAddress}`, true);
 
   if (value) {
-    const account = window.aztec.web3.account();
+    const account = window.aztec.web3.getAccount();
     addAssetStatus(`Minting ERC20 with amount = ${value}...`);
     await window.aztec.web3
       .useContract('ERC20')

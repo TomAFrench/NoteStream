@@ -3,7 +3,7 @@
 const zkAssetAddress = document.body.getAttribute('asset');
 const {
     address: accountAddress,
-} = window.aztec.web3.account();
+} = window.aztec.web3.getAccount();
 let asset;
 let allowanceStatus;
 let depositStatus;
@@ -48,7 +48,7 @@ async function refreshBalance() {
 async function refreshAllowance() {
   const allowance = await asset.allowanceOfLinkedToken(
       accountAddress,
-      window.aztec.web3.getAddress('AZTECAccountRegistry'),
+      window.aztec.web3.getAddress('AccountRegistry'),
   );
   document.getElementById('erc20-allowance').innerHTML = `${allowance}`;
 }
@@ -77,6 +77,7 @@ async function initAsset() {
     sendStatus = makeStatusGenerator('send-status');
     fetchStatus = makeStatusGenerator('fetch-status');
     createStatus = makeStatusGenerator('create-status');
+    document.getElementById('asset-scaling-factor').innerHTML = asset.scalingFactor;
     document.getElementById('linked-erc20-address').innerHTML = asset.linkedTokenAddress;
     refreshAssetBalances();
   }
@@ -84,6 +85,8 @@ async function initAsset() {
 }
 
 async function approveAllowance() {
+  allowanceStatus.clear();
+
   const allowanceInput = document.getElementById('erc20-allowance-value');
   const value = parseInt(allowanceInput.value);
   if (!value) {
@@ -91,9 +94,7 @@ async function approveAllowance() {
     return;
   }
 
-  allowanceStatus.clear();
-
-  const registryAddress = window.aztec.web3.getAddress('AZTECAccountRegistry');
+  const registryAddress = window.aztec.web3.getAddress('AccountRegistry');
   const erc20Address = asset.linkedTokenAddress;
   await window.aztec.web3
     .useContract('ERC20')
@@ -109,18 +110,17 @@ async function approveAllowance() {
 }
 
 async function deposit() {
-  const numberOfOutputNotes = parseInt(document.getElementById('deposit-output-number').value, 10);
-  const toAddress = document.getElementById('deposit-to-address').value;
-  const depositInput = document.getElementById('deposit-value');
-  const value = parseInt(depositInput.value, 10);
-
   depositStatus.clear();
 
+  const numberOfOutputNotes = document.getElementById('deposit-output-number').value;
+  const toAddress = document.getElementById('deposit-to-address').value;
+  const amount = document.getElementById('deposit-value').value;
+
   try {
-    await asset.deposit(
+    const resp = await asset.deposit(
       [
         {
-          amount: value,
+          amount,
           to: toAddress,
         },
       ],
@@ -128,8 +128,8 @@ async function deposit() {
         numberOfOutputNotes,
       },
     );
+    console.log('>> deposit response', resp);
     refreshAssetBalances();
-    depositInput.value = '';
   } catch (error) {
     console.error(error);
     depositStatus.error(error.message);
@@ -137,26 +137,22 @@ async function deposit() {
 }
 
 async function withdraw() {
-  const withdrawInput = document.getElementById('withdraw-value');
-  const toAddress = document.getElementById('withdraw-to-address').value;
-  const numberOfInputNotes = parseInt(document.getElementById('withdraw-input-number').value, 10);
-  const value = parseInt(withdrawInput.value, 10);
-
   withdrawStatus.clear();
 
-  const account = window.aztec.web3.account();
+  const amount = document.getElementById('withdraw-value').value;
+  const toAddress = document.getElementById('withdraw-to-address').value;
+  const numberOfInputNotes = document.getElementById('withdraw-input-number').value;
 
   try {
-    await asset.withdraw(
-      value,
+    const resp = await asset.withdraw(
+      amount,
       {
           to: toAddress,
           numberOfInputNotes,
       },
     );
-
+    console.log('>> withdraw response', resp);
     refreshAssetBalances();
-    withdrawInput.value = '';
   } catch (error) {
     console.error(error);
     withdrawStatus.error(error.message);
@@ -164,28 +160,19 @@ async function withdraw() {
 }
 
 async function send() {
-  let numberOfInputNotes = document.getElementById('send-input-number').value.trim();
-  numberOfInputNotes = numberOfInputNotes === ''
-    ? undefined
-    : parseInt(numberOfInputNotes);
-  let numberOfOutputNotes = document.getElementById('send-output-number').value.trim();
-  numberOfOutputNotes = numberOfOutputNotes === ''
-    ? undefined
-    : parseInt(numberOfOutputNotes);
-  const valueInput = document.getElementById('send-value');
-  const address = document.getElementById('send-address').value.trim();
-  const value = parseInt(valueInput.value.trim(), 10);
-
   sendStatus.clear();
 
-  const account = window.aztec.web3.account();
+  const numberOfInputNotes = document.getElementById('send-input-number').value;
+  const numberOfOutputNotes = document.getElementById('send-output-number').value;
+  const amount = document.getElementById('send-value').value;
+  const address = document.getElementById('send-address').value;
 
   try {
-    await asset.send(
+    const resp = await asset.send(
       [
         {
           to: address,
-          amount: value,
+          amount,
         },
       ],
       {
@@ -193,9 +180,8 @@ async function send() {
         numberOfOutputNotes,
       },
     );
-
+    console.log('>> send response', resp);
     refreshAssetBalances();
-    valueInput.value = '';
   } catch (error) {
     console.error(error);
     sendStatus.error(error.message);
@@ -205,27 +191,20 @@ async function send() {
 async function createNoteFromBalance() {
   createStatus.clear();
 
-  let numberOfInputNotes = document.getElementById('create-input-number').value.trim();
-  numberOfInputNotes = numberOfInputNotes === ''
-    ? undefined
-    : parseInt(numberOfInputNotes);
-  let numberOfOutputNotes = document.getElementById('create-output-number').value.trim();
-  numberOfOutputNotes = numberOfOutputNotes === ''
-    ? undefined
-    : parseInt(numberOfOutputNotes);
-  const valueInput = document.getElementById('create-amount');
-  const value = parseInt(valueInput.value.trim());
+  const numberOfInputNotes = document.getElementById('create-input-number').value;
+  const numberOfOutputNotes = document.getElementById('create-output-number').value;
+  const value = document.getElementById('create-amount').value;
   const userAccess = [];
   for (let i = 0; i < 10; i += 1) {
     const elem = document.getElementById(`create-access-${i}`);
     if (!elem) break;
-    userAccess.push(elem.value);
+    if (elem.value) {
+        userAccess.push(elem.value);
+    }
   }
 
-  const account = window.aztec.web3.account();
-
   try {
-    await asset.createNoteFromBalance(
+    const resp = await asset.createNoteFromBalance(
       value,
       {
         userAccess,
@@ -233,9 +212,8 @@ async function createNoteFromBalance() {
         numberOfOutputNotes,
       },
     );
-
+    console.log('>> create note from balance response', resp);
     refreshAssetBalances();
-    valueInput.value = '';
   } catch (error) {
     console.error(error);
     createStatus.error(error.message);
@@ -245,22 +223,10 @@ async function createNoteFromBalance() {
 async function fetchNotesFromBalance() {
   fetchStatus.clear();
 
-  let equalTo = document.getElementById('fetch-eq-value').value.trim();
-  equalTo = equalTo === ''
-    ? undefined
-    : parseInt(equalTo);
-  let greaterThan = document.getElementById('fetch-gt-value').value.trim();
-  greaterThan = greaterThan === ''
-    ? undefined
-    : parseInt(greaterThan);
-  let lessThan = document.getElementById('fetch-lt-value').value.trim();
-  lessThan = lessThan === ''
-    ? undefined
-    : parseInt(lessThan);
-  let numberOfNotes = document.getElementById('fetch-count-value').value.trim();
-  numberOfNotes = numberOfNotes === ''
-    ? undefined
-    : parseInt(numberOfNotes);
+  const equalTo = document.getElementById('fetch-eq-value').value;
+  const greaterThan = document.getElementById('fetch-gt-value').value;
+  const lessThan = document.getElementById('fetch-lt-value').value;
+  const numberOfNotes = document.getElementById('fetch-count-value').value;
 
   let notes;
   try {
@@ -270,6 +236,7 @@ async function fetchNotesFromBalance() {
       greaterThan,
       numberOfNotes,
     });
+    console.log('>> fetch notes from balance response', notes);
   } catch (error) {
     console.error(error);
     fetchStatus.error(error.message);
@@ -293,6 +260,7 @@ document.getElementById('app').innerHTML = `
   <div>
     <div>
       Asset: <strong>${zkAssetAddress}</strong><br/>
+      Scaling Factor: <span id="asset-scaling-factor">...</span><br/>
       Balance: <span id="asset-balance">...</span><br/>
     </div>
     <br/>
