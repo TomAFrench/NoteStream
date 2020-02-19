@@ -30,8 +30,9 @@ yarn install
 yarn start
 ```
 
-Open `http://localhost:5000` in your browser to view the demo dapp.
+Open `http://localhost:5000` in your web3 enabled browser to view the demo dapp. Make sure you are on the Rinkeby network and have some test eth. 
 
+The Dapp will allow you to convert ERC20 tokens into zkTokens, send these zkTokens around to other Ethereum addresses and withdraw from zkTokens back into ERC20 tokens. 
 
 ## Developer Guide
 
