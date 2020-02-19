@@ -32,11 +32,6 @@ yarn start
 
 Open `http://localhost:5000` in your browser to view the demo dapp.
 
-##### Simple dApp written in HTML and javascript:
-
-```sh
-yarn demo
-```
 
 ## Developer Guide
 
