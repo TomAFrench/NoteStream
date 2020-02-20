@@ -87,20 +87,17 @@ class App extends PureComponent {
 
     switch (type) {
       case 'accountChanged':
-        nextState.aztecAccount = null;
         nextState.nextAccount = value;
         break;
       case 'chainChanged':
       case 'networkChanged':
-        nextState.aztecAccount = null;
         nextState.nextNetwork = value;
         break;
       case 'aztecAccountChanged': {
         const {
-          aztecAccount: prevAztecAccount,
-        } = this.state;
-        const account = window.aztec.web3.getAccount();
-        const network = window.aztec.web3.getNetwork();
+          account,
+          network,
+        } = window.aztec.web3;
         nextState.account = account;
         nextState.network = network;
         nextState.nextAccount = null;
@@ -108,7 +105,7 @@ class App extends PureComponent {
 
         if (value) {
           nextState.aztecAccount = value;
-        } else if (prevAztecAccount || error) {
+        } else if (error) {
           nextState.error = error;
         }
         break;
