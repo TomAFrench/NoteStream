@@ -1,23 +1,21 @@
-export default function getContractAddress(contractName, networkId = null) {
+export default function getContractAddress(contractName, currentNetwork = null) {
   let contract;
   try {
     contract = require(`../../build/contracts/${contractName}.json`);
   } catch (error) {
-    console.error(`Cannot find contract '${contractName}' in build/contracts.`);
+    if (currentNetwork.name === 'Ganache') {
+      console.error(`Can't find contract '${contractName}' in build/contracts. Please run 'yarn start' from project root.`);
+    }
     return '';
   }
 
   const {
     networks,
   } = contract || {};
-  let address = (networks && networks[networkId]) || '';
-  if (networkId === null && networks) {
-    const lastNetworkId = Object.keys(contract.networks).pop();
+  let address = '';
+  if (networks) {
+    const lastNetworkId = Object.keys(networks).pop();
     address = contract.networks[lastNetworkId].address;
-  }
-  if (!address) {
-    console.error(`Cannot find address of contract '${contractName}' with network id ${networkId}.`);
-    return '';
   }
 
   return address;

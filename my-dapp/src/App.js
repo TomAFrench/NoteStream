@@ -53,11 +53,14 @@ class App extends PureComponent {
   };
 
   enableAztecSdk = async () => {
+    const {
+      network,
+    } = this.state;
     try {
       const contractAddresses = {
         ganache: {
-          ACE: getContractAddress('ACE'),
-          AccountRegistryManager: getContractAddress('AccountRegistryManager'),
+          ACE: getContractAddress('ACE', network),
+          AccountRegistryManager: getContractAddress('AccountRegistryManager', network),
         },
       };
       await window.aztec.enable({
