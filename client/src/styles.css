@@ -104,7 +104,6 @@ input[type="submit"] {
   font-size: 16px;
   font-weight: 700;
   color: #fff;
-  min-width: 300px;
   margin-bottom: 20px;
   text-transform: uppercase;
 }
