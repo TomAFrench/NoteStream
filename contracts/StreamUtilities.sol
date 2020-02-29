@@ -98,11 +98,11 @@ library StreamUtilities {
     require(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash == _stream.currentBalance, 'interest note in 2 is not correct');
 
     // approve transfer
-    _stream.settlementToken.confidentialApprove(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash, address(this), true, '');
+    _stream.tokenAddress.confidentialApprove(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash, address(this), true, '');
     
     
     // send transfer
-    _stream.settlementToken.confidentialTransferFrom(JOIN_SPLIT_PROOF, _proof2Outputs.get(0));
+    _stream.tokenAddress.confidentialTransferFrom(JOIN_SPLIT_PROOF, _proof2Outputs.get(0));
 
     // Update new contract note
     newCurrentInterestBalance = _noteCoderToStruct(_proof2OutputNotes.get(1)).noteHash;
@@ -134,8 +134,8 @@ library StreamUtilities {
     require(_noteCoderToStruct(_proof2OutputNotes.get(0)).owner == _stream.sender, 'withdraw note in 2 is not the same as 1');
 
 
-    _stream.settlementToken.confidentialApprove(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash, address(this), true, '');
+    _stream.tokenAddress.confidentialApprove(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash, address(this), true, '');
 
-    _stream.settlementToken.confidentialTransferFrom(JOIN_SPLIT_PROOF, _proof2Outputs.get(0));
+    _stream.tokenAddress.confidentialTransferFrom(JOIN_SPLIT_PROOF, _proof2Outputs.get(0));
   }    
 }

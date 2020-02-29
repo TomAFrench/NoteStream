@@ -10,7 +10,7 @@ import "./StreamUtilities.sol";
 // import "./PausableWithoutRenounce.sol";
 
 import "./interfaces/ICERC20.sol";
-import "./interfaces/IZkAsset.sol";
+//import "./interfaces/IZkAsset.sol";
 
 import "./Types.sol";
 
@@ -100,7 +100,7 @@ contract Sablier is CarefulMath, ReentrancyGuard {
         returns (
             address sender,
             address recipient,
-            bytes32 notehash,
+            bytes32 currentBalance,
             address tokenAddress,
             uint256 startTime,
             uint256 stopTime
@@ -108,8 +108,8 @@ contract Sablier is CarefulMath, ReentrancyGuard {
     {
         sender = streams[streamId].sender;
         recipient = streams[streamId].recipient;
-        notehash = streams[streamId].notehash;
-        tokenAddress = streams[streamId].tokenAddress;
+        currentBalance = streams[streamId].currentBalance;
+        tokenAddress = address(streams[streamId].tokenAddress);
         startTime = streams[streamId].startTime;
         stopTime = streams[streamId].stopTime;
     }
@@ -129,8 +129,9 @@ contract Sablier is CarefulMath, ReentrancyGuard {
         return stream.stopTime - stream.startTime;
     }
 
-    struct proRataShareLocalVars {
+    struct withdrawFromStreamLocalVars {
         MathError mathErr;
+        uint256 newWithdrawalTime;
     }
 
     function withdrawFromStream(
@@ -140,16 +141,20 @@ contract Sablier is CarefulMath, ReentrancyGuard {
         uint256 _streamDurationToWithdraw
       ) public streamExists(streamId) onlySenderOrRecipient(streamId) {
         
-        Types.AztecStream memory stream = streams[streamId];
+        Types.AztecStream storage stream = streams[streamId];
         
-        (,bytes memory _proof1OutputNotes) = stream._validateRatioProof(_proof1, _streamDurationToWithdraw, stream);
+        (,bytes memory _proof1OutputNotes) = StreamUtilities._validateRatioProof(_proof1, _streamDurationToWithdraw, stream);
 
-        require(_streamDurationToWithdraw.add(stream.lastWithdrawTime) < block.timestamp, 'withdraw is greater than allowed');
+        withdrawFromStreamLocalVars memory vars;
+        (vars.mathErr, vars.newWithdrawalTime) = addUInt(_streamDurationToWithdraw, stream.lastWithdrawTime);
+        /* `subUInt` can only return MathError.INTEGER_UNDERFLOW but we know `stopTime` is higher than `startTime`. */
+        assert(vars.mathErr == MathError.NO_ERROR);
+        require(vars.newWithdrawalTime < block.timestamp, 'withdraw is greater than allowed');
 
-        (bytes32 newCurrentBalanceNoteHash) = stream._processWithdrawal(_proof2, _proof1OutputNotes, stream);
+        (bytes32 newCurrentBalanceNoteHash) = StreamUtilities._processWithdrawal(_proof2, _proof1OutputNotes, stream);
 
         stream.currentBalance = newCurrentBalanceNoteHash;
-        stream.lastWithdrawTime = stream.lastWithdrawTime.add(_streamDurationToWithdraw);
+        stream.lastWithdrawTime = vars.newWithdrawalTime;
 
         emit WithdrawFromStream(streamId, stream.recipient);
       }
