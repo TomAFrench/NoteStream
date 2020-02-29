@@ -19,10 +19,10 @@
   dependencies:
     bn.js "^4.11.8"
 
-"@aztec/protocol@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@aztec/protocol/-/protocol-1.4.0.tgz#be75832a4f5bacd25753a183bf72f3d87882b0d5"
-  integrity sha512-GX0eTHV1oYJ3xqgGJrN139PtWLuKDQRJFr3fxdp7Dvy4bFZZ3MVtfd/xhRmToQkIZbVIokCsl7ZQA1cyEFT8iw==
+"@aztec/protocol@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@aztec/protocol/-/protocol-1.6.0.tgz#df71761cc66a5c390ca92f074a2b3dc685cd6815"
+  integrity sha512-raD/HPuoDl1yKvW/nFex0DJXxT7icFF2BsZbtpkIkv1yXYgj3UH2DbnfQhlxOd0zchaAeZ/iIcy4+qeItWi8DA==
   dependencies:
     "@openzeppelin/contracts-ethereum-package" "^2.4.0"
     "@openzeppelin/gsn-helpers" "^0.2.1"

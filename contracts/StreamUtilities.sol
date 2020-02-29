@@ -2,6 +2,7 @@ pragma solidity 0.5.11;
 // import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
 
 import "@aztec/protocol/contracts/ACE/ACE.sol";
+import "@aztec/protocol/contracts/interfaces/IZkAsset.sol";
 import "@aztec/protocol/contracts/libs/NoteUtils.sol";
 import "./Types.sol";
 
@@ -98,11 +99,11 @@ library StreamUtilities {
     require(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash == _stream.currentBalance, 'interest note in 2 is not correct');
 
     // approve transfer
-    _stream.tokenAddress.confidentialApprove(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash, address(this), true, '');
+    IZkAsset(_stream.tokenAddress).confidentialApprove(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash, address(this), true, '');
     
     
     // send transfer
-    _stream.tokenAddress.confidentialTransferFrom(JOIN_SPLIT_PROOF, _proof2Outputs.get(0));
+    IZkAsset(_stream.tokenAddress).confidentialTransferFrom(JOIN_SPLIT_PROOF, _proof2Outputs.get(0));
 
     // Update new contract note
     newCurrentInterestBalance = _noteCoderToStruct(_proof2OutputNotes.get(1)).noteHash;
@@ -110,10 +111,10 @@ library StreamUtilities {
   }
 
     function _processCancelation(
-    bytes calldata _proof2,
-    bytes calldata _proof1OutputNotes,
+    bytes memory _proof2,
+    bytes memory _proof1OutputNotes,
     Types.AztecStream storage _stream
-  ) external returns (bytes32 newCurrentInterestBalance) {
+  ) public /*returns (bytes32 newCurrentInterestBalance)*/ {
 
 
     (bytes memory _proof2Outputs) = ACE(_stream.aceContractAddress).validateProof(JOIN_SPLIT_PROOF, address(this),
@@ -134,8 +135,8 @@ library StreamUtilities {
     require(_noteCoderToStruct(_proof2OutputNotes.get(0)).owner == _stream.sender, 'withdraw note in 2 is not the same as 1');
 
 
-    _stream.tokenAddress.confidentialApprove(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash, address(this), true, '');
+    IZkAsset(_stream.tokenAddress).confidentialApprove(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash, address(this), true, '');
 
-    _stream.tokenAddress.confidentialTransferFrom(JOIN_SPLIT_PROOF, _proof2Outputs.get(0));
+    IZkAsset(_stream.tokenAddress).confidentialTransferFrom(JOIN_SPLIT_PROOF, _proof2Outputs.get(0));
   }    
 }

@@ -1,6 +1,5 @@
 pragma solidity 0.5.11;
 
-import "@aztec/protocol/contracts/interfaces/IZkAsset.sol";
 
 /**
  * @title Sablier Types
@@ -14,7 +13,7 @@ library Types {
         uint256 stopTime;
         address recipient;
         address sender;
-        IZkAsset tokenAddress;
+        address tokenAddress;
         address aceContractAddress;
         bool isEntity;
     }
