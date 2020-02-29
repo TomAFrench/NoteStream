@@ -7,9 +7,15 @@ import {
   hours as hoursOption,
   minutes as minutesOption
 } from "./options";
-const aztec = require("aztec.js");
+const { JoinSplitProof, DividendProof, note } = require("aztec.js");
+const secp256k1 = require("@aztec/secp256k1");
+const zkAssetAddress = "0x54Fac13e652702a733464bbcB0Fb403F1c057E1b";
+const streamContractAddress = "0xf637cfb0c6be07eb0533d1600c7c3fe28df887a3";
+const payeeAddress = "0xC6EBff8Bdb7a8E05A350676f8b662231e87D83a7";
 
-function App() {
+const streamContract = require("./streamContract.js");
+
+const App = () => {
   const [web3, setWeb3] = useState(null);
   const [accounts, setAccounts] = useState(null);
   const [contract, setContract] = useState(null);
@@ -24,24 +30,130 @@ function App() {
   const [route, setRoute] = useState("deposit");
   const [daiBalance, setDaiBalance] = useState(0);
   const [zkdaiBalance, setZkdaiBalance] = useState(0);
+  const [notes, setNotes] = useState(null);
+
+  async function getBalance(asset) {
+    const _zkbalance = await asset.balance();
+    setZkdaiBalance(_zkbalance);
+  }
+
+  async function getAllNotes(asset) {
+    // Fetch all notes
+    const _notes = await asset.fetchNotesFromBalance();
+    setNotes(_notes);
+  }
+
+  async function generateDividendProof(zA, zB) {
+    /// / //// PROOF STUFF here.
+    const acts = [secp256k1.generateAccount(), secp256k1.generateAccount()];
+    const notionalNote = await note.create(acts[0].publicKey, 10); // Original Node
+    const targetNote = await note.create(acts[0].publicKey, 5); // Note to receiver
+    const residualNote = await note.create(
+      acts[1].publicKey,
+      1,
+      "0xf637cfb0c6be07eb0533d1600c7c3fe28df887a3"
+    );
+
+    // notionalNote.value * za = targetNote.value * zb + residualNote.value
+    // 10 * 1 = 5 * 2 + 1
+
+    const sender = acts[0].address; // address of transaction sender
+    const publicOwner = acts[0].address; // address of public token owner
+
+    const proof = new DividendProof(
+      notionalNote,
+      residualNote,
+      targetNote,
+      sender,
+      zA,
+      zB
+    );
+    console.log(proof);
+  }
+
+  async function createStream(
+    _web3,
+    noteForStreamContract,
+    startTime,
+    endTime
+  ) {
+    const streamContractInstance = new _web3.eth.Contract(
+      streamContract.abi,
+      streamContractAddress
+    );
+    console.log(streamContractInstance.methods);
+    streamContractInstance.methods
+      .createStream(
+        payeeAddress,
+        noteForStreamContract.noteHash,
+        zkAssetAddress,
+        startTime,
+        endTime
+      )
+      .call({}, (err, streamID) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Steam ID", streamID);
+        }
+      });
+  }
+
+  async function depositToStream(sendAmount, asset) {
+    const _sendResp = await asset.send(
+      [
+        {
+          to: streamContractAddress,
+          amount: sendAmount,
+          aztecAccountNotRequired: true,
+          numberOfOutputNotes: 1 // contract has one
+        }
+      ],
+      { userAccess: [payeeAddress] }
+    ); // account of user who is streaming
+    console.info("sent funds confidentially");
+    console.log("_sendResp", _sendResp);
+    let noteForStreamContract = null;
+    _sendResp.outputNotes.forEach(function(outputNote) {
+      if (outputNote.owner === streamContractAddress) {
+        noteForStreamContract = outputNote;
+      }
+    });
+    console.log("noteForStreamContract", noteForStreamContract);
+    return noteForStreamContract;
+  }
 
   useEffect(() => {
     const init = async () => {
       const _web3 = await getWeb3();
       const accounts = await _web3.eth.getAccounts();
-      let _network = await _web3.eth.net.getId();
+      const _network = await _web3.eth.net.getId();
       setNetwork(_network);
 
-      /*const _contract = new web3.eth.Contract(
+      /* const _contract = new web3.eth.Contract(
        Multisig.abi,
-        deployedNetwork && deployedNetwork.address, 
+        deployedNetwork && deployedNetwork.address,
       ); */
       console.log("web3", _web3);
-      console.log("aztec", aztec);
       console.log("windowaztec", window.aztec);
       setWeb3(_web3);
       setAccounts(accounts);
-      //setContract(_contract);
+      // setContract(_contract);
+      const apiKey = "test1234";
+      const result = await window.aztec.enable({ apiKey });
+      // Fetch the zkAsset
+
+      const asset = await window.aztec.zkAsset(zkAssetAddress);
+      console.log("ASSET:", asset);
+      await getBalance(asset);
+      await getAllNotes(asset);
+
+      // Send funds
+      const deposit = true;
+      if (deposit) {
+        const noteForStreamContract = await depositToStream(10, asset);
+        createStream(_web3, noteForStreamContract, 0, 10000000);
+      }
     };
     init();
     /*
@@ -194,9 +306,7 @@ function App() {
         ) : null}
         {route == "deposit" ? (
           <>
-            <p>
-              Your Dai Balance: {daiBalance} Dai
-            </p>
+            <p>Your Dai Balance: {daiBalance} Dai</p>
             <p style={{ marginBottom: 20 }}>
               Your zkDai Balance: {zkdaiBalance} ZkDai
             </p>
@@ -240,6 +350,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;
