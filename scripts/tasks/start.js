@@ -44,8 +44,7 @@ export default function start({
     log('  Deployed contracts:\n');
     [
       'ACE',
-      'AccountRegistryManager',
-      'AztecStreamer'
+      'AccountRegistryManager'
     ].forEach((contractName) => {
       let contract;
       let address = '';

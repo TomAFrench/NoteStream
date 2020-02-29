@@ -14,7 +14,7 @@ module.exports = {
       },
     },
   },
-  contracts_build_directory: "./build",
+  // contracts_build_directory: "./build",
   mocha: {
     bail: true,
     enableTimeouts: false,
