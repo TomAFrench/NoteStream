@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="22px" viewBox="0 0 12 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>atoms/icons/back_button</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Pre-Launch-Project" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-11-Pro-Copy" transform="translate(-9.000000, -55.000000)" fill="#FFFFFF">
+            <g id="Top-bar-w-back-and-icon">
+                <g id="atoms/icons/back_button" transform="translate(9.000000, 55.000000)">
+                    <g id="iPhone-X/Bars/Navigation/Navigation-Bar---1-Action">
+                        <g id="Resources/Nav-Bar-(Back)" fill-rule="nonzero">
+                            <g id="Pin-Left">
+                                <path d="M3.62132034,11 L11.5606602,3.06066017 C12.1464466,2.47487373 12.1464466,1.52512627 11.5606602,0.939339828 C10.9748737,0.353553391 10.0251263,0.353553391 9.43933983,0.939339828 L0.439339828,9.93933983 C-0.146446609,10.5251263 -0.146446609,11.4748737 0.439339828,12.0606602 L9.43933983,21.0606602 C10.0251263,21.6464466 10.9748737,21.6464466 11.5606602,21.0606602 C12.1464466,20.4748737 12.1464466,19.5251263 11.5606602,18.9393398 L3.62132034,11 Z" id="Path"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
