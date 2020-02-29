@@ -5,15 +5,15 @@ pragma solidity 0.5.11;
  * @author Sablier
  */
 library Types {
-    struct Stream {
-        uint256 deposit;
-        uint256 ratePerSecond;
-        uint256 remainingBalance;
+    struct AztecStream {
+        bytes32 currentBalance;
         uint256 startTime;
+        uint256 lastWithdrawTime;
         uint256 stopTime;
         address recipient;
         address sender;
-        address tokenAddress;
+        // address tokenAddress;
+        address aceContractAddress;
         bool isEntity;
     }
 }
