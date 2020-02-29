@@ -176,9 +176,15 @@ select:focus {
 textarea {
   min-height: 200px;
 }
+select,
+input {
+  border-radius: 0px!important;
+}
 .input-wrap {
   position: relative;
   width: 100%;
+  overflow: hidden;
+  border-radius: 0px;
 }
 label {
   font-size: 11px;

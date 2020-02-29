@@ -20,6 +20,7 @@ function App() {
   const [days, setDays] = useState(null);
   const [hours, setHours] = useState(null);
   const [minutes, setMinutes] = useState(null);
+  const [route, setRoute] = useState("deposit");
 
   useEffect(() => {
     const init = async () => {
@@ -54,6 +55,55 @@ function App() {
   return (
     <div className="App">
       <div style={{ width: 500, margin: "auto", marginTop: 150 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            backgroundColor: "rgba(8, 8, 8, 0.44)",
+            alignItems: "center",
+            marginBottom: 10
+          }}
+        >
+          <p
+            onClick={() => setRoute("deposit")}
+            style={{
+              cursor: "pointer",
+              margin: 0,
+              padding: "5px 30px 5px 30px",
+              backgroundColor: route == "deposit" ? "#0179C4" : null,
+              borderRadius: 10,
+              opacity: 0.85
+            }}
+          >
+            Deposit
+          </p>
+          <p
+            onClick={() => setRoute("send")}
+            style={{
+              cursor: "pointer",
+              margin: 0,
+              padding: "5px 30px 5px 30px",
+              backgroundColor: route == "send" ? "#0179C4" : null,
+              borderRadius: 10,
+              opacity: 0.85
+            }}
+          >
+            Send
+          </p>
+          <p
+            onClick={() => setRoute("status")}
+            style={{
+              cursor: "pointer",
+              margin: 0,
+              padding: "5px 30px 5px 30px",
+              backgroundColor: route == "status" ? "#0179C4" : null,
+              borderRadius: 10,
+              opacity: 0.85
+            }}
+          >
+            Status
+          </p>
+        </div>
         <div className="input-wrap">
           <label>How much do you want to stream?</label>
           <input
@@ -72,9 +122,7 @@ function App() {
             placeholder="0xe065D88f41615231e69026040C075d9F9F1bD00A"
           />
         </div>
-        <label style={{ textAlign: "left" }}>
-          For how long do you want to stream?
-        </label>
+        <p style={{ marginBottom: 10 }}>For how long do you want to stream?</p>
         <div
           style={{
             display: "flex",
