@@ -1,22 +1,28 @@
 pragma solidity 0.5.11;
 
-import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";
+// import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol";
 
-import "./Exponential.sol";
-import "./interfaces/ICERC20.sol";
+import "./CarefulMath.sol";
+import "./StreamUtilities.sol";
 
-import "./OwnableWithoutRenounce.sol";
-import "./PausableWithoutRenounce.sol";
-import "./interfaces/IERC1620.sol";
+// import "./OwnableWithoutRenounce.sol";
+// import "./PausableWithoutRenounce.sol";
+
+import "./interfaces/ICERC20.sol";
+//import "./interfaces/IZkAsset.sol";
+
 import "./Types.sol";
 
 /**
  * @title Sablier's Money Streaming
  * @author Sablier
  */
-contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, Exponential, ReentrancyGuard {
+contract Sablier is CarefulMath, ReentrancyGuard {
+   
     /*** Storage Properties ***/
+
+    uint24 constant DIVIDEND_PROOF= 66561;
 
     /**
      * @notice In Exp terms, 1e18 is 1, or 100%
@@ -41,14 +47,14 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
     /**
      * @notice The stream objects identifiable by their unsigned integer ids.
      */
-    mapping(uint256 => Types.Stream) private streams;
+    mapping(uint256 => Types.AztecStream) private streams;
 
     /*** Events ***/
 
-    /**
-     * @notice Emits when the owner takes the earnings.
-     */
-    event TakeEarnings(address indexed tokenAddress, uint256 indexed amount);
+    event WithdrawFromStream(uint256 streamId, address recipient);
+
+    event CancelStream(uint256 streamId);
+
 
     /*** Modifiers ***/
 
@@ -73,9 +79,9 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
 
     /*** Contract Logic Starts Here */
 
-    constructor() public {
-        OwnableWithoutRenounce.initialize(msg.sender);
-        PausableWithoutRenounce.initialize(msg.sender);
+    constructor() public {        
+        // OwnableWithoutRenounce.initialize(msg.sender);
+        // PausableWithoutRenounce.initialize(msg.sender);
         nextStreamId = 1;
     }
 
@@ -94,22 +100,18 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
         returns (
             address sender,
             address recipient,
-            uint256 deposit,
+            bytes32 currentBalance,
             address tokenAddress,
             uint256 startTime,
-            uint256 stopTime,
-            uint256 remainingBalance,
-            uint256 ratePerSecond
+            uint256 stopTime
         )
     {
         sender = streams[streamId].sender;
         recipient = streams[streamId].recipient;
-        deposit = streams[streamId].deposit;
-        tokenAddress = streams[streamId].tokenAddress;
+        currentBalance = streams[streamId].currentBalance;
+        tokenAddress = address(streams[streamId].tokenAddress);
         startTime = streams[streamId].startTime;
         stopTime = streams[streamId].stopTime;
-        remainingBalance = streams[streamId].remainingBalance;
-        ratePerSecond = streams[streamId].ratePerSecond;
     }
 
     /**
@@ -121,56 +123,41 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
      * @return The time delta in seconds.
      */
     function deltaOf(uint256 streamId) public view streamExists(streamId) returns (uint256 delta) {
-        Types.Stream memory stream = streams[streamId];
+        Types.AztecStream memory stream = streams[streamId];
         if (block.timestamp <= stream.startTime) return 0;
         if (block.timestamp < stream.stopTime) return block.timestamp - stream.startTime;
         return stream.stopTime - stream.startTime;
     }
 
-    struct BalanceOfLocalVars {
+    struct withdrawFromStreamLocalVars {
         MathError mathErr;
-        uint256 recipientBalance;
-        uint256 withdrawalAmount;
-        uint256 senderBalance;
+        uint256 newWithdrawalTime;
     }
 
-    /**
-     * @notice Returns the available funds for the given stream id and address.
-     * @dev Throws if the id does not point to a valid stream.
-     * @param streamId The id of the stream for which to query the balance.
-     * @param who The address for which to query the balance.
-     * @return The total funds allocated to `who` as uint256.
-     */
-    function balanceOf(uint256 streamId, address who) public view streamExists(streamId) returns (uint256 balance) {
-        Types.Stream memory stream = streams[streamId];
-        BalanceOfLocalVars memory vars;
+    function withdrawFromStream(
+        uint256 streamId,
+        bytes memory _proof1, // Dividend Proof
+        bytes memory _proof2, // Join-Split Proof
+        uint256 _streamDurationToWithdraw
+      ) public streamExists(streamId) onlySenderOrRecipient(streamId) {
+        
+        Types.AztecStream storage stream = streams[streamId];
+        
+        (,bytes memory _proof1OutputNotes) = StreamUtilities._validateRatioProof(_proof1, _streamDurationToWithdraw, stream);
 
-        uint256 delta = deltaOf(streamId);
-        (vars.mathErr, vars.recipientBalance) = mulUInt(delta, stream.ratePerSecond);
-        require(vars.mathErr == MathError.NO_ERROR, "recipient balance calculation error");
+        withdrawFromStreamLocalVars memory vars;
+        (vars.mathErr, vars.newWithdrawalTime) = addUInt(_streamDurationToWithdraw, stream.lastWithdrawTime);
+        /* `subUInt` can only return MathError.INTEGER_UNDERFLOW but we know `stopTime` is higher than `startTime`. */
+        assert(vars.mathErr == MathError.NO_ERROR);
+        require(vars.newWithdrawalTime < block.timestamp, 'withdraw is greater than allowed');
 
-        /*
-         * If the stream `balance` does not equal `deposit`, it means there have been withdrawals.
-         * We have to subtract the total amount withdrawn from the amount of money that has been
-         * streamed until now.
-         */
-        if (stream.deposit > stream.remainingBalance) {
-            (vars.mathErr, vars.withdrawalAmount) = subUInt(stream.deposit, stream.remainingBalance);
-            assert(vars.mathErr == MathError.NO_ERROR);
-            (vars.mathErr, vars.recipientBalance) = subUInt(vars.recipientBalance, vars.withdrawalAmount);
-            /* `withdrawalAmount` cannot and should not be bigger than `recipientBalance`. */
-            assert(vars.mathErr == MathError.NO_ERROR);
-        }
+        (bytes32 newCurrentBalanceNoteHash) = StreamUtilities._processWithdrawal(_proof2, _proof1OutputNotes, stream);
 
-        if (who == stream.recipient) return vars.recipientBalance;
-        if (who == stream.sender) {
-            (vars.mathErr, vars.senderBalance) = subUInt(stream.remainingBalance, vars.recipientBalance);
-            /* `recipientBalance` cannot and should not be bigger than `remainingBalance`. */
-            assert(vars.mathErr == MathError.NO_ERROR);
-            return vars.senderBalance;
-        }
-        return 0;
-    }
+        stream.currentBalance = newCurrentBalanceNoteHash;
+        stream.lastWithdrawTime = vars.newWithdrawalTime;
+
+        emit WithdrawFromStream(streamId, stream.recipient);
+      }
 
     /*** Public Effects & Interactions Functions ***/
 
@@ -201,100 +188,61 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
      * @param stopTime The unix timestamp for when the stream stops.
      * @return The uint256 id of the newly created stream.
      */
-    function createStream(address recipient, uint256 deposit, address tokenAddress, uint256 startTime, uint256 stopTime)
-        public
-        whenNotPaused
-        returns (uint256)
-    {
-        require(recipient != address(0x00), "stream to the zero address");
-        require(recipient != address(this), "stream to the contract itself");
-        require(recipient != msg.sender, "stream to the caller");
-        require(deposit > 0, "deposit is zero");
-        require(startTime >= block.timestamp, "start time before block.timestamp");
-        require(stopTime > startTime, "stop time before the start time");
+    // function createStream(address recipient, bytes32 noteproof, address tokenAddress, uint256 startTime, uint256 stopTime)
+    //     public
+    //     whenNotPaused
+    //     returns (uint256)
+    // {
+    //     require(recipient != address(0x00), "stream to the zero address");
+    //     require(recipient != address(this), "stream to the contract itself");
+    //     require(recipient != msg.sender, "stream to the caller");
+    //     require(startTime >= block.timestamp, "start time before block.timestamp");
+    //     require(stopTime > startTime, "stop time before the start time");
 
-        CreateStreamLocalVars memory vars;
-        (vars.mathErr, vars.duration) = subUInt(stopTime, startTime);
-        /* `subUInt` can only return MathError.INTEGER_UNDERFLOW but we know `stopTime` is higher than `startTime`. */
-        assert(vars.mathErr == MathError.NO_ERROR);
+    //     CreateStreamLocalVars memory vars;
+    //     (vars.mathErr, vars.duration) = subUInt(stopTime, startTime);
+    //     /* `subUInt` can only return MathError.INTEGER_UNDERFLOW but we know `stopTime` is higher than `startTime`. */
+    //     assert(vars.mathErr == MathError.NO_ERROR);
 
-        /* Without this, the rate per second would be zero. */
-        require(deposit >= vars.duration, "deposit smaller than time delta");
+    //     /* Create and store the stream object. */
+    //     uint256 streamId = nextStreamId;
+    //     streams[streamId] = Types.AztecStream({
+    //         deposit: deposit,
+    //         isEntity: true,
+    //         recipient: recipient,
+    //         sender: msg.sender,
+    //         startTime: startTime,
+    //         stopTime: stopTime,
+    //         tokenAddress: tokenAddress
+    //     });
 
-        /* This condition avoids dealing with remainders */
-        require(deposit % vars.duration == 0, "deposit not multiple of time delta");
+    //     /* Increment the next stream id. */
+    //     (vars.mathErr, nextStreamId) = addUInt(nextStreamId, uint256(1));
+    //     require(vars.mathErr == MathError.NO_ERROR, "next stream id calculation error");
 
-        (vars.mathErr, vars.ratePerSecond) = divUInt(deposit, vars.duration);
-        /* `divUInt` can only return MathError.DIVISION_BY_ZERO but we know `duration` is not zero. */
-        assert(vars.mathErr == MathError.NO_ERROR);
+    //     require(ZkAsset(tokenAddress).confidentialTransferFrom(_proof, _proofOutput), "ZKAsset transfer failure");
+    //     emit CreateStream(streamId, msg.sender, recipient, tokenAddress, startTime, stopTime);
+    //     return streamId;
+    // }
 
-        /* Create and store the stream object. */
-        uint256 streamId = nextStreamId;
-        streams[streamId] = Types.Stream({
-            remainingBalance: deposit,
-            deposit: deposit,
-            isEntity: true,
-            ratePerSecond: vars.ratePerSecond,
-            recipient: recipient,
-            sender: msg.sender,
-            startTime: startTime,
-            stopTime: stopTime,
-            tokenAddress: tokenAddress
-        });
-
-        /* Increment the next stream id. */
-        (vars.mathErr, nextStreamId) = addUInt(nextStreamId, uint256(1));
-        require(vars.mathErr == MathError.NO_ERROR, "next stream id calculation error");
-
-        require(IERC20(tokenAddress).transferFrom(msg.sender, address(this), deposit), "token transfer failure");
-        emit CreateStream(streamId, msg.sender, recipient, deposit, tokenAddress, startTime, stopTime);
-        return streamId;
-    }
-    /**
-     * @notice Withdraws from the contract to the recipient's account.
-     * @dev Throws if the id does not point to a valid stream.
-     *  Throws if the caller is not the sender or the recipient of the stream.
-     *  Throws if the amount exceeds the available balance.
-     *  Throws if there is a token transfer failure.
-     * @param streamId The id of the stream to withdraw tokens from.
-     * @param amount The amount of tokens to withdraw.
-     * @return bool true=success, otherwise false.
-     */
-    function withdrawFromStream(uint256 streamId, uint256 amount)
-        external
-        whenNotPaused
-        nonReentrant
-        streamExists(streamId)
-        onlySenderOrRecipient(streamId)
-        returns (bool)
-    {
-        require(amount > 0, "amount is zero");
-        Types.Stream memory stream = streams[streamId];
-        uint256 balance = balanceOf(streamId, stream.recipient);
-        require(balance >= amount, "amount exceeds the available balance");
-
-        withdrawFromStreamInternal(streamId, amount);
-        return true;
-    }
-
-    /**
-     * @notice Cancels the stream and transfers the tokens back on a pro rata basis.
-     * @dev Throws if the id does not point to a valid stream.
-     *  Throws if the caller is not the sender or the recipient of the stream.
-     *  Throws if there is a token transfer failure.
-     * @param streamId The id of the stream to cancel.
-     * @return bool true=success, otherwise false.
-     */
-    function cancelStream(uint256 streamId)
-        external
-        nonReentrant
-        streamExists(streamId)
-        onlySenderOrRecipient(streamId)
-        returns (bool)
-    {
-        cancelStreamInternal(streamId);
-        return true;
-    }
+    // /**
+    //  * @notice Cancels the stream and transfers the tokens back on a pro rata basis.
+    //  * @dev Throws if the id does not point to a valid stream.
+    //  *  Throws if the caller is not the sender or the recipient of the stream.
+    //  *  Throws if there is a token transfer failure.
+    //  * @param streamId The id of the stream to cancel.
+    //  * @return bool true=success, otherwise false.
+    //  */
+    // function cancelStream(uint256 streamId)
+    //     external
+    //     nonReentrant
+    //     streamExists(streamId)
+    //     onlySenderOrRecipient(streamId)
+    //     returns (bool)
+    // {
+    //     cancelStreamInternal(streamId);
+    //     return true;
+    // }
 
     /*** Internal Effects & Interactions Functions ***/
 
@@ -310,19 +258,10 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
      *  Throws if there is a token transfer failure.
      */
     function withdrawFromStreamInternal(uint256 streamId, uint256 amount) internal {
-        Types.Stream memory stream = streams[streamId];
+        Types.AztecStream memory stream = streams[streamId];
         WithdrawFromStreamInternalLocalVars memory vars;
-        (vars.mathErr, streams[streamId].remainingBalance) = subUInt(stream.remainingBalance, amount);
-        /**
-         * `subUInt` can only return MathError.INTEGER_UNDERFLOW but we know that `remainingBalance` is at least
-         * as big as `amount`. See the `require` check in `withdrawFromInternal`.
-         */
-        assert(vars.mathErr == MathError.NO_ERROR);
-
-        if (streams[streamId].remainingBalance == 0) delete streams[streamId];
-
-        require(IERC20(stream.tokenAddress).transfer(stream.recipient, amount), "token transfer failure");
-        emit WithdrawFromStream(streamId, stream.recipient, amount);
+        
+        emit WithdrawFromStream(streamId, stream.recipient);
     }
    
     /**
@@ -332,17 +271,10 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
      *  Throws if there is a token transfer failure.
      */
     function cancelStreamInternal(uint256 streamId) internal {
-        Types.Stream memory stream = streams[streamId];
-        uint256 senderBalance = balanceOf(streamId, stream.sender);
-        uint256 recipientBalance = balanceOf(streamId, stream.recipient);
+        Types.AztecStream memory stream = streams[streamId];
 
         delete streams[streamId];
 
-        IERC20 token = IERC20(stream.tokenAddress);
-        if (recipientBalance > 0)
-            require(token.transfer(stream.recipient, recipientBalance), "recipient token transfer failure");
-        if (senderBalance > 0) require(token.transfer(stream.sender, senderBalance), "sender token transfer failure");
-
-        emit CancelStream(streamId, stream.sender, stream.recipient, senderBalance, recipientBalance);
+        emit CancelStream(streamId);
     }
 }
