@@ -34,7 +34,7 @@
     "lodash": "^4.17.15",
     "serve": "^11.2.0",
     "terminal-kit": "^1.32.3",
-    "truffle": "^5.1.11",
+    "truffle": "^5.1.15",
     "truffle-hdwallet-provider": "^1.0.17",
     "web3": "^1.2.6",
     "web3-utils": "^1.2.6"

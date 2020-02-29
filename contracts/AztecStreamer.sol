@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity ^0.5.11;
 
 // import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol";
@@ -16,7 +16,7 @@ import "./Types.sol";
  * @title Sablier's Money Streaming
  * @author Sablier
  */
-contract Sablier is CarefulMath, ReentrancyGuard {
+contract AztecStreamer is CarefulMath, ReentrancyGuard {
    
     /*** Storage Properties ***/
 

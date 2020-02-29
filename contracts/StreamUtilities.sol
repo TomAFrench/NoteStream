@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity ^0.5.11;
 // import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
 
 import "@aztec/protocol/contracts/ACE/ACE.sol";

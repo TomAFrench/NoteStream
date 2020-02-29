@@ -45,6 +45,7 @@ export default function start({
     [
       'ACE',
       'AccountRegistryManager',
+      'AztecStreamer'
     ].forEach((contractName) => {
       let contract;
       let address = '';
