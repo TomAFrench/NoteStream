@@ -58,27 +58,25 @@ const App = () => {
     const acts = [secp256k1.generateAccount(), secp256k1.generateAccount()]
 
     const notionalNote = originalNote// await note.create(acts[0].publicKey, 10) // Original Node
-    const targetNote = await note.create(acts[0].publicKey, 5) // Note to receiver
-    const residualNote = await note.create(acts[1].publicKey, 1, streamContractAddress)
+    const targetNote = await note.create(acts[0].publicKey, 5) // Public key you need to get from Metamask of the receiver
+    const residualNote = await note.create(acts[1].publicKey, 1, streamContractAddress) // This public key is random and I don't know why
 
     // notionalNote.value * za = targetNote.value * zb + residualNote.value
-    // 10 * 1 = 5 * 2 + 1
+    // ex. 10 * 1 = 5 * 2 + 1
+    const dividendProof = new DividendProof(notionalNote, residualNote, targetNote, sender, zA, zB)
+    const dividendProofABI = dividendProof.encodeABI()
 
     const sender = acts[0].address // address of transaction sender
     const publicOwner = acts[0].address // address of public token owner
 
-    const dividendProof = new DividendProof(notionalNote, residualNote, targetNote, sender, zA, zB)
-    const dividendProofABI = dividendProof.encodeABI()
-
-    const inputNotes = []
-    const outputNotes = []
-    const publicValue = -10 // input notes contain 10 fewer than output notes = deposit of 10 public tokens
-    const JSsender = accounts[0].address // address of transaction sender
+    const inputNotes = [notionalNote]
+    const outputNotes = [targetNote, residualNote]
+    const publicValue = 0
+    const JSsender = accounts[0].address // metamask address of receiver
     const JSproof = new JoinSplitProof(inputNotes, outputNotes, JSsender, publicValue, publicOwner)
     const JSproofABI = JSproof.encodeABI()
     const durationToWithdraw = 1
-
-    const streamId = 3
+    const streamId = 3 // I don't know if you can get this from the first callback
     const streamContractInstance = new web3.eth.Contract(
       streamContract.abi,
       streamContractAddress
@@ -88,11 +86,11 @@ const App = () => {
       dividendProofABI,
       JSproofABI,
       durationToWithdraw
-    ).send({ from: accounts[0] }, (err, streamID) => {
+    ).send({ from: accounts[0] }, (err, something) => {
       if (err) {
         console.log(err)
       } else {
-        console.log('Steam ID created', streamID)
+        console.log('Witdraw created', something)
       }
     })
   }
