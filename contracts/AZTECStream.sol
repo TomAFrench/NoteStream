@@ -3,7 +3,7 @@ pragma solidity 0.5.11;
 import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol";
 
-import "./Exponential.sol";
+import "./CarefulMath.sol";
 import "./interfaces/ICERC20.sol";
 
 import "./OwnableWithoutRenounce.sol";
@@ -15,7 +15,7 @@ import "./Types.sol";
  * @title Sablier's Money Streaming
  * @author Sablier
  */
-contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, Exponential, ReentrancyGuard {
+contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, CarefulMath, ReentrancyGuard {
     /*** Storage Properties ***/
 
     /**
