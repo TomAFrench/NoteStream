@@ -13,12 +13,8 @@
   },
   "homepage": "https://github.com/AztecProtocol/eth-global-starter-kit#readme",
   "scripts": {
-    "copy": "babel-node scripts/run copy",
-    "demo": "babel-node scripts/run startDemo",
-    "deploy:contracts": "babel-node scripts/run deployContracts",
     "lint": "eslint ./ --color",
-    "start": "babel-node scripts/run start",
-    "start:ganache": "babel-node scripts/run startGanache"
+    "migrate": "truffle migrate"
   },
   "dependencies": {
     "@aztec/bn128": "^1.3.1",
@@ -32,6 +28,7 @@
     "ganache-cli": "^6.9.0",
     "kill-port": "^1.6.0",
     "lodash": "^4.17.15",
+    "minimist": "^1.2.0",
     "serve": "^11.2.0",
     "terminal-kit": "^1.32.3",
     "truffle": "^5.1.15",
