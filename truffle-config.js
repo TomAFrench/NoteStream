@@ -4,7 +4,7 @@ require('dotenv').config({ path: '.env.development' });
 module.exports = {
   compilers: {
     solc: {
-      version: '>=0.5.0 <0.6.0',
+      version: '^0.5.11',
       settings: {
         optimizer: {
           enabled: true,
@@ -14,6 +14,7 @@ module.exports = {
       },
     },
   },
+  // contracts_build_directory: "./build",
   mocha: {
     bail: true,
     enableTimeouts: false,
@@ -40,4 +41,4 @@ module.exports = {
       skipDryRun: true,
     },
   },
-};
+}; 

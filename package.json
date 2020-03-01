@@ -13,28 +13,26 @@
   },
   "homepage": "https://github.com/AztecProtocol/eth-global-starter-kit#readme",
   "scripts": {
-    "copy": "babel-node scripts/run copy",
-    "demo": "babel-node scripts/run startDemo",
-    "deploy:contracts": "babel-node scripts/run deployContracts",
     "lint": "eslint ./ --color",
-    "start": "babel-node scripts/run start",
-    "start:ganache": "babel-node scripts/run startGanache"
+    "migrate": "truffle migrate"
   },
   "dependencies": {
     "@aztec/bn128": "^1.3.1",
     "@aztec/dev-utils": "^2.3.1",
-    "@aztec/protocol": "^1.4.0",
+    "@aztec/protocol": "^1.6.0",
     "@openzeppelin/gsn-helpers": "^0.2.3",
     "@openzeppelin/gsn-provider": "^0.1.9",
+    "aztec.js": "^0.17.0",
     "chalk": "^3.0.0",
     "detect-port": "^1.3.0",
     "dotenv": "^8.2.0",
     "ganache-cli": "^6.9.0",
     "kill-port": "^1.6.0",
     "lodash": "^4.17.15",
+    "minimist": "^1.2.0",
     "serve": "^11.2.0",
     "terminal-kit": "^1.32.3",
-    "truffle": "^5.1.11",
+    "truffle": "^5.1.15",
     "truffle-hdwallet-provider": "^1.0.17",
     "web3": "^1.2.6",
     "web3-utils": "^1.2.6"
