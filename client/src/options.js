@@ -11,14 +11,14 @@ for (var i = 0; i < 366; i++) {
   });
 }
 
-for (var i = 0; i < 24; i++) {
+for (i = 0; i < 24; i++) {
   hours.push({
     id: i,
     title: i + " hours"
   });
 }
 
-for (var i = 0; i < 60; i++) {
+for (i = 0; i < 60; i++) {
   minutes.push({
     id: i,
     title: i + " minutes"

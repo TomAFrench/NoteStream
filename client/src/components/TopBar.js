@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useLocation, useHistory } from "react-router";
 import '../styles.css'
 
@@ -21,7 +21,7 @@ const TopBar = () => {
           cursor: 'pointer',
           margin: 0,
           padding: '5px 30px 5px 30px',
-          backgroundColor: location.pathname == '/deposit' ? '#0179C4' : null,
+          backgroundColor: location.pathname === '/deposit' ? '#0179C4' : null,
           borderRadius: 10,
           opacity: 0.85
         }}
@@ -34,7 +34,7 @@ const TopBar = () => {
           cursor: 'pointer',
           margin: 0,
           padding: '5px 30px 5px 30px',
-          backgroundColor: location.pathname == '/create' ? '#0179C4' : null,
+          backgroundColor: location.pathname === '/create' ? '#0179C4' : null,
           borderRadius: 10,
           opacity: 0.85
         }}
@@ -42,12 +42,12 @@ const TopBar = () => {
         Create
       </p>
       <p
-        onClick={() => history.push("state")}
+        onClick={() => history.push("status")}
         style={{
           cursor: 'pointer',
           margin: 0,
           padding: '5px 30px 5px 30px',
-          backgroundColor: location.pathname == '/status' ? '#0179C4' : null,
+          backgroundColor: location.pathname === '/status' ? '#0179C4' : null,
           borderRadius: 10,
           opacity: 0.85
         }}

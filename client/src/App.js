@@ -35,8 +35,7 @@ const App = () => {
       setAccount(_accounts[0]);
       console.log("accounts", _accounts);
 
-      const apiKey = "test1234";
-      const result = await window.aztec.enable({
+      await window.aztec.enable({
         // web3Provider: _web3.currentProvider, // change this value to use a different web3 provider
         // contractAddresses: {
         // ACE: '0x5B59B26bdBBA8e32C1C6DD107e3862b5D538fa48', // the address of the ace contract on the local network

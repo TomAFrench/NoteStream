@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../App.css";
 import "../styles.css";
 
-const payeeAddress = "0xC6EBff8Bdb7a8E05A350676f8b662231e87D83a7";
-
 const Deposit = ({ userAddress, zkAsset, zkdaiBalance, daiBalance }) => {
   const [amount, setAmount] = useState(null);
 
