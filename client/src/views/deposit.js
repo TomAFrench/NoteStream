@@ -4,7 +4,7 @@ import '../styles.css'
 
 const payeeAddress = '0xC6EBff8Bdb7a8E05A350676f8b662231e87D83a7'
 
-const Deposit = ({userAddress, zkAsset, streamContractAddress}) => {
+const Deposit = ({userAddress, zkAsset}) => {
   const [amount, setAmount] = useState(null)
   const [daiBalance, setDaiBalance] = useState(0)
   const [zkdaiBalance, setZkdaiBalance] = useState(0)

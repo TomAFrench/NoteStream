@@ -6,7 +6,10 @@ import {
   minutes as minutesOption
 } from '../options'
 
-const Create = ({web3, zkAsset, streamContract}) => {
+const streamContract = require('../streamContract.js')
+
+
+const Create = ({web3, zkAsset, streamContractAddress}) => {
   const [streamAmount, setStreamAmount] = useState(null)
   const [recipient, setRecipient] = useState(null)
   const [days, setDays] = useState(null)
@@ -14,14 +17,18 @@ const Create = ({web3, zkAsset, streamContract}) => {
   const [minutes, setMinutes] = useState(null)
 
   function initialiseStream (
-    streamContract,
+    streamContractAddress,
     payeeAddress,
     noteForStreamContract,
     startTime,
     endTime
   ) {
-    console.log(streamContract.methods)
-    return streamContract.methods
+    const streamContractInstance = new web3.eth.Contract(
+      streamContract.abi,
+      streamContractAddress
+    )
+    console.log(streamContractInstance.methods)
+    return streamContractInstance.methods
       .createStream(
         recipient,
         noteForStreamContract.noteHash,
@@ -49,8 +56,8 @@ const Create = ({web3, zkAsset, streamContract}) => {
           numberOfOutputNotes: 1 // contract has one
         }
       ],
-      { userAccess: [payeeAddress] }
-    ) // account of user who is streaming
+      { userAccess: [payeeAddress] } // account of user who is streaming
+    ) 
     console.info('sent funds confidentially')
     console.log('_sendResp', _sendResp)
     let noteForStreamContract = null
@@ -68,8 +75,9 @@ const Create = ({web3, zkAsset, streamContract}) => {
     payeeAddress,
     startTime,
     endTime ) {
-      const streamNote = await fundStream(streamContract.address, payeeAddress, sendAmount, zkAsset)
-      return initialiseStream (streamContract, payeeAddress, streamNote, startTime, endTime)
+      console.log(streamContractAddress)
+      const streamNote = await fundStream(streamContractAddress, payeeAddress, sendAmount, zkAsset)
+      return initialiseStream (streamContractAddress, payeeAddress, streamNote, startTime, endTime)
   }
 
   return (
@@ -152,7 +160,7 @@ const Create = ({web3, zkAsset, streamContract}) => {
         marginTop: 20
       }}
     >
-      <button onClick={() => createStream(web3, streamAmount, Date.now()+20, Date.now()+200)}>Create stream</button>
+      <button onClick={() => createStream(streamAmount, recipient,  Date.now()+20, Date.now()+200)}>Create stream</button>
     </div>
     </>
   )

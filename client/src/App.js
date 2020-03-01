@@ -12,12 +12,10 @@ import { Route, BrowserRouter as Router, Redirect } from 'react-router-dom'
 const zkAssetAddress = '0x54Fac13e652702a733464bbcB0Fb403F1c057E1b'
 const streamContractAddress = '0x1f52693c618d093cEF45Bc59100C9086B3108a61'
 
-const streamContract = require('./streamContract.js')
 
 const App = () => {
   const [web3, setWeb3] = useState(null)
   const [account, setAccount] = useState(null)
-  const [contract, setContract] = useState(null)
   const [network, setNetwork] = useState(undefined)
   const [zkAsset, setZkAsset] = useState()
   const [loaded, setLoaded] = useState(false)
@@ -35,12 +33,6 @@ const App = () => {
 
       setAccount(_accounts[0])
       console.log('accounts', _accounts)
-
-      const streamContractInstance = new _web3.eth.Contract(
-        streamContract.abi,
-        streamContractAddress
-      )
-      setContract(streamContractInstance);
 
       const apiKey = 'test1234'
       const result = await window.aztec.enable(
@@ -75,7 +67,7 @@ const App = () => {
             <Deposit
               userAddress={account}
               zkAsset={zkAsset}
-              streamContractAddress={contract && contract.address}
+              streamContractAddress={streamContractAddress}
             />}
         />
 
@@ -85,7 +77,7 @@ const App = () => {
             <Create
               web3={web3}
               zkAsset={zkAsset}
-              streamContract={contract}
+              streamContractAddress={streamContractAddress}
             />}
         />
         <Redirect path="/" to="/deposit" />
