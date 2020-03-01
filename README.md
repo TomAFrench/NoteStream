@@ -1,4 +1,4 @@
-# Streaming Aztecs
+# Quachtli
 
 ## Get Started
 
