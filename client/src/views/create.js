@@ -6,14 +6,18 @@ import {
   minutes as minutesOption
 } from "../options";
 
-const streamContract = require("../streamContract.js");
-
-const Create = ({ web3, zkAsset, streamContractAddress, zkdaiBalance }) => {
+const Create = ({
+  account,
+  zkAsset,
+  streamContractAddress,
+  streamContractInstance,
+  zkdaiBalance
+}) => {
   const [streamAmount, setStreamAmount] = useState(null);
   const [recipient, setRecipient] = useState(null);
-  const [days, setDays] = useState(null);
-  const [hours, setHours] = useState(null);
-  const [minutes, setMinutes] = useState(null);
+  const [days, setDays] = useState("0");
+  const [hours, setHours] = useState("0");
+  const [minutes, setMinutes] = useState("0");
 
   function initialiseStream(
     streamContractAddress,
@@ -22,11 +26,7 @@ const Create = ({ web3, zkAsset, streamContractAddress, zkdaiBalance }) => {
     startTime,
     endTime
   ) {
-    const streamContractInstance = new web3.eth.Contract(
-      streamContract.abi,
-      streamContractAddress
-    );
-    console.log(streamContractInstance.methods);
+    console.log("methods", streamContractInstance.methods);
     return streamContractInstance.methods
       .createStream(
         recipient,
@@ -74,7 +74,7 @@ const Create = ({ web3, zkAsset, streamContractAddress, zkdaiBalance }) => {
     return noteForStreamContract;
   }
 
-  async function createStream(sendAmount, payeeAddress, startTime, endTime) {
+  async function createStreamJs(sendAmount, payeeAddress, startTime, endTime) {
     console.log(streamContractAddress);
     const streamNote = await fundStream(
       streamContractAddress,
@@ -174,9 +174,10 @@ const Create = ({ web3, zkAsset, streamContractAddress, zkdaiBalance }) => {
       >
         <button
           onClick={() =>
-            createStream(
-              web3,
+            createStreamJs(
               streamAmount,
+              recipient,
+
               Date.now() + 20,
               Date.now() +
                 20 +

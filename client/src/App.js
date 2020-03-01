@@ -11,6 +11,7 @@ import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 
 const zkAssetAddress = "0x54Fac13e652702a733464bbcB0Fb403F1c057E1b";
 const streamContractAddress = "0x1f52693c618d093cEF45Bc59100C9086B3108a61";
+const streamContract = require("./streamContract.js");
 
 const App = () => {
   const [web3, setWeb3] = useState(null);
@@ -20,6 +21,7 @@ const App = () => {
   const [loaded, setLoaded] = useState(false);
   const [daiBalance, setDaiBalance] = useState(0);
   const [zkdaiBalance, setZkdaiBalance] = useState(0);
+  const [streamContractInstance, setStreamContractInstance] = useState(null);
 
   useEffect(() => {
     const init = async () => {
@@ -51,9 +53,31 @@ const App = () => {
       console.log("ASSET:", _asset);
       getBalance(_asset);
       setLoaded(true);
+
+      const _streamContractInstance = new _web3.eth.Contract(
+        streamContract.abi,
+        streamContractAddress
+      );
+      setStreamContractInstance(_streamContractInstance);
     };
     init();
   }, []);
+
+  useEffect(() => {
+    if (streamContractInstance) {
+      //addListeners();
+    }
+  }, [streamContractInstance]);
+
+  const addListeners = () => {
+    /*  streamContractInstance
+      .getPastEvents("GameFinished", { fromBlock: 0, toBlock: "latest" })
+      .then(function(events) {
+        console.log("PastGamesFinished", events);
+        setPastgames(events.reverse());
+      });
+      */
+  };
 
   async function getBalance(asset) {
     const publicBalance = await asset.balanceOfLinkedToken(account);
@@ -88,6 +112,7 @@ const App = () => {
                 web3={web3}
                 zkAsset={zkAsset}
                 streamContractAddress={streamContractAddress}
+                streamContractInstance={streamContractInstance}
                 zkdaiBalance={zkdaiBalance}
               />
             )}
