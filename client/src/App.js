@@ -11,13 +11,12 @@ import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 
 const zkAssetAddress = "0x54Fac13e652702a733464bbcB0Fb403F1c057E1b";
 const streamContractAddress = "0x1f52693c618d093cEF45Bc59100C9086B3108a61";
-const payeeAddress = "0xC6EBff8Bdb7a8E05A350676f8b662231e87D83a7";
 
 const streamContract = require("./streamContract.js");
 
 const App = () => {
   const [web3, setWeb3] = useState(null);
-  const [accounts, setAccounts] = useState(null);
+  const [account, setAccount] = useState(null);
   const [contract, setContract] = useState(null);
   const [network, setNetwork] = useState(undefined);
   const [zkAsset, setZkAsset] = useState();
@@ -36,7 +35,7 @@ const App = () => {
       console.log("windowaztec", window.aztec);
       setWeb3(_web3);
 
-      setAccounts(accounts);
+      setAccount(_accounts[0]);
       console.log("accounts", _accounts);
 
       const streamContractInstance = new _web3.eth.Contract(
@@ -46,7 +45,14 @@ const App = () => {
       setContract(streamContractInstance);
 
       const apiKey = "test1234";
-      const result = await window.aztec.enable({ apiKey });
+      const result = await window.aztec.enable({
+        // web3Provider: _web3.currentProvider, // change this value to use a different web3 provider
+        // contractAddresses: {
+        // ACE: '0x5B59B26bdBBA8e32C1C6DD107e3862b5D538fa48', // the address of the ace contract on the local network
+        // AccountRegistry: '0x66db0e20a9d619ee3dfa3819513ab8bed1b21a87' // the address of the aztec account registry contract on the local network.
+        // },
+        apiKey: "7FJF5YK-WV1M90Y-G25V2MW-FG2ZMDV" // API key for use with GSN for free txs.
+      });
 
       // Fetch the zkAsset
       const _asset = await window.aztec.zkAsset(zkAssetAddress);
@@ -110,9 +116,9 @@ const App = () => {
             path="/deposit"
             render={() => (
               <Deposit
-                daiBalance={daiBalance}
-                zkDaiBalance={zkdaiBalance}
+                userAddress={account}
                 zkAsset={zkAsset}
+                streamContractAddress={contract && contract.address}
               />
             )}
           />

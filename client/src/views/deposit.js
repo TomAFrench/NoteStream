@@ -1,50 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../App.css";
 import "../styles.css";
 
-const zkAssetAddress = "0x54Fac13e652702a733464bbcB0Fb403F1c057E1b";
-const streamContractAddress = "0xf637cfb0c6be07eb0533d1600c7c3fe28df887a3";
 const payeeAddress = "0xC6EBff8Bdb7a8E05A350676f8b662231e87D83a7";
 
-const Deposit = ({ zkAsset, daiBalance, zkDaiBalance }) => {
-  const [depositAmount, setDepositAmount] = useState(null);
+const Deposit = ({ userAddress, zkAsset, streamContractAddress }) => {
+  const [amount, setAmount] = useState(null);
+  const [daiBalance, setDaiBalance] = useState(0);
+  const [zkdaiBalance, setZkdaiBalance] = useState(0);
 
-  async function depositToStream(sendAmount) {
-    const _sendResp = await zkAsset.send(
-      [
-        {
-          to: streamContractAddress,
-          amount: sendAmount,
-          aztecAccountNotRequired: true,
-          numberOfOutputNotes: 1 // contract has one
-        }
-      ],
-      { userAccess: [payeeAddress] }
-    ); // account of user who is streaming
-    console.info("sent funds confidentially");
-    console.log("_sendResp", _sendResp);
-    let noteForStreamContract = null;
-    _sendResp.outputNotes.forEach(function(outputNote) {
-      if (outputNote.owner === streamContractAddress) {
-        noteForStreamContract = outputNote;
-      }
-    });
-    console.log("noteForStreamContract", noteForStreamContract);
-    return noteForStreamContract;
+  async function getBalance(asset) {
+    const publicBalance = await asset.balanceOfLinkedToken(userAddress);
+    const zkBalance = await asset.balance();
+    setDaiBalance(publicBalance.toString(10));
+    setZkdaiBalance(zkBalance);
+  }
+
+  useEffect(() => {
+    if (zkAsset) {
+      getBalance(zkAsset);
+    }
+  });
+
+  async function depositZkToken(depositAmount) {
+    console.log("deposit", depositAmount);
+    await zkAsset.deposit([
+      { to: userAddress, amount: parseInt(depositAmount) }
+    ]);
+    getBalance(zkAsset);
+    setAmount(0);
+  }
+
+  async function withdrawZkToken(withdrawAmount) {
+    console.log("withdraw", withdrawAmount);
+    await zkAsset.withdraw(parseInt(withdrawAmount));
+    getBalance(zkAsset);
+    setAmount(0);
   }
 
   return (
-    <>
+    <div>
       <p>Your Dai Balance: {daiBalance} Dai</p>
       <p style={{ marginBottom: 20 }}>
-        Your zkDai Balance: {zkDaiBalance} ZkDai
+        Your zkDai Balance: {zkdaiBalance} ZkDai
       </p>
       <div className="input-wrap">
         <label>Enter deposit/Withdraw amount</label>
         <input
           type="text"
-          onChange={val => setDepositAmount(val.target.value)}
-          value={depositAmount}
+          onChange={val => setAmount(val.target.value)}
+          value={amount}
           placeholder="0 Dai/zkDai"
         />
       </div>
@@ -59,7 +64,7 @@ const Deposit = ({ zkAsset, daiBalance, zkDaiBalance }) => {
         >
           <button
             style={{ width: 200 }}
-            onClick={() => depositToStream(depositAmount, zkAsset)}
+            onClick={() => depositZkToken(parseInt(amount))}
           >
             Deposit
           </button>
@@ -72,12 +77,15 @@ const Deposit = ({ zkAsset, daiBalance, zkDaiBalance }) => {
             marginTop: 20
           }}
         >
-          <button style={{ width: 200 }} onClick={() => window.close()}>
+          <button
+            style={{ width: 200 }}
+            onClick={() => withdrawZkToken(parseInt(amount))}
+          >
             Withdraw
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
