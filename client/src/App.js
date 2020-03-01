@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { getWeb3 } from "./utils";
 import "./styles.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import TopBar from "./components/TopBar";
 import Create from "./views/create";
@@ -113,6 +114,7 @@ const App = () => {
                 streamEvents={streamEvents}
                 userAddress={account}
                 streamContractInstance={streamContractInstance}
+                zkdaiBalance={zkdaiBalance}
               />
             )}
           />
