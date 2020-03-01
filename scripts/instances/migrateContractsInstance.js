@@ -42,7 +42,8 @@ export default function migrateContractsInstance({
     `ln -sfn ${migrationsContractPath} ${targetPath}/contracts/Migrations.sol`,
     `ln -sfn ${migrationsPath} ${targetPath}/migrations`,
     `cd ${targetPath}`,
-    `${trufflePath} migrate --reset --network ${network}`,
+    `${trufflePath} migrate --to 15 --reset --network ${network}`,
+    `${trufflePath} migrate --f 16 --network ${network}`,
   ];
 
   return instance(
