@@ -42,7 +42,7 @@ const TopBar = () => {
         Create
       </p>
       <p
-        onClick={() => history.push("state")}
+        onClick={() => history.push("status")}
         style={{
           cursor: 'pointer',
           margin: 0,

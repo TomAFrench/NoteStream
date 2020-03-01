@@ -6,6 +6,7 @@ import "./styles.css";
 import TopBar from "./components/TopBar";
 import Create from "./views/create";
 import Deposit from "./views/deposit";
+import Status from "./views/status";
 
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 
@@ -22,6 +23,7 @@ const App = () => {
   const [daiBalance, setDaiBalance] = useState(0);
   const [zkdaiBalance, setZkdaiBalance] = useState(0);
   const [streamContractInstance, setStreamContractInstance] = useState(null);
+  const [streamEvents, setStreamevents] = useState([]);
 
   useEffect(() => {
     const init = async () => {
@@ -65,18 +67,17 @@ const App = () => {
 
   useEffect(() => {
     if (streamContractInstance) {
-      //addListeners();
+      addListeners();
     }
   }, [streamContractInstance]);
 
   const addListeners = () => {
-    /*  streamContractInstance
-      .getPastEvents("GameFinished", { fromBlock: 0, toBlock: "latest" })
+    streamContractInstance
+      .getPastEvents("CreateStream", { fromBlock: 0, toBlock: "latest" })
       .then(function(events) {
-        console.log("PastGamesFinished", events);
-        setPastgames(events.reverse());
+        setStreamevents(events);
+        console.log("CreateStream", events);
       });
-      */
   };
 
   async function getBalance(asset) {
@@ -102,6 +103,13 @@ const App = () => {
                 daiBalance={daiBalance}
                 zkdaiBalance={zkdaiBalance}
               />
+            )}
+          />
+
+          <Route
+            path="/status"
+            render={() => (
+              <Status streamEvents={streamEvents} userAddress={account} />
             )}
           />
 
