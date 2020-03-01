@@ -109,7 +109,11 @@ const App = () => {
           <Route
             path="/status"
             render={() => (
-              <Status streamEvents={streamEvents} userAddress={account} />
+              <Status
+                streamEvents={streamEvents}
+                userAddress={account}
+                streamContractInstance={streamContractInstance}
+              />
             )}
           />
 
