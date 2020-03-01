@@ -12,12 +12,9 @@ import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 const zkAssetAddress = "0x54Fac13e652702a733464bbcB0Fb403F1c057E1b";
 const streamContractAddress = "0x1f52693c618d093cEF45Bc59100C9086B3108a61";
 
-const streamContract = require("./streamContract.js");
-
 const App = () => {
   const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
-  const [contract, setContract] = useState(null);
   const [network, setNetwork] = useState(undefined);
   const [zkAsset, setZkAsset] = useState();
   const [loaded, setLoaded] = useState(false);
@@ -38,12 +35,6 @@ const App = () => {
       setAccount(_accounts[0]);
       console.log("accounts", _accounts);
 
-      const streamContractInstance = new _web3.eth.Contract(
-        streamContract.abi,
-        streamContractAddress
-      );
-      setContract(streamContractInstance);
-
       const apiKey = "test1234";
       const result = await window.aztec.enable({
         // web3Provider: _web3.currentProvider, // change this value to use a different web3 provider
@@ -58,53 +49,18 @@ const App = () => {
       const _asset = await window.aztec.zkAsset(zkAssetAddress);
       setZkAsset(_asset);
       console.log("ASSET:", _asset);
+      getBalance(_asset);
       setLoaded(true);
-      loadDaiBalance(_web3);
-      loadZkDaiBalance(_asset);
     };
     init();
   }, []);
 
-  const loadZkDaiBalance = async _asset => {
-    const _zkbalance = await _asset.balance();
-    setZkdaiBalance(_zkbalance);
-  };
-
-  const loadDaiBalance = async _web3 => {
-    let daiAddress = "0xf637cfb0c6be07eb0533d1600c7c3fe28df887a3";
-
-    // The minimum ABI to get ERC20 Token balance
-    let minABI = [
-      // balanceOf
-      {
-        constant: true,
-        inputs: [{ name: "_owner", type: "address" }],
-        name: "balanceOf",
-        outputs: [{ name: "balance", type: "uint256" }],
-        type: "function"
-      },
-      // decimals
-      {
-        constant: true,
-        inputs: [],
-        name: "decimals",
-        outputs: [{ name: "", type: "uint8" }],
-        type: "function"
-      }
-    ];
-
-    // Get ERC20 Token contract instance
-    var contract = new _web3.eth.Contract(minABI, daiAddress);
-
-    console.log("contract", contract);
-
-    // Call balanceOf function
-    const balance = await contract.methods
-      .balanceOf("0xe065D88f41615231e69026040C075d9F9F1bD00A")
-      .call();
-    setDaiBalance(balance);
-    console.log("balance", balance);
-  };
+  async function getBalance(asset) {
+    const publicBalance = await asset.balanceOfLinkedToken(account);
+    const zkBalance = await asset.balance();
+    setDaiBalance(publicBalance.toString(10));
+    setZkdaiBalance(zkBalance);
+  }
 
   return (
     <div className="App">
@@ -118,7 +74,9 @@ const App = () => {
               <Deposit
                 userAddress={account}
                 zkAsset={zkAsset}
-                streamContractAddress={contract && contract.address}
+                streamContractAddress={streamContractAddress}
+                daiBalance={daiBalance}
+                zkdaiBalance={zkdaiBalance}
               />
             )}
           />
@@ -126,7 +84,12 @@ const App = () => {
           <Route
             path="/create"
             render={() => (
-              <Create web3={web3} zkAsset={zkAsset} streamContract={contract} />
+              <Create
+                web3={web3}
+                zkAsset={zkAsset}
+                streamContractAddress={streamContractAddress}
+                zkdaiBalance={zkdaiBalance}
+              />
             )}
           />
           <Redirect path="/" to="/deposit" />

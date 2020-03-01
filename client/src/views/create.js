@@ -6,7 +6,9 @@ import {
   minutes as minutesOption
 } from "../options";
 
-const Create = ({ web3, zkAsset, streamContract }) => {
+const streamContract = require("../streamContract.js");
+
+const Create = ({ web3, zkAsset, streamContractAddress, zkdaiBalance }) => {
   const [streamAmount, setStreamAmount] = useState(null);
   const [recipient, setRecipient] = useState(null);
   const [days, setDays] = useState(null);
@@ -14,14 +16,18 @@ const Create = ({ web3, zkAsset, streamContract }) => {
   const [minutes, setMinutes] = useState(null);
 
   function initialiseStream(
-    streamContract,
+    streamContractAddress,
     payeeAddress,
     noteForStreamContract,
     startTime,
     endTime
   ) {
-    console.log(streamContract.methods);
-    return streamContract.methods
+    const streamContractInstance = new web3.eth.Contract(
+      streamContract.abi,
+      streamContractAddress
+    );
+    console.log(streamContractInstance.methods);
+    return streamContractInstance.methods
       .createStream(
         recipient,
         noteForStreamContract.noteHash,
@@ -54,8 +60,8 @@ const Create = ({ web3, zkAsset, streamContract }) => {
           numberOfOutputNotes: 1 // contract has one
         }
       ],
-      { userAccess: [payeeAddress] }
-    ); // account of user who is streaming
+      { userAccess: [payeeAddress] } // account of user who is streaming
+    );
     console.info("sent funds confidentially");
     console.log("_sendResp", _sendResp);
     let noteForStreamContract = null;
@@ -69,14 +75,15 @@ const Create = ({ web3, zkAsset, streamContract }) => {
   }
 
   async function createStream(sendAmount, payeeAddress, startTime, endTime) {
+    console.log(streamContractAddress);
     const streamNote = await fundStream(
-      streamContract.address,
+      streamContractAddress,
       payeeAddress,
       sendAmount,
       zkAsset
     );
     return initialiseStream(
-      streamContract,
+      streamContractAddress,
       payeeAddress,
       streamNote,
       startTime,
@@ -86,6 +93,9 @@ const Create = ({ web3, zkAsset, streamContract }) => {
 
   return (
     <>
+      <p style={{ marginBottom: 20 }}>
+        Your zkDai Balance: {zkdaiBalance} ZkDai
+      </p>
       <div className="input-wrap">
         <label>How much do you want to stream?</label>
         <input

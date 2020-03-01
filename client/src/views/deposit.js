@@ -4,21 +4,12 @@ import "../styles.css";
 
 const payeeAddress = "0xC6EBff8Bdb7a8E05A350676f8b662231e87D83a7";
 
-const Deposit = ({ userAddress, zkAsset, streamContractAddress }) => {
+const Deposit = ({ userAddress, zkAsset, zkdaiBalance, daiBalance }) => {
   const [amount, setAmount] = useState(null);
-  const [daiBalance, setDaiBalance] = useState(0);
-  const [zkdaiBalance, setZkdaiBalance] = useState(0);
-
-  async function getBalance(asset) {
-    const publicBalance = await asset.balanceOfLinkedToken(userAddress);
-    const zkBalance = await asset.balance();
-    setDaiBalance(publicBalance.toString(10));
-    setZkdaiBalance(zkBalance);
-  }
 
   useEffect(() => {
     if (zkAsset) {
-      getBalance(zkAsset);
+      //getBalance(zkAsset);
     }
   });
 
@@ -27,14 +18,14 @@ const Deposit = ({ userAddress, zkAsset, streamContractAddress }) => {
     await zkAsset.deposit([
       { to: userAddress, amount: parseInt(depositAmount) }
     ]);
-    getBalance(zkAsset);
+    //getBalance(zkAsset);
     setAmount(0);
   }
 
   async function withdrawZkToken(withdrawAmount) {
     console.log("withdraw", withdrawAmount);
     await zkAsset.withdraw(parseInt(withdrawAmount));
-    getBalance(zkAsset);
+    // getBalance(zkAsset);
     setAmount(0);
   }
 
