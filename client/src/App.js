@@ -6,6 +6,7 @@ import "./styles.css";
 import TopBar from "./components/TopBar";
 import Create from "./views/create";
 import Deposit from "./views/deposit";
+import Status from "./views/status";
 
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 
@@ -85,9 +86,23 @@ const App = () => {
             render={() => (
               <Create
                 web3={web3}
+                userAddress={account}
                 zkAsset={zkAsset}
                 streamContractAddress={streamContractAddress}
                 zkdaiBalance={zkdaiBalance}
+              />
+            )}
+          />
+
+          <Route
+            path="/status"
+            render={() => (
+              <Status
+                web3={web3}
+                userAddress={account}
+                aztec={window.aztec}
+                zkAsset={zkAsset}
+                streamContractAddress={streamContractAddress}
               />
             )}
           />
