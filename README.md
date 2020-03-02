@@ -1,5 +1,11 @@
 # Quachtli
 
+## Notice
+
+A couple of people have starred Quachtli so I just want to know that there is some unpushed code in order to (I hope) fix withdrawals from the stream (We got written in between judging sessions with the help of the AZTEC team).
+
+I'm going to merge this into what's on here pretty soon but if you're looking at Quachtli as an example on how to build on AZTEC, it's probably best to hold off for a week or so. I'm also in the process of writing a blog post which explains Quachtli operates which I'll post a link to.
+
 ## Get Started
 
 ### 1) Clone this repository
