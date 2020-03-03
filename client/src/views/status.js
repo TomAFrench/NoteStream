@@ -4,16 +4,90 @@ import _ from 'lodash'
 import '../App.css'
 import '../styles.css'
 
-const { JoinSplitProof, DividendProof, note } = require('aztec.js')
-const secp256k1 = require('@aztec/secp256k1')
-
 const streamContract = require("../streamContract.js");
 
-const Status = ({userAddress, web3, aztec, zkAsset, streamContractAddress}) => {
+function getFraction(value, maxdenom) {
+  const best = { numerator: 1, denominator: 1, err: Math.abs(value - 1) };
+  if (!maxdenom) maxdenom = 10000;
+  for (let denominator = 1; best.err > 0 && denominator <= maxdenom; denominator++) {
+    const numerator = Math.round(value * denominator);
+    const err = Math.abs(value - numerator / denominator);
+    if (err >= best.err) continue;
+    best.numerator = numerator;
+    best.denominator = denominator;
+    best.err = err;
+  }
+  return best;
+}
+
+const computeRemainderNoteValue = (value, za, zb) => {
+  const expectedNoteValue = Math.floor(value * (za / zb));
+  const remainder = value * za - expectedNoteValue * zb;
+
+  return {
+    remainder,
+    expectedNoteValue,
+  };
+};
+
+function buildDividendProof(aztec, stream) {
+  const {sender, recipient, currentBalance, lastWithdrawTime, endTime } = stream
+
+  const payer = await aztec.user(sender)
+  const payee = await aztec.user(recipient)
+
+  const ratio1 = getFraction((Date.now() - lastWithdrawTime) / (endTime - lastWithdrawTime) * 10000);
+      
+  const streamNote = aztec.zkNote(currentBalance)
+  const withdrawPayment = computeRemainderNoteValue(streamNote.k.toNumber(), ratio1.denominator, ratio1.numerator);
+  const remainderNote2 = await aztec.note.create(payer.spendingPublicKey, withdrawPayment.remainder, [{address: payer.address, linkedPublicKey: payer.linkedPublicKey}]);
+  const withdrawPaymentNote = await aztec.note.create(payee.spendingPublicKey, withdrawPayment.expectedNoteValue, [{address: payee.address, linkedPublicKey: payee.linkedPublicKey}]);
+
+  const { proofData } = aztec.proof.dividendComputation.encodeDividendComputationTransaction({
+    inputNotes: [streamNote],
+    outputNotes: [withdrawPaymentNote, remainderNote2],
+    za: ratio1.numerator,
+    zb: ratio1.denominator,
+    senderAddress: streamContractAddress,
+  });
+
+  console.log("DividendProof", result)
+
+  return {proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, remainderNote2]}
+}
+
+function buildJoinSplitProof(aztec, streamNote, withdrawalAmount, streamContractAddress) {
+  const {sender, recipient, currentBalance} = stream
+
+  const payer = await aztec.user(sender)
+  const streamNote = aztec.zkNote(currentBalance)
+  const changeValue = Math.max(streamNote.k.toNumber() - withdrawalAmount, 0)
+
+  const changeNote = await aztec.note.create(
+    payer.spendingPublicKey,
+    changeValue,
+    [{address: payer.address, linkedPublicKey: payer.linkedPublicKey},
+     {address: payee.address, linkedPublicKey: payee.linkedPublicKey}],
+    streamContractAddress
+  );
+
+  const { proofData } = aztec.proof.joinSplit.encodeJoinSplitTransaction({
+    inputNotes: [streamNote],
+    outputNotes: [withdrawPaymentNote, changeNote],
+    inputNoteOwners: [],
+    senderAddress: streamContractAddress,
+    publicOwner: recipient,
+    kPublic: 0, // No transfer from private to public assets or vice versa
+  });
+
+  return {proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, changeNote]}
+}
+
+const Status = ({userAddress, web3, aztec, streamContractAddress}) => {
   // const [withdrawAmount, setWithdrawAmount] = useState(null)
   // const [notes, setNotes] = useState(null)
 
-  async function buildProofs(currentTime) {
+  async function buildProofs() {
       // if currentBalance is 0 we have to change this as the ratio is infinite
 
       if (!web3){
@@ -29,66 +103,11 @@ const Status = ({userAddress, web3, aztec, zkAsset, streamContractAddress}) => {
       console.log(events)
       const streamId = _.last(events) && _.last(events).returnValues.streamId;
 
-
-      const computeRemainderNoteValue = (value, za, zb) => {
-        const expectedNoteValue = Math.floor(value * (za / zb));
-        const remainder = value * za - expectedNoteValue * zb;
-      
-        return {
-          remainder,
-          expectedNoteValue,
-        };
-      };
-
-      function getFraction(value, maxdenom) {
-        const best = { numerator: 1, denominator: 1, err: Math.abs(value - 1) };
-        if (!maxdenom) maxdenom = 10000;
-        for (let denominator = 1; best.err > 0 && denominator <= maxdenom; denominator++) {
-          const numerator = Math.round(value * denominator);
-          const err = Math.abs(value - numerator / denominator);
-          if (err >= best.err) continue;
-          best.numerator = numerator;
-          best.denominator = denominator;
-          best.err = err;
-        }
-        return best;
-      }
-
       const streamObj = await streamContractInstance.methods.getStream(streamId).call()
-      const {sender, recipient, currentBalance, lastWithdrawTime, endTime } = streamObj
 
-      const payer = await aztec.user(sender)
-      const payee = await aztec.user(recipient)
-      
-      const notionalNote = aztec.zkNote(currentBalance)
-      const ratio1 = getFraction((currentTime - lastWithdrawTime) / (endTime - lastWithdrawTime) * 10000);
-      
-      const withdrawPayment = computeRemainderNoteValue(notionalNote.k.toNumber(), ratio1.denominator, ratio1.numerator);
-      const remainderNote2 = await aztec.note.create(payer.spendingPublicKey, withdrawPayment.remainder, [{address: payer.address, linkedPublicKey: payer.linkedPublicKey}]);
-      const withdrawPaymentNote = await aztec.note.create(payee.spendingPublicKey, withdrawPayment.expectedNoteValue, [{address: payee.address, linkedPublicKey: payee.linkedPublicKey}]);
-
-      const { proofData: proofData1 } = aztec.proof.dividendComputation.encodeDividendComputationTransaction({
-        inputNotes: [notionalNote],
-        outputNotes: [withdrawPaymentNote, remainderNote2],
-        za: ratio1.numerator,
-        zb: ratio1.denominator,
-        senderAddress: streamContractAddress,
-      });
-
-      let changeValue = notionalNote.k.toNumber() - withdrawPayment.expectedNoteValue;
-      changeValue = changeValue < 0 ? 0 : changeValue;
-
-
-      const changeNote = await aztec.note.create(payer.spendingPublicKey, changeValue, [{address: payer.address, linkedPublicKey: payer.linkedPublicKey}], streamContractAddress);
-      const { proofData: proofData2 } = aztec.proof.joinSplit.encodeJoinSplitTransaction({
-        inputNotes: [notionalNote],
-        outputNotes: [withdrawPaymentNote, changeNote],
-        inputNoteOwners: [],
-        senderAddress: streamContractAddress,
-        publicOwner: recipient,
-        kPublic: 0,
-      });
-
+      const {proofData: proofData1, inputNotes, outputNotes} = buildDividendProof(aztec, streamObj)
+      const proofData2 = buildJoinSplitProof(aztec, inputNotes[0], outputNotes[0], streamContractAddress)
+    
       return {
         proofs: [proofData1, proofData2],
         notes: {
@@ -96,6 +115,7 @@ const Status = ({userAddress, web3, aztec, zkAsset, streamContractAddress}) => {
           withdrawPaymentNote,
         },
       };
+
   } 
 
   return (
