@@ -1,39 +1,30 @@
-# AZTEC SDK Starter Kit
+# Quachtli
 
-This repository helps developers deploy AZTEC to Ganache or a testnet and start building a dApp using [AZTEC SDK](https://docs.aztecprotocol.com).
+## Notice
+
+A couple of people have starred Quachtli so I just want to make it known that there is some unpushed code in order to (I hope) fix withdrawals from the stream (We only wrote this in between judging sessions with the help of the AZTEC team).
+
+I'm going to merge this into what's on here pretty soon but if you're looking at Quachtli as an example on how to build on AZTEC, it's probably best to hold off for a week or so.
+
+I'm also in the process of writing a blog post which explains Quachtli how operates. I'll post a link in this README when I'm done.
 
 ## Get Started
 
 ### 1) Clone this repository
 
 ```sh
-git clone https://github.com/AztecProtocol/sdk-starter-kit.git
-cd sdk-starter-kit
+git clone https://github.com/TomAFrench/Quachtli.git
+cd client
 yarn install
 ```
 
-#### (If using Ganache..) Start Ganache and deploy contracts
-
-_Skip this step if you won't be running demo on Ganache._
+#### Switch to network Rinkeby
 
 ```sh
 yarn start
 ```
 
-### 2) Run demo
 
-##### Styled dApp built with [create-react-app](https://github.com/facebook/create-react-app) and [guacamole-ui](https://github.com/AztecProtocol/guacamole-ui):
+Open `http://localhost:3000` in your web3 enabled browser to view the demo dapp. Make sure you are on the Rinkeby network and have some test eth. 
 
-```sh
-cd my-dapp
-yarn install
-yarn start
-```
-
-Open `http://localhost:5000` in your web3 enabled browser to view the demo dapp. Make sure you are on the Rinkeby network and have some test eth. 
-
-The Dapp will allow you to convert ERC20 tokens into zkTokens, send these zkTokens around to other Ethereum addresses and withdraw from zkTokens back into ERC20 tokens. 
-
-## Developer Guide
-
-**Checkout the full SDK docs [here](https://docs.aztecprotocol.com/#/SDK/Getting%20started)**
+The Dapp will allow you to convert ERC20 tokens into zkTokens, send these zkTokens streamed around to other Ethereum addresses and withdraw from zkTokens back into ERC20 tokens. 

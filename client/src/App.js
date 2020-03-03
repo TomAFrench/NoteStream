@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { getWeb3 } from "./utils";
 import "./styles.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import TopBar from "./components/TopBar";
 import Create from "./views/create";
@@ -12,6 +13,7 @@ import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 
 const zkAssetAddress = "0x54Fac13e652702a733464bbcB0Fb403F1c057E1b";
 const streamContractAddress = "0x1f52693c618d093cEF45Bc59100C9086B3108a61";
+const streamContract = require("./streamContract.js");
 
 const App = () => {
   const [web3, setWeb3] = useState(null);
@@ -21,6 +23,8 @@ const App = () => {
   const [loaded, setLoaded] = useState(false);
   const [daiBalance, setDaiBalance] = useState(0);
   const [zkdaiBalance, setZkdaiBalance] = useState(0);
+  const [streamContractInstance, setStreamContractInstance] = useState(null);
+  const [streamEvents, setStreamevents] = useState([]);
 
   useEffect(() => {
     const init = async () => {
@@ -51,9 +55,30 @@ const App = () => {
       console.log("ASSET:", _asset);
       getBalance(_asset);
       setLoaded(true);
+
+      const _streamContractInstance = new _web3.eth.Contract(
+        streamContract.abi,
+        streamContractAddress
+      );
+      setStreamContractInstance(_streamContractInstance);
     };
     init();
   }, []);
+
+  useEffect(() => {
+    if (streamContractInstance) {
+      addListeners();
+    }
+  }, [streamContractInstance]);
+
+  const addListeners = () => {
+    streamContractInstance
+      .getPastEvents("CreateStream", { fromBlock: 0, toBlock: "latest" })
+      .then(function(events) {
+        setStreamevents(events);
+        console.log("CreateStream", events);
+      });
+  };
 
   async function getBalance(asset) {
     const publicBalance = await asset.balanceOfLinkedToken(account);
@@ -82,6 +107,18 @@ const App = () => {
           />
 
           <Route
+            path="/status"
+            render={() => (
+              <Status
+                streamEvents={streamEvents}
+                userAddress={account}
+                streamContractInstance={streamContractInstance}
+                zkdaiBalance={zkdaiBalance}
+              />
+            )}
+          />
+
+          <Route
             path="/create"
             render={() => (
               <Create
@@ -89,6 +126,7 @@ const App = () => {
                 userAddress={account}
                 zkAsset={zkAsset}
                 streamContractAddress={streamContractAddress}
+                streamContractInstance={streamContractInstance}
                 zkdaiBalance={zkdaiBalance}
               />
             )}

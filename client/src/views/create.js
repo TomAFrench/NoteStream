@@ -6,9 +6,13 @@ import {
   minutes as minutesOption
 } from "../options";
 
-const streamContract = require("../streamContract.js");
-
-const Create = ({ web3, userAddress, zkAsset, streamContractAddress, zkdaiBalance }) => {
+const Create = ({
+  userAddress,
+  zkAsset,
+  streamContractAddress,
+  streamContractInstance,
+  zkdaiBalance
+}) => {
   const [streamAmount, setStreamAmount] = useState(null);
   const [recipient, setRecipient] = useState(null);
   const [days, setDays] = useState("0");
@@ -22,11 +26,7 @@ const Create = ({ web3, userAddress, zkAsset, streamContractAddress, zkdaiBalanc
     startTime,
     endTime
   ) {
-    const streamContractInstance = new web3.eth.Contract(
-      streamContract.abi,
-      streamContractAddress
-    );
-    console.log(streamContractInstance.methods);
+    console.log("methods", streamContractInstance.methods);
     return streamContractInstance.methods
       .createStream(
         payeeAddress,
