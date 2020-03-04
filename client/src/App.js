@@ -107,18 +107,6 @@ const App = () => {
           />
 
           <Route
-            path="/status"
-            render={() => (
-              <Status
-                streamEvents={streamEvents}
-                userAddress={account}
-                streamContractInstance={streamContractInstance}
-                zkdaiBalance={zkdaiBalance}
-              />
-            )}
-          />
-
-          <Route
             path="/create"
             render={() => (
               <Create
@@ -136,11 +124,8 @@ const App = () => {
             path="/status"
             render={() => (
               <Status
-                web3={web3}
                 userAddress={account}
-                aztec={window.aztec}
-                zkAsset={zkAsset}
-                streamContractAddress={streamContractAddress}
+                streamContractInstance={streamContractInstance}
               />
             )}
           />

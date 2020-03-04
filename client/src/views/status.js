@@ -5,9 +5,6 @@ import moment from "moment";
 import { ProgressBar } from "react-bootstrap";
 import { calculateTime } from '../utils/time'
 
-
-const streamContract = require("../streamContract.js");
-
 const StreamDisplay = ({stream}) => {
   const timePercentage = calculateTime(
     Number(stream[4]) * 1000,
@@ -36,9 +33,6 @@ const StreamDisplay = ({stream}) => {
 
 
 const Status = ({
-  aztec,
-  web3,
-  streamEvents,
   userAddress,
   streamContractInstance,
   zkdaiBalance
