@@ -24,7 +24,6 @@ const App = () => {
   const [daiBalance, setDaiBalance] = useState(0);
   const [zkdaiBalance, setZkdaiBalance] = useState(0);
   const [streamContractInstance, setStreamContractInstance] = useState(null);
-  const [streamEvents, setStreamevents] = useState([]);
 
   useEffect(() => {
     const init = async () => {
@@ -64,21 +63,6 @@ const App = () => {
     };
     init();
   }, []);
-
-  useEffect(() => {
-    if (streamContractInstance) {
-      addListeners();
-    }
-  }, [streamContractInstance]);
-
-  const addListeners = () => {
-    streamContractInstance
-      .getPastEvents("CreateStream", { fromBlock: 0, toBlock: "latest" })
-      .then(function(events) {
-        setStreamevents(events);
-        console.log("CreateStream", events);
-      });
-  };
 
   async function getBalance(asset) {
     const publicBalance = await asset.balanceOfLinkedToken(account);

@@ -31,6 +31,21 @@ const StreamDisplay = ({stream}) => {
   )
 }
 
+async function getStreams(streamContractInstance, userAddress, role) {
+  const events = await streamContractInstance.getPastEvents(
+    "CreateStream",
+    { filter: {[role]: userAddress }, fromBlock: 0, toBlock: "latest" }
+  )
+  
+  return Promise.all(events.map(async e =>
+    streamContractInstance.methods
+      .getStream(e.returnValues.streamId)
+      .call({
+        from: userAddress
+      })
+    ))
+}
+
 
 const Status = ({
   userAddress,
@@ -40,41 +55,18 @@ const Status = ({
   const [senderStreams, setSenderStreams] = useState([]);
   const [recipientStreams, setRecipientStreams] = useState([]);
 
+
   useEffect(() => {
-    loadRecipientStreams();
-    loadSenderStreams();
+    async function loadStreams(){
+      if (!streamContractInstance) return
+      const newSenderStreams = await getStreams(streamContractInstance, userAddress, 'sender')
+      const newRecipientStreams = await getStreams(streamContractInstance, userAddress, 'recipient')
+      console.log(newSenderStreams)
+      setSenderStreams(newSenderStreams)
+      setRecipientStreams(newRecipientStreams)
+    }
+    loadStreams()
   }, [streamContractInstance, zkdaiBalance]);
-
-  const loadStream = (streamId, role) => {
-    streamContractInstance.methods
-      .getStream(streamId)
-      .call({
-        from: userAddress
-      })
-      .then(async value => {
-        console.log("getstream", value);
-        role == "recipient"
-          ? setRecipientStreams([...recipientStreams, { ...value }])
-          : setSenderStreams([...recipientStreams, { ...value }]);
-      });
-  };
-
-  const loadRecipientStreams = () => {
-    const filtered = recipientStreams.filter(
-      e => e.returnValues.recipient == userAddress
-    );
-    filtered.map(e => {
-      loadStream(e.returnValues.streamId, "recipient");
-    });
-  };
-
-  const loadSenderStreams = () => {
-    const filtered = senderStreams.filter(
-      e => e.returnValues.sender == userAddress
-    );
-    filtered.map(e => loadStream(e.returnValues.streamId, "sender"));
-    return filtered.map(e => <p>{e.returnValues.streamId} </p>);
-  };
 
   return (
     <>
