@@ -3,6 +3,7 @@ import _ from 'lodash'
 import "../styles.css";
 import moment from "moment";
 import { ProgressBar } from "react-bootstrap";
+import { calculateTime } from '../utils/time'
 
 
 const streamContract = require("../streamContract.js");
@@ -31,15 +32,6 @@ const computeRemainderNoteValue = (value, za, zb) => {
   };
 };
 
-const calculateTime = (startTime, endTime) => {
-  if (startTime > Date.now()) {
-    return 0;
-  } else if (endTime < Date.now()) {
-    return 100;
-  } else {
-    return (Date.now() - startTime) / (endTime - startTime);
-  }
-};
 
 const Status = ({
   aztec,
