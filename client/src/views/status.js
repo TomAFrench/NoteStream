@@ -8,29 +8,31 @@ import { calculateTime } from '../utils/time'
 
 const streamContract = require("../streamContract.js");
 
-function getFraction(value, maxdenom) {
-  const best = { numerator: 1, denominator: 1, err: Math.abs(value - 1) };
-  if (!maxdenom) maxdenom = 10000;
-  for (let denominator = 1; best.err > 0 && denominator <= maxdenom; denominator++) {
-    const numerator = Math.round(value * denominator);
-    const err = Math.abs(value - numerator / denominator);
-    if (err >= best.err) continue;
-    best.numerator = numerator;
-    best.denominator = denominator;
-    best.err = err;
-  }
-  return best;
+const StreamDisplay = ({stream}) => {
+  const timePercentage = calculateTime(
+    Number(stream[4]) * 1000,
+    Number(stream[5]) * 1000
+  );
+  return (
+    <div>
+      <p>Sender: {stream[0]} </p>
+      <p>Receiver: {stream[1]} </p>
+      <p>
+        StartTime:{" "}
+        {moment(Number(stream[4]) * 1000).format("DD-MM-YYYY HH:mm:ss")}
+      </p>
+      <p>
+        StopTime:{" "}
+        {moment(Number(stream[5]) * 1000).format("DD-MM-YYYY HH:mm:ss")}
+      </p>
+      <p>CurrentBalance: {stream[3]}</p>
+      <p style={{ marginTop: 30 }}>Time passed:</p>
+      <ProgressBar now={timePercentage} />
+      <p style={{ marginTop: 30 }}>Money withdrawn</p>
+      <ProgressBar now={0} />
+    </div>
+  )
 }
-
-const computeRemainderNoteValue = (value, za, zb) => {
-  const expectedNoteValue = Math.floor(value * (za / zb));
-  const remainder = value * za - expectedNoteValue * zb;
-
-  return {
-    remainder,
-    expectedNoteValue,
-  };
-};
 
 
 const Status = ({
@@ -71,6 +73,7 @@ const Status = ({
       loadStream(e.returnValues.streamId, "recipient");
     });
   };
+
   const loadSenderStreams = () => {
     const filtered = senderStreams.filter(
       e => e.returnValues.sender == userAddress
@@ -79,72 +82,14 @@ const Status = ({
     return filtered.map(e => <p>{e.returnValues.streamId} </p>);
   };
 
-  const renderRecipientStreams = () => {
-    console.log("recipientStreams", recipientStreams);
-    return recipientStreams.map(e => {
-      const timePercentage = calculateTime(
-        Number(e[4]) * 1000,
-        Number(e[5]) * 1000
-      );
-      console.log("timePercentage", timePercentage);
-      return (
-        <div>
-          <p>Sender: {e[0]} </p>
-          <p>Receiver: {e[1]} </p>
-          <p>
-            StartTime:{" "}
-            {moment(Number(e[4]) * 1000).format("DD-MM-YYYY HH:mm:ss")}
-          </p>
-          <p>
-            StopTime:{" "}
-            {moment(Number(e[5]) * 1000).format("DD-MM-YYYY HH:mm:ss")}
-          </p>
-          <p>CurrentBalance: {e[3]}</p>
-          <p style={{ marginTop: 30 }}>Time passed:</p>
-          <ProgressBar now={timePercentage} />
-          <p style={{ marginTop: 30 }}>Money withdrawn</p>
-          <ProgressBar now={0} />
-        </div>
-      );
-    });
-  };
-  const renderSenderStreams = () => {
-    console.log("senderStreams", senderStreams);
-    return senderStreams.map(e => {
-      const timePercentage = calculateTime(
-        Number(e[4]) * 1000,
-        Number(e[5]) * 1000
-      );
-      console.log("timePercentage", timePercentage);
-      return (
-        <div>
-          <p>Sender: {e[0]} </p>
-          <p>Receiver: {e[1]} </p>
-          <p>
-            StartTime:{" "}
-            {moment(Number(e[4]) * 1000).format("DD-MM-YYYY HH:mm:ss")}
-          </p>
-          <p>
-            StopTime:{" "}
-            {moment(Number(e[5]) * 1000).format("DD-MM-YYYY HH:mm:ss")}
-          </p>
-          <p>CurrentBalance: {e[3]}</p>
-          <p style={{ marginTop: 30 }}>Time passed:</p>
-          <ProgressBar now={timePercentage} />
-          <p style={{ marginTop: 30 }}>Money withdrawn</p>
-          <ProgressBar now={0} />
-        </div>
-      );
-    });
-  };
   return (
     <>
       {streamContractInstance && (
         <>
           <p>Sender streams</p>
-          {renderSenderStreams()}
+          {senderStreams.map(stream => <StreamDisplay stream={stream}/>)}
           <p>Recipient streams</p>
-          {renderRecipientStreams()}
+          {recipientStreams.map(stream => <StreamDisplay stream={stream}/>)}
         </>
       )}
     </>
