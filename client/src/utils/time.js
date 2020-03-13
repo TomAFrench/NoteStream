@@ -8,6 +8,6 @@ export const calculateTime = (startTime, endTime) => {
   } else if (endTime < Date.now()) {
     return 100;
   } else {
-    return (Date.now() - startTime) / (endTime - startTime);
+    return 100 * (Date.now() - startTime) / (endTime - startTime);
   }
 };
