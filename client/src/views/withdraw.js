@@ -1,80 +1,97 @@
-async function buildProofs() {
-  // if currentBalance is 0 we have to change this as the ratio is infinite
+import React, { useState } from "react";
+import "../styles.css";
+import {buildDividendProof, buildJoinSplitProof} from '../utils/proofs'
+import moment from "moment";
 
-  if (!web3){
-    return false
+
+const Withdraw = ({
+  aztec,
+  userAddress,
+  streamContractInstance,
+  zkdaiBalance
+}) => {
+  const [stream, setStream] = useState(null);
+
+  async function withdrawFunds(streamId) {
+
+    const streamObj = await streamContractInstance.methods.getStream(streamId).call()
+
+    const { proof1, proof2 } = await buildProofs(streamObj)
+
+    // withdraw up to now or to end of stream
+    const now = moment.min(moment(), moment.unix(streamObj.stopTime))
+    const lastWithdrawal = moment.unix(streamObj.startTime)
+    const durationToWithdraw = moment.duration(now.diff(lastWithdrawal)).as("seconds")
+
+    console.log(now, lastWithdrawal, durationToWithdraw)
+    console.log(streamId, proof1, proof2, durationToWithdraw)
+    const encodedProof1 = "0x" + aztec.encoder.inputCoder.encodeProofData(proof1.data)
+    const encodedProof2 = "0x" + aztec.encoder.inputCoder.encodeProofData(proof2.data)
+    console.log(encodedProof1)
+    const results = await streamContractInstance.methods.withdrawFromStream(streamId, encodedProof1, encodedProof2, durationToWithdraw).send({from: userAddress})
+    console.log(results)
   }
 
-  const streamContractInstance = new web3.eth.Contract(
-    streamContract.abi,
-    streamContractInstance.address
+  async function buildProofs(streamObj) {
+  
+    const { proofData: proofData1, inputNotes, outputNotes } = await buildDividendProof(aztec, streamContractInstance, streamObj)
+    const { proofData: proofData2 } = await buildJoinSplitProof(
+      aztec,
+      streamContractInstance.options.address,
+      streamObj,
+      inputNotes[0],
+      outputNotes[0],
+    )
+
+    console.log("DividendProof", proofData1)
+    console.log("JoinSplitProof", proofData2)
+  
+    return {
+      proof1: proofData1,
+      proof2: proofData2,
+    }
+  }
+
+  return (
+    <div>
+      <p style={{ marginBottom: 20 }}>
+        Your zkDai Balance: {zkdaiBalance} ZkDai
+      </p>
+      <div className="input-wrap">
+        <label>Enter stream id</label>
+        <input
+          type="text"
+          onChange={e => setStream(e.target.value)}
+          value={stream}
+          placeholder="Stream ID"
+        />
+      </div>
+      {/* <div className="input-wrap">
+        <label>Enter withdraw amount</label>
+        <input
+          type="text"
+          onChange={val => ())}
+          value={amount}
+          placeholder="0 Dai/zkDai"
+        />
+      </div> */}
+      <div
+        className="backbutton"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 20
+        }}
+      >
+        <button
+          style={{ width: 200 }}
+          onClick={() => withdrawFunds(stream)}
+        >
+          Withdraw
+        </button>
+      </div>
+    </div>
   );
+};
 
-  const events = await streamContractInstance.getPastEvents("allEvents", {filter: {recipient: userAddress}})
-  console.log(events)
-  const streamId = _.last(events) && _.last(events).returnValues.streamId;
-
-  const streamObj = await streamContractInstance.methods.getStream(streamId).call()
-
-  const {proofData: proofData1, inputNotes, outputNotes} = buildDividendProof(aztec, streamObj)
-  const {proofData: proofData2, outputNotes: [withdrawPaymentNote, changeNote] } = buildJoinSplitProof(aztec, streamObj, inputNotes[0], outputNotes[0], streamContractInstance.address)
-
-  return {
-    proofs: [proofData1, proofData2],
-    notes: {
-      changeNote,
-      withdrawPaymentNote,
-    },
-  };
-}
-
-async function buildDividendProof(aztec, stream) {
-  const {sender, recipient, currentBalance, lastWithdrawTime, endTime } = stream
-
-  const payer = await aztec.user(sender)
-  const payee = await aztec.user(recipient)
-
-  const ratio1 = getFraction((Date.now() - lastWithdrawTime) / (endTime - lastWithdrawTime) * 10000);
-      
-  const streamNote = aztec.zkNote(currentBalance)
-  const withdrawPayment = computeRemainderNoteValue(streamNote.k.toNumber(), ratio1.denominator, ratio1.numerator);
-  const remainderNote2 = await aztec.note.create(payer.spendingPublicKey, withdrawPayment.remainder, [{address: payer.address, linkedPublicKey: payer.linkedPublicKey}]);
-  const withdrawPaymentNote = await aztec.note.create(payee.spendingPublicKey, withdrawPayment.expectedNoteValue, [{address: payee.address, linkedPublicKey: payee.linkedPublicKey}]);
-
-  const { proofData } = aztec.proof.dividendComputation.encodeDividendComputationTransaction({
-    inputNotes: [streamNote],
-    outputNotes: [withdrawPaymentNote, remainderNote2],
-    za: ratio1.numerator,
-    zb: ratio1.denominator,
-    senderAddress: streamContractInstance.address,
-  });
-
-  return {proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, remainderNote2]}
-}
-
-async function buildJoinSplitProof(aztec, stream, streamNote, withdrawPaymentNote) {
-  const {sender, recipient} = stream
-
-  const payer = await aztec.user(sender)
-  const payee = await aztec.user(recipient)
-  const changeValue = Math.max(streamNote.k.toNumber() - withdrawPaymentNote.k.toNumber(), 0)
-
-  const changeNote = await aztec.note.create(
-    payer.spendingPublicKey,
-    changeValue,
-    [{address: payer.address, linkedPublicKey: payer.linkedPublicKey},
-     {address: payee.address, linkedPublicKey: payee.linkedPublicKey}],
-     streamContractInstance.address
-  );
-
-  const { proofData } = aztec.proof.joinSplit.encodeJoinSplitTransaction({
-    inputNotes: [streamNote],
-    outputNotes: [withdrawPaymentNote, changeNote],
-    inputNoteOwners: [],
-    senderAddress: streamContractInstance.address,
-    publicOwner: recipient,
-    kPublic: 0, // No transfer from private to public assets or vice versa
-  });
-
-  return {proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, changeNote]}
-}
+export default Withdraw;

@@ -13,20 +13,18 @@ library StreamUtilities {
   using NoteUtils for bytes;
   
   uint256 constant scalingFactor = 1000000000;
-  uint24 constant DIVIDEND_PROOF= 66561;
+  uint24 constant DIVIDEND_PROOF = 66561;
   uint24 constant JOIN_SPLIT_PROOF = 65793;
-  uint24 constant MINT_PRO0F = 66049;
-  uint24 constant BILATERAL_SWAP_PROOF = 65794;
-  uint24 constant PRIVATE_RANGE_PROOF = 66562;
- 
+
   struct Note {
     address owner;
     bytes32 noteHash;
+    bytes metaData;
   }
   
   function _noteCoderToStruct(bytes memory note) internal pure returns (Note memory codedNote) {
-      (address owner, bytes32 noteHash,) = note.extractNote();
-      return Note(owner, noteHash );
+      (address owner, bytes32 noteHash, bytes memory metaData) = note.extractNote();
+      return Note(owner, noteHash, metaData);
   }
 
   function getRatio(bytes memory _proofData) internal pure returns (uint256 ratio) {
@@ -39,19 +37,6 @@ library StreamUtilities {
     return za.mul(scalingFactor).div(zb);
   }
   
-
-  function onlyLoanDapp(address sender, address loanFactory) external pure {
-    require(sender == loanFactory, 'sender is not the loan dapp');
-  }
-  
-  // function onlyBorrower(address sender, address borrower) external pure {
-  //   require(sender == borrower, 'sender is not the borrower');
-  // }
-  
-  // function onlyLender(address sender, address lender) internal pure {
-  //   // require(sender, 'sender is not the lender');
-  // }
-
   function _validateRatioProof(
     bytes memory _proof1,
     uint256 _withdrawDuration,
@@ -60,23 +45,18 @@ library StreamUtilities {
     bytes memory _proof1InputNotes, 
     bytes memory _proof1OutputNotes
   ) {
-    //PROOF 1
-
-    //NotionalNote * a = WithdrawableInterestNote * b
     uint256 totalTime = _stream.stopTime.sub(_stream.lastWithdrawTime);
-    // assert(vars.mathErr == MathError.NO_ERROR);
-
-    uint256 unwithdrawnTime = _withdrawDuration.sub(_stream.lastWithdrawTime);
-    // assert(vars.mathErr == MathError.NO_ERROR);
-
-    require(getRatio(_proof1).div(10000) ==
-            unwithdrawnTime.mul(scalingFactor).div(totalTime)
-           , 'ratios do not match');
-
+    require(
+      getRatio(_proof1) == _withdrawDuration.mul(scalingFactor).div(totalTime),
+      'ratios do not match'
+    );
 
     (bytes memory _proof1Outputs) = ACE(_stream.aceContractAddress).validateProof(DIVIDEND_PROOF, address(this), _proof1);
     (_proof1InputNotes, _proof1OutputNotes, ,) = _proof1Outputs.get(0).extractProofOutput();
-    require(_noteCoderToStruct(_proof1InputNotes.get(0)).noteHash == _stream.currentBalance, 'incorrect notional note in proof 1');
+    require(
+      _noteCoderToStruct(_proof1InputNotes.get(0)).noteHash == _stream.currentBalance,
+      'incorrect notional note in proof 1'
+    );
 
   }
 
@@ -86,57 +66,65 @@ library StreamUtilities {
     Types.AztecStream storage _stream
   ) external returns (bytes32 newCurrentInterestBalance) {
 
-
-    (bytes memory _proof2Outputs) = ACE(_stream.aceContractAddress).validateProof(JOIN_SPLIT_PROOF, address(this),
+    bytes memory _proof2Outputs = ACE(_stream.aceContractAddress).validateProof(JOIN_SPLIT_PROOF, address(this),
                                                                                  _proof2);
     (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, ,) = _proof2Outputs.get(0).extractProofOutput();
 
+    bytes32 inputNoteHash = _noteCoderToStruct(_proof2InputNotes.get(0)).noteHash;
+
     // Requires that output note respects dividend proof
-    require(_noteCoderToStruct(_proof2OutputNotes.get(0)).noteHash ==
-            _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, 'withdraw note in 2 is not the same as 1');
+    require(inputNoteHash == _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, 'withdraw note in 2 is not the same as 1');
 
-    // Require send remainder to contract
-    require(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash == _stream.currentBalance, 'interest note in 2 is not correct');
+    // Require that input note is stream note
+    require(inputNoteHash == _stream.currentBalance, 'stream note in 2 is not correct');
+    
+    Note memory newStreamNote = _noteCoderToStruct(_proof2OutputNotes.get(1));
 
-    // approve transfer
-    IZkAsset(_stream.tokenAddress).confidentialApprove(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash, address(this), true, '');
+    // Require that change note is owned by contract
+    require(newStreamNote.owner == address(this), 'change note in 2 is not owned by stream contract');
+
+    // Require that sender and receiver have view access to change note
+    // require(extractAddress(newStreamNote.metaData, 0) == _stream.sender, "stream sender can't view new stream note");
+    // require(extractAddress(newStreamNote.metaData, 0) == _stream.recipient, "stream recipient can't view new stream note");
+
+    // Approve contract to spend stream note
+    IZkAsset(_stream.tokenAddress).confidentialApprove(inputNoteHash, address(this), true, '');
     
-    
-    // send transfer
+    // Send transfer
     IZkAsset(_stream.tokenAddress).confidentialTransferFrom(JOIN_SPLIT_PROOF, _proof2Outputs.get(0));
 
     // Update new contract note
-    newCurrentInterestBalance = _noteCoderToStruct(_proof2OutputNotes.get(1)).noteHash;
-
+    newCurrentInterestBalance = newStreamNote.noteHash;
   }
 
     function _processCancelation(
     bytes memory _proof2,
     bytes memory _proof1OutputNotes,
     Types.AztecStream storage _stream
-  ) public /*returns (bytes32 newCurrentInterestBalance)*/ {
+  ) public returns (bool) {
 
-
-    (bytes memory _proof2Outputs) = ACE(_stream.aceContractAddress).validateProof(JOIN_SPLIT_PROOF, address(this),
+    bytes memory _proof2Outputs = ACE(_stream.aceContractAddress).validateProof(JOIN_SPLIT_PROOF, address(this),
                                                                                  _proof2);
     (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, ,) = _proof2Outputs.get(0).extractProofOutput();
 
+    bytes32 inputNoteHash = _noteCoderToStruct(_proof2InputNotes.get(0)).noteHash;
 
     // Requires that output note respects dividend proof
-    (_noteCoderToStruct(_proof2OutputNotes.get(0)).noteHash ==
-            _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, 'withdraw note in 2 is not the same as 1');
+    require(inputNoteHash == _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, 'withdraw note in 2 is not the same as 1');
 
-    // Must involve the note on the contract
-    require(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash == _stream.currentBalance, 'interest note in 2 is not correct');
+    // Require that input note is stream note
+    require(inputNoteHash == _stream.currentBalance, 'stream note in 2 is not correct');
 
-    // Send streamed to receiver
-    require(_noteCoderToStruct(_proof2OutputNotes.get(0)).owner == _stream.recipient, 'withdraw note in 2 is not the same as 1');
-    // send unstreamed to sender
-    require(_noteCoderToStruct(_proof2OutputNotes.get(0)).owner == _stream.sender, 'withdraw note in 2 is not the same as 1');
+    // Require that each participant owns an output note
+    require(_noteCoderToStruct(_proof2OutputNotes.get(0)).owner == _stream.recipient, "Stream recipient doesn't own first output note");
+    require(_noteCoderToStruct(_proof2OutputNotes.get(1)).owner == _stream.sender, "Stream sender doesn't own second output note");
 
+    // Approve contract to spend with stream note
+    IZkAsset(_stream.tokenAddress).confidentialApprove(inputNoteHash, address(this), true, '');
 
-    IZkAsset(_stream.tokenAddress).confidentialApprove(_noteCoderToStruct(_proof2InputNotes.get(0)).noteHash, address(this), true, '');
-
+    // Send transfer
     IZkAsset(_stream.tokenAddress).confidentialTransferFrom(JOIN_SPLIT_PROOF, _proof2Outputs.get(0));
+
+    return true;
   }    
 }

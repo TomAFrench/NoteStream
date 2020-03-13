@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles.css";
+import moment from "moment";
 import {
   days as daysOption,
   hours as hoursOption,
@@ -20,7 +21,6 @@ const Create = ({
   const [minutes, setMinutes] = useState("0");
 
   function initialiseStream(
-    streamContractAddress,
     payeeAddress,
     noteForStreamContract,
     startTime,
@@ -60,7 +60,7 @@ const Create = ({
           numberOfOutputNotes: 1 // contract has one
         }
       ],
-      { userAccess: [payeeAddress] } // account of user who is streaming
+      { userAccess: [userAddress, payeeAddress] } // Give view access to sender and recipient
     );
     console.info("sent funds confidentially");
     console.log("_sendResp", _sendResp);
@@ -75,7 +75,7 @@ const Create = ({
   }
 
   async function createStream(sendAmount, payeeAddress, startTime, endTime) {
-    console.log(streamContractAddress);
+    console.log(streamContractAddress, startTime, endTime);
     const streamNote = await fundStream(
       streamContractAddress,
       payeeAddress,
@@ -83,7 +83,6 @@ const Create = ({
       zkAsset
     );
     return initialiseStream(
-      streamContractAddress,
       payeeAddress,
       streamNote,
       startTime,
@@ -177,12 +176,8 @@ const Create = ({
             createStream(
               streamAmount,
               recipient,
-              Date.now() + 20,
-              Date.now() +
-                20 +
-                days.split(" ")[0] * 86400 +
-                hours.split(" ")[0] * 3600 +
-                minutes.split(" ")[0] * 60
+              parseInt(moment().add(5, "minutes").format("X")),
+              parseInt(moment().add(parseInt(days), "days").add(parseInt(hours), "hours").add(parseInt(minutes)+5, "minutes").format("X"))
             )
           }
         >

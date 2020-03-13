@@ -2,8 +2,8 @@ pragma solidity ^0.5.11;
 
 
 /**
- * @title Sablier Types
- * @author Sablier
+ * @title Quachtli Types
+ * @author Quachtli
  */
 library Types {
     struct AztecStream {

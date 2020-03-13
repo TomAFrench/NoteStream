@@ -1,28 +1,40 @@
 import React, { useState, useEffect } from "react";
-import _ from 'lodash'
 import "../styles.css";
 import moment from "moment";
 import { ProgressBar } from "react-bootstrap";
 import { calculateTime } from '../utils/time'
 
-const StreamDisplay = ({stream}) => {
+const StreamDisplay = ({aztec, stream}) => {
+  const [noteValue, setNoteValue] = useState(stream.noteHash)
+
+
+  useEffect(() => {
+    async function decodeNote(noteHash) {
+      const note = await aztec.zkNote(noteHash)
+      setNoteValue(note.value)
+    }
+    
+    decodeNote(stream.currentBalance)
+  }, [aztec, stream.currentBalance])
+  
   const timePercentage = calculateTime(
-    Number(stream[4]) * 1000,
-    Number(stream[5]) * 1000
+    Number(stream.startTime) * 1000,
+    Number(stream.stopTime) * 1000
   );
   return (
     <div>
-      <p>Sender: {stream[0]} </p>
-      <p>Receiver: {stream[1]} </p>
+      <p>Stream: {stream.streamId} </p>
+      <p>Sender: {stream.sender} </p>
+      <p>Receiver: {stream.recipient} </p>
       <p>
         StartTime:{" "}
-        {moment(Number(stream[4]) * 1000).format("DD-MM-YYYY HH:mm:ss")}
+        {moment(Number(stream.startTime) * 1000).format("DD-MM-YYYY HH:mm:ss")}
       </p>
       <p>
         StopTime:{" "}
-        {moment(Number(stream[5]) * 1000).format("DD-MM-YYYY HH:mm:ss")}
+        {moment(Number(stream.stopTime) * 1000).format("DD-MM-YYYY HH:mm:ss")}
       </p>
-      <p>CurrentBalance: {stream[3]}</p>
+      <p>CurrentBalance: {noteValue}</p>
       <p style={{ marginTop: 30 }}>Time passed:</p>
       <ProgressBar now={timePercentage} />
       <p style={{ marginTop: 30 }}>Money withdrawn</p>
@@ -36,18 +48,25 @@ async function getStreams(streamContractInstance, userAddress, role) {
     "CreateStream",
     { filter: {[role]: userAddress }, fromBlock: 0, toBlock: "latest" }
   )
-  
-  return Promise.all(events.map(async e =>
-    streamContractInstance.methods
+    
+  return Promise.all(events.map(async e => {
+    const stream = await streamContractInstance.methods
       .getStream(e.returnValues.streamId)
       .call({
         from: userAddress
       })
-    ))
+    return {
+      streamId: e.returnValues.streamId,
+      ...stream
+      }
+    }
+  ))
+
 }
 
 
 const Status = ({
+  aztec,
   userAddress,
   streamContractInstance,
   zkdaiBalance
@@ -66,16 +85,16 @@ const Status = ({
       setRecipientStreams(newRecipientStreams)
     }
     loadStreams()
-  }, [streamContractInstance, zkdaiBalance]);
+  }, [userAddress, streamContractInstance, zkdaiBalance]);
 
   return (
     <>
       {streamContractInstance && (
         <>
           <p>Sender streams</p>
-          {senderStreams.map(stream => <StreamDisplay stream={stream}/>)}
+          {senderStreams.map(stream => <StreamDisplay aztec={aztec} stream={stream} key={stream.currentBalance}/>)}
           <p>Recipient streams</p>
-          {recipientStreams.map(stream => <StreamDisplay stream={stream}/>)}
+          {recipientStreams.map(stream => <StreamDisplay aztec={aztec} stream={stream} key={stream.currentBalance}/>)}
         </>
       )}
     </>

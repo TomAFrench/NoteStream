@@ -8,29 +8,33 @@ import TopBar from "./components/TopBar";
 import Create from "./views/create";
 import Deposit from "./views/deposit";
 import Status from "./views/status";
+import Withdraw from "./views/withdraw";
 
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 
 const zkAssetAddress = "0x54Fac13e652702a733464bbcB0Fb403F1c057E1b";
-const streamContractAddress = "0x1f52693c618d093cEF45Bc59100C9086B3108a61";
-const streamContract = require("./streamContract.js");
+const streamContractAddress = "0x2a8F71f7beb02Dc230cc1C453AC5f9Aad87d4aa0";
+const streamContractABI = require("./AztecStreamer.abi.js");
 
 const App = () => {
   const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
-  const [network, setNetwork] = useState(undefined);
   const [zkAsset, setZkAsset] = useState();
-  const [loaded, setLoaded] = useState(false);
   const [daiBalance, setDaiBalance] = useState(0);
   const [zkdaiBalance, setZkdaiBalance] = useState(0);
   const [streamContractInstance, setStreamContractInstance] = useState(null);
 
   useEffect(() => {
-    const init = async () => {
+    async function getBalance(asset, address) {
+      const publicBalance = await asset.balanceOfLinkedToken(address);
+      const zkBalance = await asset.balance();
+      setDaiBalance(publicBalance.toString(10));
+      setZkdaiBalance(zkBalance);
+    }
+
+    async function init () {
       const _web3 = await getWeb3();
       const _accounts = await _web3.eth.getAccounts();
-      const _network = await _web3.eth.net.getId();
-      setNetwork(_network);
 
       console.log("web3", _web3);
       console.log("windowaztec", window.aztec);
@@ -52,24 +56,16 @@ const App = () => {
       const _asset = await window.aztec.zkAsset(zkAssetAddress);
       setZkAsset(_asset);
       console.log("ASSET:", _asset);
-      getBalance(_asset);
-      setLoaded(true);
+      getBalance(_asset, _accounts[0]);
 
       const _streamContractInstance = new _web3.eth.Contract(
-        streamContract.abi,
+        streamContractABI,
         streamContractAddress
       );
       setStreamContractInstance(_streamContractInstance);
     };
     init();
   }, []);
-
-  async function getBalance(asset) {
-    const publicBalance = await asset.balanceOfLinkedToken(account);
-    const zkBalance = await asset.balance();
-    setDaiBalance(publicBalance.toString(10));
-    setZkdaiBalance(zkBalance);
-  }
 
   return (
     <div className="App">
@@ -108,11 +104,26 @@ const App = () => {
             path="/status"
             render={() => (
               <Status
+                aztec={window.aztec}
                 userAddress={account}
                 streamContractInstance={streamContractInstance}
               />
             )}
           />
+
+          <Route
+            path="/withdraw"
+            render={() => (
+              <Withdraw
+                web3={web3}
+                userAddress={account}
+                aztec={window.aztec}
+                zkdaiBalance={zkdaiBalance}
+                streamContractInstance={streamContractInstance}
+              />
+            )}
+          />
+
           <Redirect path="/" to="/deposit" />
         </Router>
       </div>

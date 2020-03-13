@@ -54,6 +54,19 @@ const TopBar = () => {
       >
         Status
       </p>
+      <p
+        onClick={() => history.push("withdraw")}
+        style={{
+          cursor: 'pointer',
+          margin: 0,
+          padding: '5px 30px 5px 30px',
+          backgroundColor: location.pathname === '/withdraw' ? '#0179C4' : null,
+          borderRadius: 10,
+          opacity: 0.85
+        }}
+      >
+        Withdraw
+      </p>
     </div>
   )
 }

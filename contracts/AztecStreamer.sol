@@ -1,38 +1,21 @@
 pragma solidity ^0.5.11;
 
-// import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol";
 
-import "./CarefulMath.sol";
 import "./StreamUtilities.sol";
-
-// import "./OwnableWithoutRenounce.sol";
-// import "./PausableWithoutRenounce.sol";
-
 
 import "./Types.sol";
 
 /**
- * @title Sablier's Money Streaming
- * @author Sablier
+ * @title Quachtli's Money Streaming
+ * @author Quachtli
  */
-contract AztecStreamer is CarefulMath, ReentrancyGuard {
-   
+contract AztecStreamer is ReentrancyGuard {
+    using SafeMath for uint256;
+
     /*** Storage Properties ***/
 
-    uint24 constant DIVIDEND_PROOF= 66561;
-
-
     address aceContractAddress;
-    /**
-     * @notice In Exp terms, 1e18 is 1, or 100%
-     */
-    uint256 constant hundredPercent = 1e18;
-
-    /**
-     * @notice In Exp terms, 1e16 is 0.01, or 1%
-     */
-    uint256 constant onePercent = 1e16;
 
     /**
      * @notice Counter for new stream ids.
@@ -46,11 +29,11 @@ contract AztecStreamer is CarefulMath, ReentrancyGuard {
 
     /*** Events ***/
     
-    event CreateStream(uint256 streamId, address sender, address recipient);
+    event CreateStream(uint256 indexed streamId, address indexed sender, address indexed recipient);
 
-    event WithdrawFromStream(uint256 streamId, address sender, address recipient);
+    event WithdrawFromStream(uint256 indexed streamId, address indexed sender, address indexed recipient);
 
-    event CancelStream(uint256 streamId, address sender, address recipient);
+    event CancelStream(uint256 indexed streamId, address indexed sender, address indexed recipient);
 
 
     /*** Modifiers ***/
@@ -77,8 +60,6 @@ contract AztecStreamer is CarefulMath, ReentrancyGuard {
     /*** Contract Logic Starts Here */
 
     constructor(address _aceContractAddress) public {        
-        // OwnableWithoutRenounce.initialize(msg.sender);
-        // PausableWithoutRenounce.initialize(msg.sender);
         aceContractAddress = _aceContractAddress;
         nextStreamId = 1;
     }
@@ -101,6 +82,7 @@ contract AztecStreamer is CarefulMath, ReentrancyGuard {
             bytes32 currentBalance,
             address tokenAddress,
             uint256 startTime,
+            uint256 lastWithdrawTime,
             uint256 stopTime
         )
     {
@@ -109,44 +91,11 @@ contract AztecStreamer is CarefulMath, ReentrancyGuard {
         currentBalance = streams[streamId].currentBalance;
         tokenAddress = address(streams[streamId].tokenAddress);
         startTime = streams[streamId].startTime;
+        lastWithdrawTime = streams[streamId].lastWithdrawTime;
         stopTime = streams[streamId].stopTime;
     }
 
-    struct withdrawFromStreamLocalVars {
-        MathError mathErr;
-        uint256 newWithdrawalTime;
-    }
-
-    function withdrawFromStream(
-        uint256 streamId,
-        bytes memory _proof1, // Dividend Proof
-        bytes memory _proof2, // Join-Split Proof
-        uint256 _streamDurationToWithdraw
-      ) public streamExists(streamId) onlySenderOrRecipient(streamId) {
-        
-        Types.AztecStream storage stream = streams[streamId];
-        
-        (,bytes memory _proof1OutputNotes) = StreamUtilities._validateRatioProof(_proof1, _streamDurationToWithdraw, stream);
-
-        withdrawFromStreamLocalVars memory vars;
-        (vars.mathErr, vars.newWithdrawalTime) = addUInt(_streamDurationToWithdraw, stream.lastWithdrawTime);
-        /* `subUInt` can only return MathError.INTEGER_UNDERFLOW but we know `stopTime` is higher than `startTime`. */
-        assert(vars.mathErr == MathError.NO_ERROR);
-        require(vars.newWithdrawalTime < block.timestamp, 'withdraw is greater than allowed');
-
-        (bytes32 newCurrentBalanceNoteHash) = StreamUtilities._processWithdrawal(_proof2, _proof1OutputNotes, stream);
-
-        stream.currentBalance = newCurrentBalanceNoteHash;
-        stream.lastWithdrawTime = vars.newWithdrawalTime;
-
-        emit WithdrawFromStream(streamId, stream.sender, stream.recipient);
-      }
-
     /*** Public Effects & Interactions Functions ***/
-
-    struct CreateStreamLocalVars {
-        MathError mathErr;
-    }
 
     /**
      * @notice Creates a new stream funded by `msg.sender` and paid towards `recipient`.
@@ -155,13 +104,12 @@ contract AztecStreamer is CarefulMath, ReentrancyGuard {
      *  Throws if the start time is before `block.timestamp`.
      *  Throws if the stop time is before the start time.
      *  Throws if the duration calculation has a math error.
-     *  Throws if the rate calculation has a math error.
      *  Throws if the next stream id calculation has a math error.
      *  Throws if the contract is not allowed to transfer enough tokens.
      *  Throws if there is a token transfer failure.
      * @param recipient The address towards which the money is streamed.
      * @param notehash The note of a zkAsset to be streamed.
-     * @param tokenAddress The ERC20 token to use as streaming currency.
+     * @param tokenAddress The zkAsset to use as streaming currency.
      * @param startTime The unix timestamp for when the stream starts.
      * @param stopTime The unix timestamp for when the stream stops.
      * @return The uint256 id of the newly created stream.
@@ -191,20 +139,39 @@ contract AztecStreamer is CarefulMath, ReentrancyGuard {
             isEntity: true
         });
         
-        CreateStreamLocalVars memory vars;
         /* Increment the next stream id. */
-        (vars.mathErr, nextStreamId) = addUInt(nextStreamId, uint256(1));
-        require(vars.mathErr == MathError.NO_ERROR, "next stream id calculation error");
-
-        // require(ZkAsset(tokenAddress).confidentialTransferFrom(_proof, _proofOutput), "ZKAsset transfer failure");
+        nextStreamId = nextStreamId.add(1);
+        
         emit CreateStream(streamId, msg.sender, recipient);
+
         return streamId;
     }
 
-    struct CancelStreamLocalVars {
-        MathError mathErr;
-        uint256 cancellationTime;
-    }
+    function withdrawFromStream(
+        uint256 streamId,
+        bytes memory _proof1,  // Dividend Proof
+        bytes memory _proof2, // Join-Split Proof
+        uint256 _streamDurationToWithdraw
+      ) public streamExists(streamId) onlySenderOrRecipient(streamId) {
+        
+        Types.AztecStream storage stream = streams[streamId];
+        
+        // First check that fraction to withdraw isn't greater than fraction of time passed
+        require(stream.lastWithdrawTime.add(_streamDurationToWithdraw) < block.timestamp, 'withdraw is greater than allowed');
+
+        // Check that value of withdrawal matches the fraction given by the above timestamp
+        (,bytes memory _proof1OutputNotes) = StreamUtilities._validateRatioProof(_proof1, _streamDurationToWithdraw, stream);
+
+        // Check that withdrawal transaction is valid and perform transfer
+        // i.e. change note remains on contract, sender and recipient have view access, etc.
+        bytes32 newCurrentBalanceNoteHash = StreamUtilities._processWithdrawal(_proof2, _proof1OutputNotes, stream);
+
+        // Update stream information
+        stream.currentBalance = newCurrentBalanceNoteHash;
+        stream.lastWithdrawTime = stream.lastWithdrawTime.add(_streamDurationToWithdraw);
+
+        emit WithdrawFromStream(streamId, stream.sender, stream.recipient);
+      }
 
     /**
      * @notice Cancels the stream and transfers the tokens back on a pro rata basis.
@@ -212,12 +179,15 @@ contract AztecStreamer is CarefulMath, ReentrancyGuard {
      *  Throws if the caller is not the sender or the recipient of the stream.
      *  Throws if there is a token transfer failure.
      * @param streamId The id of the stream to cancel.
+     * @param _proof1 The Dividend proof where the first output note goes to the stream recipient
+     * @param _proof2 The Join-Split proof where the first output note goes to the stream recipient
+     * @param _unclaimedTime The amount of time corresponding to the value being sent to the recipient
      * @return bool true=success, otherwise false.
      */
     function cancelStream(
         uint256 streamId,
         bytes calldata _proof1, // Dividend Proof
-        bytes calldata _proof2, // Join-Split Proof)
+        bytes calldata _proof2, // Join-Split Proof
         uint256 _unclaimedTime
         )
         external
@@ -228,25 +198,26 @@ contract AztecStreamer is CarefulMath, ReentrancyGuard {
     {
         Types.AztecStream storage stream = streams[streamId];
 
-        (,bytes memory _proof1OutputNotes) = StreamUtilities._validateRatioProof(_proof1, _unclaimedTime, stream);
 
-        CancelStreamLocalVars memory vars;
-        (vars.mathErr, vars.cancellationTime) = addUInt(_unclaimedTime, stream.lastWithdrawTime);
-        /* `subUInt` can only return MathError.INTEGER_UNDERFLOW but we know `stopTime` is higher than `startTime`. */
-        assert(vars.mathErr == MathError.NO_ERROR);
+        // First check that cancelling party isn't trying to scam the other party
+        // Sender can only cancel from a timestamp which hasn't already passed
+        // Recipient can only cancel from a timestamp which has already passed
+        // This ensures that the cancellation timestamp will be as close to the true time as possible.
         if (msg.sender == stream.sender){
-            require(vars.cancellationTime < block.timestamp, 'withdraw is greater than allowed');
+            require(stream.lastWithdrawTime.add(_unclaimedTime) > block.timestamp, 'withdraw is greater than allowed');
         } else if (msg.sender == stream.recipient){
-            require(vars.cancellationTime > block.timestamp, 'withdraw is greater than allowed'); 
+            require(stream.lastWithdrawTime.add(_unclaimedTime) < block.timestamp, 'withdraw is greater than allowed'); 
         } 
 
+        // Check that value of withdrawal matches the fraction given by the above timestamp
+        (,bytes memory _proof1OutputNotes) = StreamUtilities._validateRatioProof(_proof1, _unclaimedTime, stream);
+
+        // Check that cancellation transaction is valid and perform transfer
+        // i.e. Each party receives a note of correct value
         StreamUtilities._processCancelation(_proof2, _proof1OutputNotes, stream);
 
         delete streams[streamId];
         emit CancelStream(streamId, stream.sender, stream.recipient);
         return true;
     }
-
-    /*** Internal Effects & Interactions Functions ***/
-
 }
