@@ -90,7 +90,6 @@ const App = () => {
             path="/create"
             render={() => (
               <Create
-                web3={web3}
                 userAddress={account}
                 zkAsset={zkAsset}
                 streamContractAddress={streamContractAddress}
@@ -104,9 +103,10 @@ const App = () => {
             path="/status"
             render={() => (
               <Status
-                aztec={window.aztec}
                 userAddress={account}
                 streamContractInstance={streamContractInstance}
+                zkdaiBalance={zkdaiBalance}
+                zkNote={window.aztec.zkNote}
               />
             )}
           />
@@ -115,7 +115,6 @@ const App = () => {
             path="/withdraw"
             render={() => (
               <Withdraw
-                web3={web3}
                 userAddress={account}
                 aztec={window.aztec}
                 zkdaiBalance={zkdaiBalance}

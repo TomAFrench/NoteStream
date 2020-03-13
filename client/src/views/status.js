@@ -4,18 +4,18 @@ import moment from "moment";
 import { ProgressBar } from "react-bootstrap";
 import { calculateTime } from '../utils/time'
 
-const StreamDisplay = ({aztec, stream}) => {
+const StreamDisplay = ({stream, zkNote}) => {
   const [noteValue, setNoteValue] = useState(stream.noteHash)
 
 
   useEffect(() => {
     async function decodeNote(noteHash) {
-      const note = await aztec.zkNote(noteHash)
+      const note = await zkNote(noteHash)
       setNoteValue(note.value)
     }
     
     decodeNote(stream.currentBalance)
-  }, [aztec, stream.currentBalance])
+  }, [zkNote, stream.currentBalance])
   
   const timePercentage = calculateTime(
     Number(stream.startTime) * 1000,
@@ -66,9 +66,9 @@ async function getStreams(streamContractInstance, userAddress, role) {
 
 
 const Status = ({
-  aztec,
   userAddress,
   streamContractInstance,
+  zkNote,
   zkdaiBalance
 }) => {
   const [senderStreams, setSenderStreams] = useState([]);
@@ -92,9 +92,9 @@ const Status = ({
       {streamContractInstance && (
         <>
           <p>Sender streams</p>
-          {senderStreams.map(stream => <StreamDisplay aztec={aztec} stream={stream} key={stream.currentBalance}/>)}
+          {senderStreams.map(stream => <StreamDisplay zkNote={zkNote} stream={stream} key={stream.currentBalance}/>)}
           <p>Recipient streams</p>
-          {recipientStreams.map(stream => <StreamDisplay aztec={aztec} stream={stream} key={stream.currentBalance}/>)}
+          {recipientStreams.map(stream => <StreamDisplay zkNote={zkNote} stream={stream} key={stream.currentBalance}/>)}
         </>
       )}
     </>

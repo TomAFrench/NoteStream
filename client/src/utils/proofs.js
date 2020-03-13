@@ -1,7 +1,7 @@
+import { note, DividendProof, JoinSplitProof } from 'aztec.js'
 import {getFraction, computeRemainderNoteValue} from '../utils/note'
 
-export async function buildDividendProof(aztec, streamContractInstance, stream) {
-  const {note, user, zkNote} = aztec
+export async function buildDividendProof(stream, streamContractAddress, zkNote, user) {
   const {sender, recipient, currentBalance, lastWithdrawTime, endTime } = stream
 
   const payer = await user(sender)
@@ -35,14 +35,14 @@ export async function buildDividendProof(aztec, streamContractInstance, stream) 
   console.log(    streamNote,
     withdrawPaymentNote,
     remainderNote,
-    streamContractInstance.options.address,
+    streamContractAddress,
     ratio.numerator,
     ratio.denominator, )
-  const proofData = await aztec.DividendProof(
+  const proofData = new DividendProof(
     streamNote,
     withdrawPaymentNote,
     remainderNote,
-    streamContractInstance.options.address,
+    streamContractAddress,
     ratio.numerator,
     ratio.denominator, 
   );
@@ -50,14 +50,14 @@ export async function buildDividendProof(aztec, streamContractInstance, stream) 
   return {proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, remainderNote]}
 }
 
-export async function buildJoinSplitProof(aztec, streamContractAddress, stream, streamNote, withdrawPaymentNote) {
+export async function buildJoinSplitProof(stream, streamContractAddress, streamNote, withdrawPaymentNote, zkNote, user) {
   const {sender, recipient} = stream
 
-  const payer = await aztec.user(sender)
-  const payee = await aztec.user(recipient)
+  const payer = await user(sender)
+  const payee = await user(recipient)
   const changeValue = Math.max(streamNote.k.toNumber() - withdrawPaymentNote.k.toNumber(), 0)
 
-  const changeNote = await aztec.note.create(
+  const changeNote = await note.create(
     payer.spendingPublicKey,
     changeValue,
     [{address: payer.address, linkedPublicKey: payer.linkedPublicKey},
@@ -65,7 +65,7 @@ export async function buildJoinSplitProof(aztec, streamContractAddress, stream, 
      streamContractAddress
   );
 
-  const proofData = await aztec.JoinSplitProof(
+  const proofData = new JoinSplitProof(
     [streamNote],
     [withdrawPaymentNote, changeNote],
     streamContractAddress,

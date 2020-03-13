@@ -10,7 +10,6 @@ import {
 const Create = ({
   userAddress,
   zkAsset,
-  streamContractAddress,
   streamContractInstance,
   zkdaiBalance
 }) => {
@@ -75,9 +74,8 @@ const Create = ({
   }
 
   async function createStream(sendAmount, payeeAddress, startTime, endTime) {
-    console.log(streamContractAddress, startTime, endTime);
     const streamNote = await fundStream(
-      streamContractAddress,
+      streamContractInstance.options.address,
       payeeAddress,
       sendAmount,
       zkAsset

@@ -25,22 +25,25 @@ const Withdraw = ({
 
     console.log(now, lastWithdrawal, durationToWithdraw)
     console.log(streamId, proof1, proof2, durationToWithdraw)
-    const encodedProof1 = "0x" + aztec.encoder.inputCoder.encodeProofData(proof1.data)
-    const encodedProof2 = "0x" + aztec.encoder.inputCoder.encodeProofData(proof2.data)
-    console.log(encodedProof1)
-    const results = await streamContractInstance.methods.withdrawFromStream(streamId, encodedProof1, encodedProof2, durationToWithdraw).send({from: userAddress})
+    const results = await streamContractInstance.methods.withdrawFromStream(
+      streamId,
+      proof1.encodeABI(),
+      proof2.encodeABI(),
+      durationToWithdraw
+    ).send({from: userAddress})
     console.log(results)
   }
 
   async function buildProofs(streamObj) {
   
-    const { proofData: proofData1, inputNotes, outputNotes } = await buildDividendProof(aztec, streamContractInstance, streamObj)
+    const { proofData: proofData1, inputNotes, outputNotes } = await buildDividendProof(streamObj, streamContractInstance.options.address, aztec.zkNote, aztec.user)
     const { proofData: proofData2 } = await buildJoinSplitProof(
-      aztec,
-      streamContractInstance.options.address,
       streamObj,
+      streamContractInstance.options.address,
       inputNotes[0],
       outputNotes[0],
+      aztec.zkNote,
+      aztec.user
     )
 
     console.log("DividendProof", proofData1)
