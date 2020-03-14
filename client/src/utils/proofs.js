@@ -1,29 +1,33 @@
 import { note, DividendProof, JoinSplitProof } from 'aztec.js'
+import moment from "moment";
+
 import {getFraction, computeRemainderNoteValue} from '../utils/note'
 
-export async function buildDividendProof(stream, streamContractAddress, zkNote, user) {
-  const {sender, recipient, currentBalance, lastWithdrawTime, endTime } = stream
+export async function buildDividendProof(stream, zkNote, user) {
+  const {sender, recipient, currentBalance, lastWithdrawTime, stopTime } = stream
 
   const payer = await user(sender)
   const payee = await user(recipient)
 
   // Only allow withdrawals up to the stream's end time
   let ratio
-  if (Date.now() > endTime) {
+  // console.log(moment(), moment.unix(stopTime), moment().isAfter(moment.unix(stopTime)))
+  // console.log("fraction", moment().diff(moment.unix(lastWithdrawTime)), (moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))))
+  if (moment().isAfter(moment.unix(stopTime))) {
     ratio = getFraction(1)
   } else {
-    ratio = getFraction((Date.now() - lastWithdrawTime) / (endTime - lastWithdrawTime));
+    ratio = getFraction(moment().diff(moment.unix(lastWithdrawTime)) / (moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))));
   }
   
   const streamZkNote = await zkNote(currentBalance)
   const streamNote = await streamZkNote.export()
-  console.log(streamNote)
-  const withdrawPayment = computeRemainderNoteValue(streamNote.k.toNumber(), ratio.denominator, ratio.numerator);
-  
+  const withdrawPayment = computeRemainderNoteValue(streamNote.k.toNumber(), ratio.numerator, ratio.denominator);
+  // console.log(moment().diff(moment.unix(lastWithdrawTime)) / (moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))))
+  // console.log(streamNote.k.toNumber(), withdrawPayment.expectedNoteValue, withdrawPayment.remainder)
+
   const remainderNote = await note.create(
     payer.spendingPublicKey,
     withdrawPayment.remainder,
-    [{address: payer.address, linkedPublicKey: payer.linkedPublicKey}]
   );
   const withdrawPaymentNote = await note.create(
     payee.spendingPublicKey,
@@ -31,18 +35,18 @@ export async function buildDividendProof(stream, streamContractAddress, zkNote, 
     [{address: payee.address, linkedPublicKey: payee.linkedPublicKey}]
   );
 
-
-  console.log(    streamNote,
+  console.log(payee.address)
+  console.log(
+    streamNote,
     withdrawPaymentNote,
     remainderNote,
-    streamContractAddress,
     ratio.numerator,
     ratio.denominator, )
   const proofData = new DividendProof(
     streamNote,
-    withdrawPaymentNote,
     remainderNote,
-    streamContractAddress,
+    withdrawPaymentNote,
+    payee.address,
     ratio.numerator,
     ratio.denominator, 
   );
@@ -50,7 +54,7 @@ export async function buildDividendProof(stream, streamContractAddress, zkNote, 
   return {proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, remainderNote]}
 }
 
-export async function buildJoinSplitProof(stream, streamContractAddress, streamNote, withdrawPaymentNote, zkNote, user) {
+export async function buildJoinSplitProof(stream, streamContractAddress, streamNote, withdrawPaymentNote, user) {
   const {sender, recipient} = stream
 
   const payer = await user(sender)

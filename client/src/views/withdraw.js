@@ -36,13 +36,12 @@ const Withdraw = ({
 
   async function buildProofs(streamObj) {
   
-    const { proofData: proofData1, inputNotes, outputNotes } = await buildDividendProof(streamObj, streamContractInstance.options.address, aztec.zkNote, aztec.user)
+    const { proofData: proofData1, inputNotes, outputNotes } = await buildDividendProof(streamObj, aztec.zkNote, aztec.user)
     const { proofData: proofData2 } = await buildJoinSplitProof(
       streamObj,
       streamContractInstance.options.address,
       inputNotes[0],
       outputNotes[0],
-      aztec.zkNote,
       aztec.user
     )
 
