@@ -29,7 +29,7 @@
     "ganache-cli": "^6.9.0",
     "kill-port": "^1.6.0",
     "lodash": "^4.17.15",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.2",
     "serve": "^11.2.0",
     "terminal-kit": "^1.32.3",
     "truffle": "^5.1.15",
