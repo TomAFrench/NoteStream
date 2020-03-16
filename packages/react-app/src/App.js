@@ -16,6 +16,60 @@ const zkAssetAddress = "0x54Fac13e652702a733464bbcB0Fb403F1c057E1b";
 const streamContractAddress = "0x2a8F71f7beb02Dc230cc1C453AC5f9Aad87d4aa0";
 const streamContractABI = require("./AztecStreamer.abi.js");
 
+// async function fetchGanacheContractAddress(contractName) {
+//   let network;
+//   try {
+//     const response = await fetch(`${window.__AZTEC_ARTIFACTS_URL_DEV__}/${contractName}.json`);
+//     const contract = await response.json();
+//     const lastNetworkId = Object.keys(contract.networks).pop();
+//     network = contract.networks[lastNetworkId];
+//   } catch (error) {
+//     return '';
+//   }
+
+//   return (network && network.address) || '';
+// }
+
+// function handleRetry() {
+//   handleReload();
+//   initAztecSdk();
+// }
+
+// function handleProfileChanged(type, value, error) {
+//   if (type === 'aztecAccountChanged') {
+//     if (error) {
+//       handleLoadError(error);
+//     }
+//   } else {
+//     handleReload(type, value);
+//   }
+// }
+
+// async function initAztecSdk() {
+//   window.aztec.addListener('profileChanged', handleProfileChanged);
+
+//   const contractAddresses = {
+//     ganache: {
+//       ACE: await fetchGanacheContractAddress('ACE'),
+//       AccountRegistryManager: await fetchGanacheContractAddress('AccountRegistryManager'),
+//     },
+//   };
+//   try {
+//     await window.aztec.enable({
+//       apiKey: 'test1234',
+//       contractAddresses,
+//     });
+//   } catch (error) {
+//     console.error('Failed to enable aztec', error);
+//   }
+// };
+
+// if (window.aztec) {
+//   initAztecSdk();
+// } else {
+//   window.aztecCallback = initAztecSdk;
+// }
+
 const App = () => {
   const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);

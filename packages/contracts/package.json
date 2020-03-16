@@ -1,0 +1,28 @@
+{
+  "name": "@quachtli/contracts2",
+  "version": "1.0.0",
+  "description": "Quachtli contracts",
+  "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AztecProtocol/sdk-starter-kit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AztecProtocol/eth-global-starter-kit/issues"
+  },
+  "homepage": "https://github.com/AztecProtocol/eth-global-starter-kit#readme",
+  "scripts": {
+    "build": "truffle build",
+    "migrate": "truffle migrate"
+  },
+  "dependencies": {
+    "@aztec/dev-utils": "^2.3.1",
+    "@aztec/protocol": "^1.6.0",
+    "dotenv": "^8.2.0",
+    "ganache-cli": "^6.9.0",
+    "truffle": "^5.1.15",
+    "truffle-hdwallet-provider": "^1.0.17"
+  }
+}

@@ -1,49 +1,30 @@
 {
-  "name": "sdk-starter-kit",
+  "name": "@quachtli/monorepo",
   "version": "1.0.0",
-  "description": "AZTEC SDK starter kit",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AztecProtocol/sdk-starter-kit.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/AztecProtocol/eth-global-starter-kit/issues"
-  },
-  "homepage": "https://github.com/AztecProtocol/eth-global-starter-kit#readme",
+  "keywords": [
+    "ethereum",
+    "react",
+    "workspaces",
+    "yarn"
+  ],
+  "private": true,
   "scripts": {
-    "lint": "eslint ./ --color",
-    "migrate": "truffle migrate"
+    "react-app:build": "yarn workspace @project/react-app build",
+    "react-app:eject": "yarn workspace @project/react-app eject",
+    "react-app:start": "yarn workspace @project/react-app start",
+    "react-app:test": "yarn workspace @project/react-app test",
+    "subgraph:auth": "yarn workspace @project/subgraph auth",
+    "subgraph:codegen": "yarn workspace @project/subgraph codegen",
+    "subgraph:build": "yarn workspace @project/subgraph build",
+    "subgraph:deploy": "yarn workspace @project/subgraph deploy"
   },
-  "dependencies": {
-    "@aztec/bn128": "^1.3.1",
-    "@aztec/dev-utils": "^2.3.1",
-    "@aztec/protocol": "^1.6.0",
-    "@openzeppelin/gsn-helpers": "^0.2.3",
-    "@openzeppelin/gsn-provider": "^0.1.9",
-    "aztec.js": "^0.17.0",
-    "chalk": "^3.0.0",
-    "detect-port": "^1.3.0",
-    "dotenv": "^8.2.0",
-    "ganache-cli": "^6.9.0",
-    "kill-port": "^1.6.0",
-    "lodash": "^4.17.15",
-    "minimist": "^1.2.2",
-    "serve": "^11.2.0",
-    "terminal-kit": "^1.32.3",
-    "truffle": "^5.1.15",
-    "truffle-hdwallet-provider": "^1.0.17",
-    "web3": "^1.2.6",
-    "web3-utils": "^1.2.6"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.4",
-    "@babel/node": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.20.1"
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/@graphprotocol/graph-ts",
+      "**/@graphprotocol/graph-ts/**"
+    ]
   }
 }

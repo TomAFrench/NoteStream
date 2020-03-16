@@ -11,8 +11,6 @@ export async function buildDividendProof(stream, zkNote, user) {
 
   // Only allow withdrawals up to the stream's end time
   let ratio
-  // console.log(moment(), moment.unix(stopTime), moment().isAfter(moment.unix(stopTime)))
-  // console.log("fraction", moment().diff(moment.unix(lastWithdrawTime)), (moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))))
   if (moment().isAfter(moment.unix(stopTime))) {
     ratio = getFraction(1)
   } else {
@@ -22,8 +20,6 @@ export async function buildDividendProof(stream, zkNote, user) {
   const streamZkNote = await zkNote(currentBalance)
   const streamNote = await streamZkNote.export()
   const withdrawPayment = computeRemainderNoteValue(streamNote.k.toNumber(), ratio.numerator, ratio.denominator);
-  // console.log(moment().diff(moment.unix(lastWithdrawTime)) / (moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))))
-  // console.log(streamNote.k.toNumber(), withdrawPayment.expectedNoteValue, withdrawPayment.remainder)
 
   const remainderNote = await note.create(
     payer.spendingPublicKey,
@@ -34,14 +30,9 @@ export async function buildDividendProof(stream, zkNote, user) {
     withdrawPayment.expectedNoteValue, 
     [{address: payee.address, linkedPublicKey: payee.linkedPublicKey}]
   );
-
-  console.log(payee.address)
-  console.log(
-    streamNote,
-    withdrawPaymentNote,
-    remainderNote,
-    ratio.numerator,
-    ratio.denominator, )
+  
+  console.log(remainderNote)
+  console.log(streamNote, remainderNote, withdrawPaymentNote)
   const proofData = new DividendProof(
     streamNote,
     remainderNote,

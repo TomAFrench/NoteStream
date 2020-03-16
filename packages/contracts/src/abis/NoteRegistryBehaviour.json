@@ -1,0 +1,3492 @@
+{
+  "contractName": "NoteRegistryBehaviour",
+  "abi": [
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "BURN_PROOF",
+      "outputs": [
+        {
+          "internalType": "uint24",
+          "name": "",
+          "type": "uint24"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "DIVIDEND_PROOF",
+      "outputs": [
+        {
+          "internalType": "uint24",
+          "name": "",
+          "type": "uint24"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "JOIN_SPLIT_PROOF",
+      "outputs": [
+        {
+          "internalType": "uint24",
+          "name": "",
+          "type": "uint24"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "MINT_PROOF",
+      "outputs": [
+        {
+          "internalType": "uint24",
+          "name": "",
+          "type": "uint24"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "PRIVATE_RANGE_PROOF",
+      "outputs": [
+        {
+          "internalType": "uint24",
+          "name": "",
+          "type": "uint24"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "PUBLIC_RANGE_PROOF",
+      "outputs": [
+        {
+          "internalType": "uint24",
+          "name": "",
+          "type": "uint24"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "dataLocation",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "initialised",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "isActiveBehaviour",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "isOwner",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_newOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_scalingFactor",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_canAdjustSupply",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "_canConvert",
+          "type": "bool"
+        }
+      ],
+      "name": "initialise",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getRegistry",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "scalingFactor",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "confidentialTotalMinted",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "confidentialTotalBurned",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bool",
+          "name": "canConvert",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "canAdjustSupply",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "_proofOutputs",
+          "type": "bytes"
+        }
+      ],
+      "name": "burn",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "_proofOutputs",
+          "type": "bytes"
+        }
+      ],
+      "name": "mint",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint24",
+          "name": "_proof",
+          "type": "uint24"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_proofOutput",
+          "type": "bytes"
+        }
+      ],
+      "name": "updateNoteRegistry",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "publicOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "transferValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "publicValue",
+          "type": "int256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_noteHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getNote",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "status",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint40",
+          "name": "createdOn",
+          "type": "uint40"
+        },
+        {
+          "internalType": "uint40",
+          "name": "destroyedOn",
+          "type": "uint40"
+        },
+        {
+          "internalType": "address",
+          "name": "noteOwner",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "makeAvailable",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"BURN_PROOF\",\"outputs\":[{\"internalType\":\"uint24\",\"name\":\"\",\"type\":\"uint24\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"DIVIDEND_PROOF\",\"outputs\":[{\"internalType\":\"uint24\",\"name\":\"\",\"type\":\"uint24\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"JOIN_SPLIT_PROOF\",\"outputs\":[{\"internalType\":\"uint24\",\"name\":\"\",\"type\":\"uint24\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"MINT_PROOF\",\"outputs\":[{\"internalType\":\"uint24\",\"name\":\"\",\"type\":\"uint24\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PRIVATE_RANGE_PROOF\",\"outputs\":[{\"internalType\":\"uint24\",\"name\":\"\",\"type\":\"uint24\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PUBLIC_RANGE_PROOF\",\"outputs\":[{\"internalType\":\"uint24\",\"name\":\"\",\"type\":\"uint24\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"_proofOutputs\",\"type\":\"bytes\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"dataLocation\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_noteHash\",\"type\":\"bytes32\"}],\"name\":\"getNote\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"status\",\"type\":\"uint8\"},{\"internalType\":\"uint40\",\"name\":\"createdOn\",\"type\":\"uint40\"},{\"internalType\":\"uint40\",\"name\":\"destroyedOn\",\"type\":\"uint40\"},{\"internalType\":\"address\",\"name\":\"noteOwner\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getRegistry\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"scalingFactor\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"confidentialTotalMinted\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"confidentialTotalBurned\",\"type\":\"bytes32\"},{\"internalType\":\"bool\",\"name\":\"canConvert\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"canAdjustSupply\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_newOwner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_scalingFactor\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"_canAdjustSupply\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"_canConvert\",\"type\":\"bool\"}],\"name\":\"initialise\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"initialised\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isActiveBehaviour\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"makeAvailable\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"_proofOutputs\",\"type\":\"bytes\"}],\"name\":\"mint\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint24\",\"name\":\"_proof\",\"type\":\"uint24\"},{\"internalType\":\"bytes\",\"name\":\"_proofOutput\",\"type\":\"bytes\"}],\"name\":\"updateNoteRegistry\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"publicOwner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"transferValue\",\"type\":\"uint256\"},{\"internalType\":\"int256\",\"name\":\"publicValue\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"AZTEC\",\"details\":\"This interface will mostly be used by ACE, in order to have an API to interact with note registries through proxies. The implementation of all write methods should have an onlyOwner modifier. * Copyright 2020 Spilsbury Holdings Ltd  * Licensed under the GNU Lesser General Public Licence, Version 3.0 (the \\\"License\\\"); you may not use this file except in compliance with the License. * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details. * You should have received a copy of the GNU Lesser General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.*\",\"methods\":{\"burn(bytes)\":{\"details\":\"Enacts the state modifications needed given a successfully validated burn proof\",\"params\":{\"_proofOutputs\":\"- the output of the burn validator\"}},\"getNote(bytes32)\":{\"details\":\"Gets a defined note from the note registry, and returns the deconstructed object. This is to avoid the interface to be _too_ opninated on types, even though it does require any subsequent note type to have (or be able to mock) the return fields.\",\"params\":{\"_noteHash\":\"- the hash of the note being fetched\"},\"return\":\"status - whether a note has been spent or notcreatedOn - timestamp of the creation time of the notedestroyedOn - timestamp of the time the note was destroyed (if it has been destroyed, 0 otherwise)noteOwner - address of the stored owner of the note\"},\"getRegistry()\":{\"details\":\"Fetches data of the registry\",\"return\":\"scalingFactor - defines the number of tokens that an AZTEC note value of 1 maps to.confidentialTotalMinted - the hash of the AZTEC note representing the total amount which has been minted.confidentialTotalBurned - the hash of the AZTEC note representing the total amount which has been burned.canConvert - the boolean whih defines if the noteRegistry can convert between public and private.canConvert - the boolean whih defines if the noteRegistry can make use of minting and burning methods.\"},\"initialise(address,uint256,bool,bool)\":{\"details\":\"Initialises the data of a noteRegistry. Should be called exactly once.\",\"params\":{\"_canAdjustSupply\":\"- whether the noteRegistry can make use of minting and burning\",\"_canConvert\":\"- whether the noteRegistry can transfer value from private to public representation and vice versa\",\"_newOwner\":\"- the address which the initialise call will transfer ownership to\",\"_scalingFactor\":\"- defines the number of tokens that an AZTEC note value of 1 maps to.\"}},\"isOwner()\":{\"details\":\"Returns true if the caller is the current owner.\"},\"makeAvailable()\":{\"details\":\"Public function used during slow release phase to manually enable an asset.\"},\"mint(bytes)\":{\"details\":\"Enacts the state modifications needed given a successfully validated mint proof\",\"params\":{\"_proofOutputs\":\"- the output of the mint validator\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner.     * NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"},\"updateNoteRegistry(uint24,bytes)\":{\"details\":\"Enacts the state modifications needed given the output of a successfully validated proof. The _proofId param is used by the behaviour contract to (if needed) restrict the versions of proofs which the note registry supports, useful in case the proofOutputs schema changes for example.\",\"params\":{\"_proof\":\"- the id of the proof\",\"_proofOutput\":\"- the output of the proof validator\"},\"return\":\"publicOwner - the non-ACE party involved in this transaction. Either current or desired  owner of public tokenstransferValue - the total public token value to transfer. Seperate value to abstract  away scaling factors in first version of AZTECpublicValue - the kPublic value to be used in zero-knowledge proofs\"}},\"title\":\"NoteRegistryBehaviour interface which defines the base API which must be implemented for every behaviour contract.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"@aztec/protocol/contracts/ACE/noteRegistry/interfaces/NoteRegistryBehaviour.sol\":\"NoteRegistryBehaviour\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@aztec/protocol/contracts/ACE/noteRegistry/interfaces/NoteRegistryBehaviour.sol\":{\"keccak256\":\"0xd0be6c7b5646bc8796c32fc0dedd33f3bdc48a70ac7fec536079518230b72d88\",\"urls\":[\"bzz-raw://6706782dcbefcb8030f05974048aad1b790abb387ce84e325de5f20b5d90a1a2\",\"dweb:/ipfs/QmfJujA3bfBcAG5mQ7JhgrmDULKPbfDDREsgz2Jn9Wh9cZ\"]},\"@aztec/protocol/contracts/interfaces/IAZTEC.sol\":{\"keccak256\":\"0x4b6c78ca2bfb273a598a733a6615e71e65d42fa8d16ca0a9a4fab67e50694f7a\",\"urls\":[\"bzz-raw://a980b158fb7a6627ba05b7e9065a6949a10db9016e18f487a6835d401a405958\",\"dweb:/ipfs/QmScpcDZHdGzfs6Meu1LR3M5qCbxNPxfEhVZs7owk7v9QU\"]},\"openzeppelin-solidity/contracts/GSN/Context.sol\":{\"keccak256\":\"0x90a3995645af7562d84b9d69363ffa5ae7217714ab61e951bf7bc450f40e4061\",\"urls\":[\"bzz-raw://216ef9d6b614db4eb46970b4e84903f2534a45572dd30a79f0041f1a5830f436\",\"dweb:/ipfs/QmNPrJ4MWKUAWzKXpUqeyKRUfosaoANZAqXgvepdrCwZAG\"]},\"openzeppelin-solidity/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x640b6dee7a4b830bdfd52b5031a07fc2b12209f5b2e29e5d364a7d37f69d8076\",\"urls\":[\"bzz-raw://31113152e1ddb78fe7a4197f247591ca894e93f916867beb708d8e747b6cc74f\",\"dweb:/ipfs/QmbZaJyXdpsYGykVhHH9qpVGQg9DGCxE2QufbCUy3daTgq\"]},\"openzeppelin-solidity/contracts/ownership/Ownable.sol\":{\"keccak256\":\"0x6fb9d7889769d7cc161225f9ef7a90e468ba9788b253816f8d8b6894d3472c24\",\"urls\":[\"bzz-raw://cf4c00fc3c37cc5acf0c82ec6fd97bab67d72c2567fdc0ebf023d9c09b30a08e\",\"dweb:/ipfs/Qmb7TChG6DsEDX7LooJ4vmxot19f7VXX8S1zUGPeJTWbwZ\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\nimport \"openzeppelin-solidity/contracts/math/SafeMath.sol\";\nimport \"openzeppelin-solidity/contracts/ownership/Ownable.sol\";\n\nimport \"../../../interfaces/IAZTEC.sol\";\n\n/**\n * @title NoteRegistryBehaviour interface which defines the base API\n        which must be implemented for every behaviour contract.\n * @author AZTEC\n * @dev This interface will mostly be used by ACE, in order to have an API to\n        interact with note registries through proxies.\n * The implementation of all write methods should have an onlyOwner modifier.\n *\n * Copyright 2020 Spilsbury Holdings Ltd \n *\n * Licensed under the GNU Lesser General Public Licence, Version 3.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Lesser General Public License for more details.\n *\n * You should have received a copy of the GNU Lesser General Public License\n * along with this program.  If not, see <https://www.gnu.org/licenses/>.\n**/\ncontract NoteRegistryBehaviour is Ownable, IAZTEC {\n    using SafeMath for uint256;\n\n    bool public isActiveBehaviour;\n    bool public initialised;\n    address public dataLocation;\n\n    constructor () Ownable() public {\n        isActiveBehaviour = true;\n    }\n\n    /**\n        * @dev Initialises the data of a noteRegistry. Should be called exactly once.\n        *\n        * @param _newOwner - the address which the initialise call will transfer ownership to\n        * @param _scalingFactor - defines the number of tokens that an AZTEC note value of 1 maps to.\n        * @param _canAdjustSupply - whether the noteRegistry can make use of minting and burning\n        * @param _canConvert - whether the noteRegistry can transfer value from private to public\n            representation and vice versa\n    */\n    function initialise(\n        address _newOwner,\n        uint256 _scalingFactor,\n        bool _canAdjustSupply,\n        bool _canConvert\n    ) public;\n\n    /**\n        * @dev Fetches data of the registry\n        *\n        * @return scalingFactor - defines the number of tokens that an AZTEC note value of 1 maps to.\n        * @return confidentialTotalMinted - the hash of the AZTEC note representing the total amount\n            which has been minted.\n        * @return confidentialTotalBurned - the hash of the AZTEC note representing the total amount\n            which has been burned.\n        * @return canConvert - the boolean whih defines if the noteRegistry can convert between\n            public and private.\n        * @return canConvert - the boolean whih defines if the noteRegistry can make use of\n            minting and burning methods.\n    */\n    function getRegistry() public view returns (\n        uint256 scalingFactor,\n        bytes32 confidentialTotalMinted,\n        bytes32 confidentialTotalBurned,\n        bool canConvert,\n        bool canAdjustSupply\n    );\n\n    /**\n        * @dev Enacts the state modifications needed given a successfully validated burn proof\n        *\n        * @param _proofOutputs - the output of the burn validator\n    */\n    function burn(bytes memory _proofOutputs) public;\n\n    /**\n        * @dev Enacts the state modifications needed given a successfully validated mint proof\n        *\n        * @param _proofOutputs - the output of the mint validator\n    */\n    function mint(bytes memory _proofOutputs) public;\n\n    /**\n        * @dev Enacts the state modifications needed given the output of a successfully validated proof.\n        * The _proofId param is used by the behaviour contract to (if needed) restrict the versions of proofs\n        * which the note registry supports, useful in case the proofOutputs schema changes for example.\n        *\n        * @param _proof - the id of the proof\n        * @param _proofOutput - the output of the proof validator\n        *\n        * @return publicOwner - the non-ACE party involved in this transaction. Either current or desired\n        *   owner of public tokens\n        * @return transferValue - the total public token value to transfer. Seperate value to abstract\n        *   away scaling factors in first version of AZTEC\n        * @return publicValue - the kPublic value to be used in zero-knowledge proofs\n    */\n    function updateNoteRegistry(\n        uint24 _proof,\n        bytes memory _proofOutput\n    ) public returns (\n        address publicOwner,\n        uint256 transferValue,\n        int256 publicValue\n    );\n\n    /**\n        * @dev Sets confidentialTotalMinted to a new value. The value must be the hash of a note;\n        *\n        * @param _newTotalNoteHash - the hash of the note representing the total minted value for an asset.\n    */\n    function setConfidentialTotalMinted(bytes32 _newTotalNoteHash) internal returns (bytes32);\n\n    /**\n        * @dev Sets confidentialTotalBurned to a new value. The value must be the hash of a note;\n        *\n        * @param _newTotalNoteHash - the hash of the note representing the total burned value for an asset.\n    */\n    function setConfidentialTotalBurned(bytes32 _newTotalNoteHash) internal returns (bytes32);\n\n    /**\n        * @dev Gets a defined note from the note registry, and returns the deconstructed object.\n            This is to avoid the interface to be\n        * _too_ opninated on types, even though it does require any subsequent note type to have\n            (or be able to mock) the return fields.\n        *\n        * @param _noteHash - the hash of the note being fetched\n        *\n        * @return status - whether a note has been spent or not\n        * @return createdOn - timestamp of the creation time of the note\n        * @return destroyedOn - timestamp of the time the note was destroyed (if it has been destroyed, 0 otherwise)\n        * @return noteOwner - address of the stored owner of the note\n    */\n    function getNote(bytes32 _noteHash) public view returns (\n        uint8 status,\n        uint40 createdOn,\n        uint40 destroyedOn,\n        address noteOwner\n    );\n\n    /**\n        * @dev Internal function to update the noteRegistry given a bytes array.\n        *\n        * @param _inputNotes - a bytes array containing notes\n    */\n    function updateInputNotes(bytes memory _inputNotes) internal;\n\n    /**\n        * @dev Internal function to update the noteRegistry given a bytes array.\n        *\n        * @param _outputNotes - a bytes array containing notes\n    */\n    function updateOutputNotes(bytes memory _outputNotes) internal;\n\n    /**\n        * @dev Internal function to create a new note object.\n        *\n        * @param _noteHash - the noteHash\n        * @param _noteOwner - the address of the owner of the note\n    */\n    function createNote(bytes32 _noteHash, address _noteOwner) internal;\n\n    /**\n        * @dev Internal function to delete a note object.\n        *\n        * @param _noteHash - the noteHash\n        * @param _noteOwner - the address of the owner of the note\n    */\n    function deleteNote(bytes32 _noteHash, address _noteOwner) internal;\n\n    /**\n        * @dev Public function used during slow release phase to manually enable an asset.\n    */\n    function makeAvailable() public;\n}\n",
+  "sourcePath": "@aztec/protocol/contracts/ACE/noteRegistry/interfaces/NoteRegistryBehaviour.sol",
+  "ast": {
+    "absolutePath": "@aztec/protocol/contracts/ACE/noteRegistry/interfaces/NoteRegistryBehaviour.sol",
+    "exportedSymbols": {
+      "NoteRegistryBehaviour": [
+        2634
+      ]
+    },
+    "id": 2635,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2506,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:6"
+      },
+      {
+        "absolutePath": "openzeppelin-solidity/contracts/math/SafeMath.sol",
+        "file": "openzeppelin-solidity/contracts/math/SafeMath.sol",
+        "id": 2507,
+        "nodeType": "ImportDirective",
+        "scope": 2635,
+        "sourceUnit": 3837,
+        "src": "33:59:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "file": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "id": 2508,
+        "nodeType": "ImportDirective",
+        "scope": 2635,
+        "sourceUnit": 3955,
+        "src": "93:63:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "@aztec/protocol/contracts/interfaces/IAZTEC.sol",
+        "file": "../../../interfaces/IAZTEC.sol",
+        "id": 2509,
+        "nodeType": "ImportDirective",
+        "scope": 2635,
+        "sourceUnit": 3088,
+        "src": "158:40:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 2510,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3954,
+              "src": "1214:7:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$3954",
+                "typeString": "contract Ownable"
+              }
+            },
+            "id": 2511,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1214:7:6"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 2512,
+              "name": "IAZTEC",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3087,
+              "src": "1223:6:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IAZTEC_$3087",
+                "typeString": "contract IAZTEC"
+              }
+            },
+            "id": 2513,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1223:6:6"
+          }
+        ],
+        "contractDependencies": [
+          3087,
+          3649,
+          3954
+        ],
+        "contractKind": "contract",
+        "documentation": "@title NoteRegistryBehaviour interface which defines the base API\nwhich must be implemented for every behaviour contract.\n@author AZTEC\n@dev This interface will mostly be used by ACE, in order to have an API to\ninteract with note registries through proxies.\nThe implementation of all write methods should have an onlyOwner modifier.\n * Copyright 2020 Spilsbury Holdings Ltd \n * Licensed under the GNU Lesser General Public Licence, Version 3.0 (the \"License\");\nyou may not use this file except in compliance with the License.\n * This program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n * You should have received a copy of the GNU Lesser General Public License\nalong with this program.  If not, see <https://www.gnu.org/licenses/>.*",
+        "fullyImplemented": false,
+        "id": 2634,
+        "linearizedBaseContracts": [
+          2634,
+          3087,
+          3954,
+          3649
+        ],
+        "name": "NoteRegistryBehaviour",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 2516,
+            "libraryName": {
+              "contractScope": null,
+              "id": 2514,
+              "name": "SafeMath",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3836,
+              "src": "1242:8:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMath_$3836",
+                "typeString": "library SafeMath"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "1236:27:6",
+            "typeName": {
+              "id": 2515,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "1255:7:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "constant": false,
+            "id": 2518,
+            "name": "isActiveBehaviour",
+            "nodeType": "VariableDeclaration",
+            "scope": 2634,
+            "src": "1269:29:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bool",
+              "typeString": "bool"
+            },
+            "typeName": {
+              "id": 2517,
+              "name": "bool",
+              "nodeType": "ElementaryTypeName",
+              "src": "1269:4:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 2520,
+            "name": "initialised",
+            "nodeType": "VariableDeclaration",
+            "scope": 2634,
+            "src": "1304:23:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bool",
+              "typeString": "bool"
+            },
+            "typeName": {
+              "id": 2519,
+              "name": "bool",
+              "nodeType": "ElementaryTypeName",
+              "src": "1304:4:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 2522,
+            "name": "dataLocation",
+            "nodeType": "VariableDeclaration",
+            "scope": 2634,
+            "src": "1333:27:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 2521,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "1333:7:6",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 2531,
+              "nodeType": "Block",
+              "src": "1399:41:6",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2529,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 2527,
+                      "name": "isActiveBehaviour",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2518,
+                      "src": "1409:17:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "hexValue": "74727565",
+                      "id": 2528,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "bool",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1429:4:6",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "value": "true"
+                    },
+                    "src": "1409:24:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 2530,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1409:24:6"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2532,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [
+              {
+                "arguments": [],
+                "id": 2525,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 2524,
+                  "name": "Ownable",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 3954,
+                  "src": "1382:7:6",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_type$_t_contract$_Ownable_$3954_$",
+                    "typeString": "type(contract Ownable)"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "1382:9:6"
+              }
+            ],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2523,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1379:2:6"
+            },
+            "returnParameters": {
+              "id": 2526,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1399:0:6"
+            },
+            "scope": 2634,
+            "src": "1367:73:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Initialises the data of a noteRegistry. Should be called exactly once.\n        * @param _newOwner - the address which the initialise call will transfer ownership to\n@param _scalingFactor - defines the number of tokens that an AZTEC note value of 1 maps to.\n@param _canAdjustSupply - whether the noteRegistry can make use of minting and burning\n@param _canConvert - whether the noteRegistry can transfer value from private to public\nrepresentation and vice versa",
+            "id": 2543,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "initialise",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2541,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2534,
+                  "name": "_newOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2543,
+                  "src": "2019:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2533,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2019:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2536,
+                  "name": "_scalingFactor",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2543,
+                  "src": "2046:22:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2535,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2046:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2538,
+                  "name": "_canAdjustSupply",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2543,
+                  "src": "2078:21:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2537,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2078:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2540,
+                  "name": "_canConvert",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2543,
+                  "src": "2109:16:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2539,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2109:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2009:122:6"
+            },
+            "returnParameters": {
+              "id": 2542,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2138:0:6"
+            },
+            "scope": 2634,
+            "src": "1990:149:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Fetches data of the registry\n        * @return scalingFactor - defines the number of tokens that an AZTEC note value of 1 maps to.\n@return confidentialTotalMinted - the hash of the AZTEC note representing the total amount\nwhich has been minted.\n@return confidentialTotalBurned - the hash of the AZTEC note representing the total amount\nwhich has been burned.\n@return canConvert - the boolean whih defines if the noteRegistry can convert between\npublic and private.\n@return canConvert - the boolean whih defines if the noteRegistry can make use of\nminting and burning methods.",
+            "id": 2556,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getRegistry",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2544,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2869:2:6"
+            },
+            "returnParameters": {
+              "id": 2555,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2546,
+                  "name": "scalingFactor",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2556,
+                  "src": "2902:21:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2545,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2902:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2548,
+                  "name": "confidentialTotalMinted",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2556,
+                  "src": "2933:31:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2547,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2933:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2550,
+                  "name": "confidentialTotalBurned",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2556,
+                  "src": "2974:31:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2549,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2974:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2552,
+                  "name": "canConvert",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2556,
+                  "src": "3015:15:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2551,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3015:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2554,
+                  "name": "canAdjustSupply",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2556,
+                  "src": "3040:20:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2553,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3040:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2892:174:6"
+            },
+            "scope": 2634,
+            "src": "2849:218:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Enacts the state modifications needed given a successfully validated burn proof\n        * @param _proofOutputs - the output of the burn validator",
+            "id": 2561,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "burn",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2559,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2558,
+                  "name": "_proofOutputs",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2561,
+                  "src": "3273:26:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2557,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3273:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3272:28:6"
+            },
+            "returnParameters": {
+              "id": 2560,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3307:0:6"
+            },
+            "scope": 2634,
+            "src": "3259:49:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Enacts the state modifications needed given a successfully validated mint proof\n        * @param _proofOutputs - the output of the mint validator",
+            "id": 2566,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "mint",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2564,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2563,
+                  "name": "_proofOutputs",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2566,
+                  "src": "3514:26:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2562,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3514:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3513:28:6"
+            },
+            "returnParameters": {
+              "id": 2565,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3548:0:6"
+            },
+            "scope": 2634,
+            "src": "3500:49:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Enacts the state modifications needed given the output of a successfully validated proof.\nThe _proofId param is used by the behaviour contract to (if needed) restrict the versions of proofs\nwhich the note registry supports, useful in case the proofOutputs schema changes for example.\n        * @param _proof - the id of the proof\n@param _proofOutput - the output of the proof validator\n        * @return publicOwner - the non-ACE party involved in this transaction. Either current or desired\n  owner of public tokens\n@return transferValue - the total public token value to transfer. Seperate value to abstract\n  away scaling factors in first version of AZTEC\n@return publicValue - the kPublic value to be used in zero-knowledge proofs",
+            "id": 2579,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updateNoteRegistry",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2571,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2568,
+                  "name": "_proof",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2579,
+                  "src": "4447:13:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint24",
+                    "typeString": "uint24"
+                  },
+                  "typeName": {
+                    "id": 2567,
+                    "name": "uint24",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4447:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint24",
+                      "typeString": "uint24"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2570,
+                  "name": "_proofOutput",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2579,
+                  "src": "4470:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2569,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4470:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4437:64:6"
+            },
+            "returnParameters": {
+              "id": 2578,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2573,
+                  "name": "publicOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2579,
+                  "src": "4527:19:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2572,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4527:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2575,
+                  "name": "transferValue",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2579,
+                  "src": "4556:21:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2574,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4556:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2577,
+                  "name": "publicValue",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2579,
+                  "src": "4587:18:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 2576,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4587:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4517:94:6"
+            },
+            "scope": 2634,
+            "src": "4410:202:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Sets confidentialTotalMinted to a new value. The value must be the hash of a note;\n        * @param _newTotalNoteHash - the hash of the note representing the total minted value for an asset.",
+            "id": 2586,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setConfidentialTotalMinted",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2582,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2581,
+                  "name": "_newTotalNoteHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2586,
+                  "src": "4885:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2580,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4885:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4884:27:6"
+            },
+            "returnParameters": {
+              "id": 2585,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2584,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2586,
+                  "src": "4930:7:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2583,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4930:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4929:9:6"
+            },
+            "scope": 2634,
+            "src": "4849:90:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Sets confidentialTotalBurned to a new value. The value must be the hash of a note;\n        * @param _newTotalNoteHash - the hash of the note representing the total burned value for an asset.",
+            "id": 2593,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setConfidentialTotalBurned",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2589,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2588,
+                  "name": "_newTotalNoteHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2593,
+                  "src": "5212:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2587,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5212:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5211:27:6"
+            },
+            "returnParameters": {
+              "id": 2592,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2591,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2593,
+                  "src": "5257:7:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2590,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5257:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5256:9:6"
+            },
+            "scope": 2634,
+            "src": "5176:90:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Gets a defined note from the note registry, and returns the deconstructed object.\nThis is to avoid the interface to be\n_too_ opninated on types, even though it does require any subsequent note type to have\n(or be able to mock) the return fields.\n        * @param _noteHash - the hash of the note being fetched\n        * @return status - whether a note has been spent or not\n@return createdOn - timestamp of the creation time of the note\n@return destroyedOn - timestamp of the time the note was destroyed (if it has been destroyed, 0 otherwise)\n@return noteOwner - address of the stored owner of the note",
+            "id": 2606,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getNote",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2596,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2595,
+                  "name": "_noteHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2606,
+                  "src": "6007:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2594,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6007:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6006:19:6"
+            },
+            "returnParameters": {
+              "id": 2605,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2598,
+                  "name": "status",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2606,
+                  "src": "6056:12:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 2597,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6056:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2600,
+                  "name": "createdOn",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2606,
+                  "src": "6078:16:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint40",
+                    "typeString": "uint40"
+                  },
+                  "typeName": {
+                    "id": 2599,
+                    "name": "uint40",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6078:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint40",
+                      "typeString": "uint40"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2602,
+                  "name": "destroyedOn",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2606,
+                  "src": "6104:18:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint40",
+                    "typeString": "uint40"
+                  },
+                  "typeName": {
+                    "id": 2601,
+                    "name": "uint40",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6104:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint40",
+                      "typeString": "uint40"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2604,
+                  "name": "noteOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2606,
+                  "src": "6132:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2603,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6132:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6046:109:6"
+            },
+            "scope": 2634,
+            "src": "5990:166:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Internal function to update the noteRegistry given a bytes array.\n        * @param _inputNotes - a bytes array containing notes",
+            "id": 2611,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updateInputNotes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2609,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2608,
+                  "name": "_inputNotes",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2611,
+                  "src": "6356:24:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2607,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6356:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6355:26:6"
+            },
+            "returnParameters": {
+              "id": 2610,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "6390:0:6"
+            },
+            "scope": 2634,
+            "src": "6330:61:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Internal function to update the noteRegistry given a bytes array.\n        * @param _outputNotes - a bytes array containing notes",
+            "id": 2616,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updateOutputNotes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2614,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2613,
+                  "name": "_outputNotes",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2616,
+                  "src": "6593:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2612,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6593:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6592:27:6"
+            },
+            "returnParameters": {
+              "id": 2615,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "6628:0:6"
+            },
+            "scope": 2634,
+            "src": "6566:63:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Internal function to create a new note object.\n        * @param _noteHash - the noteHash\n@param _noteOwner - the address of the owner of the note",
+            "id": 2623,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createNote",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2621,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2618,
+                  "name": "_noteHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2623,
+                  "src": "6851:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2617,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6851:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2620,
+                  "name": "_noteOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2623,
+                  "src": "6870:18:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2619,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6870:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6850:39:6"
+            },
+            "returnParameters": {
+              "id": 2622,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "6898:0:6"
+            },
+            "scope": 2634,
+            "src": "6831:68:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Internal function to delete a note object.\n        * @param _noteHash - the noteHash\n@param _noteOwner - the address of the owner of the note",
+            "id": 2630,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "deleteNote",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2628,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2625,
+                  "name": "_noteHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2630,
+                  "src": "7117:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2624,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "7117:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2627,
+                  "name": "_noteOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2630,
+                  "src": "7136:18:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2626,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "7136:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "7116:39:6"
+            },
+            "returnParameters": {
+              "id": 2629,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "7164:0:6"
+            },
+            "scope": 2634,
+            "src": "7097:68:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Public function used during slow release phase to manually enable an asset.",
+            "id": 2633,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "makeAvailable",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2631,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "7299:2:6"
+            },
+            "returnParameters": {
+              "id": 2632,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "7308:0:6"
+            },
+            "scope": 2634,
+            "src": "7277:32:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2635,
+        "src": "1180:6131:6"
+      }
+    ],
+    "src": "0:7312:6"
+  },
+  "legacyAST": {
+    "absolutePath": "@aztec/protocol/contracts/ACE/noteRegistry/interfaces/NoteRegistryBehaviour.sol",
+    "exportedSymbols": {
+      "NoteRegistryBehaviour": [
+        2634
+      ]
+    },
+    "id": 2635,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2506,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:6"
+      },
+      {
+        "absolutePath": "openzeppelin-solidity/contracts/math/SafeMath.sol",
+        "file": "openzeppelin-solidity/contracts/math/SafeMath.sol",
+        "id": 2507,
+        "nodeType": "ImportDirective",
+        "scope": 2635,
+        "sourceUnit": 3837,
+        "src": "33:59:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "file": "openzeppelin-solidity/contracts/ownership/Ownable.sol",
+        "id": 2508,
+        "nodeType": "ImportDirective",
+        "scope": 2635,
+        "sourceUnit": 3955,
+        "src": "93:63:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "@aztec/protocol/contracts/interfaces/IAZTEC.sol",
+        "file": "../../../interfaces/IAZTEC.sol",
+        "id": 2509,
+        "nodeType": "ImportDirective",
+        "scope": 2635,
+        "sourceUnit": 3088,
+        "src": "158:40:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 2510,
+              "name": "Ownable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3954,
+              "src": "1214:7:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Ownable_$3954",
+                "typeString": "contract Ownable"
+              }
+            },
+            "id": 2511,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1214:7:6"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 2512,
+              "name": "IAZTEC",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3087,
+              "src": "1223:6:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IAZTEC_$3087",
+                "typeString": "contract IAZTEC"
+              }
+            },
+            "id": 2513,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1223:6:6"
+          }
+        ],
+        "contractDependencies": [
+          3087,
+          3649,
+          3954
+        ],
+        "contractKind": "contract",
+        "documentation": "@title NoteRegistryBehaviour interface which defines the base API\nwhich must be implemented for every behaviour contract.\n@author AZTEC\n@dev This interface will mostly be used by ACE, in order to have an API to\ninteract with note registries through proxies.\nThe implementation of all write methods should have an onlyOwner modifier.\n * Copyright 2020 Spilsbury Holdings Ltd \n * Licensed under the GNU Lesser General Public Licence, Version 3.0 (the \"License\");\nyou may not use this file except in compliance with the License.\n * This program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n * You should have received a copy of the GNU Lesser General Public License\nalong with this program.  If not, see <https://www.gnu.org/licenses/>.*",
+        "fullyImplemented": false,
+        "id": 2634,
+        "linearizedBaseContracts": [
+          2634,
+          3087,
+          3954,
+          3649
+        ],
+        "name": "NoteRegistryBehaviour",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 2516,
+            "libraryName": {
+              "contractScope": null,
+              "id": 2514,
+              "name": "SafeMath",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3836,
+              "src": "1242:8:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMath_$3836",
+                "typeString": "library SafeMath"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "1236:27:6",
+            "typeName": {
+              "id": 2515,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "1255:7:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "constant": false,
+            "id": 2518,
+            "name": "isActiveBehaviour",
+            "nodeType": "VariableDeclaration",
+            "scope": 2634,
+            "src": "1269:29:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bool",
+              "typeString": "bool"
+            },
+            "typeName": {
+              "id": 2517,
+              "name": "bool",
+              "nodeType": "ElementaryTypeName",
+              "src": "1269:4:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 2520,
+            "name": "initialised",
+            "nodeType": "VariableDeclaration",
+            "scope": 2634,
+            "src": "1304:23:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bool",
+              "typeString": "bool"
+            },
+            "typeName": {
+              "id": 2519,
+              "name": "bool",
+              "nodeType": "ElementaryTypeName",
+              "src": "1304:4:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 2522,
+            "name": "dataLocation",
+            "nodeType": "VariableDeclaration",
+            "scope": 2634,
+            "src": "1333:27:6",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 2521,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "1333:7:6",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 2531,
+              "nodeType": "Block",
+              "src": "1399:41:6",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2529,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 2527,
+                      "name": "isActiveBehaviour",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2518,
+                      "src": "1409:17:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "hexValue": "74727565",
+                      "id": 2528,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "bool",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1429:4:6",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "value": "true"
+                    },
+                    "src": "1409:24:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 2530,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1409:24:6"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2532,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [
+              {
+                "arguments": [],
+                "id": 2525,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 2524,
+                  "name": "Ownable",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 3954,
+                  "src": "1382:7:6",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_type$_t_contract$_Ownable_$3954_$",
+                    "typeString": "type(contract Ownable)"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "1382:9:6"
+              }
+            ],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2523,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1379:2:6"
+            },
+            "returnParameters": {
+              "id": 2526,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1399:0:6"
+            },
+            "scope": 2634,
+            "src": "1367:73:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Initialises the data of a noteRegistry. Should be called exactly once.\n        * @param _newOwner - the address which the initialise call will transfer ownership to\n@param _scalingFactor - defines the number of tokens that an AZTEC note value of 1 maps to.\n@param _canAdjustSupply - whether the noteRegistry can make use of minting and burning\n@param _canConvert - whether the noteRegistry can transfer value from private to public\nrepresentation and vice versa",
+            "id": 2543,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "initialise",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2541,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2534,
+                  "name": "_newOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2543,
+                  "src": "2019:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2533,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2019:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2536,
+                  "name": "_scalingFactor",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2543,
+                  "src": "2046:22:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2535,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2046:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2538,
+                  "name": "_canAdjustSupply",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2543,
+                  "src": "2078:21:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2537,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2078:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2540,
+                  "name": "_canConvert",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2543,
+                  "src": "2109:16:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2539,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2109:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2009:122:6"
+            },
+            "returnParameters": {
+              "id": 2542,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2138:0:6"
+            },
+            "scope": 2634,
+            "src": "1990:149:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Fetches data of the registry\n        * @return scalingFactor - defines the number of tokens that an AZTEC note value of 1 maps to.\n@return confidentialTotalMinted - the hash of the AZTEC note representing the total amount\nwhich has been minted.\n@return confidentialTotalBurned - the hash of the AZTEC note representing the total amount\nwhich has been burned.\n@return canConvert - the boolean whih defines if the noteRegistry can convert between\npublic and private.\n@return canConvert - the boolean whih defines if the noteRegistry can make use of\nminting and burning methods.",
+            "id": 2556,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getRegistry",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2544,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2869:2:6"
+            },
+            "returnParameters": {
+              "id": 2555,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2546,
+                  "name": "scalingFactor",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2556,
+                  "src": "2902:21:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2545,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2902:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2548,
+                  "name": "confidentialTotalMinted",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2556,
+                  "src": "2933:31:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2547,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2933:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2550,
+                  "name": "confidentialTotalBurned",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2556,
+                  "src": "2974:31:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2549,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2974:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2552,
+                  "name": "canConvert",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2556,
+                  "src": "3015:15:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2551,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3015:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2554,
+                  "name": "canAdjustSupply",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2556,
+                  "src": "3040:20:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2553,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3040:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2892:174:6"
+            },
+            "scope": 2634,
+            "src": "2849:218:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Enacts the state modifications needed given a successfully validated burn proof\n        * @param _proofOutputs - the output of the burn validator",
+            "id": 2561,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "burn",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2559,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2558,
+                  "name": "_proofOutputs",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2561,
+                  "src": "3273:26:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2557,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3273:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3272:28:6"
+            },
+            "returnParameters": {
+              "id": 2560,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3307:0:6"
+            },
+            "scope": 2634,
+            "src": "3259:49:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Enacts the state modifications needed given a successfully validated mint proof\n        * @param _proofOutputs - the output of the mint validator",
+            "id": 2566,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "mint",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2564,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2563,
+                  "name": "_proofOutputs",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2566,
+                  "src": "3514:26:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2562,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3514:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3513:28:6"
+            },
+            "returnParameters": {
+              "id": 2565,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3548:0:6"
+            },
+            "scope": 2634,
+            "src": "3500:49:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Enacts the state modifications needed given the output of a successfully validated proof.\nThe _proofId param is used by the behaviour contract to (if needed) restrict the versions of proofs\nwhich the note registry supports, useful in case the proofOutputs schema changes for example.\n        * @param _proof - the id of the proof\n@param _proofOutput - the output of the proof validator\n        * @return publicOwner - the non-ACE party involved in this transaction. Either current or desired\n  owner of public tokens\n@return transferValue - the total public token value to transfer. Seperate value to abstract\n  away scaling factors in first version of AZTEC\n@return publicValue - the kPublic value to be used in zero-knowledge proofs",
+            "id": 2579,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updateNoteRegistry",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2571,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2568,
+                  "name": "_proof",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2579,
+                  "src": "4447:13:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint24",
+                    "typeString": "uint24"
+                  },
+                  "typeName": {
+                    "id": 2567,
+                    "name": "uint24",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4447:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint24",
+                      "typeString": "uint24"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2570,
+                  "name": "_proofOutput",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2579,
+                  "src": "4470:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2569,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4470:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4437:64:6"
+            },
+            "returnParameters": {
+              "id": 2578,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2573,
+                  "name": "publicOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2579,
+                  "src": "4527:19:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2572,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4527:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2575,
+                  "name": "transferValue",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2579,
+                  "src": "4556:21:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2574,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4556:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2577,
+                  "name": "publicValue",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2579,
+                  "src": "4587:18:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 2576,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4587:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4517:94:6"
+            },
+            "scope": 2634,
+            "src": "4410:202:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Sets confidentialTotalMinted to a new value. The value must be the hash of a note;\n        * @param _newTotalNoteHash - the hash of the note representing the total minted value for an asset.",
+            "id": 2586,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setConfidentialTotalMinted",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2582,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2581,
+                  "name": "_newTotalNoteHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2586,
+                  "src": "4885:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2580,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4885:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4884:27:6"
+            },
+            "returnParameters": {
+              "id": 2585,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2584,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2586,
+                  "src": "4930:7:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2583,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4930:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4929:9:6"
+            },
+            "scope": 2634,
+            "src": "4849:90:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Sets confidentialTotalBurned to a new value. The value must be the hash of a note;\n        * @param _newTotalNoteHash - the hash of the note representing the total burned value for an asset.",
+            "id": 2593,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setConfidentialTotalBurned",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2589,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2588,
+                  "name": "_newTotalNoteHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2593,
+                  "src": "5212:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2587,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5212:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5211:27:6"
+            },
+            "returnParameters": {
+              "id": 2592,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2591,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2593,
+                  "src": "5257:7:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2590,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5257:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5256:9:6"
+            },
+            "scope": 2634,
+            "src": "5176:90:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Gets a defined note from the note registry, and returns the deconstructed object.\nThis is to avoid the interface to be\n_too_ opninated on types, even though it does require any subsequent note type to have\n(or be able to mock) the return fields.\n        * @param _noteHash - the hash of the note being fetched\n        * @return status - whether a note has been spent or not\n@return createdOn - timestamp of the creation time of the note\n@return destroyedOn - timestamp of the time the note was destroyed (if it has been destroyed, 0 otherwise)\n@return noteOwner - address of the stored owner of the note",
+            "id": 2606,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getNote",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2596,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2595,
+                  "name": "_noteHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2606,
+                  "src": "6007:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2594,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6007:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6006:19:6"
+            },
+            "returnParameters": {
+              "id": 2605,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2598,
+                  "name": "status",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2606,
+                  "src": "6056:12:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 2597,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6056:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2600,
+                  "name": "createdOn",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2606,
+                  "src": "6078:16:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint40",
+                    "typeString": "uint40"
+                  },
+                  "typeName": {
+                    "id": 2599,
+                    "name": "uint40",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6078:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint40",
+                      "typeString": "uint40"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2602,
+                  "name": "destroyedOn",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2606,
+                  "src": "6104:18:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint40",
+                    "typeString": "uint40"
+                  },
+                  "typeName": {
+                    "id": 2601,
+                    "name": "uint40",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6104:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint40",
+                      "typeString": "uint40"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2604,
+                  "name": "noteOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2606,
+                  "src": "6132:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2603,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6132:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6046:109:6"
+            },
+            "scope": 2634,
+            "src": "5990:166:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Internal function to update the noteRegistry given a bytes array.\n        * @param _inputNotes - a bytes array containing notes",
+            "id": 2611,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updateInputNotes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2609,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2608,
+                  "name": "_inputNotes",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2611,
+                  "src": "6356:24:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2607,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6356:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6355:26:6"
+            },
+            "returnParameters": {
+              "id": 2610,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "6390:0:6"
+            },
+            "scope": 2634,
+            "src": "6330:61:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Internal function to update the noteRegistry given a bytes array.\n        * @param _outputNotes - a bytes array containing notes",
+            "id": 2616,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updateOutputNotes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2614,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2613,
+                  "name": "_outputNotes",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2616,
+                  "src": "6593:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 2612,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6593:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6592:27:6"
+            },
+            "returnParameters": {
+              "id": 2615,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "6628:0:6"
+            },
+            "scope": 2634,
+            "src": "6566:63:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Internal function to create a new note object.\n        * @param _noteHash - the noteHash\n@param _noteOwner - the address of the owner of the note",
+            "id": 2623,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createNote",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2621,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2618,
+                  "name": "_noteHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2623,
+                  "src": "6851:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2617,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6851:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2620,
+                  "name": "_noteOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2623,
+                  "src": "6870:18:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2619,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "6870:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6850:39:6"
+            },
+            "returnParameters": {
+              "id": 2622,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "6898:0:6"
+            },
+            "scope": 2634,
+            "src": "6831:68:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Internal function to delete a note object.\n        * @param _noteHash - the noteHash\n@param _noteOwner - the address of the owner of the note",
+            "id": 2630,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "deleteNote",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2628,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2625,
+                  "name": "_noteHash",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2630,
+                  "src": "7117:17:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 2624,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "7117:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2627,
+                  "name": "_noteOwner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2630,
+                  "src": "7136:18:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2626,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "7136:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "7116:39:6"
+            },
+            "returnParameters": {
+              "id": 2629,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "7164:0:6"
+            },
+            "scope": 2634,
+            "src": "7097:68:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Public function used during slow release phase to manually enable an asset.",
+            "id": 2633,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "makeAvailable",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2631,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "7299:2:6"
+            },
+            "returnParameters": {
+              "id": 2632,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "7308:0:6"
+            },
+            "scope": 2634,
+            "src": "7277:32:6",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2635,
+        "src": "1180:6131:6"
+      }
+    ],
+    "src": "0:7312:6"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-03-16T22:04:58.286Z",
+  "devdoc": {
+    "author": "AZTEC",
+    "details": "This interface will mostly be used by ACE, in order to have an API to interact with note registries through proxies. The implementation of all write methods should have an onlyOwner modifier. * Copyright 2020 Spilsbury Holdings Ltd  * Licensed under the GNU Lesser General Public Licence, Version 3.0 (the \"License\"); you may not use this file except in compliance with the License. * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details. * You should have received a copy of the GNU Lesser General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.*",
+    "methods": {
+      "burn(bytes)": {
+        "details": "Enacts the state modifications needed given a successfully validated burn proof",
+        "params": {
+          "_proofOutputs": "- the output of the burn validator"
+        }
+      },
+      "getNote(bytes32)": {
+        "details": "Gets a defined note from the note registry, and returns the deconstructed object. This is to avoid the interface to be _too_ opninated on types, even though it does require any subsequent note type to have (or be able to mock) the return fields.",
+        "params": {
+          "_noteHash": "- the hash of the note being fetched"
+        },
+        "return": "status - whether a note has been spent or notcreatedOn - timestamp of the creation time of the notedestroyedOn - timestamp of the time the note was destroyed (if it has been destroyed, 0 otherwise)noteOwner - address of the stored owner of the note"
+      },
+      "getRegistry()": {
+        "details": "Fetches data of the registry",
+        "return": "scalingFactor - defines the number of tokens that an AZTEC note value of 1 maps to.confidentialTotalMinted - the hash of the AZTEC note representing the total amount which has been minted.confidentialTotalBurned - the hash of the AZTEC note representing the total amount which has been burned.canConvert - the boolean whih defines if the noteRegistry can convert between public and private.canConvert - the boolean whih defines if the noteRegistry can make use of minting and burning methods."
+      },
+      "initialise(address,uint256,bool,bool)": {
+        "details": "Initialises the data of a noteRegistry. Should be called exactly once.",
+        "params": {
+          "_canAdjustSupply": "- whether the noteRegistry can make use of minting and burning",
+          "_canConvert": "- whether the noteRegistry can transfer value from private to public representation and vice versa",
+          "_newOwner": "- the address which the initialise call will transfer ownership to",
+          "_scalingFactor": "- defines the number of tokens that an AZTEC note value of 1 maps to."
+        }
+      },
+      "isOwner()": {
+        "details": "Returns true if the caller is the current owner."
+      },
+      "makeAvailable()": {
+        "details": "Public function used during slow release phase to manually enable an asset."
+      },
+      "mint(bytes)": {
+        "details": "Enacts the state modifications needed given a successfully validated mint proof",
+        "params": {
+          "_proofOutputs": "- the output of the mint validator"
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner.     * NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      },
+      "updateNoteRegistry(uint24,bytes)": {
+        "details": "Enacts the state modifications needed given the output of a successfully validated proof. The _proofId param is used by the behaviour contract to (if needed) restrict the versions of proofs which the note registry supports, useful in case the proofOutputs schema changes for example.",
+        "params": {
+          "_proof": "- the id of the proof",
+          "_proofOutput": "- the output of the proof validator"
+        },
+        "return": "publicOwner - the non-ACE party involved in this transaction. Either current or desired  owner of public tokenstransferValue - the total public token value to transfer. Seperate value to abstract  away scaling factors in first version of AZTECpublicValue - the kPublic value to be used in zero-knowledge proofs"
+      }
+    },
+    "title": "NoteRegistryBehaviour interface which defines the base API which must be implemented for every behaviour contract."
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
