@@ -5,14 +5,14 @@
   "main": "./src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AztecProtocol/sdk-starter-kit.git"
+    "url": "git+https://github.com/TomAFrench/Quachtli.git"
   },
-  "author": "",
+  "author": "Tom French",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AztecProtocol/eth-global-starter-kit/issues"
+    "url": "https://github.com/TomAFrench/Quachtli/issues"
   },
-  "homepage": "https://github.com/AztecProtocol/eth-global-starter-kit#readme",
+  "homepage": "https://github.com/TomAFrench/Quachtli#readme",
   "scripts": {
     "build": "truffle build",
     "migrate": "truffle migrate"
