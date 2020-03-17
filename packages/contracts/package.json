@@ -1,5 +1,5 @@
 {
-  "name": "@quachtli/contracts2",
+  "name": "@quachtli/contracts",
   "version": "1.0.0",
   "description": "Quachtli contracts",
   "main": "./src/index.js",
