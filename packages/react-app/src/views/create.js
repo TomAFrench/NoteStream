@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -10,12 +13,21 @@ const daysOption = [...Array(366).keys()];
 const hoursOption = [...Array(24).keys()];
 const minutesOption = [...Array(60).keys()];
 
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },  
+}));
+
+
 const Create = ({
   userAddress,
   zkAsset,
   streamContractInstance,
   zkdaiBalance,
 }) => {
+  const classes = useStyles()
   const [streamAmount, setStreamAmount] = useState(null);
   const [recipient, setRecipient] = useState(null);
   const [days, setDays] = useState(0);
@@ -95,14 +107,16 @@ const Create = ({
       <Grid
       container
       direction="column"
+      alignContent="stretch"
+      alignItems="stretch"
       spacing={3}
     >
-      <Grid item>
-      <p style={{ marginBottom: 20 }}>
-        Your zkDai Balance: {zkdaiBalance} ZkDai
-      </p>
+      <Grid item xs={12} >
+        <Typography>
+          Your zkDai Balance: {zkdaiBalance} ZkDai
+        </Typography>
       </Grid>
-      <Grid item>
+      <Grid item xs={12}>
         <TextField
         label="Recipient"
         placeholder="0x...."
@@ -110,9 +124,10 @@ const Create = ({
         value={recipient}
         onChange={val => setRecipient(val.target.value)}
         fullWidth
+        flexGrow={1}
       />
       </Grid>
-      <Grid item>
+      <Grid item xs={12}>
         <TextField
         label="Enter deposit/withdraw amount"
         placeholder=""
@@ -120,12 +135,20 @@ const Create = ({
         value={streamAmount}
         onChange={val => setStreamAmount(val.target.value)}
         fullWidth
+        flexGrow={1}
       />
       </Grid>
       <Grid item>
-        <p style={{ marginBottom: 10 }}>For how long do you want to stream?</p>
+        <Typography>
+          For how long do you want to stream?
+        </Typography>
       </Grid>
-      <Grid item container direction="row" justify="center">
+      <Grid item container
+        direction="row"
+        justify="center"
+        alignContent="stretch"
+        spacing={2}
+        xs={12}>
         <Grid item>
           <TextField
             select
@@ -136,6 +159,8 @@ const Create = ({
               native: true,
             }}
             variant="filled"
+            fullWidth
+            className={classes.formControl}
           >
             {daysOption.map(option => (
                 <option key={option} value={option}>
@@ -154,6 +179,8 @@ const Create = ({
               native: true,
             }}
             variant="filled"
+            fullWidth
+            className={classes.formControl}
           >
             {hoursOption.map(option => (
                 <option key={option} value={option}>
@@ -172,6 +199,8 @@ const Create = ({
               native: true,
             }}
             variant="filled"
+            fullWidth
+            className={classes.formControl}
           >
             {minutesOption.map(option => (
                 <option key={option} value={option}>
