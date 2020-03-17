@@ -83,7 +83,7 @@ Deposit.propTypes = {
   userAddress: PropTypes.string.isRequired,
   zkAsset: PropTypes.object.isRequired,
   zkdaiBalance: PropTypes.number,
-  daiBalance: PropTypes.number,
+  daiBalance: PropTypes.string,
 };
 
 export default Deposit;

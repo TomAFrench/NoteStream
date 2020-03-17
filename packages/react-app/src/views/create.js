@@ -241,7 +241,7 @@ const Create = ({
 };
 
 Create.propTypes = {
-  streamContractInstance: PropTypes.any.isRequired,
+  streamContractInstance: PropTypes.object.isRequired,
   userAddress: PropTypes.string.isRequired,
   zkAsset: PropTypes.object.isRequired,
   zkdaiBalance: PropTypes.number,
