@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import Grid from '@material-ui/core/Grid';
 import moment from 'moment';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -67,6 +69,10 @@ async function getStreams(streamContractInstance, userAddress, role) {
   }));
 }
 
+StreamDisplay.propTypes = {
+  stream: PropTypes.object.isRequired,
+  zkNote: PropTypes.func.isRequired,
+};
 
 const Status = ({
   userAddress,
@@ -118,6 +124,13 @@ const Status = ({
           />)}
     </Grid>
   );
+};
+
+Status.propTypes = {
+  userAddress: PropTypes.string.isRequired,
+  streamContractInstance: PropTypes.any.isRequired,
+  zkNote: PropTypes.any.isRequired,
+  zkdaiBalance: PropTypes.number.isRequired,
 };
 
 export default Status;

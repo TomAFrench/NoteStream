@@ -24,7 +24,11 @@ export async function buildDividendProof(stream, zkNote, user) {
 
   const streamZkNote = await zkNote(currentBalance);
   const streamNote = await streamZkNote.export();
-  const withdrawPayment = computeRemainderNoteValue(streamNote.k.toNumber(), ratio.numerator, ratio.denominator);
+  const withdrawPayment = computeRemainderNoteValue(
+    streamNote.k.toNumber(),
+    ratio.numerator,
+    ratio.denominator,
+  );
 
   const remainderNote = await note.create(
     payer.spendingPublicKey,
@@ -50,7 +54,13 @@ export async function buildDividendProof(stream, zkNote, user) {
   return { proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, remainderNote] };
 }
 
-export async function buildJoinSplitProof(stream, streamContractAddress, streamNote, withdrawPaymentNote, user) {
+export async function buildJoinSplitProof(
+  stream,
+  streamContractAddress,
+  streamNote,
+  withdrawPaymentNote,
+  user,
+) {
   const { sender, recipient } = stream;
 
   const payer = await user(sender);

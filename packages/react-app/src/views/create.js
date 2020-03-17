@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -208,6 +209,14 @@ const Create = ({
       </Grid>
     </Grid>
   );
+};
+
+Create.propTypes = {
+  streamContractInstance: PropTypes.any.isRequired,
+  userAddress: PropTypes.string.isRequired,
+  zkAsset: PropTypes.object.isRequired,
+  zkdaiBalance: PropTypes.number,
+  daiBalance: PropTypes.number,
 };
 
 export default Create;

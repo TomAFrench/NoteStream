@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Proptypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
@@ -126,6 +127,9 @@ function LinkTab(props) {
   );
 }
 
+LinkTab.propTypes = {
+  href: Proptypes.string.isRequired,
+};
 
 const App = () => {
   const classes = useStyles();

@@ -2,16 +2,16 @@
 /*
  * Calculate the optimal fraction for the Dividend proof to minimise the remainder
  */
-export function getFraction(value, maxdenom) {
+export function getFraction(value, maxdenom = 10000) {
   const best = { numerator: 1, denominator: 1, err: Math.abs(value - 1) };
-  if (!maxdenom) maxdenom = 10000;
-  for (let denominator = 1; best.err > 0 && denominator <= maxdenom; denominator++) {
+  for (let denominator = 1; best.err > 0 && denominator <= maxdenom; denominator += 1) {
     const numerator = Math.round(value * denominator);
     const err = Math.abs(value - numerator / denominator);
-    if (err >= best.err) continue;
-    best.numerator = numerator;
-    best.denominator = denominator;
-    best.err = err;
+    if (err < best.err) {
+      best.numerator = numerator;
+      best.denominator = denominator;
+      best.err = err;
+    }
   }
   return best;
 }
