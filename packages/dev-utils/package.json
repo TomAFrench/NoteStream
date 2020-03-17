@@ -1,0 +1,49 @@
+{
+  "name": "@quachtli/dev-utils",
+  "description": "Dev utils to be shared across Quachtli packages",
+  "version": "1.0.0",
+  "author": {
+    "name": "Tom French"
+  },
+  "bugs": {
+    "url": "https://github.com/TomAFrench/Quachtli/issues"
+  },
+  "dependencies": {
+    "bignumber.js": "^9.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/runtime": "^7.7.6",
+    "@paulrberg/eslint-config": "^1.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.18.2",
+    "mocha": "^6.2.0",
+    "shx": "^0.3.2"
+  },
+  "files": [
+    "/lib"
+  ],
+  "homepage": "https://github.com/TomAFrench/Quachtli/tree/develop/packages/dev-utils#readme",
+  "license": "LGPL-3.0",
+  "main": "./lib",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TomAFrench/Quachtli.git",
+    "directory": "packages/dev-utils"
+  },
+  "scripts": {
+    "build": "yarn clean && babel --copy-files --out-dir ./lib --root-mode upward ./src",
+    "clean": "shx rm -rf ./lib",
+    "lint": "eslint --ignore-path ../../.eslintignore .",
+    "watch": "yarn build --watch"
+  }
+}

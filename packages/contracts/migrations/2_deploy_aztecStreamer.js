@@ -4,7 +4,6 @@ const { isUndefined } = require('lodash');
 const argv = require('minimist')(process.argv.slice(2), {string: ['AceAddress']});
 
 const AztecStreamer = artifacts.require('AztecStreamer.sol');
-const StreamUtilities = artifacts.require('StreamUtilities');
 const AceAddress = argv['AceAddress'];
 
 module.exports = async (deployer) => {
@@ -12,8 +11,6 @@ module.exports = async (deployer) => {
     console.log('ACE contract address (--AceAddress) parameter is missing');
     process.exit(1);
   }
-
-  await deployer.deploy(StreamUtilities);
-  await deployer.link(StreamUtilities,AztecStreamer);
-  await deployer.deploy(AztecStreamer, AceAddress);
+  const aztecStreamer = await AztecStreamer.new(AceAddress);
+  AztecStreamer.setAsDeployed(aztecStreamer);
 };

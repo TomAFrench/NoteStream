@@ -6,7 +6,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
 
-
 import './App.css';
 import {
   Route, BrowserRouter as Router, Redirect, useHistory,
@@ -18,10 +17,7 @@ import Deposit from './views/deposit';
 import Status from './views/status';
 import Withdraw from './views/withdraw';
 
-
-const zkAssetAddress = '0x54Fac13e652702a733464bbcB0Fb403F1c057E1b';
-const streamContractAddress = '0x2a8F71f7beb02Dc230cc1C453AC5f9Aad87d4aa0';
-const streamContractABI = require('./AztecStreamer.abi.js');
+import { addresses, abis } from "@quachtli/contracts"
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -170,14 +166,15 @@ const App = () => {
       });
 
       // Fetch the zkAsset
-      const asset = await window.aztec.zkAsset(zkAssetAddress);
+      const asset = await window.aztec.zkAsset(addresses.ZkAsset);
       setZkAsset(asset);
       console.log('ASSET:', asset);
       getBalance(asset, accounts[0]);
+      console.log(abis)
 
       const streamContract = new web3.eth.Contract(
-        streamContractABI,
-        streamContractAddress,
+        abis.AztecStreamer,
+        addresses.AztecStreamer,
       );
       setStreamContractInstance(streamContract);
     }
@@ -209,7 +206,7 @@ const App = () => {
             <Deposit
               userAddress={account}
               zkAsset={zkAsset}
-              streamContractAddress={streamContractAddress}
+              streamContractAddress={addresses.AztecStreamer}
               daiBalance={daiBalance}
               zkdaiBalance={zkdaiBalance}
             />
@@ -222,7 +219,7 @@ const App = () => {
             <Create
               userAddress={account}
               zkAsset={zkAsset}
-              streamContractAddress={streamContractAddress}
+              streamContractAddress={addresses.AztecStreamer}
               streamContractInstance={streamContractInstance}
               zkdaiBalance={zkdaiBalance}
             />

@@ -14,8 +14,8 @@
   },
   "homepage": "https://github.com/TomAFrench/Quachtli#readme",
   "scripts": {
-    "build": "truffle build",
-    "migrate": "truffle migrate"
+    "compile": "buidler compile",
+    "test": "buidler test"
   },
   "dependencies": {
     "@aztec/dev-utils": "^2.3.1",
@@ -25,8 +25,15 @@
     "dotenv": "^8.2.0",
     "ganache-cli": "^6.9.0",
     "kill-port": "^1.6.0",
-    "terminal-kit": "^1.35.1",
-    "truffle": "^5.1.15",
-    "truffle-hdwallet-provider": "^1.0.17"
+    "terminal-kit": "^1.35.1"
+  },
+  "devDependencies": {
+    "@nomiclabs/buidler": "^1.2.0",
+    "@nomiclabs/buidler-etherscan": "^1.2.0",
+    "@nomiclabs/buidler-truffle5": "^1.2.0",
+    "@nomiclabs/buidler-web3": "^1.2.0",
+    "chai-bignumber": "^3.0.0",
+    "ganache-time-traveler": "^1.0.14",
+    "truffle-assertions": "^0.9.2"
   }
 }

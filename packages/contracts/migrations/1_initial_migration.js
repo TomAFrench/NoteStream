@@ -2,5 +2,6 @@
 const Migrations = artifacts.require('./Migrations.sol');
 
 module.exports = async (deployer) => {
-  await deployer.deploy(Migrations);
+  const migrations = await Migrations.new();
+  Migrations.setAsDeployed(migrations);
 };
