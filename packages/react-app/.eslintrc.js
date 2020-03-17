@@ -1,11 +1,19 @@
 module.exports = {
-  extends: 'airbnb-base',
+  extends: [
+    'airbnb-base',
+    "plugin:react/recommended"
+  ],
   parser: 'babel-eslint',
   env: {
     browser: true,
     es6: true,
     node: true,
     jest: true,
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   rules: {
     'max-len': ['error', {
@@ -18,5 +26,7 @@ module.exports = {
       ignoreRegExpLiterals: true,
     }],
     'arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
   },
 };

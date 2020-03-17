@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid'
+import Grid from '@material-ui/core/Grid';
 
-import moment from "moment";
+import moment from 'moment';
 
 const daysOption = [...Array(366).keys()];
 const hoursOption = [...Array(24).keys()];
@@ -13,7 +13,7 @@ const Create = ({
   userAddress,
   zkAsset,
   streamContractInstance,
-  zkdaiBalance
+  zkdaiBalance,
 }) => {
   const [streamAmount, setStreamAmount] = useState(null);
   const [recipient, setRecipient] = useState(null);
@@ -25,24 +25,24 @@ const Create = ({
     payeeAddress,
     noteForStreamContract,
     startTime,
-    endTime
+    endTime,
   ) {
-    console.log("methods", streamContractInstance.methods);
+    console.log('methods', streamContractInstance.methods);
     return streamContractInstance.methods
       .createStream(
         payeeAddress,
         noteForStreamContract.noteHash,
         zkAsset.address,
         startTime,
-        endTime
+        endTime,
       )
-      .send({from: userAddress}, (err, streamID) => {
+      .send({ from: userAddress }, (err, streamID) => {
         if (err) {
           console.log(err);
-        } else {
-          console.log("Steam ID", streamID);
-          return streamID;
+          return null;
         }
+        console.log('Steam ID', streamID);
+        return streamID;
       });
   }
 
@@ -50,28 +50,28 @@ const Create = ({
     streamContractAddress,
     payeeAddress,
     sendAmount,
-    asset
+    asset,
   ) {
-    const _sendResp = await asset.send(
+    const sendResp = await asset.send(
       [
         {
           to: streamContractAddress,
           amount: sendAmount,
           aztecAccountNotRequired: true,
-          numberOfOutputNotes: 1 // contract has one
-        }
+          numberOfOutputNotes: 1, // contract has one
+        },
       ],
-      { userAccess: [userAddress, payeeAddress] } // Give view access to sender and recipient
+      { userAccess: [userAddress, payeeAddress] }, // Give view access to sender and recipient
     );
-    console.info("sent funds confidentially");
-    console.log("_sendResp", _sendResp);
+    console.info('sent funds confidentially');
+    console.log('_sendResp', sendResp);
     let noteForStreamContract = null;
-    _sendResp.outputNotes.forEach(function(outputNote) {
+    sendResp.outputNotes.forEach((outputNote) => {
       if (outputNote.owner === streamContractAddress) {
         noteForStreamContract = outputNote;
       }
     });
-    console.log("noteForStreamContract", noteForStreamContract);
+    console.log('noteForStreamContract', noteForStreamContract);
     return noteForStreamContract;
   }
 
@@ -80,13 +80,13 @@ const Create = ({
       streamContractInstance.options.address,
       payeeAddress,
       sendAmount,
-      zkAsset
+      zkAsset,
     );
     return initialiseStream(
       payeeAddress,
       streamNote,
       startTime,
-      endTime
+      endTime,
     );
   }
 
@@ -130,7 +130,7 @@ const Create = ({
             select
             label="Days"
             value={days}
-            onChange={(val) => setDays(val.target.value)}
+            onChange={val => setDays(val.target.value)}
             SelectProps={{
               native: true,
             }}
@@ -140,7 +140,7 @@ const Create = ({
                 <option key={option} value={option}>
                   {option}
                 </option>
-              ))}
+            ))}
           </TextField>
         </Grid>
         <Grid item>
@@ -148,7 +148,7 @@ const Create = ({
             select
             label="Hours"
             value={hours}
-            onChange={(val) => setHours(val.target.value)}
+            onChange={val => setHours(val.target.value)}
             SelectProps={{
               native: true,
             }}
@@ -158,7 +158,7 @@ const Create = ({
                 <option key={option} value={option}>
                   {option}
                 </option>
-              ))}
+            ))}
           </TextField>
         </Grid>
         <Grid item>
@@ -166,7 +166,7 @@ const Create = ({
             select
             label="Minutes"
             value={minutes}
-            onChange={(val) => setMinutes(val.target.value)}
+            onChange={val => setMinutes(val.target.value)}
             SelectProps={{
               native: true,
             }}
@@ -176,21 +176,32 @@ const Create = ({
                 <option key={option} value={option}>
                   {option}
                 </option>
-              ))}
+            ))}
           </TextField>
         </Grid>
       </Grid>
-      <Grid item> 
+      <Grid item>
         <Button
           variant="contained"
           color="primary"
-          onClick={() =>
-            createStream(
-              streamAmount,
-              recipient,
-              parseInt(moment().add(5, "minutes").format("X")),
-              parseInt(moment().add(days, "days").add(hours, "hours").add(minutes + 5, "minutes").format("X"))
-            )}
+          onClick={() => createStream(
+            streamAmount,
+            recipient,
+            parseInt(
+              moment()
+                .add(5, 'minutes')
+                .format('X'),
+              10,
+            ),
+            parseInt(
+              moment()
+                .add(days, 'days')
+                .add(hours, 'hours')
+                .add(minutes + 5, 'minutes')
+                .format('X'),
+              10,
+            ),
+          )}
           >
         Create stream
         </Button>

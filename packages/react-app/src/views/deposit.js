@@ -1,30 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid'
-import "../App.css";
+import Grid from '@material-ui/core/Grid';
+import '../App.css';
 
-const Deposit = ({ userAddress, zkAsset, zkdaiBalance, daiBalance }) => {
+const Deposit = ({
+  userAddress, zkAsset, zkdaiBalance, daiBalance,
+}) => {
   const [amount, setAmount] = useState(null);
 
   useEffect(() => {
     if (zkAsset) {
-      //getBalance(zkAsset);
+      // getBalance(zkAsset);
     }
   });
 
   async function depositZkToken(depositAmount) {
-    console.log("deposit", depositAmount);
+    console.log('deposit', depositAmount);
     await zkAsset.deposit([
-      { to: userAddress, amount: parseInt(depositAmount) }
+      { to: userAddress, amount: parseInt(depositAmount, 10) },
     ]);
-    //getBalance(zkAsset);
+    // getBalance(zkAsset);
     setAmount(0);
   }
 
   async function withdrawZkToken(withdrawAmount) {
-    console.log("withdraw", withdrawAmount);
-    await zkAsset.withdraw(parseInt(withdrawAmount));
+    console.log('withdraw', withdrawAmount);
+    await zkAsset.withdraw(parseInt(withdrawAmount, 10));
     // getBalance(zkAsset);
     setAmount(0);
   }
@@ -56,7 +58,7 @@ const Deposit = ({ userAddress, zkAsset, zkdaiBalance, daiBalance }) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => depositZkToken(parseInt(amount))}
+            onClick={() => depositZkToken(parseInt(amount, 10))}
           >
             Deposit
           </Button>
@@ -65,7 +67,7 @@ const Deposit = ({ userAddress, zkAsset, zkdaiBalance, daiBalance }) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => withdrawZkToken(parseInt(amount))}
+            onClick={() => withdrawZkToken(parseInt(amount, 10))}
           >
             Withdraw
           </Button>

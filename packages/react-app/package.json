@@ -16,6 +16,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "aztec.js": "^0.17.0",
+    "eslint-plugin-react": "^7.19.0",
     "moment": "^2.24.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
