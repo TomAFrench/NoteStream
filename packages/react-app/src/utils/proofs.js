@@ -1,14 +1,14 @@
 import { note, DividendProof, JoinSplitProof } from 'aztec.js';
+import secp256k1 from "@aztec/secp256k1";
 import moment from 'moment';
 
 import { getFraction, computeRemainderNoteValue } from './note';
 
 export async function buildDividendProof(stream, zkNote, user) {
   const {
-    sender, recipient, currentBalance, lastWithdrawTime, stopTime,
+    recipient, currentBalance, lastWithdrawTime, stopTime,
   } = stream;
 
-  const payer = await user(sender);
   const payee = await user(recipient);
 
   // Only allow withdrawals up to the stream's end time
@@ -30,14 +30,15 @@ export async function buildDividendProof(stream, zkNote, user) {
     ratio.denominator,
   );
 
-  const remainderNote = await note.create(
-    payer.spendingPublicKey,
-    withdrawPayment.remainder,
-  );
   const withdrawPaymentNote = await note.create(
     payee.spendingPublicKey,
     withdrawPayment.expectedNoteValue,
-    [{ address: payee.address, linkedPublicKey: payee.linkedPublicKey }],
+  );
+  
+  // We use a disposable public key as only the note value is relevant
+  const remainderNote = await note.create(
+    secp256k1.generateAccount().publicKey,
+    withdrawPayment.remainder,
   );
 
   console.log(remainderNote);
