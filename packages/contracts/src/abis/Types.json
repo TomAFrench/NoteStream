@@ -1,0 +1,606 @@
+{
+  "contractName": "Types",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"Quachtli\",\"methods\":{},\"title\":\"Quachtli Types\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/tom/Programming/my-eth-app/packages/contracts/contracts/Types.sol\":\"Types\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/tom/Programming/my-eth-app/packages/contracts/contracts/Types.sol\":{\"keccak256\":\"0xc1408ad989dd48cc0221c6044b4c41fc7f178b497f0bfcb31934837bae802965\",\"urls\":[\"bzz-raw://f2267d36d6f48501b9e72d25dbab71058a2f6715fd5405300d6e0054c2f362b1\",\"dweb:/ipfs/QmZPpfRHKXcfV7HARDBXCuVqcK4igQDjQnZErgX7Td3XK2\"]}},\"version\":1}",
+  "bytecode": "0x60556023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a723158202c3e724f97eacd55c458e04d8f37ffb6ff79107f22f1daa6baf855de609d41d064736f6c63430005100032",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a723158202c3e724f97eacd55c458e04d8f37ffb6ff79107f22f1daa6baf855de609d41d064736f6c63430005100032",
+  "sourceMap": "80:307:3:-;;132:2:-1;166:7;155:9;146:7;137:37;255:7;249:14;246:1;241:23;235:4;232:33;222:2;;269:9;222:2;293:9;290:1;283:20;323:4;314:7;306:22;347:7;338;331:24",
+  "deployedSourceMap": "80:307:3:-;;;;;;;;",
+  "source": "pragma solidity ^0.5.11;\n\n\n/**\n * @title Quachtli Types\n * @author Quachtli\n */\nlibrary Types {\n    struct AztecStream {\n        bytes32 currentBalance;\n        uint256 startTime;\n        uint256 lastWithdrawTime;\n        uint256 stopTime;\n        address recipient;\n        address sender;\n        address tokenAddress;\n        address aceContractAddress;\n        bool isEntity;\n    }\n}\n",
+  "sourcePath": "/home/tom/Programming/my-eth-app/packages/contracts/contracts/Types.sol",
+  "ast": {
+    "absolutePath": "/home/tom/Programming/my-eth-app/packages/contracts/contracts/Types.sol",
+    "exportedSymbols": {
+      "Types": [
+        919
+      ]
+    },
+    "id": 920,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 899,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".11"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:3"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": "@title Quachtli Types\n@author Quachtli",
+        "fullyImplemented": true,
+        "id": 919,
+        "linearizedBaseContracts": [
+          919
+        ],
+        "name": "Types",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "Types.AztecStream",
+            "id": 918,
+            "members": [
+              {
+                "constant": false,
+                "id": 901,
+                "name": "currentBalance",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "129:22:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 900,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "129:7:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 903,
+                "name": "startTime",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "161:17:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 902,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "161:7:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 905,
+                "name": "lastWithdrawTime",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "188:24:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 904,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "188:7:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 907,
+                "name": "stopTime",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "222:16:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 906,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "222:7:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 909,
+                "name": "recipient",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "248:17:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 908,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "248:7:3",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 911,
+                "name": "sender",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "275:14:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 910,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "275:7:3",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 913,
+                "name": "tokenAddress",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "299:20:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 912,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "299:7:3",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 915,
+                "name": "aceContractAddress",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "329:26:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 914,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "329:7:3",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 917,
+                "name": "isEntity",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "365:13:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 916,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "365:4:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "AztecStream",
+            "nodeType": "StructDefinition",
+            "scope": 919,
+            "src": "100:285:3",
+            "visibility": "public"
+          }
+        ],
+        "scope": 920,
+        "src": "80:307:3"
+      }
+    ],
+    "src": "0:388:3"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/tom/Programming/my-eth-app/packages/contracts/contracts/Types.sol",
+    "exportedSymbols": {
+      "Types": [
+        919
+      ]
+    },
+    "id": 920,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 899,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".11"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:3"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": "@title Quachtli Types\n@author Quachtli",
+        "fullyImplemented": true,
+        "id": 919,
+        "linearizedBaseContracts": [
+          919
+        ],
+        "name": "Types",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "Types.AztecStream",
+            "id": 918,
+            "members": [
+              {
+                "constant": false,
+                "id": 901,
+                "name": "currentBalance",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "129:22:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 900,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "129:7:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 903,
+                "name": "startTime",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "161:17:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 902,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "161:7:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 905,
+                "name": "lastWithdrawTime",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "188:24:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 904,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "188:7:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 907,
+                "name": "stopTime",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "222:16:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 906,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "222:7:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 909,
+                "name": "recipient",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "248:17:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 908,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "248:7:3",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 911,
+                "name": "sender",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "275:14:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 910,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "275:7:3",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 913,
+                "name": "tokenAddress",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "299:20:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 912,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "299:7:3",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 915,
+                "name": "aceContractAddress",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "329:26:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 914,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "329:7:3",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 917,
+                "name": "isEntity",
+                "nodeType": "VariableDeclaration",
+                "scope": 918,
+                "src": "365:13:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 916,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "365:4:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "AztecStream",
+            "nodeType": "StructDefinition",
+            "scope": 919,
+            "src": "100:285:3",
+            "visibility": "public"
+          }
+        ],
+        "scope": 920,
+        "src": "80:307:3"
+      }
+    ],
+    "src": "0:388:3"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-03-16T22:04:58.271Z",
+  "devdoc": {
+    "author": "Quachtli",
+    "methods": {},
+    "title": "Quachtli Types"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

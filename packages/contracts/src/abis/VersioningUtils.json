@@ -1,0 +1,641 @@
+{
+  "contractName": "VersioningUtils",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"AZTEC\",\"details\":\"Library of versioning utility functions * Copyright 2020 Spilsbury Holdings Ltd  * Licensed under the GNU Lesser General Public Licence, Version 3.0 (the \\\"License\\\"); you may not use this file except in compliance with the License. * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details. * You should have received a copy of the GNU Lesser General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.*\",\"methods\":{},\"title\":\"VersioningUtils\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"@aztec/protocol/contracts/libs/VersioningUtils.sol\":\"VersioningUtils\"},\"evmVersion\":\"constantinople\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@aztec/protocol/contracts/libs/VersioningUtils.sol\":{\"keccak256\":\"0x4c01443b87571701902f5162901f57de7b4f08ddad8993083eb5ae9660fc7438\",\"urls\":[\"bzz-raw://e780ecdac3d971fa7e7982d76da6e5a745cc20f8122602414892085ee4d628f1\",\"dweb:/ipfs/QmeDejLSNvGL2C59TXNoHunejNFKRxbm9pzpij1Xte1eKU\"]}},\"version\":1}",
+  "bytecode": "0x60556023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a72315820065ef09c87a0b2d1eba6aa1d6bf32817bc3a42710319564d48e54d479e4ade0264736f6c63430005100032",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a72315820065ef09c87a0b2d1eba6aa1d6bf32817bc3a42710319564d48e54d479e4ade0264736f6c63430005100032",
+  "sourceMap": "744:599:20:-;;132:2:-1;166:7;155:9;146:7;137:37;255:7;249:14;246:1;241:23;235:4;232:33;222:2;;269:9;222:2;293:9;290:1;283:20;323:4;314:7;306:22;347:7;338;331:24",
+  "deployedSourceMap": "744:599:20:-;;;;;;;;",
+  "source": "pragma solidity >= 0.5.0 <0.6.0;\n\n/**\n * @title VersioningUtils\n * @author AZTEC\n * @dev Library of versioning utility functions\n *\n * Copyright 2020 Spilsbury Holdings Ltd \n *\n * Licensed under the GNU Lesser General Public Licence, Version 3.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n *\n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU Lesser General Public License for more details.\n *\n * You should have received a copy of the GNU Lesser General Public License\n * along with this program.  If not, see <https://www.gnu.org/licenses/>.\n**/\nlibrary VersioningUtils {\n\n    /**\n     * @dev We compress three uint8 numbers into only one uint24 to save gas.\n     * @param version The compressed uint24 number.\n     * @return A tuple (uint8, uint8, uint8) representing the the deconstructed version.\n     */\n    function getVersionComponents(uint24 version) internal pure returns (uint8 first, uint8 second, uint8 third) {\n        assembly {\n            third := and(version, 0xff)\n            second := and(div(version, 0x100), 0xff)\n            first := and(div(version, 0x10000), 0xff)\n        }\n        return (first, second, third);\n    }\n}\n",
+  "sourcePath": "@aztec/protocol/contracts/libs/VersioningUtils.sol",
+  "ast": {
+    "absolutePath": "@aztec/protocol/contracts/libs/VersioningUtils.sol",
+    "exportedSymbols": {
+      "VersioningUtils": [
+        3512
+      ]
+    },
+    "id": 3513,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3493,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:32:20"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": "@title VersioningUtils\n@author AZTEC\n@dev Library of versioning utility functions\n * Copyright 2020 Spilsbury Holdings Ltd \n * Licensed under the GNU Lesser General Public Licence, Version 3.0 (the \"License\");\nyou may not use this file except in compliance with the License.\n * This program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n * You should have received a copy of the GNU Lesser General Public License\nalong with this program.  If not, see <https://www.gnu.org/licenses/>.*",
+        "fullyImplemented": true,
+        "id": 3512,
+        "linearizedBaseContracts": [
+          3512
+        ],
+        "name": "VersioningUtils",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 3510,
+              "nodeType": "Block",
+              "src": "1119:222:20",
+              "statements": [
+                {
+                  "externalReferences": [
+                    {
+                      "third": {
+                        "declaration": 3502,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1152:5:20",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "version": {
+                        "declaration": 3495,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1165:7:20",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "first": {
+                        "declaration": 3498,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1245:5:20",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "second": {
+                        "declaration": 3500,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1192:6:20",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "version": {
+                        "declaration": 3495,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1210:7:20",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "version": {
+                        "declaration": 3495,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1262:7:20",
+                        "valueSize": 1
+                      }
+                    }
+                  ],
+                  "id": 3504,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    third := and(version, 0xff)\n    second := and(div(version, 0x100), 0xff)\n    first := and(div(version, 0x10000), 0xff)\n}",
+                  "src": "1129:167:20"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "id": 3505,
+                        "name": "first",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3498,
+                        "src": "1313:5:20",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 3506,
+                        "name": "second",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3500,
+                        "src": "1320:6:20",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 3507,
+                        "name": "third",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3502,
+                        "src": "1328:5:20",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      }
+                    ],
+                    "id": 3508,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "1312:22:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint8_$_t_uint8_$_t_uint8_$",
+                      "typeString": "tuple(uint8,uint8,uint8)"
+                    }
+                  },
+                  "functionReturnParameters": 3503,
+                  "id": 3509,
+                  "nodeType": "Return",
+                  "src": "1305:29:20"
+                }
+              ]
+            },
+            "documentation": "@dev We compress three uint8 numbers into only one uint24 to save gas.\n@param version The compressed uint24 number.\n@return A tuple (uint8, uint8, uint8) representing the the deconstructed version.",
+            "id": 3511,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getVersionComponents",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3496,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3495,
+                  "name": "version",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3511,
+                  "src": "1040:14:20",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint24",
+                    "typeString": "uint24"
+                  },
+                  "typeName": {
+                    "id": 3494,
+                    "name": "uint24",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1040:6:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint24",
+                      "typeString": "uint24"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1039:16:20"
+            },
+            "returnParameters": {
+              "id": 3503,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3498,
+                  "name": "first",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3511,
+                  "src": "1079:11:20",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 3497,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1079:5:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3500,
+                  "name": "second",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3511,
+                  "src": "1092:12:20",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 3499,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1092:5:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3502,
+                  "name": "third",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3511,
+                  "src": "1106:11:20",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 3501,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1106:5:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1078:40:20"
+            },
+            "scope": 3512,
+            "src": "1010:331:20",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 3513,
+        "src": "744:599:20"
+      }
+    ],
+    "src": "0:1344:20"
+  },
+  "legacyAST": {
+    "absolutePath": "@aztec/protocol/contracts/libs/VersioningUtils.sol",
+    "exportedSymbols": {
+      "VersioningUtils": [
+        3512
+      ]
+    },
+    "id": 3513,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3493,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:32:20"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": "@title VersioningUtils\n@author AZTEC\n@dev Library of versioning utility functions\n * Copyright 2020 Spilsbury Holdings Ltd \n * Licensed under the GNU Lesser General Public Licence, Version 3.0 (the \"License\");\nyou may not use this file except in compliance with the License.\n * This program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n * You should have received a copy of the GNU Lesser General Public License\nalong with this program.  If not, see <https://www.gnu.org/licenses/>.*",
+        "fullyImplemented": true,
+        "id": 3512,
+        "linearizedBaseContracts": [
+          3512
+        ],
+        "name": "VersioningUtils",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 3510,
+              "nodeType": "Block",
+              "src": "1119:222:20",
+              "statements": [
+                {
+                  "externalReferences": [
+                    {
+                      "third": {
+                        "declaration": 3502,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1152:5:20",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "version": {
+                        "declaration": 3495,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1165:7:20",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "first": {
+                        "declaration": 3498,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1245:5:20",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "second": {
+                        "declaration": 3500,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1192:6:20",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "version": {
+                        "declaration": 3495,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1210:7:20",
+                        "valueSize": 1
+                      }
+                    },
+                    {
+                      "version": {
+                        "declaration": 3495,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "1262:7:20",
+                        "valueSize": 1
+                      }
+                    }
+                  ],
+                  "id": 3504,
+                  "nodeType": "InlineAssembly",
+                  "operations": "{\n    third := and(version, 0xff)\n    second := and(div(version, 0x100), 0xff)\n    first := and(div(version, 0x10000), 0xff)\n}",
+                  "src": "1129:167:20"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "id": 3505,
+                        "name": "first",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3498,
+                        "src": "1313:5:20",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 3506,
+                        "name": "second",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3500,
+                        "src": "1320:6:20",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 3507,
+                        "name": "third",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3502,
+                        "src": "1328:5:20",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      }
+                    ],
+                    "id": 3508,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "1312:22:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_uint8_$_t_uint8_$_t_uint8_$",
+                      "typeString": "tuple(uint8,uint8,uint8)"
+                    }
+                  },
+                  "functionReturnParameters": 3503,
+                  "id": 3509,
+                  "nodeType": "Return",
+                  "src": "1305:29:20"
+                }
+              ]
+            },
+            "documentation": "@dev We compress three uint8 numbers into only one uint24 to save gas.\n@param version The compressed uint24 number.\n@return A tuple (uint8, uint8, uint8) representing the the deconstructed version.",
+            "id": 3511,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getVersionComponents",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3496,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3495,
+                  "name": "version",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3511,
+                  "src": "1040:14:20",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint24",
+                    "typeString": "uint24"
+                  },
+                  "typeName": {
+                    "id": 3494,
+                    "name": "uint24",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1040:6:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint24",
+                      "typeString": "uint24"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1039:16:20"
+            },
+            "returnParameters": {
+              "id": 3503,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3498,
+                  "name": "first",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3511,
+                  "src": "1079:11:20",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 3497,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1079:5:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3500,
+                  "name": "second",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3511,
+                  "src": "1092:12:20",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 3499,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1092:5:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3502,
+                  "name": "third",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3511,
+                  "src": "1106:11:20",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 3501,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1106:5:20",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1078:40:20"
+            },
+            "scope": 3512,
+            "src": "1010:331:20",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 3513,
+        "src": "744:599:20"
+      }
+    ],
+    "src": "0:1344:20"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-03-16T22:04:58.295Z",
+  "devdoc": {
+    "author": "AZTEC",
+    "details": "Library of versioning utility functions * Copyright 2020 Spilsbury Holdings Ltd  * Licensed under the GNU Lesser General Public Licence, Version 3.0 (the \"License\"); you may not use this file except in compliance with the License. * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details. * You should have received a copy of the GNU Lesser General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.*",
+    "methods": {},
+    "title": "VersioningUtils"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
