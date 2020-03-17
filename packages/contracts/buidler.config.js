@@ -50,28 +50,19 @@ module.exports = {
     reporter: 'spec',
   },
   networks: {
-    development: {
-      url: '127.0.0.1',
-      gas: 6500000,
-      network_id: '*', // eslint-disable-line camelcase
-      port: 8545,
+    rinkeby: {
+      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      chainId: 4,
+      from: process.env.GANACHE_TESTING_ACCOUNT_0_ADDRESS,
+      accounts: [
+        process.env.GANACHE_TESTING_ACCOUNT_0
+      ],
+      gas: 5500000,
+      gasPrice: 10000000000,
     },
-    // rinkeby: {
-    //   provider() {
-    //     return new HDWalletProvider(
-    //       process.env.GANACHE_TESTING_ACCOUNT_0_MNEMONIC,
-    //       `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
-    //     );
-    //   },
-    //   network_id: 4,
-    //   gas: 5500000,
-    //   gasPrice: 10000000000,
-    //   confirmations: 2,
-    //   skipDryRun: true,
-    // },
   },
   etherscan: {
-    url: "https://api-ropsten.etherscan.io/api",
-    apiKey: "YOUR_ETHERSCAN_API_KEY"
+    url: "https://api-rinkeby.etherscan.io/api",
+    apiKey: process.env.ETHERSCAN_API_KEY
   }
 };
