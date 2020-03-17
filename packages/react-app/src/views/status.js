@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "../styles.css";
+import Grid from '@material-ui/core/Grid'
 import moment from "moment";
-import { ProgressBar } from "react-bootstrap";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { calculateTime } from '../utils/time'
 
 const StreamDisplay = ({stream, zkNote}) => {
@@ -21,25 +21,30 @@ const StreamDisplay = ({stream, zkNote}) => {
     Number(stream.startTime) * 1000,
     Number(stream.stopTime) * 1000
   );
+  const withdrawPercentage = calculateTime(
+    Number(stream.startTime),
+    Number(stream.stopTime),
+    Number(stream.lastWithdrawTime)
+  );
   return (
-    <div>
+    <Grid item>
       <p>Stream: {stream.streamId} </p>
       <p>Sender: {stream.sender} </p>
       <p>Receiver: {stream.recipient} </p>
       <p>
         StartTime:{" "}
-        {moment(Number(stream.startTime) * 1000).format("DD-MM-YYYY HH:mm:ss")}
+        {moment.unix(stream.startTime).format("DD-MM-YYYY HH:mm:ss")}
       </p>
       <p>
         StopTime:{" "}
-        {moment(Number(stream.stopTime) * 1000).format("DD-MM-YYYY HH:mm:ss")}
+        {moment.unix(stream.stopTime).format("DD-MM-YYYY HH:mm:ss")}
       </p>
-      <p>CurrentBalance: {noteValue}</p>
+      <p>Remaining balance on stream: {noteValue}</p>
       <p style={{ marginTop: 30 }}>Time passed:</p>
-      <ProgressBar now={timePercentage} />
+      <LinearProgress variant="determinate" value={timePercentage} />
       <p style={{ marginTop: 30 }}>Money withdrawn</p>
-      <ProgressBar now={0} />
-    </div>
+      <LinearProgress variant="determinate" value={withdrawPercentage} color="secondary" />
+    </Grid>
   )
 }
 
@@ -87,17 +92,25 @@ const Status = ({
     loadStreams()
   }, [userAddress, streamContractInstance, zkdaiBalance]);
 
+  if (!streamContractInstance) return null
   return (
-    <>
-      {streamContractInstance && (
-        <>
-          <p>Sender streams</p>
-          {senderStreams.map(stream => <StreamDisplay zkNote={zkNote} stream={stream} key={stream.currentBalance}/>)}
-          <p>Recipient streams</p>
-          {recipientStreams.map(stream => <StreamDisplay zkNote={zkNote} stream={stream} key={stream.currentBalance}/>)}
-        </>
-      )}
-    </>
+    <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems='center'
+        spacing={3}
+      >
+      
+      <Grid item>
+        Sender streams
+      </Grid>
+      {senderStreams.map(stream => <StreamDisplay zkNote={zkNote} stream={stream} key={stream.currentBalance}/>)}
+      <Grid item>
+        Recipient streams
+      </Grid>
+      {recipientStreams.map(stream => <StreamDisplay zkNote={zkNote} stream={stream} key={stream.currentBalance}/>)}
+    </Grid>
   );
 };
 

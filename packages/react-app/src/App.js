@@ -1,20 +1,61 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
+
+
 import "./App.css";
 import { getWeb3 } from "./utils";
-import "./styles.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-import TopBar from "./components/TopBar";
 import Create from "./views/create";
 import Deposit from "./views/deposit";
 import Status from "./views/status";
 import Withdraw from "./views/withdraw";
 
-import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import { Route, BrowserRouter as Router, Redirect, useHistory } from "react-router-dom";
 
 const zkAssetAddress = "0x54Fac13e652702a733464bbcB0Fb403F1c057E1b";
 const streamContractAddress = "0x2a8F71f7beb02Dc230cc1C453AC5f9Aad87d4aa0";
 const streamContractABI = require("./AztecStreamer.abi.js");
+
+const useStyles = makeStyles(theme => ({
+  appBar: {
+    position: 'relative',
+  },
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up(800 + theme.spacing(2) * 2)]: {
+      width: 800,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(800 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3),
+    },
+  },
+  stepper: {
+    padding: theme.spacing(3, 0, 5),
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+  },
+}));
 
 // async function fetchGanacheContractAddress(contractName) {
 //   let network;
@@ -70,7 +111,23 @@ const streamContractABI = require("./AztecStreamer.abi.js");
 //   window.aztecCallback = initAztecSdk;
 // }
 
+function LinkTab(props) {
+  const history = useHistory()
+  return (
+    <Tab
+      onClick={event => {
+        event.preventDefault();
+        history.push(props.href)
+      }}
+      {...props}
+    />
+  );
+}
+
+
 const App = () => {
+  const classes = useStyles();
+  const [openTab, setOpenTab] = useState(0)
   const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
   const [zkAsset, setZkAsset] = useState();
@@ -121,66 +178,79 @@ const App = () => {
     init();
   }, []);
 
-  return (
-    <div className="App">
-      <div style={{ width: 500, margin: "auto", marginTop: 150 }}>
-        <Router>
-          <TopBar />
+  return (                
+    <Router>
+      <AppBar position="static">
+        <Tabs
+          value={openTab}
+          // indicatorColor="primary"
+          // textColor="primary"
+          onChange={(event, newTab) => setOpenTab(newTab)}
+          variant="fullWidth"
+          >
+          <LinkTab label="Deposit" href="/deposit" />
+          <LinkTab label="Create" href="/create" />
+          <LinkTab label="Status" href="/status" />
+          <LinkTab label="Withdraw" href="/withdraw" />
+        </Tabs>
+      </AppBar>
+      <main className={classes.layout}>
 
-          <Route
-            path="/deposit"
-            render={() => (
-              <Deposit
-                userAddress={account}
-                zkAsset={zkAsset}
-                streamContractAddress={streamContractAddress}
-                daiBalance={daiBalance}
-                zkdaiBalance={zkdaiBalance}
-              />
-            )}
-          />
+      <Paper className={classes.paper}>
+        <Route
+          path="/deposit"
+          render={() => (
+            <Deposit
+              userAddress={account}
+              zkAsset={zkAsset}
+              streamContractAddress={streamContractAddress}
+              daiBalance={daiBalance}
+              zkdaiBalance={zkdaiBalance}
+            />
+          )}
+        />
 
-          <Route
-            path="/create"
-            render={() => (
-              <Create
-                userAddress={account}
-                zkAsset={zkAsset}
-                streamContractAddress={streamContractAddress}
-                streamContractInstance={streamContractInstance}
-                zkdaiBalance={zkdaiBalance}
-              />
-            )}
-          />
+        <Route
+          path="/create"
+          render={() => (
+            <Create
+              userAddress={account}
+              zkAsset={zkAsset}
+              streamContractAddress={streamContractAddress}
+              streamContractInstance={streamContractInstance}
+              zkdaiBalance={zkdaiBalance}
+            />
+          )}
+        />
 
-          <Route
-            path="/status"
-            render={() => (
-              <Status
-                userAddress={account}
-                streamContractInstance={streamContractInstance}
-                zkdaiBalance={zkdaiBalance}
-                zkNote={window.aztec.zkNote}
-              />
-            )}
-          />
+        <Route
+          path="/status"
+          render={() => (
+            <Status
+              userAddress={account}
+              streamContractInstance={streamContractInstance}
+              zkdaiBalance={zkdaiBalance}
+              zkNote={window.aztec.zkNote}
+            />
+          )}
+        />
 
-          <Route
-            path="/withdraw"
-            render={() => (
-              <Withdraw
-                userAddress={account}
-                aztec={window.aztec}
-                zkdaiBalance={zkdaiBalance}
-                streamContractInstance={streamContractInstance}
-              />
-            )}
-          />
+        <Route
+          path="/withdraw"
+          render={() => (
+            <Withdraw
+              userAddress={account}
+              aztec={window.aztec}
+              zkdaiBalance={zkdaiBalance}
+              streamContractInstance={streamContractInstance}
+            />
+          )}
+        />
 
-          <Redirect path="/" to="/deposit" />
-        </Router>
-      </div>
-    </div>
+        <Redirect path="/" to="/deposit" />
+      </Paper>
+      </main>
+    </Router>
   );
 };
 

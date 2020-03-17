@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import "../styles.css";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid'
+
 import moment from "moment";
-import {
-  days as daysOption,
-  hours as hoursOption,
-  minutes as minutesOption
-} from "../options";
+
+const daysOption = [...Array(366).keys()];
+const hoursOption = [...Array(24).keys()];
+const minutesOption = [...Array(60).keys()];
 
 const Create = ({
   userAddress,
@@ -15,9 +17,9 @@ const Create = ({
 }) => {
   const [streamAmount, setStreamAmount] = useState(null);
   const [recipient, setRecipient] = useState(null);
-  const [days, setDays] = useState("0");
-  const [hours, setHours] = useState("0");
-  const [minutes, setMinutes] = useState("0");
+  const [days, setDays] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
 
   function initialiseStream(
     payeeAddress,
@@ -89,100 +91,111 @@ const Create = ({
   }
 
   return (
-    <>
+      <Grid
+      container
+      direction="column"
+      spacing={3}
+    >
+      <Grid item>
       <p style={{ marginBottom: 20 }}>
         Your zkDai Balance: {zkdaiBalance} ZkDai
       </p>
-      <div className="input-wrap">
-        <label>How much do you want to stream?</label>
-        <input
-          type="text"
-          onChange={val => setStreamAmount(val.target.value)}
-          value={streamAmount}
-          placeholder="0 Dai"
-        />
-      </div>
-      <div className="input-wrap">
-        <label>Who is the recipient?</label>
-        <input
-          type="text"
-          onChange={val => setRecipient(val.target.value)}
-          value={recipient}
-          placeholder="0xe065D88f41615231e69026040C075d9F9F1bD00A"
-        />
-      </div>
-      <p style={{ marginBottom: 10 }}>For how long do you want to stream?</p>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignSelf: "center"
-        }}
-      >
-        <div className="input-wrap select-wrap">
-          <label>Days</label>
-          <select
+      </Grid>
+      <Grid item>
+        <TextField
+        label="Recipient"
+        placeholder="0x...."
+        variant="outlined"
+        value={recipient}
+        onChange={val => setRecipient(val.target.value)}
+        fullWidth
+      />
+      </Grid>
+      <Grid item>
+        <TextField
+        label="Enter deposit/withdraw amount"
+        placeholder=""
+        variant="outlined"
+        value={streamAmount}
+        onChange={val => setStreamAmount(val.target.value)}
+        fullWidth
+      />
+      </Grid>
+      <Grid item>
+        <p style={{ marginBottom: 10 }}>For how long do you want to stream?</p>
+      </Grid>
+      <Grid item container direction="row" justify="center">
+        <Grid item>
+          <TextField
+            select
+            label="Days"
             value={days}
-            onChange={val => {
-              console.log("val", val.target.value.split(" ")[0]);
-              setDays(val.target.value);
+            onChange={(val) => setDays(val.target.value)}
+            SelectProps={{
+              native: true,
             }}
+            variant="filled"
           >
             {daysOption.map(option => (
-              <option key={option.id} value={option.title}>
-                {option.title}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="input-wrap select-wrap">
-          <label>Hours</label>
-          <select value={hours} onChange={val => setHours(val.target.value)}>
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+          </TextField>
+        </Grid>
+        <Grid item>
+          <TextField
+            select
+            label="Hours"
+            value={hours}
+            onChange={(val) => setHours(val.target.value)}
+            SelectProps={{
+              native: true,
+            }}
+            variant="filled"
+          >
             {hoursOption.map(option => (
-              <option key={option.id} value={option.title}>
-                {option.title}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="input-wrap select-wrap">
-          <label>Minutes</label>
-          <select
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+          </TextField>
+        </Grid>
+        <Grid item>
+          <TextField
+            select
+            label="Minutes"
             value={minutes}
-            onChange={val => setMinutes(val.target.value)}
+            onChange={(val) => setMinutes(val.target.value)}
+            SelectProps={{
+              native: true,
+            }}
+            variant="filled"
           >
             {minutesOption.map(option => (
-              <option key={option.id} value={option.title}>
-                {option.title}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div
-        className="backbutton"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: 20
-        }}
-      >
-        <button
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+          </TextField>
+        </Grid>
+      </Grid>
+      <Grid item> 
+        <Button
+          variant="contained"
+          color="primary"
           onClick={() =>
             createStream(
               streamAmount,
               recipient,
               parseInt(moment().add(5, "minutes").format("X")),
-              parseInt(moment().add(parseInt(days), "days").add(parseInt(hours), "hours").add(parseInt(minutes)+5, "minutes").format("X"))
-            )
-          }
-        >
-          Create stream
-        </button>
-      </div>
-    </>
+              parseInt(moment().add(days, "days").add(hours, "hours").add(minutes + 5, "minutes").format("X"))
+            )}
+          >
+        Create stream
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 

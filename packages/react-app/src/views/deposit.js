@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid'
 import "../App.css";
-import "../styles.css";
 
 const Deposit = ({ userAddress, zkAsset, zkdaiBalance, daiBalance }) => {
   const [amount, setAmount] = useState(null);
@@ -28,53 +30,48 @@ const Deposit = ({ userAddress, zkAsset, zkdaiBalance, daiBalance }) => {
   }
 
   return (
-    <div>
-      <p>Your Dai Balance: {daiBalance} Dai</p>
-      <p style={{ marginBottom: 20 }}>
+    <Grid
+      container
+      direction="column"
+      spacing={3}
+    >
+      <Grid item>
+        Your Dai Balance: {daiBalance} Dai
+      </Grid>
+      <Grid item>
         Your zkDai Balance: {zkdaiBalance} ZkDai
-      </p>
-      <div className="input-wrap">
-        <label>Enter deposit/Withdraw amount</label>
-        <input
-          type="text"
-          onChange={val => setAmount(val.target.value)}
-          value={amount}
-          placeholder="0 Dai/zkDai"
-        />
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div
-          className="backbutton"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: 20
-          }}
-        >
-          <button
-            style={{ width: 200 }}
+      </Grid>
+      <Grid item>
+        <TextField
+        label="Enter deposit/withdraw amount"
+        placeholder=""
+        variant="outlined"
+        value={amount}
+        onChange={val => setAmount(val.target.value)}
+        fullWidth
+      />
+      </Grid>
+      <Grid item container direction="row" justify="space-around">
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
             onClick={() => depositZkToken(parseInt(amount))}
           >
             Deposit
-          </button>
-        </div>
-        <div
-          className="backbutton"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: 20
-          }}
-        >
-          <button
-            style={{ width: 200 }}
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
             onClick={() => withdrawZkToken(parseInt(amount))}
           >
             Withdraw
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

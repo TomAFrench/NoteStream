@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import "../styles.css";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid'
+
 import {buildDividendProof, buildJoinSplitProof} from '../utils/proofs'
 import moment from "moment";
 
@@ -55,44 +58,37 @@ const Withdraw = ({
   }
 
   return (
-    <div>
-      <p style={{ marginBottom: 20 }}>
-        Your zkDai Balance: {zkdaiBalance} ZkDai
-      </p>
-      <div className="input-wrap">
-        <label>Enter stream id</label>
-        <input
-          type="text"
-          onChange={e => setStream(e.target.value)}
-          value={stream}
-          placeholder="Stream ID"
-        />
-      </div>
-      {/* <div className="input-wrap">
-        <label>Enter withdraw amount</label>
-        <input
-          type="text"
-          onChange={val => ())}
-          value={amount}
-          placeholder="0 Dai/zkDai"
-        />
-      </div> */}
-      <div
-        className="backbutton"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: 20
-        }}
-      >
-        <button
-          style={{ width: 200 }}
-          onClick={() => withdrawFunds(stream)}
+    <Grid
+    container
+    direction="column"
+    justify="center"
+    spacing={3}
+  >
+    <Grid item>
+    <p style={{ marginBottom: 20 }}>
+      Your zkDai Balance: {zkdaiBalance} ZkDai
+    </p>
+    </Grid>
+    <Grid item>
+      <TextField
+      label="Stream ID"
+      placeholder=""
+      variant="outlined"
+      value={stream}
+      onChange={val => setStream(val.target.value)}
+      fullWidth
+    />
+    </Grid>
+    <Grid item> 
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => withdrawFunds(stream)}
         >
-          Withdraw
-        </button>
-      </div>
-    </div>
+        Withdraw
+      </Button>
+    </Grid>
+  </Grid>
   );
 };
 
