@@ -60,6 +60,7 @@ library StreamUtilities {
             bytes memory _proof1OutputNotes
         )
     {
+        // Check that ratio of notes match that given by fraction of remaining time to withdraw
         uint256 totalTime = _stream.stopTime.sub(_stream.lastWithdrawTime);
         require(
             getRatio(_proof1) ==
@@ -67,11 +68,15 @@ library StreamUtilities {
             "ratios do not match"
         );
 
+        // Validate ratio proof
         bytes memory _proof1Outputs = IACE(_stream.aceContractAddress)
             .validateProof(DIVIDEND_PROOF, address(this), _proof1);
         (_proof1InputNotes, _proof1OutputNotes, , ) = _proof1Outputs
             .get(0)
             .extractProofOutput();
+
+        // Make sure that recipient has provided the note on the contract as input
+        // This prevents recipient using a larger note for this proof to allow a larger withdrawal
         require(
             _noteCoderToStruct(_proof1InputNotes.get(0)).noteHash ==
                 _stream.currentBalance,
@@ -80,32 +85,48 @@ library StreamUtilities {
 
     }
 
-    function _processWithdrawal(
+    function _validateJoinSplitProof(
         bytes memory _proof2,
-        bytes memory _proof1OutputNotes,
+        bytes32 _withdrawalNoteHash,
         Types.AztecStream storage _stream
-    ) internal returns (bytes32 newCurrentInterestBalance) {
-        bytes memory _proof2Outputs = IACE(_stream.aceContractAddress)
-            .validateProof(JOIN_SPLIT_PROOF, address(this), _proof2);
-        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = _proof2Outputs
-            .get(0)
-            .extractProofOutput();
+    ) internal returns (bytes memory proof2Outputs) {
+        // Validate Join-Split proof
+        proof2Outputs = IACE(_stream.aceContractAddress)
+            .validateProof(JOIN_SPLIT_PROOF, address(this), _proof2)
+            .get(0);
 
-        bytes32 inputNoteHash = _noteCoderToStruct(_proof2InputNotes.get(0))
-            .noteHash;
+        // Extract notes used in proof
+        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = proof2Outputs
+            .extractProofOutput();
 
         // Requires that output note respects dividend proof
         require(
-            inputNoteHash ==
-                _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash,
+            _noteCoderToStruct(_proof2OutputNotes.get(0)).noteHash ==
+                _withdrawalNoteHash,
             "withdraw note in 2 is not the same as 1"
         );
 
         // Require that input note is stream note
         require(
-            inputNoteHash == _stream.currentBalance,
+            _noteCoderToStruct(_proof2InputNotes.get(0)).noteHash ==
+                _stream.currentBalance,
             "stream note in 2 is not correct"
         );
+    }
+
+    function _processWithdrawal(
+        bytes memory _proof2,
+        bytes memory _proof1OutputNotes,
+        Types.AztecStream storage _stream
+    ) internal returns (bytes32 newCurrentInterestBalance) {
+        bytes memory proof2Outputs = _validateJoinSplitProof(
+            _proof2,
+            _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, // withdrawal note hash
+            _stream
+        );
+
+        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = proof2Outputs
+            .extractProofOutput();
 
         Note memory newStreamNote = _noteCoderToStruct(
             _proof2OutputNotes.get(1)
@@ -123,7 +144,7 @@ library StreamUtilities {
 
         // Approve contract to spend stream note
         IZkAsset(_stream.tokenAddress).confidentialApprove(
-            inputNoteHash,
+            _noteCoderToStruct(_proof2InputNotes.get(0)).noteHash,
             address(this),
             true,
             ""
@@ -132,7 +153,7 @@ library StreamUtilities {
         // Send transfer
         IZkAsset(_stream.tokenAddress).confidentialTransferFrom(
             JOIN_SPLIT_PROOF,
-            _proof2Outputs.get(0)
+            proof2Outputs
         );
 
         // Update new contract note
@@ -144,27 +165,17 @@ library StreamUtilities {
         bytes memory _proof1OutputNotes,
         Types.AztecStream storage _stream
     ) internal returns (bool) {
-        bytes memory _proof2Outputs = IACE(_stream.aceContractAddress)
-            .validateProof(JOIN_SPLIT_PROOF, address(this), _proof2);
-        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = _proof2Outputs
-            .get(0)
+        bytes memory proof2Outputs = _validateJoinSplitProof(
+            _proof2,
+            _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, // withdrawal note hash
+            _stream
+        );
+        // Extract notes used in proof
+        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = proof2Outputs
             .extractProofOutput();
 
         bytes32 inputNoteHash = _noteCoderToStruct(_proof2InputNotes.get(0))
             .noteHash;
-
-        // Requires that output note respects dividend proof
-        require(
-            inputNoteHash ==
-                _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash,
-            "withdraw note in 2 is not the same as 1"
-        );
-
-        // Require that input note is stream note
-        require(
-            inputNoteHash == _stream.currentBalance,
-            "stream note in 2 is not correct"
-        );
 
         // Require that each participant owns an output note
         require(
@@ -189,7 +200,7 @@ library StreamUtilities {
         // Send transfer
         IZkAsset(_stream.tokenAddress).confidentialTransferFrom(
             JOIN_SPLIT_PROOF,
-            _proof2Outputs.get(0)
+            proof2Outputs
         );
 
         return true;
