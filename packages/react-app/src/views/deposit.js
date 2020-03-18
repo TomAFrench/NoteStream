@@ -60,7 +60,7 @@ const Deposit = ({
           <Button
             variant="contained"
             color="primary"
-            onClick={() => depositZkToken(parseInt(amount, 10))}
+            onClick={() => depositZkToken(amount)}
           >
             Deposit
           </Button>
@@ -69,7 +69,7 @@ const Deposit = ({
           <Button
             variant="contained"
             color="primary"
-            onClick={() => withdrawZkToken(parseInt(amount, 10))}
+            onClick={() => withdrawZkToken(amount)}
           >
             Withdraw
           </Button>
