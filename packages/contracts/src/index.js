@@ -4,4 +4,5 @@ export const abis = {
   AztecStreamer: AztecStreamer.abi,
 };
 
-export { default as addresses } from "./addresses";
+export const addresses = require('./addresses/rinkeby')
+

@@ -149,8 +149,8 @@ const App = () => {
       const web3 = await getWeb3();
       const accounts = await web3.eth.getAccounts();
 
-      console.log('web3', web3);
       console.log('windowaztec', window.aztec);
+      console.log("Contract addresses", addresses)
       // setWeb3(web3);
 
       setAccount(accounts[0]);
@@ -158,10 +158,9 @@ const App = () => {
 
       await window.aztec.enable({
         // web3Provider: _web3.currentProvider, // change this value to use a different web3 provider
-        // contractAddresses: {
-        // ACE: '0x5B59B26bdBBA8e32C1C6DD107e3862b5D538fa48', // the address of the ace contract on the local network
-        // AccountRegistry: '0x66db0e20a9d619ee3dfa3819513ab8bed1b21a87' // the address of the aztec account registry contract on the local network.
-        // },
+        contractAddresses: {
+          ACE: addresses.ACE
+        },
         apiKey: '7FJF5YK-WV1M90Y-G25V2MW-FG2ZMDV', // API key for use with GSN for free txs.
       });
 

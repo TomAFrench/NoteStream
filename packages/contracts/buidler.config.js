@@ -57,7 +57,7 @@ module.exports = {
       accounts: [
         process.env.GANACHE_TESTING_ACCOUNT_0
       ],
-      gas: 5500000,
+      // gas: 5500000,
       gasPrice: 10000000000,
     },
   },
