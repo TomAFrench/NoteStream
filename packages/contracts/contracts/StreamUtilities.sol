@@ -1,8 +1,11 @@
 pragma solidity ^0.5.11;
 
-import "@aztec/protocol/contracts/ACE/ACE.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
+
+import "@aztec/protocol/contracts/interfaces/IACE.sol";
 import "@aztec/protocol/contracts/interfaces/IZkAsset.sol";
 import "@aztec/protocol/contracts/libs/NoteUtils.sol";
+
 import "./Types.sol";
 
 library StreamUtilities {
@@ -64,7 +67,7 @@ library StreamUtilities {
             "ratios do not match"
         );
 
-        bytes memory _proof1Outputs = ACE(_stream.aceContractAddress)
+        bytes memory _proof1Outputs = IACE(_stream.aceContractAddress)
             .validateProof(DIVIDEND_PROOF, address(this), _proof1);
         (_proof1InputNotes, _proof1OutputNotes, , ) = _proof1Outputs
             .get(0)
@@ -82,7 +85,7 @@ library StreamUtilities {
         bytes memory _proof1OutputNotes,
         Types.AztecStream storage _stream
     ) internal returns (bytes32 newCurrentInterestBalance) {
-        bytes memory _proof2Outputs = ACE(_stream.aceContractAddress)
+        bytes memory _proof2Outputs = IACE(_stream.aceContractAddress)
             .validateProof(JOIN_SPLIT_PROOF, address(this), _proof2);
         (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = _proof2Outputs
             .get(0)
@@ -141,7 +144,7 @@ library StreamUtilities {
         bytes memory _proof1OutputNotes,
         Types.AztecStream storage _stream
     ) internal returns (bool) {
-        bytes memory _proof2Outputs = ACE(_stream.aceContractAddress)
+        bytes memory _proof2Outputs = IACE(_stream.aceContractAddress)
             .validateProof(JOIN_SPLIT_PROOF, address(this), _proof2);
         (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = _proof2Outputs
             .get(0)

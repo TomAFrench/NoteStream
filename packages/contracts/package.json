@@ -33,6 +33,7 @@
     "@nomiclabs/buidler-etherscan": "^1.2.0",
     "@nomiclabs/buidler-truffle5": "^1.2.0",
     "@nomiclabs/buidler-web3": "^1.2.0",
+    "@openzeppelin/contracts": "^2.5.0",
     "chai-bignumber": "^3.0.0",
     "ganache-time-traveler": "^1.0.14",
     "truffle-assertions": "^0.9.2"
