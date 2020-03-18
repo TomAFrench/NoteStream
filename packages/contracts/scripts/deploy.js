@@ -8,8 +8,6 @@ const addressDirectory = path.resolve(__dirname, '../src/addresses/')
 const TESTING_ADDRESS = "0xC6E67ee008a7720722e42F34f30a16d806A45c3F"
 
 async function main() {
-  await env.run("compile");
-
   // Read the address of the ACE contract on rinkeby
   const { ACE: aceAddress } = getContractAddressesForNetwork(4)
   
