@@ -5,6 +5,8 @@ const fs = require('fs')
 const path = require('path')
 const addressDirectory = path.resolve(__dirname, '../src/addresses/')
 
+const TESTING_ADDRESS = "0xC6E67ee008a7720722e42F34f30a16d806A45c3F"
+
 async function main() {
   await env.run("compile");
 
@@ -14,7 +16,7 @@ async function main() {
   // Deploy ERC20 token
   const ERC20DetailedMintable = env.artifacts.require("ERC20DetailedMintable");
   const erc20DetailedMintable = await ERC20DetailedMintable.new("TESTCOIN", "TEST", 18);
-  await erc20DetailedMintable.mint("0xC6E67ee008a7720722e42F34f30a16d806A45c3F", "100000");
+  await erc20DetailedMintable.mint(TESTING_ADDRESS, "100000");
   console.log("erc20Mintable address:", erc20DetailedMintable.address);
   
   // Deploy a ZkAsset version of this ERC20
