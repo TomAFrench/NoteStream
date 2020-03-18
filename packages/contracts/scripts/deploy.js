@@ -19,12 +19,12 @@ async function main() {
   await erc20DetailedMintable.mint(TESTING_ADDRESS, "100000");
   console.log("erc20Mintable address:", erc20DetailedMintable.address);
   
-  // Deploy a ZkAsset version of this ERC20
+  // Deploy a ZkAsset linked to this ERC20
   const ZkAssetAdjustable = env.artifacts.require("ZkAssetAdjustable");
   const zkAsset = await ZkAssetAdjustable.new(aceAddress, erc20DetailedMintable.address, 1, 0, []);
   console.log("zkAsset address:", zkAsset.address);
 
-  // We require the artifacts once our contracts are compiled
+  // Deploy the streaming contract
   const AztecStreamer = env.artifacts.require("AztecStreamer");
   const aztecStreamer = await AztecStreamer.new(aceAddress);
 
