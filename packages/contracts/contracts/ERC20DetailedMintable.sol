@@ -1,7 +1,7 @@
 pragma solidity ^0.5.11;
 
 import "@aztec/protocol/contracts/ERC20/ERC20Mintable.sol";
-import "@aztec/protocol/contracts/ERC1724/ZkAssetAdjustable.sol";
+import "@aztec/protocol/contracts/ERC1724/ZkAsset.sol";
 
 contract ERC20DetailedMintable is ERC20Mintable {
     string private _name;
