@@ -7,20 +7,26 @@ const addressDirectory = path.resolve(__dirname, '../src/addresses/')
 
 const TESTING_ADDRESS = "0xC6E67ee008a7720722e42F34f30a16d806A45c3F"
 
-async function main() {
-  // Read the address of the ACE contract on rinkeby
-  const { ACE: aceAddress } = getContractAddressesForNetwork(4)
-  
+async function deployZkAsset(aceAddress) {
   // Deploy ERC20 token
   const ERC20DetailedMintable = env.artifacts.require("ERC20DetailedMintable");
   const erc20DetailedMintable = await ERC20DetailedMintable.new("TESTCOIN", "TEST", 18);
   await erc20DetailedMintable.mint(TESTING_ADDRESS, "100000");
   console.log("erc20Mintable address:", erc20DetailedMintable.address);
-  
+
   // Deploy a ZkAsset linked to this ERC20
   const ZkAssetAdjustable = env.artifacts.require("ZkAssetAdjustable");
   const zkAsset = await ZkAssetAdjustable.new(aceAddress, erc20DetailedMintable.address, 1, 0, []);
   console.log("zkAsset address:", zkAsset.address);
+
+  return zkAsset
+}
+
+async function main() {
+  // Read the address of the ACE contract on rinkeby
+  const { ACE: aceAddress } = getContractAddressesForNetwork(4)
+  
+  const zkAsset = await deployZkAsset(aceAddress)
 
   // Deploy the streaming contract
   const AztecStreamer = env.artifacts.require("AztecStreamer");
