@@ -35,11 +35,11 @@ const StreamDisplay = ({ stream, zkNote }) => {
       <p>Receiver: {stream.recipient} </p>
       <p>
         StartTime:{' '}
-        {moment.unix(stream.startTime).format('DD-MM-YYYY HH:mm:ss')}
+        {moment.unix(stream.startTime).format('DD-MM-YYYY HH:mm')}
       </p>
       <p>
         StopTime:{' '}
-        {moment.unix(stream.stopTime).format('DD-MM-YYYY HH:mm:ss')}
+        {moment.unix(stream.stopTime).format('DD-MM-YYYY HH:mm')}
       </p>
       <p>Remaining balance on stream: {noteValue}</p>
       <p style={{ marginTop: 30 }}>Time passed:</p>
