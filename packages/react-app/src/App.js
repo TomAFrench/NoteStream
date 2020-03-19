@@ -1,58 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import Proptypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
+import Box from '@material-ui/core/Box';
+
 
 import './App.css';
-import {
-  Route, BrowserRouter as Router, Redirect, useHistory,
-} from 'react-router-dom';
 import getWeb3 from './utils/web3';
 
-import Create from './views/create';
-import Deposit from './views/deposit';
-import Status from './views/status';
-import Withdraw from './views/withdraw';
+import Create from './components/create';
+import Deposit from './components/deposit';
+import Status from './components/status';
 
 import { getContractAddressesForNetwork, abis } from "@quachtli/contracts"
 
 const useStyles = makeStyles(theme => ({
-  appBar: {
-    position: 'relative',
-  },
   layout: {
     width: 'auto',
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up(800 + theme.spacing(2) * 2)]: {
-      width: 800,
+    [theme.breakpoints.up(1200 + theme.spacing(2) * 2)]: {
+      width: 1200,
       marginLeft: 'auto',
       marginRight: 'auto',
     },
   },
   paper: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
     [theme.breakpoints.up(800 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(6),
-      marginBottom: theme.spacing(6),
       padding: theme.spacing(3),
     },
   },
-  stepper: {
-    padding: theme.spacing(3, 0, 5),
-  },
-  buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(1),
+  pageElement: {
+    marginTop: theme.spacing(1.5),
+    marginBottom: theme.spacing(1.5),
+    [theme.breakpoints.up(800 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(3),
+      marginBottom: theme.spacing(3),
+    },
   },
 }));
 
@@ -110,32 +99,33 @@ const useStyles = makeStyles(theme => ({
 //   window.aztecCallback = initAztecSdk;
 // }
 
-function LinkTab(props) {
-  const history = useHistory();
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
   return (
-    <Tab
-      onClick={(event) => {
-        event.preventDefault();
-        history.push(props.href);
-      }}
-      {...props}
-    />
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </Typography>
   );
 }
 
-LinkTab.propTypes = {
-  href: Proptypes.string.isRequired,
-};
 
 const App = () => {
   const classes = useStyles();
-  const [openTab, setOpenTab] = useState(0);
   // const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
   const [zkAsset, setZkAsset] = useState();
   const [daiBalance, setDaiBalance] = useState(0);
   const [zkdaiBalance, setZkdaiBalance] = useState(0);
   const [streamContractInstance, setStreamContractInstance] = useState(null);
+  const [value, setValue] = useState(0);
+
 
   const addresses = getContractAddressesForNetwork(4)
 
@@ -179,78 +169,81 @@ const App = () => {
   }, [addresses]);
 
   return (
-    <Router>
-      <AppBar position="static">
-        <Tabs
-          value={openTab}
-          // indicatorColor="primary"
-          // textColor="primary"
-          onChange={(event, newTab) => setOpenTab(newTab)}
-          variant="fullWidth"
-          >
-          <LinkTab label="Deposit" href="/deposit" />
-          <LinkTab label="Create" href="/create" />
-          <LinkTab label="Status" href="/status" />
-          <LinkTab label="Withdraw" href="/withdraw" />
-        </Tabs>
-      </AppBar>
-      <main className={classes.layout}>
-
-      <Paper className={classes.paper}>
-        <Route
-          path="/deposit"
-          render={() => (
-            <Deposit
-              userAddress={account}
-              zkAsset={zkAsset}
-              streamContractAddress={addresses.AztecStreamer}
-              daiBalance={daiBalance}
-              zkdaiBalance={zkdaiBalance}
-            />
-          )}
-        />
-
-        <Route
-          path="/create"
-          render={() => (
-            <Create
-              userAddress={account}
-              zkAsset={zkAsset}
-              streamContractAddress={addresses.AztecStreamer}
-              streamContractInstance={streamContractInstance}
-              zkdaiBalance={zkdaiBalance}
-            />
-          )}
-        />
-
-        <Route
-          path="/status"
-          render={() => (
-            <Status
-              userAddress={account}
-              streamContractInstance={streamContractInstance}
-              zkdaiBalance={zkdaiBalance}
-              zkNote={window.aztec.zkNote}
-            />
-          )}
-        />
-
-        <Route
-          path="/withdraw"
-          render={() => (
-            <Withdraw
-              userAddress={account}
-              aztec={window.aztec}
-              zkdaiBalance={zkdaiBalance}
-              streamContractInstance={streamContractInstance}
-            />
-          )}
-        />
-
-        <Redirect path="/" to="/deposit" />
-      </Paper>
-      </main>
-    </Router>
+    <main className={classes.layout}>
+      <Grid
+        container
+        direction="row"
+        spacing={3}
+      >
+        <Grid
+          item
+          container
+          direction="column"
+          justify="flex-start"
+          // alignContent="stretch"
+          // alignItems="stretch"
+          spacing={3}
+          xs={6}
+        >
+          <Grid item>
+            <Paper className={`${classes.pageElement} ${classes.paper}`}>
+              <Typography variant="h5" gutterBottom>
+                Deposit DAI for ZkDAI
+              </Typography>
+              <Deposit
+                userAddress={account}
+                zkAsset={zkAsset}
+                streamContractAddress={addresses.AztecStreamer}
+                daiBalance={daiBalance}
+                zkdaiBalance={zkdaiBalance}
+              />
+            </Paper>
+          </Grid>
+          <Grid item>
+            <Paper className={`${classes.pageElement} ${classes.paper}`}>
+              <Typography variant="h5" gutterBottom>
+                Create a private stream
+              </Typography>
+              <Create
+                userAddress={account}
+                zkAsset={zkAsset}
+                streamContractAddress={addresses.AztecStreamer}
+                streamContractInstance={streamContractInstance}
+              />
+            </Paper>
+          </Grid>
+        </Grid>
+        
+        <Grid item xs={6} className={classes.pageElement}>
+          <AppBar position="static">
+          <Tabs value={value} onChange={(event, newValue) => setValue(newValue)} variant="fullWidth">
+            <Tab label="Sending"  />
+            <Tab label="Receiving"  />
+          </Tabs>
+        </AppBar>
+          <Paper className={classes.paper}>
+            <TabPanel value={value} index={0}>
+              <Status
+                  role="sender"
+                  userAddress={account}
+                  aztec={window.aztec}
+                  streamContractInstance={streamContractInstance}
+                  zkdaiBalance={zkdaiBalance}
+                />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <Status
+                  role="recipient"
+                  userAddress={account}
+                  aztec={window.aztec}
+                  streamContractInstance={streamContractInstance}
+                  zkdaiBalance={zkdaiBalance}
+                />
+            </TabPanel>
+          </Paper>
+        </Grid>
+      </Grid>
+    </main>
   );
 };
 
