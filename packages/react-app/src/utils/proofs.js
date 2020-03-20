@@ -64,11 +64,15 @@ export async function buildDividendProof(stream, streamContractAddress, withdraw
 
   const ratio = getFraction(withdrawalValue / streamZkNote.value)
 
+  console.table(ratio)
+
   const withdrawPayment = computeRemainderNoteValue(
     streamZkNote.value,
     ratio.numerator,
     ratio.denominator,
   );
+
+  console.log(payee)
 
   const withdrawPaymentNote = await aztec.note.create(
     payee.spendingPublicKey,

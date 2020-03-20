@@ -48,6 +48,7 @@ const Withdraw = ({
     const { proof1, proof2 } = await buildProofs(streamObj, withdrawalValue, withdrawalDuration);
 
     console.log("Withdrawing from stream:", streamId)
+    console.log("Withdrawal duration:", withdrawalDuration)
     console.log("Proofs:", proof1, proof2);
     const results = await streamContractInstance.methods.withdrawFromStream(
       streamId,
