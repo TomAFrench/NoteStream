@@ -4,8 +4,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-import moment from 'moment';
-import { buildDividendProof, buildJoinSplitProof } from '../utils/proofs';
+import { calculateWithdrawal, buildDividendProof, buildJoinSplitProof } from '../utils/proofs';
 
 
 const Withdraw = ({
@@ -16,21 +15,20 @@ const Withdraw = ({
 }) => {
   const [stream, setStream] = useState(null);
 
-  async function buildProofs(streamObj) {
+  async function buildProofs(streamObj, withdrawalValue) {
+
     const {
       proofData: proofData1,
       inputNotes, outputNotes,
-    } = await buildDividendProof(streamObj, aztec.zkNote, aztec.user);
+    } = await buildDividendProof(streamObj, streamContractInstance.options.address, withdrawalValue, aztec);
+
     const { proofData: proofData2 } = await buildJoinSplitProof(
       streamObj,
       streamContractInstance.options.address,
       inputNotes[0],
       outputNotes[0],
-      aztec.user,
+      aztec,
     );
-
-    console.log('DividendProof', proofData1);
-    console.log('JoinSplitProof', proofData2);
 
     return {
       proof1: proofData1,
@@ -41,20 +39,21 @@ const Withdraw = ({
   async function withdrawFunds(streamId) {
     const streamObj = await streamContractInstance.methods.getStream(streamId).call();
 
-    const { proof1, proof2 } = await buildProofs(streamObj);
+    // Calculate what value of the stream is redeemable
+    const {
+      withdrawalValue,
+      withdrawalDuration
+    } = await calculateWithdrawal(streamObj, aztec)
 
-    // withdraw up to now or to end of stream
-    const now = moment.min(moment(), moment.unix(streamObj.stopTime));
-    const lastWithdrawal = moment.unix(streamObj.startTime);
-    const durationToWithdraw = moment.duration(now.diff(lastWithdrawal)).as('seconds');
+    const { proof1, proof2 } = await buildProofs(streamObj, withdrawalValue, withdrawalDuration);
 
-    console.log(now, lastWithdrawal, durationToWithdraw);
-    console.log(streamId, proof1, proof2, durationToWithdraw);
+    console.log("Withdrawing from stream:", streamId)
+    console.log("Proofs:", proof1, proof2);
     const results = await streamContractInstance.methods.withdrawFromStream(
       streamId,
       proof1.encodeABI(),
-      proof2.encodeABI(),
-      durationToWithdraw,
+      proof2.encodeABI(streamObj.tokenAddress),
+      withdrawalDuration,
     ).send({ from: userAddress });
     console.log(results);
   }
