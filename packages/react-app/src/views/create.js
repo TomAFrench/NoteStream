@@ -219,7 +219,7 @@ const Create = ({
             recipient,
             parseInt(
               moment()
-                .add(5, 'minutes')
+                .add(1, 'minutes')
                 .format('X'),
               10,
             ),
@@ -227,7 +227,7 @@ const Create = ({
               moment()
                 .add(days, 'days')
                 .add(hours, 'hours')
-                .add(minutes + 5, 'minutes')
+                .add(minutes + 1, 'minutes')
                 .format('X'),
               10,
             ),
