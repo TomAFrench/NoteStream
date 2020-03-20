@@ -15,17 +15,20 @@ export async function calculateWithdrawal(stream, aztec) {
     moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))
     ).asSeconds()
   // withdraw up to now or to end of stream
+
+  if (moment().isAfter(moment.unix(stopTime))){
+    return {
+      withdrawalValue: streamZkNote.value,
+      withdrawalDuration: remainingStreamLength
+    }
+  }
   const maxWithdrawDuration = moment.duration(
-    moment.min(
-      moment().startOf('second'),
-      moment.unix(stopTime)
-    )
-    .diff(moment.unix(lastWithdrawTime))
+    moment().startOf('second').diff(moment.unix(lastWithdrawTime))
     ).asSeconds();
 
   console.log("Fraction of way through stream", maxWithdrawDuration/remainingStreamLength)
 
-  const scalingFactor = 1000
+  const scalingFactor = 10
   const timeBetweenNotes = Math.floor(remainingStreamLength / streamZkNote.value * scalingFactor)
   const withdrawalValue = Math.floor(maxWithdrawDuration / timeBetweenNotes) * scalingFactor
   const withdrawalDuration = timeBetweenNotes * withdrawalValue / scalingFactor
@@ -70,6 +73,8 @@ export async function buildDividendProof(stream, streamContractAddress, withdraw
   const withdrawPaymentNote = await aztec.note.create(
     payee.spendingPublicKey,
     withdrawPayment.expectedNoteValue,
+    undefined,
+    payee.address
   );
   
   // We use a disposable public key as only the note value is relevant
@@ -83,8 +88,8 @@ export async function buildDividendProof(stream, streamContractAddress, withdraw
     remainderNote,
     withdrawPaymentNote,
     streamContractAddress,
-    ratio.numerator,
     ratio.denominator,
+    ratio.numerator,
   );
 
   return { proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, remainderNote] };
