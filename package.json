@@ -9,14 +9,17 @@
   ],
   "private": true,
   "scripts": {
-    "react-app:build": "yarn workspace @project/react-app build",
-    "react-app:eject": "yarn workspace @project/react-app eject",
-    "react-app:start": "yarn workspace @project/react-app start",
-    "react-app:test": "yarn workspace @project/react-app test",
-    "subgraph:auth": "yarn workspace @project/subgraph auth",
-    "subgraph:codegen": "yarn workspace @project/subgraph codegen",
-    "subgraph:build": "yarn workspace @project/subgraph build",
-    "subgraph:deploy": "yarn workspace @project/subgraph deploy"
+    "contracts:compile": "yarn workspace @quachtli/contracts compile",
+    "contracts:deploy": "yarn workspace @quachtli/contracts deploy",
+    "contracts:test": "yarn workspace @quachtli/contracts test",
+    "react-app:build": "yarn workspace @quachtli/react-app build",
+    "react-app:eject": "yarn workspace @quachtli/react-app eject",
+    "react-app:start": "yarn workspace @quachtli/react-app start",
+    "react-app:test": "yarn workspace @quachtli/react-app test",
+    "subgraph:auth": "yarn workspace @quachtli/subgraph auth",
+    "subgraph:codegen": "yarn workspace @quachtli/subgraph codegen",
+    "subgraph:build": "yarn workspace @quachtli/subgraph build",
+    "subgraph:deploy": "yarn workspace @quachtli/subgraph deploy"
   },
   "workspaces": {
     "packages": [
