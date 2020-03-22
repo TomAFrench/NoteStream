@@ -22,10 +22,13 @@ async function deployZkAsset(aceAddress) {
   return zkAsset
 }
 
+function saveDeployedAddresses(addresses) {
+  fs.writeFileSync(path.resolve(addressDirectory, `${env.network.name}.json`), JSON.stringify(addresses, null, 2))
+}
+
 async function main() {
   // Read the address of the ACE contract on rinkeby
   const { ACE: aceAddress } = getContractAddressesForNetwork(4)
-  
   const zkAsset = await deployZkAsset(aceAddress)
 
   // Deploy the streaming contract
@@ -40,7 +43,7 @@ async function main() {
     ZkAsset: zkAsset.address,
     AztecStreamer: aztecStreamer.address
   }
-  fs.writeFileSync(path.resolve(addressDirectory, 'rinkeby.json'), JSON.stringify(addresses))
+  saveDeployedAddresses(addresses)
 }
 
 // We recommend this pattern to be able to use async/await everywhere
