@@ -1,10 +1,11 @@
 pragma solidity ^0.5.11;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
 
 import "@aztec/protocol/contracts/interfaces/IACE.sol";
 import "@aztec/protocol/contracts/interfaces/IZkAsset.sol";
 import "@aztec/protocol/contracts/libs/NoteUtils.sol";
+import "@aztec/protocol/contracts/libs/MetaDataUtils.sol";
 
 import "./Types.sol";
 
@@ -139,8 +140,16 @@ library StreamUtilities {
         );
 
         // Require that sender and receiver have view access to change note
-        // require(extractAddress(newStreamNote.metaData, 0) == _stream.sender, "stream sender can't view new stream note");
-        // require(extractAddress(newStreamNote.metaData, 0) == _stream.recipient, "stream recipient can't view new stream note");
+        require(
+            MetaDataUtils.extractAddress(newStreamNote.metaData, 0) ==
+                _stream.sender,
+            "stream sender can't view new stream note"
+        );
+        require(
+            MetaDataUtils.extractAddress(newStreamNote.metaData, 1) ==
+                _stream.recipient,
+            "stream recipient can't view new stream note"
+        );
 
         // Approve contract to spend stream note
         IZkAsset(_stream.tokenAddress).confidentialApprove(
