@@ -27,9 +27,9 @@
     "terminal-kit": "^1.35.1"
   },
   "devDependencies": {
-    "@aztec/contract-addresses": "1.16.1",
+    "@aztec/contract-addresses": "1.19.0",
     "@aztec/dev-utils": "^2.3.1",
-    "@aztec/protocol": "^1.6.0",
+    "@aztec/protocol": "^1.7.0",
     "@nomiclabs/buidler": "^1.2.0",
     "@nomiclabs/buidler-etherscan": "^1.2.0",
     "@nomiclabs/buidler-truffle5": "^1.2.0",
