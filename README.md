@@ -1,30 +1,118 @@
-# Quachtli
+<!-- <p align="center"><img src="https://i.imgur.com/" width="280px"/></p> -->
 
-## Notice
+<p align="center">Quachtli is the protocol for private real-time finance on Ethereum using AZTEC Protocol.
 
-A couple of people have starred Quachtli so I just want to make it known that there is some unpushed code in order to (I hope) fix withdrawals from the stream (We only wrote this in between judging sessions with the help of the AZTEC team).
+<p align="center">
+  <a href="https://docs.openzeppelin.com/">
+    <img src="https://img.shields.io/badge/built%20with-OpenZeppelin-3677FF" alt="Built with OpenZeppelin">
+  </a>
+  <a href="https://www.gnu.org/licenses/lgpl-3.0">
+    <img src="https://img.shields.io/badge/License-LGPL%20v3-008033.svg" alt="License: LGPL v3">
+  </a>
+</p>
 
-I'm going to merge this into what's on here pretty soon but if you're looking at Quachtli as an example on how to build on AZTEC, it's probably best to hold off for a week or so.
+---
 
-I'm also in the process of writing a blog post which explains Quachtli how operates. I'll post a link in this README when I'm done.
+## What is Quachtli? :man_shrugging:
 
-## Get Started
+The simplest way to sum it up is "[Sablier](https://github.com/sablierhq/sablier) but with privacy (using AZTEC Protocol)".
 
-### 1) Clone this repository
+For those of you not familiar with Sablier, this means that Quachtli is a private realtime finance platform which allows you to stream money over time using the Ethereum network.
 
-```sh
-git clone https://github.com/TomAFrench/Quachtli.git
-cd client
-yarn install
+This could be applied in many areas but one obvious usecase is that it allows a salary to be paid out every second, making payday a thing of the past. While this is possible using Sablier today, it has the unfortunate sideeffect of telling everyone *exactly* how much you earn as everything is public on the Ethereum blockchain. Quachtli solves this issue by making use of [AZTEC Protocol](https://www.aztecprotocol.com) to encrypt the value of your salary to keep it private while ensuring that you can always withdraw the money you have earned so far.
+
+Quachtli was started at the [2020 ETHLondon Hackathon](https://ethlondon.com/) by [Tom French](https://github.com/TomAFrench), [Moe Adham](https://github.com/moeadham), [Evgeni Shavkunov](https://github.com/eshavkun) and [György Tamás Klöczl](https://github.com/glodzl). Quachtli was one of six finalists and was chosen as "Best use of AZTEC Protocol".
+
+**Notice:** I learned a lot about how to build on top of Aztec Protocol while creating Quachtli. As AZTEC is still very new, there isn't a lot of documentation out there, to help with this I'm in the process of writing a blog post which explains Quachtli how operates. I'll post a link here when I'm done.
+
+## Packages :package:
+
+Quachtli is maintained as a monorepo with multiple sub packages. Please find a comprehensive list below.
+
+### Deployed Packages
+
+| Package                                                   | Version                                                                                                                       | Description                                                       |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [`@quachtli/contracts`](/packages/contract)                   | [![npm](https://img.shields.io/npm/v/@quachtli/contracts.svg)](https://www.npmjs.com/package/@quachtli/contracts)                   | AZTEC note streaming protocol                                                     |
+| [`@quachtli/react-app`](/packages/react-app)                 | [![npm](https://img.shields.io/npm/v/@quachtli/react-app.svg)](https://www.npmjs.com/package/@quachtli/react-app)                 | Example dapp frontend                                          |
+
+### Private Packages
+
+| Package                                     | Description                                                                                                     |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| [`@quachtli/dev-utils`](/packages/dev-utils) | [![npm](https://img.shields.io/npm/v/@quachtli/dev-utils.svg)](https://www.npmjs.com/package/@quachtli/dev-utils) | Dev utils to be shared across Quachtli projects and packages |
+
+<!--## Contracts :memo:
+
+Find the addresses for our smart contracts below. They have not been audited in any way so I don't recommend putting real money into them.
+
+### Ethereum Mainnet
+
+| Name          | Description                      | Address                                                                                                               |
+| ------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| AztecStreamer       | Money streaming engine           | [](https://etherscan.io/address/) |
+
+
+
+### Ethereum Testnets
+
+Quachtli is deployed on the Rinkeby testnet.
+
+| Name          | Description                      | Address                                                                                                                     |
+| ------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| AztecStreamer       | Money streaming engine           | [](https://rinkeby.etherscan.io/address/) | -->
+
+## Usage :hammer_and_pick:
+
+To check out and compile the smart contracts, install any dependencies and then head to each individual package as presented above. For example, these are the instructions for `@quachtli/contracts`:
+
+```bash
+$ yarn install
+$ cd packages/contracts
+$ yarn compile
+$ yarn buidler run scripts/deploy.js --network rinkeby
 ```
 
-#### Switch to network Rinkeby
+## Contact us :envelope:
 
-```sh
-yarn start
+While Quachtli was built primarily as a proof of concept in order to learn about how to use AZTEC Protocol and isn't being taken further (currently). I'd love to hear from anybody building on top of Quachtli, if you have any questions or just want to show off what you've made, ping me on [Twitter](https://twitter.com/tomfrench_eth).
+
+## Contributing :raising_hand_woman:
+
+We use [Yarn](https://yarnpkg.com/) as a dependency manager and [Buidler](https://buidler.dev/)
+as a development environment for compiling, testing, and deploying our contracts. The contracts were written in [Solidity](https://github.com/ethereum/solidity).
+
+### Requirements
+
+- yarn >= 1.22.4
+- solidity 0.5.11
+
+### Pre Requisites
+
+Make sure you are using Yarn >=1.22.4
+
+To clone this repo and install dependencies run:
+
+```bash
+$ git clone https://github.com/TomAFrench/Quachtli.git && cd Quachtli
+$ yarn install
+```
+#### Deploy contracts to Rinkeby
+
+```bash
+$ yarn contracts:deploy --network rinkeby
 ```
 
+You need to enter your address in `@quachtli/contracts/scripts/deploy.js` for some ERC20 tokens to be minted for you.
+
+#### Start frontend
+
+Start the frontend with the command
+
+```sh
+yarn react-app:start
+```
 
 Open `http://localhost:3000` in your web3 enabled browser to view the demo dapp. Make sure you are on the Rinkeby network and have some test eth. 
 
-The Dapp will allow you to convert ERC20 tokens into zkTokens, send these zkTokens streamed around to other Ethereum addresses and withdraw from zkTokens back into ERC20 tokens. 
+The Dapp will allow you to convert ERC20 tokens into zkTokens, send these zkTokens streamed around to other Ethereum addresses and withdraw from zkTokens back into ERC20 tokens.

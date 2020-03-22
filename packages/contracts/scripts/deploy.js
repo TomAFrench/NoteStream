@@ -27,8 +27,10 @@ function saveDeployedAddresses(addresses) {
 }
 
 async function main() {
-  // Read the address of the ACE contract on rinkeby
-  const { ACE: aceAddress } = getContractAddressesForNetwork(4)
+  // Read the address of the ACE contract on chosen network
+  const networkId = env.network.config.chainId
+  const { ACE: aceAddress } = getContractAddressesForNetwork(networkId)
+  
   const zkAsset = await deployZkAsset(aceAddress)
 
   // Deploy the streaming contract

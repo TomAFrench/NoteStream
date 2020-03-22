@@ -13,13 +13,8 @@ $ yarn add @quachtli/dev-utils
 And import it in your project:
 
 ```js
-const quachtliDevUtils = require("@Quachtli/dev-utils");
+const quachtliDevUtils = require("@quachtli/dev-utils");
 ```
-
-## Contributing
-
-We highly encourage participation from the community to help shape the development of Quachtli. If you are interested in
-contributing or have any questions, please ping us on [Twitter](https://twitter.com/sablierhq).
 
 ### Install Modules
 
