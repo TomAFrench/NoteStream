@@ -17,7 +17,7 @@ import Deposit from './views/deposit';
 import Status from './views/status';
 import Withdraw from './views/withdraw';
 
-import { addresses, abis } from "@quachtli/contracts"
+import { getContractAddressesForNetwork, abis } from "@quachtli/contracts"
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -137,6 +137,8 @@ const App = () => {
   const [zkdaiBalance, setZkdaiBalance] = useState(0);
   const [streamContractInstance, setStreamContractInstance] = useState(null);
 
+  const addresses = getContractAddressesForNetwork(4)
+
   useEffect(() => {
     async function getBalance(asset, address) {
       const publicBalance = await asset.balanceOfLinkedToken(address);
@@ -178,7 +180,7 @@ const App = () => {
       setStreamContractInstance(streamContract);
     }
     init();
-  }, []);
+  }, [addresses]);
 
   return (
     <Router>
