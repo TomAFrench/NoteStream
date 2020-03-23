@@ -14,8 +14,8 @@ export async function calculateWithdrawal(stream, aztec) {
   const remainingStreamLength = moment.duration(
     moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))
     ).asSeconds()
-  // withdraw up to now or to end of stream
 
+    // withdraw up to now or to end of stream
   if (moment().isAfter(moment.unix(stopTime))){
     return {
       withdrawalValue: streamZkNote.value,
@@ -26,7 +26,7 @@ export async function calculateWithdrawal(stream, aztec) {
     moment().startOf('second').diff(moment.unix(lastWithdrawTime))
     ).asSeconds();
 
-  console.log("Fraction of way through stream", maxWithdrawDuration/remainingStreamLength)
+  console.log("Fraction unwithdrawn stream elapsed", maxWithdrawDuration / remainingStreamLength)
 
   const scalingFactor = 10
   const timeBetweenNotes = Math.floor(remainingStreamLength / streamZkNote.value * scalingFactor)
@@ -71,8 +71,6 @@ export async function buildDividendProof(stream, streamContractAddress, withdraw
     ratio.numerator,
     ratio.denominator,
   );
-
-  console.log(payee)
 
   const withdrawPaymentNote = await aztec.note.create(
     payee.spendingPublicKey,

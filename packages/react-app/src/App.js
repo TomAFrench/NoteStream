@@ -152,11 +152,8 @@ const App = () => {
       const accounts = await web3.eth.getAccounts();
 
       console.log('windowaztec', window.aztec);
-      console.log("Contract addresses", addresses)
-      // setWeb3(web3);
 
       setAccount(accounts[0]);
-      console.log('accounts', accounts);
 
       await window.aztec.enable({
         // web3Provider: _web3.currentProvider, // change this value to use a different web3 provider
@@ -171,7 +168,6 @@ const App = () => {
       setZkAsset(asset);
       console.log('ASSET:', asset);
       getBalance(asset, accounts[0]);
-      console.log(abis)
 
       const streamContract = new web3.eth.Contract(
         abis.AztecStreamer,
