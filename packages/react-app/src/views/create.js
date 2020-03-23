@@ -65,7 +65,7 @@ const Create = ({
     sendAmount,
     asset,
   ) {
-    const sendResp = await asset.send(
+    const { outputNotes } = await asset.send(
       [
         {
           to: streamContractAddress,
@@ -76,14 +76,7 @@ const Create = ({
       ],
       { userAccess: [userAddress, payeeAddress] }, // Give view access to sender and recipient
     );
-    console.info('sent funds confidentially');
-    console.log('_sendResp', sendResp);
-    let noteForStreamContract = null;
-    sendResp.outputNotes.forEach((outputNote) => {
-      if (outputNote.owner === streamContractAddress) {
-        noteForStreamContract = outputNote;
-      }
-    });
+    const noteForStreamContract = outputNotes[0]
     console.log('noteForStreamContract', noteForStreamContract);
     return noteForStreamContract;
   }
