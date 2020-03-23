@@ -12,10 +12,10 @@
     elliptic "^6.4.1"
     web3-utils "^1.0.0-beta.55"
 
-"@aztec/contract-addresses@^1.19.0":
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/@aztec/contract-addresses/-/contract-addresses-1.19.0.tgz#7b3ee84901bbcda3a43a3e9780553c2fd60e913e"
-  integrity sha512-PxBnV6VAINyW1MpChV/OORHR/UELLu+hQvPKFuOHt/C+MK/Qsq211fgLiWejxkEDwvXK4IFF5k6hhsn1LjnZkQ==
+"@aztec/contract-addresses@1.16.1":
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/@aztec/contract-addresses/-/contract-addresses-1.16.1.tgz#59a3ee5a389739b8d25aa2aa0c25e4ec6ba4cb12"
+  integrity sha512-zps7VLZgbkKsRTZLQlZxg7xPE/Lxmo8UhO2u1F2lnJ6zMEQJ+ODCx4znHwI4OH7s20AjiGqeimwKyUx5CkJIVA==
   dependencies:
     lodash "^4.17.11"
 

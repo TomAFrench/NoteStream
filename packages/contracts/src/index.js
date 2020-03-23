@@ -1,8 +1,12 @@
 const { isUndefined } = require('lodash');
 
-export { default as abis } from "./abis/AztecStreamer";
+import AztecStreamerABI from "./abis/AztecStreamer";
 // import mainnetAddresses from "./addresses/mainnet";
 import rinkebyAddresses from "./addresses/rinkeby";
+
+export const abis = {
+  AztecStreamer: AztecStreamerABI
+}
 
 const networkToAddresses = {
   // '1': {
