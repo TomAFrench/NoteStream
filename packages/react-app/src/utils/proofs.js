@@ -28,12 +28,17 @@ export async function calculateWithdrawal(stream, aztec) {
 
   console.log("Fraction unwithdrawn stream elapsed", maxWithdrawDuration / remainingStreamLength)
 
-  const scalingFactor = 10
-  const timeBetweenNotes = Math.floor(remainingStreamLength / streamZkNote.value * scalingFactor)
-  const withdrawalValue = Math.floor(maxWithdrawDuration / timeBetweenNotes) * scalingFactor
-  const withdrawalDuration = timeBetweenNotes * withdrawalValue / scalingFactor
+
+  // Get a time period which results in an integer number of notes
+  const scalingFactor = 100
+  const timeBetweenNotes = remainingStreamLength / streamZkNote.value
+  const scaledTimeBetweenNotes = Math.floor(timeBetweenNotes * scalingFactor)
+
+  const withdrawalValue = Math.floor(maxWithdrawDuration / scaledTimeBetweenNotes) * scalingFactor
+  const withdrawalDuration = scaledTimeBetweenNotes * withdrawalValue / scalingFactor
 
   console.log("Time between notes:", timeBetweenNotes)
+  console.log("Scaled up to:", scaledTimeBetweenNotes)
   console.log("constructed withdrawal")
   console.table({
     withdrawalValue,
