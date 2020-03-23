@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
 import { calculateWithdrawal, buildDividendProof, buildJoinSplitProof } from '../utils/proofs';
+import moment from 'moment';
 
 
 const Withdraw = ({
@@ -49,6 +50,7 @@ const Withdraw = ({
 
     console.log("Withdrawing from stream:", streamId)
     console.log("Withdrawal duration:", withdrawalDuration)
+    console.log("Remaining stream duration:", moment.duration(moment.unix(streamObj.stopTime).diff(moment.unix(streamObj.lastWithdrawTime))).asSeconds())
     console.log("Proofs:", proof1, proof2);
     const results = await streamContractInstance.methods.withdrawFromStream(
       streamId,
