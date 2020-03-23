@@ -1,5 +1,6 @@
 pragma solidity ^0.5.11;
 
+import "@openzeppelin/contracts/lifecycle/Pausable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 import "./StreamUtilities.sol";
@@ -11,7 +12,7 @@ import "./Types.sol";
  * @title NoteStream's Money Streaming
  * @author NoteStream
  */
-contract NoteStream is ReentrancyGuard {
+contract NoteStream is Pausable, ReentrancyGuard {
     using SafeMath for uint256;
 
     /*** Storage Properties ***/
@@ -155,7 +156,7 @@ contract NoteStream is ReentrancyGuard {
         address tokenAddress,
         uint256 startTime,
         uint256 stopTime
-    ) public returns (uint256) {
+    ) public whenNotPaused returns (uint256) {
         require(recipient != address(0x00), "stream to the zero address");
         require(recipient != address(this), "stream to the contract itself");
         require(recipient != msg.sender, "stream to the caller");
@@ -199,7 +200,13 @@ contract NoteStream is ReentrancyGuard {
         bytes memory _proof1, // Dividend Proof
         bytes memory _proof2, // Join-Split Proof
         uint256 _streamDurationToWithdraw
-    ) public streamExists(streamId) onlyRecipient(streamId) {
+    )
+        public
+        nonReentrant
+        whenNotPaused
+        streamExists(streamId)
+        onlyRecipient(streamId)
+    {
         Types.AztecStream storage stream = streams[streamId];
 
         // First check that fraction to withdraw isn't greater than fraction of time passed
@@ -261,6 +268,7 @@ contract NoteStream is ReentrancyGuard {
     )
         external
         nonReentrant
+        whenNotPaused
         streamExists(streamId)
         onlySenderOrRecipient(streamId)
         returns (bool)
