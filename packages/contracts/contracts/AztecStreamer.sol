@@ -168,7 +168,6 @@ contract AztecStreamer is ReentrancyGuard {
             stopTime: stopTime,
             lastWithdrawTime: startTime,
             tokenAddress: tokenAddress,
-            aceContractAddress: aceContractAddress,
             isEntity: true
         });
 
@@ -197,11 +196,17 @@ contract AztecStreamer is ReentrancyGuard {
 
         // Check that value of withdrawal matches the fraction given by the above timestamp
         (, bytes memory _proof1OutputNotes) = StreamUtilities
-            ._validateRatioProof(_proof1, _streamDurationToWithdraw, stream);
+            ._validateRatioProof(
+            aceContractAddress,
+            _proof1,
+            _streamDurationToWithdraw,
+            stream
+        );
 
         // Check that withdrawal transaction is valid and perform transfer
         // i.e. change note remains on contract, sender and recipient have view access, etc.
         bytes32 newCurrentBalanceNoteHash = StreamUtilities._processWithdrawal(
+            aceContractAddress,
             _proof2,
             _proof1OutputNotes,
             stream
@@ -261,11 +266,17 @@ contract AztecStreamer is ReentrancyGuard {
 
         // Check that value of withdrawal matches the fraction given by the above timestamp
         (, bytes memory _proof1OutputNotes) = StreamUtilities
-            ._validateRatioProof(_proof1, _unclaimedTime, stream);
+            ._validateRatioProof(
+            aceContractAddress,
+            _proof1,
+            _unclaimedTime,
+            stream
+        );
 
         // Check that cancellation transaction is valid and perform transfer
         // i.e. Each party receives a note of correct value
         StreamUtilities._processCancelation(
+            aceContractAddress,
             _proof2,
             _proof1OutputNotes,
             stream

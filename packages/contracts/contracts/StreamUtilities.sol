@@ -51,6 +51,7 @@ library StreamUtilities {
     }
 
     function _validateRatioProof(
+        address _aceContractAddress,
         bytes memory _proof1,
         uint256 _withdrawDuration,
         Types.AztecStream storage _stream
@@ -70,8 +71,11 @@ library StreamUtilities {
         );
 
         // Validate ratio proof
-        bytes memory _proof1Outputs = IACE(_stream.aceContractAddress)
-            .validateProof(DIVIDEND_PROOF, address(this), _proof1);
+        bytes memory _proof1Outputs = IACE(_aceContractAddress).validateProof(
+            DIVIDEND_PROOF,
+            address(this),
+            _proof1
+        );
         (_proof1InputNotes, _proof1OutputNotes, , ) = _proof1Outputs
             .get(0)
             .extractProofOutput();
@@ -87,12 +91,13 @@ library StreamUtilities {
     }
 
     function _validateJoinSplitProof(
+        address _aceContractAddress,
         bytes memory _proof2,
         bytes32 _withdrawalNoteHash,
         Types.AztecStream storage _stream
     ) internal returns (bytes memory proof2Outputs) {
         // Validate Join-Split proof
-        proof2Outputs = IACE(_stream.aceContractAddress)
+        proof2Outputs = IACE(_aceContractAddress)
             .validateProof(JOIN_SPLIT_PROOF, address(this), _proof2)
             .get(0);
 
@@ -116,11 +121,13 @@ library StreamUtilities {
     }
 
     function _processWithdrawal(
+        address _aceContractAddress,
         bytes memory _proof2,
         bytes memory _proof1OutputNotes,
         Types.AztecStream storage _stream
     ) internal returns (bytes32 newCurrentInterestBalance) {
         bytes memory proof2Outputs = _validateJoinSplitProof(
+            _aceContractAddress,
             _proof2,
             _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, // withdrawal note hash
             _stream
@@ -170,11 +177,13 @@ library StreamUtilities {
     }
 
     function _processCancelation(
+        address _aceContractAddress,
         bytes memory _proof2,
         bytes memory _proof1OutputNotes,
         Types.AztecStream storage _stream
     ) internal returns (bool) {
         bytes memory proof2Outputs = _validateJoinSplitProof(
+            _aceContractAddress,
             _proof2,
             _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, // withdrawal note hash
             _stream

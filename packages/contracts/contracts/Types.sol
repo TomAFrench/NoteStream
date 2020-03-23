@@ -1,6 +1,5 @@
 pragma solidity ^0.5.11;
 
-
 /**
  * @title Quachtli Types
  * @author Quachtli
@@ -14,7 +13,6 @@ library Types {
         address recipient;
         address sender;
         address tokenAddress;
-        address aceContractAddress;
         bool isEntity;
     }
 }
