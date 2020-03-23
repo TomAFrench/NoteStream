@@ -65,7 +65,7 @@ library StreamUtilities {
         uint256 totalTime = _stream.stopTime.sub(_stream.lastWithdrawTime);
         require(
             getRatio(_proof1) ==
-                _withdrawDuration.mul(scalingFactor).div(totalTime),
+                totalTime.mul(scalingFactor).div(_withdrawDuration),
             "ratios do not match"
         );
 
