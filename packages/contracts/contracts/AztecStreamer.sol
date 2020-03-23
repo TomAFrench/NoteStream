@@ -62,6 +62,17 @@ contract AztecStreamer is ReentrancyGuard {
     }
 
     /**
+     * @dev Throws if the caller is not the recipient of the stream.
+     */
+    modifier onlyRecipient(uint256 streamId) {
+        require(
+            msg.sender == streams[streamId].recipient,
+            "caller is not the recipient of the stream"
+        );
+        _;
+    }
+
+    /**
      * @dev Throws if the provided id does not point to a valid stream.
      */
     modifier streamExists(uint256 streamId) {
@@ -173,7 +184,7 @@ contract AztecStreamer is ReentrancyGuard {
         bytes memory _proof1, // Dividend Proof
         bytes memory _proof2, // Join-Split Proof
         uint256 _streamDurationToWithdraw
-    ) public streamExists(streamId) onlySenderOrRecipient(streamId) {
+    ) public streamExists(streamId) onlyRecipient(streamId) {
         Types.AztecStream storage stream = streams[streamId];
 
         // First check that fraction to withdraw isn't greater than fraction of time passed
