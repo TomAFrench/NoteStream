@@ -177,6 +177,12 @@ library StreamUtilities {
         bytes32 inputNoteHash = _noteCoderToStruct(_proof2InputNotes.get(0))
             .noteHash;
 
+        // Ensure that there isn't a third note used to avoid the below checks
+        require(
+            _proof2OutputNotes.getLength() == 2,
+            "Incorrect number of output notes"
+        );
+
         // Require that each participant owns an output note
         require(
             _noteCoderToStruct(_proof2OutputNotes.get(0)).owner ==
