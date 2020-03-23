@@ -144,7 +144,7 @@ contract NoteStream is Pausable, ReentrancyGuard {
      *  Throws if the contract is not allowed to transfer enough tokens.
      *  Throws if there is a token transfer failure.
      * @param recipient The address towards which the money is streamed.
-     * @param noteHash The note of a zkAsset to be streamed.
+     * @param proof The JoinSplit proof transfering a zkAsset to be streamed.
      * @param tokenAddress The zkAsset to use as streaming currency.
      * @param startTime The unix timestamp for when the stream starts.
      * @param stopTime The unix timestamp for when the stream stops.
@@ -152,7 +152,8 @@ contract NoteStream is Pausable, ReentrancyGuard {
      */
     function createStream(
         address recipient,
-        bytes32 noteHash,
+        bytes memory proof,
+        bytes memory proofSignature,
         address tokenAddress,
         uint256 startTime,
         uint256 stopTime
@@ -166,10 +167,20 @@ contract NoteStream is Pausable, ReentrancyGuard {
         );
         require(stopTime > startTime, "Stream duration not greater than zero");
 
+        // Transfer the ZkAsset to the streaming contract
+        bytes32 streamNoteHash = StreamUtilities._processDeposit(
+            proof,
+            proofSignature,
+            aceContractAddress,
+            msg.sender,
+            recipient,
+            tokenAddress
+        );
+
         /* Create and store the stream object. */
         uint256 streamId = nextStreamId;
         streams[streamId] = Types.AztecStream({
-            noteHash: noteHash,
+            noteHash: streamNoteHash,
             sender: msg.sender,
             recipient: recipient,
             startTime: startTime,
@@ -187,7 +198,7 @@ contract NoteStream is Pausable, ReentrancyGuard {
             msg.sender,
             recipient,
             tokenAddress,
-            noteHash,
+            streamNoteHash,
             startTime,
             stopTime
         );

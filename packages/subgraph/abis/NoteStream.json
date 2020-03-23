@@ -173,9 +173,14 @@
         "type": "address"
       },
       {
-        "internalType": "bytes32",
-        "name": "noteHash",
-        "type": "bytes32"
+        "internalType": "bytes",
+        "name": "proof",
+        "type": "bytes"
+      },
+      {
+        "internalType": "bytes",
+        "name": "proofSignature",
+        "type": "bytes"
       },
       {
         "internalType": "address",

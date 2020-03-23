@@ -51,6 +51,66 @@ library StreamUtilities {
         return za.mul(scalingFactor).div(zb);
     }
 
+    function _processDeposit(
+        bytes memory _proof,
+        bytes memory _proofSignature,
+        address _aceContractAddress,
+        address _sender,
+        address _recipient,
+        address _tokenAddress
+    ) internal returns (bytes32 streamNoteHash) {
+        // Validate Join-Split proof
+        bytes memory proofOutputs = IACE(_aceContractAddress)
+            .validateProof(JOIN_SPLIT_PROOF, address(this), _proof)
+            .get(0);
+
+        // Extract notes used in proof
+        (, bytes memory _proofOutputNotes, , ) = proofOutputs
+            .extractProofOutput();
+
+        // Ensure that there is only a single output note to avoid loss of funds
+        require(
+            _proofOutputNotes.getLength() == 1,
+            "Incorrect number of output notes"
+        );
+
+        Note memory streamNote = _noteCoderToStruct(_proofOutputNotes.get(0));
+
+        // Require that stream note is owned by contract
+        require(
+            streamNote.owner == address(this),
+            "stream note is not owned by stream contract"
+        );
+
+        // Require that sender and receiver have view access to stream note
+        require(
+            MetaDataUtils.extractAddress(streamNote.metaData, 0) == _sender,
+            "stream sender can't view stream note"
+        );
+        require(
+            MetaDataUtils.extractAddress(streamNote.metaData, 1) == _recipient,
+            "stream recipient can't view stream note"
+        );
+
+        // Approve contract to spend stream note
+        IZkAsset(_tokenAddress).approveProof(
+            JOIN_SPLIT_PROOF,
+            proofOutputs,
+            address(this),
+            true,
+            _proofSignature
+        );
+
+        // Send transfer
+        IZkAsset(_tokenAddress).confidentialTransferFrom(
+            JOIN_SPLIT_PROOF,
+            proofOutputs
+        );
+
+        // Return stream note hash
+        streamNoteHash = streamNote.noteHash;
+    }
+
     function _validateRatioProof(
         address _aceContractAddress,
         bytes memory _proof1,
