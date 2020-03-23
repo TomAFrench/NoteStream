@@ -155,6 +155,7 @@ contract AztecStreamer is ReentrancyGuard {
             startTime >= block.timestamp, // solium-disable-line security/no-block-members
             "start time before block.timestamp"
         );
+        require(stopTime == startTime, "zero length stream");
         require(stopTime > startTime, "stop time before the start time");
 
         /* Create and store the stream object. */
