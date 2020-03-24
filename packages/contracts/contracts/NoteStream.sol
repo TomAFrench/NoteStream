@@ -268,7 +268,6 @@ contract NoteStream is Pausable, ReentrancyGuard {
     )
         external
         nonReentrant
-        whenNotPaused
         streamExists(streamId)
         onlySenderOrRecipient(streamId)
         returns (bool)

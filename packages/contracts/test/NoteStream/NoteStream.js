@@ -16,18 +16,18 @@ const DividendValidatorInterface = artifacts.require("./DividendInterface");
 const ERC20DetailedMintable = artifacts.require("ERC20DetailedMintable");
 const ZkAsset = artifacts.require("ZkAsset");
 
-const AztecStreamer = artifacts.require("./AztecStreamer.sol");
+const NoteStream = artifacts.require("./NoteStream.sol");
 
 ACE.numberFormat = "BigNumber";
 JoinSplitValidator.numberFormat = "BigNumber";
 DividendValidator.numberFormat = "BigNumber";
-AztecStreamer.numberFormat = "BigNumber";
+NoteStream.numberFormat = "BigNumber";
 
 JoinSplitValidator.abi = JoinSplitValidatorInterface.abi;
 DividendValidator.abi = DividendValidatorInterface.abi;
 
 const { JOIN_SPLIT_PROOF, DIVIDEND_PROOF } = proofs;
-const { STANDARD_SALARY } = devConstants;
+// const { STANDARD_SALARY } = devConstants;
 
 const generateFactoryId = (epoch, cryptoSystem, assetType) => {
   return epoch * 256 ** 2 + cryptoSystem * 256 ** 1 + assetType * 256 ** 0;
