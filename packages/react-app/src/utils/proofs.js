@@ -77,18 +77,8 @@ export async function buildDividendProof(stream, streamContractAddress, withdraw
     ratio.denominator,
   );
 
-  const withdrawPaymentNote = await aztec.note.create(
-    payee.spendingPublicKey,
-    withdrawPayment.expectedNoteValue,
-    undefined,
-    payee.address
-  );
-  
-  // We use a disposable public key as only the note value is relevant
-  const remainderNote = await aztec.note.create(
-    secp256k1.generateAccount().publicKey,
-    withdrawPayment.remainder,
-  );
+  const withdrawPaymentNote = await payee.createNote(withdrawPayment.expectedNoteValue, [payee.address]);
+  const remainderNote = await payee.createNote(withdrawPayment.remainder);
 
   const proofData = new aztec.DividendProof(
     streamNote,
