@@ -15,7 +15,9 @@
   "homepage": "https://github.com/TomAFrench/Quachtli#readme",
   "scripts": {
     "compile": "buidler compile",
+    "clean": "buidler clean",
     "deploy": "buidler run scripts/deploy.js",
+    "export": "buidler run scripts/export.js",
     "test": "buidler test"
   },
   "dependencies": {

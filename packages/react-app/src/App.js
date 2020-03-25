@@ -16,7 +16,7 @@ import Create from './components/create';
 import Deposit from './components/deposit';
 import Status from './components/status';
 
-import { getContractAddressesForNetwork, abis } from "@quachtli/contracts"
+import { getContractAddressesForNetwork, abis } from "@quachtli/contract-artifacts"
 
 const useStyles = makeStyles(theme => ({
   layout: {

@@ -3,7 +3,7 @@ const { getContractAddressesForNetwork } = require("@aztec/contract-addresses");
 
 const fs = require('fs')
 const path = require('path')
-const addressDirectory = path.resolve(__dirname, '../src/addresses/')
+const addressDirectory = path.resolve(__dirname, '../../contract-artifacts/addresses/')
 
 const TESTING_ADDRESS = "0xC6E67ee008a7720722e42F34f30a16d806A45c3F"
 

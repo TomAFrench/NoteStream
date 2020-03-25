@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const contracts = path.resolve(__dirname, '../artifacts/')
-const abiDirectory = path.resolve(__dirname, '../src/abis/')
+const abiDirectory = path.resolve(__dirname, '../../contract-artifacts/abis/')
 
 const builtContracts = [
   "AztecStreamer.json"

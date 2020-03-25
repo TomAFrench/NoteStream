@@ -1,19 +1,19 @@
+import AztecStreamerABI from '../abis/AztecStreamer.json';
+// import mainnetAddresses from "./addresses/mainnet";
+import rinkebyAddresses from '../addresses/rinkeby.json';
+
 const { isUndefined } = require('lodash');
 
-import AztecStreamerABI from "./abis/AztecStreamer";
-// import mainnetAddresses from "./addresses/mainnet";
-import rinkebyAddresses from "./addresses/rinkeby";
-
 export const abis = {
-  AztecStreamer: AztecStreamerABI
-}
+  AztecStreamer: AztecStreamerABI,
+};
 
 const networkToAddresses = {
   // '1': {
   //   ...mainnetAddresses,
   // },
-  '4': {
-      ...rinkebyAddresses,
+  4: {
+    ...rinkebyAddresses,
   },
 };
 
@@ -27,7 +27,7 @@ const networkToAddresses = {
  */
 export const getContractAddressesForNetwork = (networkId) => {
   if (isUndefined(networkToAddresses[networkId])) {
-      throw new Error(`Unknown network id (${networkId}). No known AZTEC contracts have been deployed on this network.`);
+    throw new Error(`Unknown network id (${networkId}). No known AZTEC contracts have been deployed on this network.`);
   }
   return networkToAddresses[networkId];
 };
