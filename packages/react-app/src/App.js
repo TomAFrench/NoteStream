@@ -130,13 +130,6 @@ const App = () => {
   const addresses = getContractAddressesForNetwork(4)
 
   useEffect(() => {
-    async function getBalance(asset, address) {
-      const publicBalance = await asset.balanceOfLinkedToken(address);
-      const zkBalance = await asset.balance();
-      setDaiBalance(publicBalance.toString(10));
-      setZkdaiBalance(zkBalance);
-    }
-
     async function init() {
       const web3 = await getWeb3();
       const accounts = await web3.eth.getAccounts();
@@ -157,7 +150,18 @@ const App = () => {
       const asset = await window.aztec.zkAsset(addresses.ZkAsset);
       setZkAsset(asset);
       console.log('ASSET:', asset);
-      getBalance(asset, accounts[0]);
+
+      const updateBalances = async (zkBalance) => {
+        setZkdaiBalance(zkBalance);
+        const publicBalance = await asset.balanceOfLinkedToken(accounts[0]);
+        setDaiBalance(publicBalance.toString(10));
+      }
+      
+      // Initialise balances
+      updateBalances(await asset.balance())
+
+      // Update balances on each transfer of ZkAsset
+      asset.subscribeToBalance(updateBalances)
 
       const streamContract = new web3.eth.Contract(
         abis.AztecStreamer,
