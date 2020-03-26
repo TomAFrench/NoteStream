@@ -7,7 +7,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 
 import './App.css';
 import getWeb3 from './utils/web3';
@@ -42,6 +44,12 @@ const useStyles = makeStyles(theme => ({
       marginTop: theme.spacing(3),
       marginBottom: theme.spacing(3),
     },
+  },
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
   },
 }));
 
@@ -172,81 +180,92 @@ const App = () => {
   }, [addresses]);
 
   return (
-    <main className={classes.layout}>
-      <Grid
-        container
-        direction="row"
-        spacing={3}
-      >
-        <Grid
-          item
-          container
-          direction="column"
-          justify="flex-start"
-          // alignContent="stretch"
-          // alignItems="stretch"
-          spacing={3}
-          xs={6}
-        >
-          <Grid item>
-            <Paper className={`${classes.pageElement} ${classes.paper}`}>
-              <Typography variant="h5" gutterBottom>
-                Deposit DAI for ZkDAI
-              </Typography>
-              <Deposit
-                userAddress={account}
-                zkAsset={zkAsset}
-                streamContractAddress={addresses.AztecStreamer}
-                daiBalance={daiBalance}
-                zkdaiBalance={zkdaiBalance}
-              />
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper className={`${classes.pageElement} ${classes.paper}`}>
-              <Typography variant="h5" gutterBottom>
-                Create a private stream
-              </Typography>
-              <Create
-                userAddress={account}
-                zkAsset={zkAsset}
-                streamContractAddress={addresses.AztecStreamer}
-                streamContractInstance={streamContractInstance}
-              />
-            </Paper>
-          </Grid>
-        </Grid>
-        
-        <Grid item xs={6} className={classes.pageElement}>
-          <AppBar position="static">
-          <Tabs value={value} onChange={(event, newValue) => setValue(newValue)} variant="fullWidth">
-            <Tab label="Sending"  />
-            <Tab label="Receiving"  />
-          </Tabs>
+    <>
+      <AppBar position="static">
+          <Toolbar>
+            <LocalAtmIcon className={classes.icon}/>
+            <Typography variant="h6" className={classes.title}>
+              Quachtli
+            </Typography>
+            <Button variant="contained" >Connect to wallet</Button>
+          </Toolbar>
         </AppBar>
-          <Paper className={classes.paper}>
-            <TabPanel value={value} index={0}>
-              <Status
-                  role="sender"
+      <main className={classes.layout}>
+        <Grid
+          container
+          direction="row"
+          spacing={3}
+        >
+          <Grid
+            item
+            container
+            direction="column"
+            justify="flex-start"
+            // alignContent="stretch"
+            // alignItems="stretch"
+            spacing={3}
+            xs={6}
+          >
+            <Grid item>
+              <Paper className={`${classes.pageElement} ${classes.paper}`}>
+                <Typography variant="h5" gutterBottom>
+                  Deposit DAI for ZkDAI
+                </Typography>
+                <Deposit
                   userAddress={account}
-                  aztec={window.aztec}
-                  streamContractInstance={streamContractInstance}
+                  zkAsset={zkAsset}
+                  streamContractAddress={addresses.AztecStreamer}
+                  daiBalance={daiBalance}
                   zkdaiBalance={zkdaiBalance}
                 />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <Status
-                  role="recipient"
+              </Paper>
+            </Grid>
+            <Grid item>
+              <Paper className={`${classes.pageElement} ${classes.paper}`}>
+                <Typography variant="h5" gutterBottom>
+                  Create a private stream
+                </Typography>
+                <Create
                   userAddress={account}
-                  aztec={window.aztec}
+                  zkAsset={zkAsset}
+                  streamContractAddress={addresses.AztecStreamer}
                   streamContractInstance={streamContractInstance}
-                  zkdaiBalance={zkdaiBalance}
                 />
-            </TabPanel>
-          </Paper>
+              </Paper>
+            </Grid>
+          </Grid>
+          
+          <Grid item xs={6} className={classes.pageElement}>
+            <AppBar position="static">
+            <Tabs value={value} onChange={(event, newValue) => setValue(newValue)} variant="fullWidth">
+              <Tab label="Sending"  />
+              <Tab label="Receiving"  />
+            </Tabs>
+          </AppBar>
+            <Paper className={classes.paper}>
+              <TabPanel value={value} index={0}>
+                <Status
+                    role="sender"
+                    userAddress={account}
+                    aztec={window.aztec}
+                    streamContractInstance={streamContractInstance}
+                    zkdaiBalance={zkdaiBalance}
+                  />
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <Status
+                    role="recipient"
+                    userAddress={account}
+                    aztec={window.aztec}
+                    streamContractInstance={streamContractInstance}
+                    zkdaiBalance={zkdaiBalance}
+                  />
+              </TabPanel>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
-    </main>
+      </main>
+    </>
   );
 };
 
