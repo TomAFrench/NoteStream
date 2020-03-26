@@ -1,6 +1,6 @@
 pragma solidity ^0.5.11;
 
-import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 import "./StreamUtilities.sol";
 

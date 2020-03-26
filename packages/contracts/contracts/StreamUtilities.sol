@@ -1,6 +1,6 @@
 pragma solidity ^0.5.11;
 
-import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 import "@aztec/protocol/contracts/interfaces/IACE.sol";
 import "@aztec/protocol/contracts/interfaces/IZkAsset.sol";
