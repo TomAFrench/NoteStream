@@ -146,7 +146,7 @@ const App = () => {
       });
 
       // Fetch the zkAsset
-      const asset = await window.aztec.zkAsset("0x54Fac13e652702a733464bbcB0Fb403F1c057E1b");
+      const asset = await window.aztec.zkAsset(addresses.ZkAsset);
       setZkAsset(asset);
       console.log('ASSET:', asset);
 
