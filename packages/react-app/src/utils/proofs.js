@@ -1,56 +1,6 @@
 // import { note, DividendProof, JoinSplitProof } from 'aztec.js';
 import secp256k1 from "@aztec/secp256k1";
-import moment from 'moment';
-
 import { getFraction, computeRemainderNoteValue } from './note';
-
-export async function calculateWithdrawal(stream, aztec) {
-  const {
-    currentBalance, lastWithdrawTime, stopTime,
-  } = stream;
-
-  const streamZkNote = await aztec.zkNote(currentBalance);
-
-  const remainingStreamLength = moment.duration(
-    moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))
-    ).asSeconds()
-
-    // withdraw up to now or to end of stream
-  if (moment().isAfter(moment.unix(stopTime))){
-    return {
-      withdrawalValue: streamZkNote.value,
-      withdrawalDuration: remainingStreamLength
-    }
-  }
-  const maxWithdrawDuration = moment.duration(
-    moment().startOf('second').diff(moment.unix(lastWithdrawTime))
-    ).asSeconds();
-
-  console.log("Fraction unwithdrawn stream elapsed", maxWithdrawDuration / remainingStreamLength)
-
-  // Get withdrawal amount if notes were infinitely divisible
-  // Floor this to get maximum possible withdrawal
-  const idealWithdrawal = (maxWithdrawDuration / remainingStreamLength) * streamZkNote.value
-  const withdrawalValue = Math.floor(idealWithdrawal)
-
-  // Find time period for single note to be unlocked then multiply by withdrawal
-  const timeBetweenNotes = remainingStreamLength / streamZkNote.value
-  const withdrawalDuration = withdrawalValue * timeBetweenNotes
-
-  console.log("constructed withdrawal")
-  console.table({
-    withdrawalValue,
-    remainingBalance: streamZkNote.value,
-    withdrawalDuration,
-    remainingStreamLength
-  })
-
-  return {
-    withdrawalValue,
-    withdrawalDuration
-  }
-}
-
 
 export async function buildDividendProof(stream, streamContractAddress, withdrawalValue, aztec) {
   const { recipient, currentBalance } = stream;

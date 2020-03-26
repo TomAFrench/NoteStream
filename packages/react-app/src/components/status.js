@@ -8,7 +8,9 @@ import Grid from '@material-ui/core/Grid';
 import moment from 'moment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import calculateTime from '../utils/time';
-import { calculateWithdrawal, buildDividendProof, buildJoinSplitProof } from '../utils/proofs';
+
+import { calculateMaxWithdrawalValue, calculateWithdrawal} from '../utils/withdrawal';
+import { buildDividendProof, buildJoinSplitProof } from '../utils/proofs';
 
 
 async function buildProofs(aztec, streamContractInstance, streamObj, withdrawalValue) {
@@ -55,6 +57,7 @@ async function withdrawFunds(aztec, streamContractInstance, streamId, userAddres
 
 const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, role }) => {
   const [noteValue, setNoteValue] = useState(stream.noteHash);
+  const [availableBalance, setAvailableBalance] = useState(0);
 
 
   useEffect(() => {
@@ -63,8 +66,14 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
       setNoteValue(note.value);
     }
 
+    async function getAvailableBalance(stream) {
+      const maxWithdrawalValue = await calculateMaxWithdrawalValue(stream, aztec)
+      setAvailableBalance(maxWithdrawalValue)
+    }
+
     decodeNote(stream.currentBalance);
-  }, [aztec, stream.currentBalance]);
+    getAvailableBalance(stream);
+  }, [aztec, stream]);
 
   const timePercentage = calculateTime(
     Number(stream.startTime) * 1000,
@@ -75,6 +84,7 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
     Number(stream.stopTime),
     Number(stream.lastWithdrawTime),
   );
+
   return (
     <Grid 
       item
@@ -99,6 +109,9 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
       </Grid>
       <Grid item>
         Remaining balance on stream: {noteValue}
+      </Grid>
+      <Grid item>
+        Balance available to withdraw: {availableBalance}
       </Grid>
       <Grid item>
         Time passed <LinearProgress variant="determinate" value={timePercentage} />
