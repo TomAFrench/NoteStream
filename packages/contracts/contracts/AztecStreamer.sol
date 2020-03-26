@@ -1,6 +1,6 @@
 pragma solidity ^0.5.11;
 
-import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 import "./StreamUtilities.sol";
 
@@ -57,6 +57,17 @@ contract AztecStreamer is ReentrancyGuard {
             msg.sender == streams[streamId].sender ||
                 msg.sender == streams[streamId].recipient,
             "caller is not the sender or the recipient of the stream"
+        );
+        _;
+    }
+
+    /**
+     * @dev Throws if the caller is not the recipient of the stream.
+     */
+    modifier onlyRecipient(uint256 streamId) {
+        require(
+            msg.sender == streams[streamId].recipient,
+            "caller is not the recipient of the stream"
         );
         _;
     }
@@ -144,7 +155,7 @@ contract AztecStreamer is ReentrancyGuard {
             startTime >= block.timestamp, // solium-disable-line security/no-block-members
             "start time before block.timestamp"
         );
-        require(stopTime > startTime, "stop time before the start time");
+        require(stopTime > startTime, "Stream duration not greater than zero");
 
         /* Create and store the stream object. */
         uint256 streamId = nextStreamId;
@@ -156,7 +167,6 @@ contract AztecStreamer is ReentrancyGuard {
             stopTime: stopTime,
             lastWithdrawTime: startTime,
             tokenAddress: tokenAddress,
-            aceContractAddress: aceContractAddress,
             isEntity: true
         });
 
@@ -173,7 +183,7 @@ contract AztecStreamer is ReentrancyGuard {
         bytes memory _proof1, // Dividend Proof
         bytes memory _proof2, // Join-Split Proof
         uint256 _streamDurationToWithdraw
-    ) public streamExists(streamId) onlySenderOrRecipient(streamId) {
+    ) public streamExists(streamId) onlyRecipient(streamId) {
         Types.AztecStream storage stream = streams[streamId];
 
         // First check that fraction to withdraw isn't greater than fraction of time passed
@@ -185,11 +195,17 @@ contract AztecStreamer is ReentrancyGuard {
 
         // Check that value of withdrawal matches the fraction given by the above timestamp
         (, bytes memory _proof1OutputNotes) = StreamUtilities
-            ._validateRatioProof(_proof1, _streamDurationToWithdraw, stream);
+            ._validateRatioProof(
+            aceContractAddress,
+            _proof1,
+            _streamDurationToWithdraw,
+            stream
+        );
 
         // Check that withdrawal transaction is valid and perform transfer
         // i.e. change note remains on contract, sender and recipient have view access, etc.
         bytes32 newCurrentBalanceNoteHash = StreamUtilities._processWithdrawal(
+            aceContractAddress,
             _proof2,
             _proof1OutputNotes,
             stream
@@ -249,11 +265,17 @@ contract AztecStreamer is ReentrancyGuard {
 
         // Check that value of withdrawal matches the fraction given by the above timestamp
         (, bytes memory _proof1OutputNotes) = StreamUtilities
-            ._validateRatioProof(_proof1, _unclaimedTime, stream);
+            ._validateRatioProof(
+            aceContractAddress,
+            _proof1,
+            _unclaimedTime,
+            stream
+        );
 
         // Check that cancellation transaction is valid and perform transfer
         // i.e. Each party receives a note of correct value
         StreamUtilities._processCancelation(
+            aceContractAddress,
             _proof2,
             _proof1OutputNotes,
             stream

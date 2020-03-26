@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
-  },  
+  },
 }));
 
 
@@ -25,7 +25,6 @@ const Create = ({
   userAddress,
   zkAsset,
   streamContractInstance,
-  zkdaiBalance,
 }) => {
   const classes = useStyles()
   const [streamAmount, setStreamAmount] = useState(null);
@@ -40,7 +39,6 @@ const Create = ({
     startTime,
     endTime,
   ) {
-    console.log('methods', streamContractInstance.methods);
     return streamContractInstance.methods
       .createStream(
         payeeAddress,
@@ -65,7 +63,7 @@ const Create = ({
     sendAmount,
     asset,
   ) {
-    const sendResp = await asset.send(
+    const { outputNotes } = await asset.send(
       [
         {
           to: streamContractAddress,
@@ -76,14 +74,7 @@ const Create = ({
       ],
       { userAccess: [userAddress, payeeAddress] }, // Give view access to sender and recipient
     );
-    console.info('sent funds confidentially');
-    console.log('_sendResp', sendResp);
-    let noteForStreamContract = null;
-    sendResp.outputNotes.forEach((outputNote) => {
-      if (outputNote.owner === streamContractAddress) {
-        noteForStreamContract = outputNote;
-      }
-    });
+    const noteForStreamContract = outputNotes[0]
     console.log('noteForStreamContract', noteForStreamContract);
     return noteForStreamContract;
   }
@@ -111,11 +102,6 @@ const Create = ({
       alignItems="stretch"
       spacing={3}
     >
-      <Grid item xs={12} >
-        <Typography>
-          Your zkDai Balance: {zkdaiBalance} ZkDai
-        </Typography>
-      </Grid>
       <Grid item xs={12}>
         <TextField
         label="Recipient"
@@ -129,7 +115,7 @@ const Create = ({
       </Grid>
       <Grid item xs={12}>
         <TextField
-        label="Enter deposit/withdraw amount"
+        label="Stream value"
         placeholder=""
         variant="outlined"
         value={streamAmount}
@@ -140,7 +126,7 @@ const Create = ({
       </Grid>
       <Grid item>
         <Typography>
-          For how long do you want to stream?
+          Stream Duration:
         </Typography>
       </Grid>
       <Grid item container
@@ -210,31 +196,33 @@ const Create = ({
           </TextField>
         </Grid>
       </Grid>
-      <Grid item>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => createStream(
-            streamAmount,
-            recipient,
-            parseInt(
-              moment()
-                .add(5, 'minutes')
-                .format('X'),
-              10,
-            ),
-            parseInt(
-              moment()
-                .add(days, 'days')
-                .add(hours, 'hours')
-                .add(minutes + 5, 'minutes')
-                .format('X'),
-              10,
-            ),
-          )}
-          >
-        Create stream
-        </Button>
+      <Grid item container justify="center">
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => createStream(
+              streamAmount,
+              recipient,
+              parseInt(
+                moment()
+                  .add(1, 'minutes')
+                  .format('X'),
+                10,
+              ),
+              parseInt(
+                moment()
+                  .add(days, 'days')
+                  .add(hours, 'hours')
+                  .add(minutes + 1, 'minutes')
+                  .format('X'),
+                10,
+              ),
+            )}
+            >
+          Create stream
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );
@@ -244,7 +232,6 @@ Create.propTypes = {
   streamContractInstance: PropTypes.object.isRequired,
   userAddress: PropTypes.string.isRequired,
   zkAsset: PropTypes.object.isRequired,
-  zkdaiBalance: PropTypes.number,
   daiBalance: PropTypes.number,
 };
 

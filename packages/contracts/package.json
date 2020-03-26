@@ -15,7 +15,9 @@
   "homepage": "https://github.com/TomAFrench/Quachtli#readme",
   "scripts": {
     "compile": "buidler compile",
+    "clean": "buidler clean",
     "deploy": "buidler run scripts/deploy.js",
+    "export": "buidler run scripts/export.js",
     "test": "buidler test"
   },
   "dependencies": {
@@ -29,7 +31,7 @@
   "devDependencies": {
     "@aztec/contract-addresses": "1.16.1",
     "@aztec/dev-utils": "^2.3.1",
-    "@aztec/protocol": "^1.6.0",
+    "@aztec/protocol": "^1.7.0",
     "@nomiclabs/buidler": "^1.2.0",
     "@nomiclabs/buidler-etherscan": "^1.2.0",
     "@nomiclabs/buidler-truffle5": "^1.2.0",

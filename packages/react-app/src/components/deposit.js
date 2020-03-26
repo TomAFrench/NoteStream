@@ -40,10 +40,10 @@ const Deposit = ({
       spacing={3}
     >
       <Grid item>
-        Your Dai Balance: {daiBalance} Dai
+        Your DAI Balance: {daiBalance} DAI
       </Grid>
       <Grid item>
-        Your zkDai Balance: {zkdaiBalance} ZkDai
+        Your ZkDAI Balance: {zkdaiBalance} ZkDAI
       </Grid>
       <Grid item>
         <TextField

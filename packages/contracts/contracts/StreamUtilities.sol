@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@aztec/protocol/contracts/interfaces/IACE.sol";
 import "@aztec/protocol/contracts/interfaces/IZkAsset.sol";
 import "@aztec/protocol/contracts/libs/NoteUtils.sol";
+import "@aztec/protocol/contracts/libs/MetaDataUtils.sol";
 
 import "./Types.sol";
 
@@ -50,6 +51,7 @@ library StreamUtilities {
     }
 
     function _validateRatioProof(
+        address _aceContractAddress,
         bytes memory _proof1,
         uint256 _withdrawDuration,
         Types.AztecStream storage _stream
@@ -64,13 +66,16 @@ library StreamUtilities {
         uint256 totalTime = _stream.stopTime.sub(_stream.lastWithdrawTime);
         require(
             getRatio(_proof1) ==
-                _withdrawDuration.mul(scalingFactor).div(totalTime),
+                totalTime.mul(scalingFactor).div(_withdrawDuration),
             "ratios do not match"
         );
 
         // Validate ratio proof
-        bytes memory _proof1Outputs = IACE(_stream.aceContractAddress)
-            .validateProof(DIVIDEND_PROOF, address(this), _proof1);
+        bytes memory _proof1Outputs = IACE(_aceContractAddress).validateProof(
+            DIVIDEND_PROOF,
+            address(this),
+            _proof1
+        );
         (_proof1InputNotes, _proof1OutputNotes, , ) = _proof1Outputs
             .get(0)
             .extractProofOutput();
@@ -86,12 +91,13 @@ library StreamUtilities {
     }
 
     function _validateJoinSplitProof(
+        address _aceContractAddress,
         bytes memory _proof2,
         bytes32 _withdrawalNoteHash,
         Types.AztecStream storage _stream
     ) internal returns (bytes memory proof2Outputs) {
         // Validate Join-Split proof
-        proof2Outputs = IACE(_stream.aceContractAddress)
+        proof2Outputs = IACE(_aceContractAddress)
             .validateProof(JOIN_SPLIT_PROOF, address(this), _proof2)
             .get(0);
 
@@ -115,11 +121,13 @@ library StreamUtilities {
     }
 
     function _processWithdrawal(
+        address _aceContractAddress,
         bytes memory _proof2,
         bytes memory _proof1OutputNotes,
         Types.AztecStream storage _stream
     ) internal returns (bytes32 newCurrentInterestBalance) {
         bytes memory proof2Outputs = _validateJoinSplitProof(
+            _aceContractAddress,
             _proof2,
             _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, // withdrawal note hash
             _stream
@@ -139,8 +147,16 @@ library StreamUtilities {
         );
 
         // Require that sender and receiver have view access to change note
-        // require(extractAddress(newStreamNote.metaData, 0) == _stream.sender, "stream sender can't view new stream note");
-        // require(extractAddress(newStreamNote.metaData, 0) == _stream.recipient, "stream recipient can't view new stream note");
+        require(
+            MetaDataUtils.extractAddress(newStreamNote.metaData, 0) ==
+                _stream.sender,
+            "stream sender can't view new stream note"
+        );
+        require(
+            MetaDataUtils.extractAddress(newStreamNote.metaData, 1) ==
+                _stream.recipient,
+            "stream recipient can't view new stream note"
+        );
 
         // Approve contract to spend stream note
         IZkAsset(_stream.tokenAddress).confidentialApprove(
@@ -161,11 +177,13 @@ library StreamUtilities {
     }
 
     function _processCancelation(
+        address _aceContractAddress,
         bytes memory _proof2,
         bytes memory _proof1OutputNotes,
         Types.AztecStream storage _stream
     ) internal returns (bool) {
         bytes memory proof2Outputs = _validateJoinSplitProof(
+            _aceContractAddress,
             _proof2,
             _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, // withdrawal note hash
             _stream
@@ -176,6 +194,12 @@ library StreamUtilities {
 
         bytes32 inputNoteHash = _noteCoderToStruct(_proof2InputNotes.get(0))
             .noteHash;
+
+        // Ensure that there isn't a third note used to avoid the below checks
+        require(
+            _proof2OutputNotes.getLength() == 2,
+            "Incorrect number of output notes"
+        );
 
         // Require that each participant owns an output note
         require(
