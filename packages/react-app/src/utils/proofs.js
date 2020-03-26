@@ -44,11 +44,6 @@ export async function calculateWithdrawal(stream, aztec) {
     withdrawalDuration,
     remainingStreamLength
   })
-  console.table({
-    valueFraction: withdrawalValue / streamZkNote.value,
-    durationFraction: withdrawalDuration / remainingStreamLength
-  })
-
 
   return {
     withdrawalValue,

@@ -12,8 +12,6 @@ import { calculateWithdrawal, buildDividendProof, buildJoinSplitProof } from '..
 
 
 async function buildProofs(aztec, streamContractInstance, streamObj, withdrawalValue) {
-
-  console.log("contract", streamContractInstance)
   const {
     proofData: proofData1,
     inputNotes, outputNotes,
@@ -45,8 +43,6 @@ async function withdrawFunds(aztec, streamContractInstance, streamId, userAddres
   const { proof1, proof2 } = await buildProofs(aztec, streamContractInstance, streamObj, withdrawalValue);
 
   console.log("Withdrawing from stream:", streamId)
-  console.log("Withdrawal duration:", withdrawalDuration)
-  console.log("Remaining stream duration:", moment.duration(moment.unix(streamObj.stopTime).diff(moment.unix(streamObj.lastWithdrawTime))).asSeconds())
   console.log("Proofs:", proof1, proof2);
   const results = await streamContractInstance.methods.withdrawFromStream(
     streamId,
