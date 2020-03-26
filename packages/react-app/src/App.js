@@ -139,15 +139,14 @@ const App = () => {
       setAccount(accounts[0]);
 
       await window.aztec.enable({
-        // web3Provider: _web3.currentProvider, // change this value to use a different web3 provider
         contractAddresses: {
           ACE: addresses.ACE
         },
-        apiKey: '7FJF5YK-WV1M90Y-G25V2MW-FG2ZMDV', // API key for use with GSN for free txs.
+        apiKey: 'test1234', // API key for use with GSN for free txs.
       });
 
       // Fetch the zkAsset
-      const asset = await window.aztec.zkAsset(addresses.ZkAsset);
+      const asset = await window.aztec.zkAsset("0x54Fac13e652702a733464bbcB0Fb403F1c057E1b");
       setZkAsset(asset);
       console.log('ASSET:', asset);
 
