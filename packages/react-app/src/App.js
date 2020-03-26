@@ -141,43 +141,43 @@ const App = () => {
     async function init() {
       const web3 = await getWeb3();
       const accounts = await web3.eth.getAccounts();
-
-      console.log('windowaztec', window.aztec);
-
       setAccount(accounts[0]);
-
-      await window.aztec.enable({
-        contractAddresses: {
-          ACE: addresses.ACE
-        },
-        apiKey: 'test1234', // API key for use with GSN for free txs.
-      });
-
-      // Fetch the zkAsset
-      const asset = await window.aztec.zkAsset(addresses.ZkAsset);
-      setZkAsset(asset);
-      console.log('ASSET:', asset);
-
-      const updateBalances = async (zkBalance) => {
-        setZkdaiBalance(zkBalance);
-        const publicBalance = await asset.balanceOfLinkedToken(accounts[0]);
-        setDaiBalance(publicBalance.toString(10));
-      }
-      
-      // Initialise balances
-      updateBalances(await asset.balance())
-
-      // Update balances on each transfer of ZkAsset
-      asset.subscribeToBalance(updateBalances)
 
       const streamContract = new web3.eth.Contract(
         abis.AztecStreamer,
         addresses.AztecStreamer,
       );
       setStreamContractInstance(streamContract);
+      initialiseAztec()
+    }
+
+    async function initialiseAztec() {
+      await window.aztec.enable({
+        contractAddresses: {
+          ACE: addresses.ACE
+        },
+        apiKey: 'test1234', // API key for use with GSN for free txs.
+      });
+  
+      // Fetch the zkAsset
+      const asset = await window.aztec.zkAsset(addresses.ZkAsset);
+      setZkAsset(asset);
+      console.log('ASSET:', asset);
+  
+      const updateBalances = async (zkBalance) => {
+        setZkdaiBalance(zkBalance);
+        const publicBalance = await asset.balanceOfLinkedToken(account);
+        setDaiBalance(publicBalance.toString(10));
+      }
+      
+      // Initialise balances
+      updateBalances(await asset.balance())
+  
+      // Update balances on each transfer of ZkAsset
+      asset.subscribeToBalance(updateBalances)
     }
     init();
-  }, [addresses]);
+  }, [account, addresses]);
 
   return (
     <>
