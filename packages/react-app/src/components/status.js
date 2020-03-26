@@ -99,6 +99,9 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
           `Receiver: ${stream.recipient}`
         }    
       </Grid>
+      <Grid item>
+          Asset: {stream.tokenAddress}   
+      </Grid>
       <Grid item container justify="space-between">
         <Grid item>
         Start:{' '}{moment.unix(stream.startTime).format('DD-MM-YYYY HH:mm')}
