@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
@@ -93,14 +93,17 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
       alignItems="stretch"
       spacing={3}
       >
-      <Grid item>
-        {role === "recipient" ?
-          `Sender: ${stream.sender}` :
-          `Receiver: ${stream.recipient}`
-        }    
-      </Grid>
-      <Grid item>
-          Asset: {stream.tokenAddress}   
+
+      <Grid item container justify="space-between">
+        <Grid item>
+          {role === "recipient" ?
+            `Sender: ${stream.sender.slice(0,6)}...${stream.sender.slice(-5,-1)}` :
+            `Receiver: ${stream.recipient.slice(0,6)}...${stream.recipient.slice(-5,-1)}`
+          }    
+        </Grid>
+        <Grid item>
+            Asset: {stream.tokenAddress.slice(0,6)}...{stream.tokenAddress.slice(-5,-1)}
+        </Grid>
       </Grid>
       <Grid item container justify="space-between">
         <Grid item>
@@ -111,29 +114,28 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
         </Grid>
       </Grid>
       <Grid item>
-        Remaining balance on stream: {noteValue}
+        Streamed: {timePercentage}%
+        <LinearProgress variant="determinate" value={timePercentage} />
+        <LinearProgress variant="determinate" value={withdrawPercentage} color="secondary" />
+        Withdrawn: {withdrawPercentage}%
       </Grid>
-      <Grid item>
-        Balance available to withdraw: {availableBalance}
-      </Grid>
-      <Grid item>
-        Time passed <LinearProgress variant="determinate" value={timePercentage} />
-      </Grid>
-      <Grid item>
-        Money withdrawn <LinearProgress variant="determinate" value={withdrawPercentage} color="secondary" />
-      </Grid>
-      {role === "recipient" &&
-        <Grid item container justify="center">
+      {role === "recipient" && availableBalance > 0 &&
+        <>
           <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => withdrawFunds(aztec, streamContractInstance, stream.streamId, userAddress)}
-              >
-              Withdraw
-            </Button>
+            {`${availableBalance}/${noteValue} ZkDAI`} available to withdraw
           </Grid>
-        </Grid>
+          <Grid item container justify="center">
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => withdrawFunds(aztec, streamContractInstance, stream.streamId, userAddress)}
+                >
+                Withdraw
+              </Button>
+            </Grid>
+          </Grid>
+        </>
       }
       
     </Grid>
@@ -184,7 +186,6 @@ const Status = ({
     loadStreams();
   }, [userAddress, streamContractInstance, role]);
 
-  if (!streamContractInstance) return null;
   return (
     <Grid
         container
@@ -193,14 +194,17 @@ const Status = ({
         alignItems='center'
         spacing={3}
       >
-      {streams.map(stream => <StreamDisplay
+      {streams.length > 0 ?streams.map(stream => <StreamDisplay
           stream={stream}
           aztec={aztec}
           streamContractInstance={streamContractInstance}
           key={stream.currentBalance}
           userAddress={userAddress}
           role={role}
-          />)}
+          />):
+          <Typography color='textSecondary'>
+            No streams to display
+            </Typography>}
     </Grid>
   );
 };
