@@ -1,11 +1,46 @@
 const env = require("@nomiclabs/buidler");
 const { getContractAddressesForNetwork } = require("@aztec/contract-addresses");
+const bn128 = require('@aztec/bn128');
+const { proofs } = require('@aztec/dev-utils');
 
 const fs = require('fs')
 const path = require('path')
 const addressDirectory = path.resolve(__dirname, '../../contract-artifacts/addresses/')
 
 const TESTING_ADDRESS = "0xC6E67ee008a7720722e42F34f30a16d806A45c3F"
+
+async function deployAZTEC() {
+  console.log("Deploying ACE contract")
+  const ACE = env.artifacts.require("ACE");
+  const ace = await ACE.new();
+  console.log("ACE address:", ace.address)
+
+  console.log("Setting CRS")
+  await ace.setCommonReferenceString(bn128.CRS);
+
+  const { JOIN_SPLIT_PROOF, DIVIDEND_PROOF } = proofs
+
+  console.log("Deploying JoinSplit validator contract")
+  const JoinSplitValidator = env.artifacts.require('./JoinSplit');
+  const joinSplitValidator = await JoinSplitValidator.new();
+  await ace.setProof(JOIN_SPLIT_PROOF, joinSplitValidator.address);
+
+  console.log("Deploying Dividend validator contract")
+  const DividendValidator = env.artifacts.require('./Dividend');
+  const dividendValidator = await DividendValidator.new();
+  await ace.setProof(DIVIDEND_PROOF, dividendValidator.address);
+
+  const generateFactoryId = (epoch, cryptoSystem, assetType) => {
+    return epoch * 256 ** 2 + cryptoSystem * 256 ** 1 + assetType * 256 ** 0;
+  };
+
+  console.log("Deploying noteRegistry contract")
+  const BaseFactory = env.artifacts.require('./noteRegistry/epochs/201912/base/FactoryBase201912');
+  const baseFactory = await BaseFactory.new(ace.address);
+  await ace.setFactory(generateFactoryId(1, 1, 1), baseFactory.address);
+
+  return ace
+}
 
 async function deployZkAsset(aceAddress) {
   // Deploy ERC20 token
@@ -27,24 +62,37 @@ function saveDeployedAddresses(addresses) {
 }
 
 async function main() {
+  console.log()
   // Read the address of the ACE contract on chosen network
   const networkId = env.network.config.chainId
-  const { ACE: aceAddress } = getContractAddressesForNetwork(networkId)
-  
-  const zkAsset = await deployZkAsset(aceAddress)
+  const addresses = {}
+
+  try {
+    addresses.ACE = getContractAddressesForNetwork(networkId).ACE
+    console.log("Using existing ACE")
+    console.log("ACE address:", addresses.ACE);
+
+  } catch (e) {
+    // throw new Error("Unsupported Network")
+    console.log("This network is unsupported by AZTEC")
+    
+    // Assume we're in BuidlerEVM/Ganache
+    // We need to deploy ACE and a ZkAsset
+    const ace = await deployAZTEC()
+    addresses.ACE = ace.address
+
+    const zkAsset = await deployZkAsset(addresses.ACE)
+    addresses.ZkAsset = zkAsset.address
+  }
 
   // Deploy the streaming contract
   const AztecStreamer = env.artifacts.require("AztecStreamer");
-  const aztecStreamer = await AztecStreamer.new(aceAddress);
-
+  const aztecStreamer = await AztecStreamer.new(addresses.ACE);
+  addresses.AztecStreamer = aztecStreamer.address
+  
   console.log("Aztec address:", aztecStreamer.address);
 
   // Write deployed addresses to file
-  const addresses = {
-    ACE: aceAddress,
-    ZkAsset: zkAsset.address,
-    AztecStreamer: aztecStreamer.address
-  }
   saveDeployedAddresses(addresses)
 }
 

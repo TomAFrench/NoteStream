@@ -31,6 +31,12 @@
         "internalType": "address",
         "name": "recipient",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "cancelDuration",
+        "type": "uint256"
       }
     ],
     "name": "CancelStream",
@@ -56,6 +62,24 @@
         "internalType": "address",
         "name": "recipient",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "zkAsset",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "startTime",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "stopTime",
+        "type": "uint256"
       }
     ],
     "name": "CreateStream",
@@ -81,6 +105,12 @@
         "internalType": "address",
         "name": "recipient",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "withdrawDuration",
+        "type": "uint256"
       }
     ],
     "name": "WithdrawFromStream",

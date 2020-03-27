@@ -32,19 +32,24 @@ contract AztecStreamer is ReentrancyGuard {
     event CreateStream(
         uint256 indexed streamId,
         address indexed sender,
-        address indexed recipient
+        address indexed recipient,
+        address zkAsset,
+        uint256 startTime,
+        uint256 stopTime
     );
 
     event WithdrawFromStream(
         uint256 indexed streamId,
         address indexed sender,
-        address indexed recipient
+        address indexed recipient,
+        uint256 withdrawDuration
     );
 
     event CancelStream(
         uint256 indexed streamId,
         address indexed sender,
-        address indexed recipient
+        address indexed recipient,
+        uint256 cancelDuration
     );
 
     /*** Modifiers ***/
@@ -173,7 +178,14 @@ contract AztecStreamer is ReentrancyGuard {
         /* Increment the next stream id. */
         nextStreamId = nextStreamId.add(1);
 
-        emit CreateStream(streamId, msg.sender, recipient);
+        emit CreateStream(
+            streamId,
+            msg.sender,
+            recipient,
+            tokenAddress,
+            startTime,
+            stopTime
+        );
 
         return streamId;
     }
@@ -217,7 +229,12 @@ contract AztecStreamer is ReentrancyGuard {
             _streamDurationToWithdraw
         );
 
-        emit WithdrawFromStream(streamId, stream.sender, stream.recipient);
+        emit WithdrawFromStream(
+            streamId,
+            stream.sender,
+            stream.recipient,
+            _streamDurationToWithdraw
+        );
     }
 
     /**
@@ -282,7 +299,12 @@ contract AztecStreamer is ReentrancyGuard {
         );
 
         delete streams[streamId];
-        emit CancelStream(streamId, stream.sender, stream.recipient);
+        emit CancelStream(
+            streamId,
+            stream.sender,
+            stream.recipient,
+            _unclaimedTime
+        );
         return true;
     }
 }

@@ -17,17 +17,13 @@ task("export", "Exports the contract ABIs", async () => {
 });
 
 module.exports = {
-  compilers: {
-    solc: {
-      version: '^0.5.11',
-      settings: {
-        optimizer: {
-          enabled: true,
-          runs: 200,
-        },
-        evmVersion: 'constantinople',
-      },
+  solc: {
+    version: '0.5.15',
+    optimizer: {
+      enabled: true,
+      runs: 200,
     },
+    evmVersion: 'istanbul',
   },
   // contracts_build_directory: "./build",
   mocha: {
