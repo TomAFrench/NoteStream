@@ -262,17 +262,26 @@ contract AztecStreamer is ReentrancyGuard {
     {
         Types.AztecStream storage stream = streams[streamId];
 
-        // First check that cancelling party isn't trying to scam the other party
-        // Sender can only cancel from a timestamp which hasn't already passed
-        // Recipient can only cancel from a timestamp which has already passed
-        // This ensures that the cancellation timestamp will be as close to the true time as possible.
+        // If the stream has been fully withdrawn then we can skip
+        // withdrawing the stream note and just delete the stream
+        if (stream.lastWithdrawTime == stream.stopTime) {
+            delete streams[streamId];
+            emit CancelStream(streamId, stream.sender, stream.recipient, 0);
+            return true;
+        }
+
+        // Otherwise check that cancelling party isn't trying to scam the other
+        // Each party can only cancel from a timestamp favourable to the other party.
+        // This ensure that it is close to the true time.
         if (msg.sender == stream.sender) {
+            // Sender can only cancel from a timestamp which hasn't already passed
             require(
                 // solium-disable-next-line security/no-block-members
                 stream.lastWithdrawTime.add(_unclaimedTime) > block.timestamp,
                 "withdraw is greater than allowed"
             );
         } else if (msg.sender == stream.recipient) {
+            // Recipient can only cancel from a timestamp which has already passed
             require(
                 // solium-disable-next-line security/no-block-members
                 stream.lastWithdrawTime.add(_unclaimedTime) < block.timestamp,
