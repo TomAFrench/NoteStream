@@ -24,9 +24,9 @@ dataSources:
         - Withdrawal
         - ZkAsset
       eventHandlers:
-        - event: CreateStream(indexed uint256,indexed address,indexed address,address,uint256,uint256)
+        - event: CreateStream(indexed uint256,indexed address,indexed address,address,bytes32,uint256,uint256)
           handler: handleCreateStream
-        - event: WithdrawFromStream(indexed uint256,indexed address,indexed address,uint256)
+        - event: WithdrawFromStream(indexed uint256,indexed address,indexed address,bytes32,uint256)
           handler: handleWithdrawFromStream
         - event: CancelStream(indexed uint256,indexed address,indexed address,uint256)
           handler: handleCancelStream

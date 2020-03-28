@@ -34,6 +34,7 @@ contract AztecStreamer is ReentrancyGuard {
         address indexed sender,
         address indexed recipient,
         address zkAsset,
+        bytes32 noteHash,
         uint256 startTime,
         uint256 stopTime
     );
@@ -42,6 +43,7 @@ contract AztecStreamer is ReentrancyGuard {
         uint256 indexed streamId,
         address indexed sender,
         address indexed recipient,
+        bytes32 noteHash,
         uint256 withdrawDuration
     );
 
@@ -140,7 +142,7 @@ contract AztecStreamer is ReentrancyGuard {
      *  Throws if the contract is not allowed to transfer enough tokens.
      *  Throws if there is a token transfer failure.
      * @param recipient The address towards which the money is streamed.
-     * @param notehash The note of a zkAsset to be streamed.
+     * @param noteHash The note of a zkAsset to be streamed.
      * @param tokenAddress The zkAsset to use as streaming currency.
      * @param startTime The unix timestamp for when the stream starts.
      * @param stopTime The unix timestamp for when the stream stops.
@@ -148,7 +150,7 @@ contract AztecStreamer is ReentrancyGuard {
      */
     function createStream(
         address recipient,
-        bytes32 notehash,
+        bytes32 noteHash,
         address tokenAddress,
         uint256 startTime,
         uint256 stopTime
@@ -165,7 +167,7 @@ contract AztecStreamer is ReentrancyGuard {
         /* Create and store the stream object. */
         uint256 streamId = nextStreamId;
         streams[streamId] = Types.AztecStream({
-            currentBalance: notehash,
+            currentBalance: noteHash,
             sender: msg.sender,
             recipient: recipient,
             startTime: startTime,
@@ -183,6 +185,7 @@ contract AztecStreamer is ReentrancyGuard {
             msg.sender,
             recipient,
             tokenAddress,
+            noteHash,
             startTime,
             stopTime
         );
@@ -233,6 +236,7 @@ contract AztecStreamer is ReentrancyGuard {
             streamId,
             stream.sender,
             stream.recipient,
+            newCurrentBalanceNoteHash,
             _streamDurationToWithdraw
         );
     }

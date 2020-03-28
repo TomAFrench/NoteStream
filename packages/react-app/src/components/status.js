@@ -9,81 +9,48 @@ import moment from 'moment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import calculateTime from '../utils/time';
 
-import { calculateMaxWithdrawalValue, calculateWithdrawal} from '../utils/withdrawal';
-import { buildDividendProof, buildJoinSplitProof } from '../utils/proofs';
+import { calculateMaxWithdrawalValue, withdrawFunds } from '../utils/withdrawal';
+import { cancelStream } from '../utils/cancellation';
 import { useQuery } from '@apollo/client';
 import { GET_SENDER_STREAMS, GET_RECIPIENT_STREAMS } from '../graphql/streams'
 
-async function buildProofs(aztec, streamContractInstance, streamObj, withdrawalValue) {
-  const {
-    proofData: proofData1,
-    inputNotes, outputNotes,
-  } = await buildDividendProof(streamObj, streamContractInstance.options.address, withdrawalValue, aztec);
-
-  const { proofData: proofData2 } = await buildJoinSplitProof(
-    streamObj,
-    streamContractInstance.options.address,
-    inputNotes[0],
-    outputNotes[0],
-    aztec,
+const NoteDecoder = ({ render, zkNote, noteHash }) => {
+  const [note, setNote] = useState({});
+  
+  useEffect(
+    () => {
+      if (zkNote) zkNote(noteHash).then(note => setNote(note))},
+    [zkNote, noteHash]
   );
+  console.log(note)
 
-  return {
-    proof1: proofData1,
-    proof2: proofData2,
-  };
-}
+  return render(note)
+};
 
-async function withdrawFunds(aztec, streamContractInstance, streamId, userAddress) {
-  const streamObj = await streamContractInstance.methods.getStream(streamId).call();
-
-  // Calculate what value of the stream is redeemable
-  const {
-    withdrawalValue,
-    withdrawalDuration
-  } = await calculateWithdrawal(streamObj, aztec)
-
-  const { proof1, proof2 } = await buildProofs(aztec, streamContractInstance, streamObj, withdrawalValue);
-
-  console.log("Withdrawing from stream:", streamId)
-  console.log("Proofs:", proof1, proof2);
-  const results = await streamContractInstance.methods.withdrawFromStream(
-    streamId,
-    proof1.encodeABI(),
-    proof2.encodeABI(streamObj.tokenAddress),
-    withdrawalDuration,
-  ).send({ from: userAddress });
-  console.log(results);
-}
-
-const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, role }) => {
-  const [noteValue, setNoteValue] = useState(stream.noteHash);
+const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddress, role }) => {
+  const [timePercentage, setTimePercentage] = useState(0);
   const [availableBalance, setAvailableBalance] = useState(0);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newTimePercentage = calculateTime(
+        Number(stream.startTime) * 1000,
+        Number(stream.stopTime) * 1000,
+      );
+      setTimePercentage(newTimePercentage.toFixed(2))
+    }, 1000)
+    return () => {console.log("CLEARING"); clearInterval(intervalId)}
+  }, [stream.startTime, stream.stopTime]);
 
   useEffect(() => {
-    async function decodeNote(id) {
-      const stream = await streamContractInstance.methods
-      .getStream(id)
-      .call({
-        from: userAddress,
-      });
-      const note = await aztec.zkNote(stream.currentBalance);
-      setNoteValue(note.value);
-
+    const timeBetweenNotes = (stream.stopTime-stream.lastWithdrawTime)/note.value
+    const intervalId = setInterval(async () => {
       const maxWithdrawalValue = await calculateMaxWithdrawalValue(stream, note.value)
       setAvailableBalance(maxWithdrawalValue)
-    }
+    }, timeBetweenNotes/2 * 1000)
+    return () => {console.log("CLEARING"); clearInterval(intervalId)}
+  }, [stream, note.value]);
 
-    if (aztec.zkNote) {
-      decodeNote(stream.id);
-    }
-  }, [aztec, streamContractInstance.methods, stream, userAddress]);
-
-  const timePercentage = calculateTime(
-    Number(stream.startTime) * 1000,
-    Number(stream.stopTime) * 1000,
-  );
   const withdrawPercentage = calculateTime(
     Number(stream.startTime),
     Number(stream.stopTime),
@@ -124,12 +91,21 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
         <LinearProgress variant="determinate" value={withdrawPercentage} color="secondary" />
         Withdrawn: {withdrawPercentage}%
       </Grid>
-      {role === "recipient" && availableBalance > 0 &&
+      {role === "recipient" && 
         <>
           <Grid item>
-            {`${availableBalance}/${noteValue} ZkDAI`} available to withdraw
+            {`${availableBalance}/${note.value} ZkDAI`} available to withdraw
           </Grid>
-          <Grid item container justify="center">
+          <Grid item container justify="space-between">
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => cancelStream(aztec, streamContractInstance, stream.id, userAddress)}
+                >
+                Cancel
+              </Button>
+            </Grid>
             <Grid item>
               <Button
                 variant="contained"
@@ -177,17 +153,26 @@ const Status = ({
         alignItems='center'
         spacing={3}
       >
-      {streamInProgress.length > 0 ? streamInProgress.map(stream => <StreamDisplay
-          stream={stream}
-          aztec={aztec}
-          streamContractInstance={streamContractInstance}
-          key={stream.currentBalance}
-          userAddress={userAddress}
-          role={role}
-          />):
-          <Typography color='textSecondary'>
-            No streams to display
-            </Typography>
+      {streamInProgress.length > 0 ? streamInProgress.map(stream => 
+        <NoteDecoder
+          zkNote={aztec.zkNote}
+          noteHash={stream.noteHash}
+          render={note => 
+            <StreamDisplay
+              stream={stream}
+              note={note}
+              aztec={aztec}
+              streamContractInstance={streamContractInstance}
+              key={stream.currentBalance}
+              userAddress={userAddress}
+              role={role}
+            />
+          }
+          />
+        ):
+        <Typography color='textSecondary'>
+          No streams to display
+        </Typography>
       }
     </Grid>
   );

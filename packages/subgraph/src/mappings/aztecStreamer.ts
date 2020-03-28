@@ -12,6 +12,7 @@ export function handleCreateStream(event: CreateStreamEvent): void {
   let streamId = event.params.streamId.toString();
   let stream = new Stream(streamId);
   stream.lastWithdrawTime = event.params.startTime;
+  stream.noteHash = event.params.noteHash;
   stream.recipient = event.params.recipient;
   stream.sender = event.params.sender;
   stream.startTime = event.params.startTime;
@@ -31,6 +32,10 @@ export function handleWithdrawFromStream(event: WithdrawFromStreamEvent): void {
   if (stream == null) {
     return;
   }
+  stream.noteHash = event.params.noteHash;
+  stream.lastWithdrawTime = stream.lastWithdrawTime.plus(event.params.withdrawDuration);
+  stream.save()
+
 
   let withdrawal = new Withdrawal(event.transaction.hash.toHex());
   withdrawal.stream = streamId;

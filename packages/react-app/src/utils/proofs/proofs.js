@@ -1,6 +1,6 @@
 // import { note, DividendProof, JoinSplitProof } from 'aztec.js';
 import secp256k1 from "@aztec/secp256k1";
-import { getFraction, computeRemainderNoteValue } from './note';
+import { getFraction, computeRemainderNoteValue } from '../note';
 
 export async function buildDividendProof(stream, streamContractAddress, withdrawalValue, aztec) {
   const { recipient, currentBalance } = stream;

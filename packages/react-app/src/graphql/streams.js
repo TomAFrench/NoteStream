@@ -8,6 +8,7 @@ query getStreams($address: String!) {
       id
     }
     lastWithdrawTime
+    noteHash
     recipient
     sender
     startTime
@@ -27,6 +28,7 @@ query getStreams($address: String!) {
       id
     }
     lastWithdrawTime
+    noteHash
     recipient
     sender
     startTime

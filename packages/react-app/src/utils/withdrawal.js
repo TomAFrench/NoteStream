@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+import { buildProofs } from './proofs/withdrawalProof';
+
 export async function calculateWithdrawal(stream, aztec) {
 
   const note = await aztec.zkNote(stream.currentBalance)
@@ -54,3 +56,24 @@ export async function calculateWithdrawalDuration(stream, withdrawalValue, aztec
   return withdrawalDuration
 }
 
+export async function withdrawFunds(aztec, streamContractInstance, streamId, userAddress) {
+  const streamObj = await streamContractInstance.methods.getStream(streamId).call();
+
+  // Calculate what value of the stream is redeemable
+  const {
+    withdrawalValue,
+    withdrawalDuration
+  } = await calculateWithdrawal(streamObj, aztec)
+
+  const { proof1, proof2 } = await buildProofs(aztec, streamContractInstance.options.address, streamObj, withdrawalValue);
+
+  console.log("Withdrawing from stream:", streamId)
+  console.log("Proofs:", proof1, proof2);
+  const results = await streamContractInstance.methods.withdrawFromStream(
+    streamId,
+    proof1.encodeABI(),
+    proof2.encodeABI(streamObj.tokenAddress),
+    withdrawalDuration,
+  ).send({ from: userAddress });
+  console.log(results);
+}

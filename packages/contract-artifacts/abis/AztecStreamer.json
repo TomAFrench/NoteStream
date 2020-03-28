@@ -71,6 +71,12 @@
       },
       {
         "indexed": false,
+        "internalType": "bytes32",
+        "name": "noteHash",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "startTime",
         "type": "uint256"
@@ -105,6 +111,12 @@
         "internalType": "address",
         "name": "recipient",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "noteHash",
+        "type": "bytes32"
       },
       {
         "indexed": false,
@@ -162,7 +174,7 @@
       },
       {
         "internalType": "bytes32",
-        "name": "notehash",
+        "name": "noteHash",
         "type": "bytes32"
       },
       {
