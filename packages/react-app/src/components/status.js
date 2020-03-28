@@ -11,7 +11,8 @@ import calculateTime from '../utils/time';
 
 import { calculateMaxWithdrawalValue, calculateWithdrawal} from '../utils/withdrawal';
 import { buildDividendProof, buildJoinSplitProof } from '../utils/proofs';
-
+import { useQuery } from '@apollo/client';
+import { GET_SENDER_STREAMS, GET_RECIPIENT_STREAMS } from '../graphql/streams'
 
 async function buildProofs(aztec, streamContractInstance, streamObj, withdrawalValue) {
   const {
@@ -61,19 +62,23 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
 
 
   useEffect(() => {
-    async function decodeNote(noteHash) {
-      const note = await aztec.zkNote(noteHash);
+    async function decodeNote(id) {
+      const stream = await streamContractInstance.methods
+      .getStream(id)
+      .call({
+        from: userAddress,
+      });
+      const note = await aztec.zkNote(stream.currentBalance);
       setNoteValue(note.value);
-    }
 
-    async function getAvailableBalance(stream) {
-      const maxWithdrawalValue = await calculateMaxWithdrawalValue(stream, aztec)
+      const maxWithdrawalValue = await calculateMaxWithdrawalValue(stream, note.value)
       setAvailableBalance(maxWithdrawalValue)
     }
 
-    decodeNote(stream.currentBalance);
-    getAvailableBalance(stream);
-  }, [aztec, stream]);
+    if (aztec.zkNote) {
+      decodeNote(stream.id);
+    }
+  }, [aztec, streamContractInstance.methods, stream, userAddress]);
 
   const timePercentage = calculateTime(
     Number(stream.startTime) * 1000,
@@ -102,7 +107,7 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
           }    
         </Grid>
         <Grid item>
-            Asset: {stream.tokenAddress.slice(0,6)}...{stream.tokenAddress.slice(-5,-1)}
+            Asset: {stream.zkAsset.id.slice(0,6)}...{stream.zkAsset.id.slice(-5,-1)}
         </Grid>
       </Grid>
       <Grid item container justify="space-between">
@@ -129,7 +134,7 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => withdrawFunds(aztec, streamContractInstance, stream.streamId, userAddress)}
+                onClick={() => withdrawFunds(aztec, streamContractInstance, stream.id, userAddress)}
                 >
                 Withdraw
               </Button>
@@ -141,25 +146,6 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
     </Grid>
   );
 };
-
-async function getStreams(streamContractInstance, userAddress, role) {
-  const events = await streamContractInstance.getPastEvents(
-    'CreateStream',
-    { filter: { [role]: userAddress }, fromBlock: 0, toBlock: 'latest' },
-  );
-
-  return Promise.all(events.map(async (e) => {
-    const stream = await streamContractInstance.methods
-      .getStream(e.returnValues.streamId)
-      .call({
-        from: userAddress,
-      });
-    return {
-      streamId: e.returnValues.streamId,
-      ...stream,
-    };
-  }));
-}
 
 StreamDisplay.propTypes = {
   streamContractInstance: PropTypes.object.isRequired,
@@ -174,17 +160,14 @@ const Status = ({
   streamContractInstance,
   aztec,
 }) => {
-  const [streams, setStreams] = useState([]);
+  const { loading, error, data } = useQuery(
+    role === "sender" ? GET_SENDER_STREAMS : GET_RECIPIENT_STREAMS,
+    { variables: { address: userAddress } }
+  );
+  console.log("GraphQL", loading, error, data)
 
-  useEffect(() => {
-    async function loadStreams() {
-      if (!streamContractInstance) return;
-      const streams = await getStreams(streamContractInstance, userAddress, role);
-      console.log(streams);
-      setStreams(streams);
-    }
-    loadStreams();
-  }, [userAddress, streamContractInstance, role]);
+  if (loading || error) return null
+  const streamInProgress = data.streams.filter(stream => stream.cancellation == null)
 
   return (
     <Grid
@@ -194,7 +177,7 @@ const Status = ({
         alignItems='center'
         spacing={3}
       >
-      {streams.length > 0 ?streams.map(stream => <StreamDisplay
+      {streamInProgress.length > 0 ? streamInProgress.map(stream => <StreamDisplay
           stream={stream}
           aztec={aztec}
           streamContractInstance={streamContractInstance}
@@ -204,7 +187,8 @@ const Status = ({
           />):
           <Typography color='textSecondary'>
             No streams to display
-            </Typography>}
+            </Typography>
+      }
     </Grid>
   );
 };

@@ -19,6 +19,14 @@ import Deposit from './components/deposit';
 import Status from './components/status';
 
 import { getContractAddressesForNetwork, abis } from "@quachtli/contract-artifacts"
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: 'https://api.thegraph.com/subgraphs/name/tomafrench/quachtli-rinkeby',
+  })
+});
 
 const useStyles = makeStyles(theme => ({
   layout: {
@@ -180,7 +188,7 @@ const App = () => {
   }, [account, addresses]);
 
   return (
-    <>
+    <ApolloProvider client={client}>
       <AppBar position="static">
           <Toolbar>
             <LocalAtmIcon className={classes.icon}/>
@@ -265,7 +273,7 @@ const App = () => {
           </Grid>
         </Grid>
       </main>
-    </>
+    </ApolloProvider>
   );
 };
 

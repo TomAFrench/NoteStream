@@ -11,6 +11,7 @@
     "url": "https://github.com/TomAFrench/Quachtli/issues"
   },
   "dependencies": {
+    "@apollo/client": "^3.0.0-beta.41",
     "@material-ui/core": "^4.9.5",
     "@material-ui/icons": "^4.9.1",
     "aztec.js": "^0.17.0",
