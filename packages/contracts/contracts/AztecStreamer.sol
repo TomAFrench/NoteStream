@@ -32,19 +32,26 @@ contract AztecStreamer is ReentrancyGuard {
     event CreateStream(
         uint256 indexed streamId,
         address indexed sender,
-        address indexed recipient
+        address indexed recipient,
+        address zkAsset,
+        bytes32 noteHash,
+        uint256 startTime,
+        uint256 stopTime
     );
 
     event WithdrawFromStream(
         uint256 indexed streamId,
         address indexed sender,
-        address indexed recipient
+        address indexed recipient,
+        bytes32 noteHash,
+        uint256 withdrawDuration
     );
 
     event CancelStream(
         uint256 indexed streamId,
         address indexed sender,
-        address indexed recipient
+        address indexed recipient,
+        uint256 cancelDuration
     );
 
     /*** Modifiers ***/
@@ -135,7 +142,7 @@ contract AztecStreamer is ReentrancyGuard {
      *  Throws if the contract is not allowed to transfer enough tokens.
      *  Throws if there is a token transfer failure.
      * @param recipient The address towards which the money is streamed.
-     * @param notehash The note of a zkAsset to be streamed.
+     * @param noteHash The note of a zkAsset to be streamed.
      * @param tokenAddress The zkAsset to use as streaming currency.
      * @param startTime The unix timestamp for when the stream starts.
      * @param stopTime The unix timestamp for when the stream stops.
@@ -143,7 +150,7 @@ contract AztecStreamer is ReentrancyGuard {
      */
     function createStream(
         address recipient,
-        bytes32 notehash,
+        bytes32 noteHash,
         address tokenAddress,
         uint256 startTime,
         uint256 stopTime
@@ -160,7 +167,7 @@ contract AztecStreamer is ReentrancyGuard {
         /* Create and store the stream object. */
         uint256 streamId = nextStreamId;
         streams[streamId] = Types.AztecStream({
-            currentBalance: notehash,
+            currentBalance: noteHash,
             sender: msg.sender,
             recipient: recipient,
             startTime: startTime,
@@ -173,7 +180,15 @@ contract AztecStreamer is ReentrancyGuard {
         /* Increment the next stream id. */
         nextStreamId = nextStreamId.add(1);
 
-        emit CreateStream(streamId, msg.sender, recipient);
+        emit CreateStream(
+            streamId,
+            msg.sender,
+            recipient,
+            tokenAddress,
+            noteHash,
+            startTime,
+            stopTime
+        );
 
         return streamId;
     }
@@ -217,7 +232,13 @@ contract AztecStreamer is ReentrancyGuard {
             _streamDurationToWithdraw
         );
 
-        emit WithdrawFromStream(streamId, stream.sender, stream.recipient);
+        emit WithdrawFromStream(
+            streamId,
+            stream.sender,
+            stream.recipient,
+            newCurrentBalanceNoteHash,
+            _streamDurationToWithdraw
+        );
     }
 
     /**
@@ -245,17 +266,26 @@ contract AztecStreamer is ReentrancyGuard {
     {
         Types.AztecStream storage stream = streams[streamId];
 
-        // First check that cancelling party isn't trying to scam the other party
-        // Sender can only cancel from a timestamp which hasn't already passed
-        // Recipient can only cancel from a timestamp which has already passed
-        // This ensures that the cancellation timestamp will be as close to the true time as possible.
+        // If the stream has been fully withdrawn then we can skip
+        // withdrawing the stream note and just delete the stream
+        if (stream.lastWithdrawTime == stream.stopTime) {
+            delete streams[streamId];
+            emit CancelStream(streamId, stream.sender, stream.recipient, 0);
+            return true;
+        }
+
+        // Otherwise check that cancelling party isn't trying to scam the other
+        // Each party can only cancel from a timestamp favourable to the other party.
+        // This ensure that it is close to the true time.
         if (msg.sender == stream.sender) {
+            // Sender can only cancel from a timestamp which hasn't already passed
             require(
                 // solium-disable-next-line security/no-block-members
                 stream.lastWithdrawTime.add(_unclaimedTime) > block.timestamp,
                 "withdraw is greater than allowed"
             );
         } else if (msg.sender == stream.recipient) {
+            // Recipient can only cancel from a timestamp which has already passed
             require(
                 // solium-disable-next-line security/no-block-members
                 stream.lastWithdrawTime.add(_unclaimedTime) < block.timestamp,
@@ -282,7 +312,12 @@ contract AztecStreamer is ReentrancyGuard {
         );
 
         delete streams[streamId];
-        emit CancelStream(streamId, stream.sender, stream.recipient);
+        emit CancelStream(
+            streamId,
+            stream.sender,
+            stream.recipient,
+            _unclaimedTime
+        );
         return true;
     }
 }

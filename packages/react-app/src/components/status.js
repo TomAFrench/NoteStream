@@ -1,84 +1,72 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { useQuery } from '@apollo/client';
+import { GET_SENDER_STREAMS, GET_RECIPIENT_STREAMS } from '../graphql/streams'
 
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import moment from 'moment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import calculateTime from '../utils/time';
 
-import { calculateMaxWithdrawalValue, calculateWithdrawal} from '../utils/withdrawal';
-import { buildDividendProof, buildJoinSplitProof } from '../utils/proofs';
+import { calculateMaxWithdrawalValue, withdrawFunds } from '../utils/withdrawal';
+// import { cancelStream } from '../utils/cancellation';
 
-
-async function buildProofs(aztec, streamContractInstance, streamObj, withdrawalValue) {
-  const {
-    proofData: proofData1,
-    inputNotes, outputNotes,
-  } = await buildDividendProof(streamObj, streamContractInstance.options.address, withdrawalValue, aztec);
-
-  const { proofData: proofData2 } = await buildJoinSplitProof(
-    streamObj,
-    streamContractInstance.options.address,
-    inputNotes[0],
-    outputNotes[0],
-    aztec,
+const NoteDecoder = ({ render, zkNote, noteHash }) => {
+  const [note, setNote] = useState({});
+  
+  useEffect(
+    () => {
+      if (zkNote) {
+        zkNote(noteHash).then(note => setNote(note))}
+      },
+    [zkNote, noteHash]
   );
 
-  return {
-    proof1: proofData1,
-    proof2: proofData2,
-  };
-}
+  return render(note)
+};
 
-async function withdrawFunds(aztec, streamContractInstance, streamId, userAddress) {
-  const streamObj = await streamContractInstance.methods.getStream(streamId).call();
-
-  // Calculate what value of the stream is redeemable
-  const {
-    withdrawalValue,
-    withdrawalDuration
-  } = await calculateWithdrawal(streamObj, aztec)
-
-  const { proof1, proof2 } = await buildProofs(aztec, streamContractInstance, streamObj, withdrawalValue);
-
-  console.log("Withdrawing from stream:", streamId)
-  console.log("Proofs:", proof1, proof2);
-  const results = await streamContractInstance.methods.withdrawFromStream(
-    streamId,
-    proof1.encodeABI(),
-    proof2.encodeABI(streamObj.tokenAddress),
-    withdrawalDuration,
-  ).send({ from: userAddress });
-  console.log(results);
-}
-
-const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, role }) => {
-  const [noteValue, setNoteValue] = useState(stream.noteHash);
+const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddress, role }) => {
+  const [timePercentage, setTimePercentage] = useState(0);
   const [availableBalance, setAvailableBalance] = useState(0);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newTimePercentage = calculateTime(
+        Number(stream.startTime) * 1000,
+        Number(stream.stopTime) * 1000,
+      );
+      setTimePercentage(newTimePercentage.toFixed(2))
+    }, 1000)
+    return () => {clearInterval(intervalId)}
+  }, [stream.startTime, stream.stopTime]);
 
   useEffect(() => {
-    async function decodeNote(noteHash) {
-      const note = await aztec.zkNote(noteHash);
-      setNoteValue(note.value);
-    }
-
-    async function getAvailableBalance(stream) {
-      const maxWithdrawalValue = await calculateMaxWithdrawalValue(stream, aztec)
+    async function updateMaxWithdrawalValue() {
+      const timeBetweenNotes = (stream.stopTime-stream.lastWithdrawTime)/note.value
+      const maxWithdrawalValue = await calculateMaxWithdrawalValue(stream, note.value)
       setAvailableBalance(maxWithdrawalValue)
+
+      if (!maxWithdrawalValue) {
+        // If don't have a good max withdrawal value then check again quickly
+        timeoutId = setTimeout(updateMaxWithdrawalValue, 1000)
+      } else if (maxWithdrawalValue !== note.value){
+        // If stream is not complete then recheck when a new note should be available
+        timeoutId = setTimeout(updateMaxWithdrawalValue, timeBetweenNotes/2 * 1000)
+      }
     }
 
-    decodeNote(stream.currentBalance);
-    getAvailableBalance(stream);
-  }, [aztec, stream]);
+    let timeoutId
+    updateMaxWithdrawalValue()
+    return () => {clearTimeout(timeoutId)}
+  }, [stream, note.value]);
 
-  const timePercentage = calculateTime(
-    Number(stream.startTime) * 1000,
-    Number(stream.stopTime) * 1000,
-  );
   const withdrawPercentage = calculateTime(
     Number(stream.startTime),
     Number(stream.stopTime),
@@ -93,14 +81,22 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
       alignItems="stretch"
       spacing={3}
       >
-      <Grid item>
-        {role === "recipient" ?
-          `Sender: ${stream.sender}` :
-          `Receiver: ${stream.recipient}`
-        }    
-      </Grid>
-      <Grid item>
-          Asset: {stream.tokenAddress}   
+
+      <Grid item container justify="space-between">
+
+        <CopyToClipboard text={role === "recipient" ? stream.sender : stream.recipient} >
+          <Grid item>
+            {role === "recipient" ?
+              `Sender: ${stream.sender.slice(0,6)}...${stream.sender.slice(-5,-1)}` :
+              `Receiver: ${stream.recipient.slice(0,6)}...${stream.recipient.slice(-5,-1)}`
+            }    
+          </Grid>
+        </CopyToClipboard>
+        <CopyToClipboard text={stream.zkAsset.id} >
+          <Grid item>
+            Asset: {stream.zkAsset.symbol}
+          </Grid>
+        </CopyToClipboard>
       </Grid>
       <Grid item container justify="space-between">
         <Grid item>
@@ -111,59 +107,50 @@ const StreamDisplay = ({ stream, aztec, streamContractInstance, userAddress, rol
         </Grid>
       </Grid>
       <Grid item>
-        Remaining balance on stream: {noteValue}
+        Streamed: {timePercentage}%
+        <LinearProgress variant="determinate" value={timePercentage} />
+        <LinearProgress variant="determinate" value={withdrawPercentage} color="secondary" />
+        Withdrawn: {withdrawPercentage}%
       </Grid>
-      <Grid item>
-        Balance available to withdraw: {availableBalance}
-      </Grid>
-      <Grid item>
-        Time passed <LinearProgress variant="determinate" value={timePercentage} />
-      </Grid>
-      <Grid item>
-        Money withdrawn <LinearProgress variant="determinate" value={withdrawPercentage} color="secondary" />
-      </Grid>
-      {role === "recipient" &&
-        <Grid item container justify="center">
+      {role === "recipient" && 
+        <>
           <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => withdrawFunds(aztec, streamContractInstance, stream.streamId, userAddress)}
-              >
-              Withdraw
-            </Button>
+            {`${availableBalance}/${note.value} ${stream.zkAsset.symbol}`} available to withdraw
           </Grid>
-        </Grid>
+          <Grid item container justify="center">
+            {/* <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => cancelStream(aztec, streamContractInstance, stream.id, userAddress)}
+                >
+                Cancel
+              </Button>
+            </Grid> */}
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => withdrawFunds(aztec, streamContractInstance, stream.id, userAddress)}
+                >
+                Withdraw
+              </Button>
+            </Grid>
+          </Grid>
+        </>
       }
       
     </Grid>
   );
 };
 
-async function getStreams(streamContractInstance, userAddress, role) {
-  const events = await streamContractInstance.getPastEvents(
-    'CreateStream',
-    { filter: { [role]: userAddress }, fromBlock: 0, toBlock: 'latest' },
-  );
-
-  return Promise.all(events.map(async (e) => {
-    const stream = await streamContractInstance.methods
-      .getStream(e.returnValues.streamId)
-      .call({
-        from: userAddress,
-      });
-    return {
-      streamId: e.returnValues.streamId,
-      ...stream,
-    };
-  }));
-}
-
 StreamDisplay.propTypes = {
   streamContractInstance: PropTypes.object.isRequired,
+  note: PropTypes.object.isRequired,
   stream: PropTypes.object.isRequired,
   aztec: PropTypes.object.isRequired,
-  userAddress: PropTypes.string.isRequired
+  userAddress: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired
 };
 
 const Status = ({
@@ -172,19 +159,38 @@ const Status = ({
   streamContractInstance,
   aztec,
 }) => {
-  const [streams, setStreams] = useState([]);
+  const { loading, error, data } = useQuery(
+    role === "sender" ? GET_SENDER_STREAMS : GET_RECIPIENT_STREAMS,
+    { variables: { address: userAddress } }
+  );
 
-  useEffect(() => {
-    async function loadStreams() {
-      if (!streamContractInstance) return;
-      const streams = await getStreams(streamContractInstance, userAddress, role);
-      console.log(streams);
-      setStreams(streams);
-    }
-    loadStreams();
-  }, [userAddress, streamContractInstance, role]);
+  let content
+  if (!aztec || !aztec.enabled || loading || error) {
+    content = <CircularProgress />
+  } else {
+    const streamInProgress = data.streams.filter(stream => stream.cancellation == null)
+    content = streamInProgress.length > 0 ? streamInProgress.map(stream => 
+      <NoteDecoder
+        zkNote={aztec.zkNote}
+        noteHash={stream.noteHash}
+        key={stream.id}
+        render={note => 
+          <StreamDisplay
+            stream={stream}
+            note={note}
+            aztec={aztec}
+            streamContractInstance={streamContractInstance}
+            userAddress={userAddress}
+            role={role}
+          />
+        }
+        />
+      ):
+      <Typography color='textSecondary'>
+        No streams to display
+      </Typography>
+  }
 
-  if (!streamContractInstance) return null;
   return (
     <Grid
         container
@@ -193,14 +199,7 @@ const Status = ({
         alignItems='center'
         spacing={3}
       >
-      {streams.map(stream => <StreamDisplay
-          stream={stream}
-          aztec={aztec}
-          streamContractInstance={streamContractInstance}
-          key={stream.currentBalance}
-          userAddress={userAddress}
-          role={role}
-          />)}
+      {content}
     </Grid>
   );
 };
@@ -208,8 +207,8 @@ const Status = ({
 Status.propTypes = {
   userAddress: PropTypes.string.isRequired,
   streamContractInstance: PropTypes.any.isRequired,
-  zkNote: PropTypes.any.isRequired,
-  zkdaiBalance: PropTypes.number.isRequired,
+  role: PropTypes.string.isRequired,
+  aztec: PropTypes.object.isRequired
 };
 
 export default Status;

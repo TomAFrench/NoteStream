@@ -1,0 +1,49 @@
+{
+  "name": "@quachtli/subgraph",
+  "description": "GraphQL server built with The Graph",
+  "version": "2.1.0",
+  "author": {
+    "name": "Tom French",
+    "email": "tom@tomfren.ch",
+    "url": "https://github.com/TomAFrench/Quachtli"
+  },
+  "bugs": {
+    "url": "https://github.com/TomAFrench/Quachtli/issues"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.16.2",
+    "@graphprotocol/graph-ts": "^0.16.0",
+    "axios": "^0.19.0",
+    "fs-extra": "^8.1.0",
+    "handlebars": "^4.5.2",
+    "js-yaml": "^3.13.1",
+    "shx": "^0.3.2",
+    "typy": "^3.3.0"
+  },
+  "license": "LGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TomAFrench/Quachtli.git"
+  },
+  "scripts": {
+    "build": "graph build --debug",
+    "clean": "shx rm -rf ./build ./src/types ./subgraph.yaml",
+    "codegen": "graph codegen --debug --output-dir src/types/",
+    "create:local": "graph create tomafrench/quachtli --node http://127.0.0.1:8020",
+    "deploy": "graph deploy $SUBGRAPH --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy:goerli": "yarn prepare:goerli && SUBGRAPH=tomafrench/quachtli-goerli yarn deploy",
+    "deploy:kovan": "yarn prepare:kovan && SUBGRAPH=tomafrench/quachtli-kovan yarn deploy",
+    "deploy:local": "graph deploy tomafrench/quachtli --debug --ipfs http://127.0.0.1:5001 --node http://127.0.0.1:8020",
+    "deploy:mainnet": "yarn prepare:mainnet && SUBGRAPH=tomafrench/quachtli yarn deploy",
+    "deploy:rinkeby": "yarn prepare:rinkeby && SUBGRAPH=tomafrench/quachtli-rinkeby yarn deploy",
+    "deploy:ropsten": "yarn prepare:ropsten && SUBGRAPH=tomafrench/quachtli-ropsten yarn deploy",
+    "prepare:goerli": "NETWORK_NAME=goerli node ./templatify.js",
+    "prepare:kovan": "NETWORK_NAME=kovan node ./templatify.js",
+    "prepare:mainnet": "NETWORK_NAME=mainnet node ./templatify.js",
+    "prepare:rinkeby": "NETWORK_NAME=rinkeby node ./templatify.js",
+    "prepare:ropsten": "NETWORK_NAME=ropsten node ./templatify.js",
+    "prepare:local": "NETWORK_NAME=local node ./templatify.js",
+    "remove-local": "graph remove tomafrench/quachtli --node http://127.0.0.1:8020/",
+    "reset-local": "yarn codegen && yarn remove-local && yarn create-local && yarn deploy-local"
+  }
+}

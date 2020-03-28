@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const contracts = path.resolve(__dirname, '../artifacts/')
 const abiDirectory = path.resolve(__dirname, '../../contract-artifacts/abis/')
+const subgraphAbiDirectory = path.resolve(__dirname, '../../subgraph/abis/')
 
 const builtContracts = [
   "AztecStreamer.json"
@@ -17,6 +18,7 @@ async function main() {
       const { abi } = json
       // Write the abi to a new file in the ABI directory
       fs.writeFileSync(path.resolve(abiDirectory, contract), JSON.stringify(abi, null, 2))
+      fs.writeFileSync(path.resolve(subgraphAbiDirectory, contract), JSON.stringify(abi, null, 2))
   });
 }
 

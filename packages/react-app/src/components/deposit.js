@@ -1,35 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import '../App.css';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Deposit = ({
   userAddress, zkAsset, zkdaiBalance, daiBalance,
 }) => {
   const [amount, setAmount] = useState(null);
 
-  useEffect(() => {
-    if (zkAsset) {
-      // getBalance(zkAsset);
-    }
-  });
-
   async function depositZkToken(depositAmount) {
-    console.log('deposit', depositAmount);
     await zkAsset.deposit([
       { to: userAddress, amount: parseInt(depositAmount, 10) },
     ]);
-    // getBalance(zkAsset);
     setAmount(0);
   }
 
   async function withdrawZkToken(withdrawAmount) {
-    console.log('withdraw', withdrawAmount);
     await zkAsset.withdraw(parseInt(withdrawAmount, 10));
-    // getBalance(zkAsset);
     setAmount(0);
   }
 
@@ -55,6 +45,7 @@ const Deposit = ({
         fullWidth
       />
       </Grid>
+      {zkAsset ?
       <Grid item container direction="row" justify="space-around">
         <Grid item>
           <Button
@@ -75,6 +66,11 @@ const Deposit = ({
           </Button>
         </Grid>
       </Grid>
+      :
+      <Grid item container direction="row" justify="center">
+        <CircularProgress />
+      </Grid>
+      }
     </Grid>
   );
 };

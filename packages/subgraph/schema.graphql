@@ -1,0 +1,54 @@
+### Generic ###
+
+type ZkAsset @entity {
+  id: ID!
+  name: String
+  scalingFactor: Int!
+  symbol: String
+}
+
+type Transaction @entity {
+  id: ID!
+  block: Int!
+  event: String!
+  from: Bytes!
+  stream: Stream!
+  timestamp: BigInt!
+  to: Bytes
+}
+
+### Quachtli ###
+
+# The id is the stream's id
+type Cancellation @entity {
+  id: ID!
+  duration: BigInt!
+  timestamp: BigInt!
+  txhash: String!
+  zkAsset: ZkAsset
+}
+
+# @derivedFrom makes it possible to map large sets of data to the same stream
+type Stream @entity {
+  cancellation: Cancellation
+  id: ID!
+  lastWithdrawTime: BigInt!
+  # Optional as cancelled streams don't have a note
+  noteHash: Bytes
+  recipient: Bytes!
+  sender: Bytes!
+  startTime: BigInt!
+  stopTime: BigInt!
+  timestamp: BigInt!
+  txs: [Transaction!] @derivedFrom(field: "stream")
+  withdrawals: [Withdrawal!] @derivedFrom(field: "stream")
+  zkAsset: ZkAsset
+}
+
+type Withdrawal @entity {
+  id: ID!
+  duration: BigInt!
+  stream: Stream!
+  timestamp: BigInt!
+  zkAsset: ZkAsset
+}
