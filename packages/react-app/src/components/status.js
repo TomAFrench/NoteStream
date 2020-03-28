@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+
 import moment from 'moment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import calculateTime from '../utils/time';
@@ -19,10 +21,11 @@ const NoteDecoder = ({ render, zkNote, noteHash }) => {
   
   useEffect(
     () => {
-      if (zkNote) zkNote(noteHash).then(note => setNote(note))},
+      if (zkNote) {
+        zkNote(noteHash).then(note => setNote(note))}
+      },
     [zkNote, noteHash]
   );
-  console.log(note)
 
   return render(note)
 };
@@ -39,16 +42,27 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
       );
       setTimePercentage(newTimePercentage.toFixed(2))
     }, 1000)
-    return () => {console.log("CLEARING"); clearInterval(intervalId)}
+    return () => {clearInterval(intervalId)}
   }, [stream.startTime, stream.stopTime]);
 
   useEffect(() => {
-    const timeBetweenNotes = (stream.stopTime-stream.lastWithdrawTime)/note.value
-    const intervalId = setInterval(async () => {
+    async function updateMaxWithdrawalValue() {
+      const timeBetweenNotes = (stream.stopTime-stream.lastWithdrawTime)/note.value
       const maxWithdrawalValue = await calculateMaxWithdrawalValue(stream, note.value)
       setAvailableBalance(maxWithdrawalValue)
-    }, timeBetweenNotes/2 * 1000)
-    return () => {console.log("CLEARING"); clearInterval(intervalId)}
+
+      if (!maxWithdrawalValue) {
+        // If don't have a good max withdrawal value then check again quickly
+        timeoutId = setTimeout(updateMaxWithdrawalValue, 1000)
+      } else if (maxWithdrawalValue !== note.value){
+        // If stream is not complete then recheck when a new note should be available
+        timeoutId = setTimeout(updateMaxWithdrawalValue, timeBetweenNotes/2 * 1000)
+      }
+    }
+
+    let timeoutId
+    updateMaxWithdrawalValue()
+    return () => {console.log("CLEARING"); clearTimeout(timeoutId)}
   }, [stream, note.value]);
 
   const withdrawPercentage = calculateTime(
@@ -67,15 +81,20 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
       >
 
       <Grid item container justify="space-between">
-        <Grid item>
-          {role === "recipient" ?
-            `Sender: ${stream.sender.slice(0,6)}...${stream.sender.slice(-5,-1)}` :
-            `Receiver: ${stream.recipient.slice(0,6)}...${stream.recipient.slice(-5,-1)}`
-          }    
-        </Grid>
-        <Grid item>
-            Asset: {stream.zkAsset.id.slice(0,6)}...{stream.zkAsset.id.slice(-5,-1)}
-        </Grid>
+
+        <CopyToClipboard text={role === "recipient" ? stream.sender : stream.recipient} >
+          <Grid item>
+            {role === "recipient" ?
+              `Sender: ${stream.sender.slice(0,6)}...${stream.sender.slice(-5,-1)}` :
+              `Receiver: ${stream.recipient.slice(0,6)}...${stream.recipient.slice(-5,-1)}`
+            }    
+          </Grid>
+        </CopyToClipboard>
+        <CopyToClipboard text={stream.zkAsset.id} >
+          <Grid item>
+            Asset: {stream.zkAsset.symbol}
+          </Grid>
+        </CopyToClipboard>
       </Grid>
       <Grid item container justify="space-between">
         <Grid item>
@@ -94,10 +113,10 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
       {role === "recipient" && 
         <>
           <Grid item>
-            {`${availableBalance}/${note.value} ZkDAI`} available to withdraw
+            {`${availableBalance}/${note.value} ${stream.zkAsset.symbol}`} available to withdraw
           </Grid>
-          <Grid item container justify="space-between">
-            <Grid item>
+          <Grid item container justify="center">
+            {/* <Grid item>
               <Button
                 variant="contained"
                 color="primary"
@@ -105,7 +124,7 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
                 >
                 Cancel
               </Button>
-            </Grid>
+            </Grid> */}
             <Grid item>
               <Button
                 variant="contained"
@@ -125,9 +144,11 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
 
 StreamDisplay.propTypes = {
   streamContractInstance: PropTypes.object.isRequired,
+  note: PropTypes.string.isRequired,
   stream: PropTypes.object.isRequired,
   aztec: PropTypes.object.isRequired,
-  userAddress: PropTypes.string.isRequired
+  userAddress: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired
 };
 
 const Status = ({
@@ -181,8 +202,8 @@ const Status = ({
 Status.propTypes = {
   userAddress: PropTypes.string.isRequired,
   streamContractInstance: PropTypes.any.isRequired,
-  zkNote: PropTypes.any.isRequired,
-  zkdaiBalance: PropTypes.number.isRequired,
+  role: PropTypes.string.isRequired,
+  aztec: PropTypes.object.isRequired
 };
 
 export default Status;

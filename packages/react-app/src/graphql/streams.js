@@ -15,6 +15,7 @@ query getStreams($address: String!) {
     stopTime
     zkAsset {
       id
+      symbol
     }
   }
 }
@@ -35,6 +36,7 @@ query getStreams($address: String!) {
     stopTime
     zkAsset {
       id
+      symbol
     }
   }
 }
