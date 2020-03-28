@@ -146,7 +146,7 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
 
 StreamDisplay.propTypes = {
   streamContractInstance: PropTypes.object.isRequired,
-  note: PropTypes.string.isRequired,
+  note: PropTypes.object.isRequired,
   stream: PropTypes.object.isRequired,
   aztec: PropTypes.object.isRequired,
   userAddress: PropTypes.string.isRequired,
@@ -173,13 +173,13 @@ const Status = ({
       <NoteDecoder
         zkNote={aztec.zkNote}
         noteHash={stream.noteHash}
+        key={stream.id}
         render={note => 
           <StreamDisplay
             stream={stream}
             note={note}
             aztec={aztec}
             streamContractInstance={streamContractInstance}
-            key={stream.currentBalance}
             userAddress={userAddress}
             role={role}
           />
