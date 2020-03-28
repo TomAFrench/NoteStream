@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 import moment from 'moment';
 
@@ -197,32 +199,38 @@ const Create = ({
         </Grid>
       </Grid>
       <Grid item container justify="center">
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => createStream(
-              streamAmount,
-              recipient,
-              parseInt(
-                moment()
-                  .add(1, 'minutes')
-                  .format('X'),
-                10,
-              ),
-              parseInt(
-                moment()
-                  .add(days, 'days')
-                  .add(hours, 'hours')
-                  .add(minutes + 1, 'minutes')
-                  .format('X'),
-                10,
-              ),
-            )}
-            >
-          Create stream
-          </Button>
-        </Grid>
+        { zkAsset ?
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => createStream(
+                streamAmount,
+                recipient,
+                parseInt(
+                  moment()
+                    .add(1, 'minutes')
+                    .format('X'),
+                  10,
+                ),
+                parseInt(
+                  moment()
+                    .add(days, 'days')
+                    .add(hours, 'hours')
+                    .add(minutes + 1, 'minutes')
+                    .format('X'),
+                  10,
+                ),
+              )}
+              >
+            Create stream
+            </Button>
+          </Grid>
+          :
+          <Grid item>
+            <CircularProgress />
+          </Grid>
+        }
       </Grid>
     </Grid>
   );

@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 import moment from 'moment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import calculateTime from '../utils/time';
 
 import { calculateMaxWithdrawalValue, withdrawFunds } from '../utils/withdrawal';
@@ -62,7 +64,7 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
 
     let timeoutId
     updateMaxWithdrawalValue()
-    return () => {console.log("CLEARING"); clearTimeout(timeoutId)}
+    return () => {clearTimeout(timeoutId)}
   }, [stream, note.value]);
 
   const withdrawPercentage = calculateTime(
@@ -161,10 +163,33 @@ const Status = ({
     role === "sender" ? GET_SENDER_STREAMS : GET_RECIPIENT_STREAMS,
     { variables: { address: userAddress } }
   );
-  console.log("GraphQL", loading, error, data)
 
-  if (loading || error) return null
-  const streamInProgress = data.streams.filter(stream => stream.cancellation == null)
+  let content
+  if (!aztec || !aztec.enabled || loading || error) {
+    content = <CircularProgress />
+  } else {
+    const streamInProgress = data.streams.filter(stream => stream.cancellation == null)
+    content = streamInProgress.length > 0 ? streamInProgress.map(stream => 
+      <NoteDecoder
+        zkNote={aztec.zkNote}
+        noteHash={stream.noteHash}
+        render={note => 
+          <StreamDisplay
+            stream={stream}
+            note={note}
+            aztec={aztec}
+            streamContractInstance={streamContractInstance}
+            key={stream.currentBalance}
+            userAddress={userAddress}
+            role={role}
+          />
+        }
+        />
+      ):
+      <Typography color='textSecondary'>
+        No streams to display
+      </Typography>
+  }
 
   return (
     <Grid
@@ -174,27 +199,7 @@ const Status = ({
         alignItems='center'
         spacing={3}
       >
-      {streamInProgress.length > 0 ? streamInProgress.map(stream => 
-        <NoteDecoder
-          zkNote={aztec.zkNote}
-          noteHash={stream.noteHash}
-          render={note => 
-            <StreamDisplay
-              stream={stream}
-              note={note}
-              aztec={aztec}
-              streamContractInstance={streamContractInstance}
-              key={stream.currentBalance}
-              userAddress={userAddress}
-              role={role}
-            />
-          }
-          />
-        ):
-        <Typography color='textSecondary'>
-          No streams to display
-        </Typography>
-      }
+      {content}
     </Grid>
   );
 };
