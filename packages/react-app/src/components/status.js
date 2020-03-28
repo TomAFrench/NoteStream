@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { useQuery } from '@apollo/client';
+import { GET_SENDER_STREAMS, GET_RECIPIENT_STREAMS } from '../graphql/streams'
+
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import moment from 'moment';
 import calculateTime from '../utils/time';
 
 import { calculateMaxWithdrawalValue, withdrawFunds } from '../utils/withdrawal';
-import { cancelStream } from '../utils/cancellation';
-import { useQuery } from '@apollo/client';
-import { GET_SENDER_STREAMS, GET_RECIPIENT_STREAMS } from '../graphql/streams'
+// import { cancelStream } from '../utils/cancellation';
 
 const NoteDecoder = ({ render, zkNote, noteHash }) => {
   const [note, setNote] = useState({});

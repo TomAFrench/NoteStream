@@ -8,7 +8,6 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
 import moment from 'moment';
 
 const daysOption = [...Array(366).keys()];
@@ -21,7 +20,6 @@ const useStyles = makeStyles(theme => ({
     minWidth: 120,
   },
 }));
-
 
 const Create = ({
   userAddress,

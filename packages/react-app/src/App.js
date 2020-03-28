@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 
-import './App.css';
 import getWeb3 from './utils/web3';
 
 import Create from './components/create';
