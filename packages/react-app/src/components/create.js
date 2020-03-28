@@ -232,7 +232,6 @@ Create.propTypes = {
   streamContractInstance: PropTypes.object.isRequired,
   userAddress: PropTypes.string.isRequired,
   zkAsset: PropTypes.object.isRequired,
-  daiBalance: PropTypes.number,
 };
 
 export default Create;

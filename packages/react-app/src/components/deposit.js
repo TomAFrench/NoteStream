@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
@@ -11,25 +11,15 @@ const Deposit = ({
 }) => {
   const [amount, setAmount] = useState(null);
 
-  useEffect(() => {
-    if (zkAsset) {
-      // getBalance(zkAsset);
-    }
-  });
-
   async function depositZkToken(depositAmount) {
-    console.log('deposit', depositAmount);
     await zkAsset.deposit([
       { to: userAddress, amount: parseInt(depositAmount, 10) },
     ]);
-    // getBalance(zkAsset);
     setAmount(0);
   }
 
   async function withdrawZkToken(withdrawAmount) {
-    console.log('withdraw', withdrawAmount);
     await zkAsset.withdraw(parseInt(withdrawAmount, 10));
-    // getBalance(zkAsset);
     setAmount(0);
   }
 
