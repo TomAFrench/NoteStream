@@ -7,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
 // import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
@@ -17,6 +18,7 @@ import Create from './components/create';
 import Deposit from './components/deposit';
 import Status from './components/status';
 
+import getZkAssetsForNetwork from "zkasset-metadata"
 import { getContractAddressesForNetwork, abis } from "@quachtli/contract-artifacts"
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
 
@@ -89,6 +91,45 @@ const App = () => {
   const [value, setValue] = useState(0);
 
   const addresses = getContractAddressesForNetwork(4)
+  const zkAssets = getZkAssetsForNetwork(4)
+
+  const updateZkAsset = async (address) => {
+      async function updateBalances(zkBalance) {
+        setZkdaiBalance(zkBalance);
+        const publicBalance = await asset.balanceOfLinkedToken(account);
+        setDaiBalance(publicBalance.toString(10));
+      }
+
+      if (zkAsset) zkAsset.unsubscribeToBalance(updateBalances)
+      // Fetch the zkAsset
+      const asset = await window.aztec.zkAsset(address);
+
+      setZkAsset(asset);
+      console.log('ASSET:', asset);
+      
+      // Initialise balances
+      updateBalances(await asset.balance())
+  
+      // Update balances on each transfer of ZkAsset
+      asset.subscribeToBalance(updateBalances)
+  }
+
+  useEffect(() => {
+    async function initialiseAztec() {
+      const account = await window.aztec.enable({
+        contractAddresses: {
+          ACE: addresses.ACE
+        },
+        apiKey: 'test1234', // API key for use with GSN for free txs.
+      });
+      if (account) {
+        console.log("Initialised AZTEC");
+        updateZkAsset(Object.keys(zkAssets)[0]);
+      }
+  
+    }
+    initialiseAztec();
+  }, [zkAssets, account, addresses]);
 
   useEffect(() => {
     async function init() {
@@ -101,36 +142,9 @@ const App = () => {
         addresses.AztecStreamer,
       );
       setStreamContractInstance(streamContract);
-      initialiseAztec()
-    }
-
-    async function initialiseAztec() {
-      await window.aztec.enable({
-        contractAddresses: {
-          ACE: addresses.ACE
-        },
-        apiKey: 'test1234', // API key for use with GSN for free txs.
-      });
-  
-      // Fetch the zkAsset
-      const asset = await window.aztec.zkAsset(addresses.ZkAsset);
-      setZkAsset(asset);
-      console.log('ASSET:', asset);
-  
-      const updateBalances = async (zkBalance) => {
-        setZkdaiBalance(zkBalance);
-        const publicBalance = await asset.balanceOfLinkedToken(account);
-        setDaiBalance(publicBalance.toString(10));
-      }
-      
-      // Initialise balances
-      updateBalances(await asset.balance())
-  
-      // Update balances on each transfer of ZkAsset
-      asset.subscribeToBalance(updateBalances)
     }
     init();
-  }, [account, addresses]);
+  }, [addresses.AztecStreamer]);
 
   return (
     <ApolloProvider client={client}>
@@ -159,6 +173,31 @@ const App = () => {
             spacing={3}
             xs={6}
           >
+          <Grid item>
+           <Paper className={`${classes.pageElement} ${classes.paper}`}>
+            <Typography variant="h5" gutterBottom>
+              Select ZkAsset
+            </Typography>
+            <TextField
+              select
+              label="zkAsset"
+              value={zkAsset ? zkAsset.address : undefined}
+              onChange={val => updateZkAsset(val.target.value)}
+              SelectProps={{
+                native: true,
+              }}
+              variant="filled"
+              fullWidth
+              // className={classes.formControl}
+            >
+              {Object.entries(zkAssets).map(([address, metadata]) => (
+                  <option key={address} value={address}>
+                    {metadata.symbol}
+                  </option>
+              ))}
+            </TextField>
+          </Paper>
+        </Grid>
             <Grid item>
               <Paper className={`${classes.pageElement} ${classes.paper}`}>
                 <Typography variant="h5" gutterBottom>
