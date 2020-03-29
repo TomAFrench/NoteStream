@@ -1,5 +1,6 @@
 import { ZkAsset } from "../types/schema";
 
+
 export function addZkAsset(address: string): void {
   let zkAsset = ZkAsset.load(address);
   if (zkAsset != null) {
@@ -10,13 +11,15 @@ export function addZkAsset(address: string): void {
   zkAsset = new ZkAsset(address);
 
   /* Testnets */
-  // if (
-  //   address == "0x8B138ABB8061bcca91a4d60f966cad78aEc9cA7D" /* Rinkeby */
-  // ) {
-  zkAsset.name = "zkTestnetDAI";
-  zkAsset.scalingFactor = 1;
-  zkAsset.symbol = "zkTESTDAI";
-  // }
+  if (address == "0x9a5DF4E3C6de1f39fE09cbE6C1F27a4c3AB52d7c") {
+    zkAsset.name = "zkTestnetDAI";
+    zkAsset.scalingFactor = 1;
+    zkAsset.symbol = "zkDAI";
+  } else if (address == "0xfD3CEbb289B26ad63a389365187689fe21f204Cd") {
+    zkAsset.name = "zkZEENUS";
+    zkAsset.scalingFactor = 1;
+    zkAsset.symbol = "zkZEENUS";
+  }
 
   zkAsset.save();
 }
