@@ -6,6 +6,10 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import getZkAssetsForNetwork from "zkasset-metadata"
+
+const zkAssets = getZkAssetsForNetwork(4)
+
 const Deposit = ({
   userAddress, zkAsset, zkdaiBalance, daiBalance,
 }) => {
@@ -29,43 +33,45 @@ const Deposit = ({
       direction="column"
       spacing={3}
     >
-      <Grid item>
-        Your DAI Balance: {daiBalance} DAI
-      </Grid>
-      <Grid item>
-        Your ZkDAI Balance: {zkdaiBalance} ZkDAI
-      </Grid>
-      <Grid item>
-        <TextField
-        label="Enter deposit/withdraw amount"
-        placeholder=""
-        variant="outlined"
-        value={amount}
-        onChange={val => setAmount(val.target.value)}
-        fullWidth
-      />
-      </Grid>
       {zkAsset ?
-      <Grid item container direction="row" justify="space-around">
+      <>
         <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => depositZkToken(amount)}
-          >
-            Deposit
-          </Button>
+          {`Your public balance: ${daiBalance} ${zkAssets[zkAsset.address].symbol.slice(2)}`}
         </Grid>
         <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => withdrawZkToken(amount)}
-          >
-            Withdraw
-          </Button>
+          {`Your private balance: ${zkdaiBalance} ${zkAssets[zkAsset.address].symbol}`}
         </Grid>
-      </Grid>
+        <Grid item>
+          <TextField
+          label="Enter deposit/withdraw amount"
+          placeholder=""
+          variant="outlined"
+          value={amount}
+          onChange={val => setAmount(val.target.value)}
+          fullWidth
+        />
+        </Grid>
+        <Grid item container direction="row" justify="space-around">
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => depositZkToken(amount)}
+            >
+              Deposit
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => withdrawZkToken(amount)}
+            >
+              Withdraw
+            </Button>
+          </Grid>
+        </Grid>
+      </>
       :
       <Grid item container direction="row" justify="center">
         <CircularProgress />

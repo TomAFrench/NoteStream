@@ -7,7 +7,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+// import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 
@@ -17,6 +18,7 @@ import Create from './components/create';
 import Deposit from './components/deposit';
 import Status from './components/status';
 
+import getZkAssetsForNetwork from "zkasset-metadata"
 import { getContractAddressesForNetwork, abis } from "@quachtli/contract-artifacts"
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
 
@@ -55,64 +57,13 @@ const useStyles = makeStyles(theme => ({
   icon: {
     marginRight: theme.spacing(2),
   },
+  // button: {
+  //   marginRight: theme.spacing(2),
+  // },
   title: {
     flexGrow: 1,
   },
 }));
-
-// async function fetchGanacheContractAddress(contractName) {
-//   let network;
-//   try {
-//     const response = await fetch(`${window.__AZTEC_ARTIFACTS_URL_DEV__}/${contractName}.json`);
-//     const contract = await response.json();
-//     const lastNetworkId = Object.keys(contract.networks).pop();
-//     network = contract.networks[lastNetworkId];
-//   } catch (error) {
-//     return '';
-//   }
-
-//   return (network && network.address) || '';
-// }
-
-// function handleRetry() {
-//   handleReload();
-//   initAztecSdk();
-// }
-
-// function handleProfileChanged(type, value, error) {
-//   if (type === 'aztecAccountChanged') {
-//     if (error) {
-//       handleLoadError(error);
-//     }
-//   } else {
-//     handleReload(type, value);
-//   }
-// }
-
-// async function initAztecSdk() {
-//   window.aztec.addListener('profileChanged', handleProfileChanged);
-
-//   const contractAddresses = {
-//     ganache: {
-//       ACE: await fetchGanacheContractAddress('ACE'),
-//       AccountRegistryManager: await fetchGanacheContractAddress('AccountRegistryManager'),
-//     },
-//   };
-//   try {
-//     await window.aztec.enable({
-//       apiKey: 'test1234',
-//       contractAddresses,
-//     });
-//   } catch (error) {
-//     console.error('Failed to enable aztec', error);
-//   }
-// };
-
-// if (window.aztec) {
-//   initAztecSdk();
-// } else {
-//   window.aztecCallback = initAztecSdk;
-// }
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -130,10 +81,8 @@ function TabPanel(props) {
   );
 }
 
-
 const App = () => {
   const classes = useStyles();
-  // const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
   const [zkAsset, setZkAsset] = useState();
   const [daiBalance, setDaiBalance] = useState(0);
@@ -141,8 +90,46 @@ const App = () => {
   const [streamContractInstance, setStreamContractInstance] = useState(null);
   const [value, setValue] = useState(0);
 
-
   const addresses = getContractAddressesForNetwork(4)
+  const zkAssets = getZkAssetsForNetwork(4)
+
+  const updateZkAsset = async (address) => {
+      async function updateBalances(zkBalance) {
+        setZkdaiBalance(zkBalance);
+        const publicBalance = await asset.balanceOfLinkedToken(account);
+        setDaiBalance(publicBalance.toString(10));
+      }
+
+      if (zkAsset) zkAsset.unsubscribeToBalance(updateBalances)
+      // Fetch the zkAsset
+      const asset = await window.aztec.zkAsset(address);
+
+      setZkAsset(asset);
+      console.log('ASSET:', asset);
+      
+      // Initialise balances
+      updateBalances(await asset.balance())
+  
+      // Update balances on each transfer of ZkAsset
+      asset.subscribeToBalance(updateBalances)
+  }
+
+  useEffect(() => {
+    async function initialiseAztec() {
+      const account = await window.aztec.enable({
+        contractAddresses: {
+          ACE: addresses.ACE
+        },
+        apiKey: 'test1234', // API key for use with GSN for free txs.
+      });
+      if (account) {
+        console.log("Initialised AZTEC");
+        updateZkAsset(Object.keys(zkAssets)[0]);
+      }
+  
+    }
+    initialiseAztec();
+  }, [zkAssets, account, addresses]);
 
   useEffect(() => {
     async function init() {
@@ -155,36 +142,9 @@ const App = () => {
         addresses.AztecStreamer,
       );
       setStreamContractInstance(streamContract);
-      initialiseAztec()
-    }
-
-    async function initialiseAztec() {
-      await window.aztec.enable({
-        contractAddresses: {
-          ACE: addresses.ACE
-        },
-        apiKey: 'test1234', // API key for use with GSN for free txs.
-      });
-  
-      // Fetch the zkAsset
-      const asset = await window.aztec.zkAsset(addresses.ZkAsset);
-      setZkAsset(asset);
-      console.log('ASSET:', asset);
-  
-      const updateBalances = async (zkBalance) => {
-        setZkdaiBalance(zkBalance);
-        const publicBalance = await asset.balanceOfLinkedToken(account);
-        setDaiBalance(publicBalance.toString(10));
-      }
-      
-      // Initialise balances
-      updateBalances(await asset.balance())
-  
-      // Update balances on each transfer of ZkAsset
-      asset.subscribeToBalance(updateBalances)
     }
     init();
-  }, [account, addresses]);
+  }, [addresses.AztecStreamer]);
 
   return (
     <ApolloProvider client={client}>
@@ -194,7 +154,7 @@ const App = () => {
             <Typography variant="h6" className={classes.title}>
               Quachtli
             </Typography>
-            <Button variant="contained" >Connect to wallet</Button>
+            {/* <Button className={classes.button} variant="contained" >Connect to Wallet</Button> */}
           </Toolbar>
         </AppBar>
       <main className={classes.layout}>
@@ -213,10 +173,35 @@ const App = () => {
             spacing={3}
             xs={6}
           >
+          <Grid item>
+           <Paper className={`${classes.pageElement} ${classes.paper}`}>
+            <Typography variant="h5" gutterBottom>
+              Select ZkAsset
+            </Typography>
+            <TextField
+              select
+              label="zkAsset"
+              value={zkAsset ? zkAsset.address : undefined}
+              onChange={val => updateZkAsset(val.target.value)}
+              SelectProps={{
+                native: true,
+              }}
+              variant="filled"
+              fullWidth
+              // className={classes.formControl}
+            >
+              {Object.entries(zkAssets).map(([address, metadata]) => (
+                  <option key={address} value={address}>
+                    {metadata.symbol}
+                  </option>
+              ))}
+            </TextField>
+          </Paper>
+        </Grid>
             <Grid item>
               <Paper className={`${classes.pageElement} ${classes.paper}`}>
                 <Typography variant="h5" gutterBottom>
-                  Deposit DAI for ZkDAI
+                  Swap Tokens for zkTokens
                 </Typography>
                 <Deposit
                   userAddress={account}

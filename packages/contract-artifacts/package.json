@@ -1,7 +1,7 @@
 {
   "name": "@quachtli/contract-artifacts",
   "description": "Addresses of deployed AZTEC contracts on Ethereum mainnet and testnets",
-  "version": "0.0.0-semantically-released",
+  "version": "0.0.4",
   "author": "Tom French",
   "bugs": {
     "url": "https://github.com/TomAFrench/Quachtli/issues"
