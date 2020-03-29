@@ -201,7 +201,7 @@ const App = () => {
             <Grid item>
               <Paper className={`${classes.pageElement} ${classes.paper}`}>
                 <Typography variant="h5" gutterBottom>
-                  Deposit DAI for ZkDAI
+                  Swap Tokens for zkTokens
                 </Typography>
                 <Deposit
                   userAddress={account}
