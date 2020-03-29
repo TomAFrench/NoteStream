@@ -2,10 +2,10 @@ import moment from 'moment';
 
 import { buildProofs } from './proofs/withdrawalProof';
 
-export async function calculateWithdrawal(stream, aztec) {
+export async function calculateWithdrawal(stream, aztec, bufferTime=0) {
 
   const note = await aztec.zkNote(stream.currentBalance)
-  const withdrawalValue = await calculateMaxWithdrawalValue(stream, note.value)
+  const withdrawalValue = await calculateMaxWithdrawalValue(stream, note.value, bufferTime)
   const withdrawalDuration = await calculateWithdrawalDuration(stream, withdrawalValue, aztec)
   return {
     withdrawalValue,
@@ -13,7 +13,7 @@ export async function calculateWithdrawal(stream, aztec) {
   }
 }
 
-export async function calculateMaxWithdrawalValue(stream, noteValue) {
+export async function calculateMaxWithdrawalValue(stream, noteValue, bufferTime=0) {
   const {
     lastWithdrawTime, stopTime,
   } = stream;
@@ -27,9 +27,11 @@ export async function calculateMaxWithdrawalValue(stream, noteValue) {
     moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))
     ).asSeconds()
 
+  if (remainingStreamLength === 0) return 0
+
   const idealWithdrawDuration = moment.duration(
     moment().startOf('second').diff(moment.unix(lastWithdrawTime))
-    ).asSeconds();
+    ).add(bufferTime, 'seconds').asSeconds();
 
   // Get withdrawal amount if notes were infinitely divisible
   // Floor this to get maximum possible withdrawal
@@ -45,6 +47,8 @@ export async function calculateWithdrawalDuration(stream, withdrawalValue, aztec
   } = stream;
 
   const streamZkNote = await aztec.zkNote(currentBalance);
+  
+  if (streamZkNote.value === 0) return 0
 
   const remainingStreamLength = moment.duration(
     moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))

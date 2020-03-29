@@ -11,6 +11,7 @@ export async function buildProofs(aztec, streamContractAddress, streamObj, withd
     streamContractAddress,
     inputNotes[0],
     outputNotes[0],
+    streamObj.sender,
     aztec,
   );
 

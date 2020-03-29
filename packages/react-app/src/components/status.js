@@ -16,7 +16,7 @@ import moment from 'moment';
 import calculateTime from '../utils/time';
 
 import { calculateMaxWithdrawalValue, withdrawFunds } from '../utils/withdrawal';
-// import { cancelStream } from '../utils/cancellation';
+import { cancelStream } from '../utils/cancellation';
 
 const NoteDecoder = ({ render, zkNote, noteHash }) => {
   const [note, setNote] = useState({});
@@ -117,8 +117,8 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
           <Grid item>
             {`${availableBalance}/${note.value} ${stream.zkAsset.symbol}`} available to withdraw
           </Grid>
-          <Grid item container justify="center">
-            {/* <Grid item>
+          <Grid item container justify="space-between">
+            <Grid item>
               <Button
                 variant="contained"
                 color="primary"
@@ -126,7 +126,7 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
                 >
                 Cancel
               </Button>
-            </Grid> */}
+            </Grid>
             <Grid item>
               <Button
                 variant="contained"
