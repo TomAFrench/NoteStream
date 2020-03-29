@@ -7,7 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 
@@ -55,64 +55,13 @@ const useStyles = makeStyles(theme => ({
   icon: {
     marginRight: theme.spacing(2),
   },
+  // button: {
+  //   marginRight: theme.spacing(2),
+  // },
   title: {
     flexGrow: 1,
   },
 }));
-
-// async function fetchGanacheContractAddress(contractName) {
-//   let network;
-//   try {
-//     const response = await fetch(`${window.__AZTEC_ARTIFACTS_URL_DEV__}/${contractName}.json`);
-//     const contract = await response.json();
-//     const lastNetworkId = Object.keys(contract.networks).pop();
-//     network = contract.networks[lastNetworkId];
-//   } catch (error) {
-//     return '';
-//   }
-
-//   return (network && network.address) || '';
-// }
-
-// function handleRetry() {
-//   handleReload();
-//   initAztecSdk();
-// }
-
-// function handleProfileChanged(type, value, error) {
-//   if (type === 'aztecAccountChanged') {
-//     if (error) {
-//       handleLoadError(error);
-//     }
-//   } else {
-//     handleReload(type, value);
-//   }
-// }
-
-// async function initAztecSdk() {
-//   window.aztec.addListener('profileChanged', handleProfileChanged);
-
-//   const contractAddresses = {
-//     ganache: {
-//       ACE: await fetchGanacheContractAddress('ACE'),
-//       AccountRegistryManager: await fetchGanacheContractAddress('AccountRegistryManager'),
-//     },
-//   };
-//   try {
-//     await window.aztec.enable({
-//       apiKey: 'test1234',
-//       contractAddresses,
-//     });
-//   } catch (error) {
-//     console.error('Failed to enable aztec', error);
-//   }
-// };
-
-// if (window.aztec) {
-//   initAztecSdk();
-// } else {
-//   window.aztecCallback = initAztecSdk;
-// }
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -130,17 +79,14 @@ function TabPanel(props) {
   );
 }
 
-
 const App = () => {
   const classes = useStyles();
-  // const [web3, setWeb3] = useState(null);
   const [account, setAccount] = useState(null);
   const [zkAsset, setZkAsset] = useState();
   const [daiBalance, setDaiBalance] = useState(0);
   const [zkdaiBalance, setZkdaiBalance] = useState(0);
   const [streamContractInstance, setStreamContractInstance] = useState(null);
   const [value, setValue] = useState(0);
-
 
   const addresses = getContractAddressesForNetwork(4)
 
@@ -194,7 +140,7 @@ const App = () => {
             <Typography variant="h6" className={classes.title}>
               Quachtli
             </Typography>
-            <Button variant="contained" >Connect to wallet</Button>
+            {/* <Button className={classes.button} variant="contained" >Connect to Wallet</Button> */}
           </Toolbar>
         </AppBar>
       <main className={classes.layout}>
