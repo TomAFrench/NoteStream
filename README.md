@@ -3,9 +3,13 @@
 <p align="center">NoteStream is the protocol for private real-time finance on Ethereum using AZTEC Protocol.
 
 <p align="center">
-  <a href="https://docs.openzeppelin.com/">
-    <img src="https://img.shields.io/badge/built%20with-OpenZeppelin-3677FF" alt="Built with OpenZeppelin">
+  <a href="https://gitcoin.co/grants/638/quachtli-private-money-streaming">
+    <img src="https://img.shields.io/badge/Gitcoin-Grant%20Active-brightgreen" alt="https://img.shields.io/badge/gitcoin%20grant-active-brightgreen">
   </a>
+  <a href="https://docs.aztecprotocol.com/">
+    <img src="https://img.shields.io/badge/built%20with-AZTEC%20Protocol-3677FF" alt="Built with AZTEC Protocol">
+  </a>
+
   <a href="https://www.gnu.org/licenses/lgpl-3.0">
     <img src="https://img.shields.io/badge/License-LGPL%20v3-008033.svg" alt="License: LGPL v3">
   </a>
@@ -29,28 +33,41 @@ NoteStream was started at the [2020 ETHLondon Hackathon](https://ethlondon.com/)
 
 NoteStream is maintained as a monorepo with multiple sub packages. Please find a comprehensive list below.
 
-### Deployed Packages
+### Javascript Packages
 
-| Package                                        | Version                                                                                                               | Description                   |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| [`@notestream/contracts`](/packages/contract)  | [![npm](https://img.shields.io/npm/v/@notentream/contracts.svg)](https://www.npmjs.com/package/@notestream/contracts) | AZTEC note streaming protocol |
-| [`@notestream/react-app`](/packages/react-app) | [![npm](https://img.shields.io/npm/v/@notestream/react-app.svg)](https://www.npmjs.com/package/@notestream/react-app) | Example dapp frontend         |
+| Package                                                 | Version                                                                                                                                 | Description                                               |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+|                                                         |
+| [`@notestream/contract-artifacts`](/packages/react-app) | [![npm](https://img.shields.io/npm/v/@notestream/contract-artifacts.svg)](https://www.npmjs.com/package/@notestream/contract-artifacts) | Contract artifacts and addresses for NoteStream contracts |
 
-### Private Packages
+### Solidity Packages
 
-| Package                                        | Description                                                                                                           |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| [`@notestream/dev-utils`](/packages/dev-utils) | [![npm](https://img.shields.io/npm/v/@notestream/dev-utils.svg)](https://www.npmjs.com/package/@notestream/dev-utils) | Dev utils to be shared across NoteStream projects and packages |
+| Package                                       | Version                                                                                                               | Description                             |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| [`@notestream/contracts`](/packages/contract) | [![npm](https://img.shields.io/npm/v/@notestream/contracts.svg)](https://www.npmjs.com/package/@notestream/contracts) | AZTEC note streaming protocol contracts |
 
-<!--## Contracts :memo:
+
+### Unpublished Packages
+
+| Package                                        | Description                                                             |
+| ---------------------------------------------- | ----------------------------------------------------------------------- |
+| [`@notestream/react-app`](/packages/react-app) | Example dapp frontend                                                   |
+| [`@notestream/subgraph`](/packages/subgraph)   | Subgraph tracking NoteStream stream creations/withdrawals/cancellations |
+| [`@notestream/dev-utils`](/packages/dev-utils) | Dev utils to be shared across NoteStream projects and packages          |
+
+
+## Contracts :memo:
 
 Find the addresses for our smart contracts below. They have not been audited in any way so I don't recommend putting real money into them.
 
-### Ethereum Mainnet
+<!-- ### Ethereum Mainnet
 
 | Name          | Description            | Address                           |
 | ------------- | ---------------------- | --------------------------------- |
 | AztecStreamer | Money streaming engine | [](https://etherscan.io/address/) |
+
+-->
+
 
 
 
@@ -58,9 +75,10 @@ Find the addresses for our smart contracts below. They have not been audited in 
 
 NoteStream is deployed on the Rinkeby testnet.
 
-| Name          | Description            | Address                                   |
-| ------------- | ---------------------- | ----------------------------------------- |
-| AztecStreamer | Money streaming engine | [](https://rinkeby.etherscan.io/address/) | --> |
+
+| Name          | Description            | Address                                                                                                                       |
+| ------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| AztecStreamer | Money streaming engine | [0x455cD682E2411C0cF9a8c91c4498732B8Dd5B751](https://rinkeby.etherscan.io/address/0x455cD682E2411C0cF9a8c91c4498732B8Dd5B751) |
 
 ## Usage :hammer_and_pick:
 
@@ -70,7 +88,7 @@ To check out and compile the smart contracts, install any dependencies and then 
 $ yarn install
 $ cd packages/contracts
 $ yarn compile
-$ yarn buidler run scripts/deploy.js --network rinkeby
+$ yarn deploy --network rinkeby
 ```
 
 ## Contact us :envelope:
@@ -103,8 +121,6 @@ $ yarn install
 $ yarn contracts:deploy --network rinkeby
 ```
 
-You need to enter your address in `@notestream/contracts/scripts/deploy.js` for some ERC20 tokens to be minted for you.
-
 #### Start frontend
 
 Start the frontend with the command
@@ -113,6 +129,4 @@ Start the frontend with the command
 yarn react-app:start
 ```
 
-Open `http://localhost:3000` in your web3 enabled browser to view the demo dapp. Make sure you are on the Rinkeby network and have some test eth. 
-
-The Dapp will allow you to convert ERC20 tokens into zkTokens, send these zkTokens streamed around to other Ethereum addresses and withdraw from zkTokens back into ERC20 tokens.
+The frontend will allow you to convert ERC20 tokens into zkTokens, send these zkTokens streamed around to other Ethereum addresses and withdraw from zkTokens back into ERC20 tokens.
