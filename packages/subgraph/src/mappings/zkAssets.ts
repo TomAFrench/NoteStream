@@ -11,14 +11,18 @@ export function addZkAsset(address: string): void {
   zkAsset = new ZkAsset(address);
 
   /* Testnets */
-  if (address == "0x9a5DF4E3C6de1f39fE09cbE6C1F27a4c3AB52d7c") {
+  if (address == "0x9a5df4e3c6de1f39fe09cbe6C1f27a4c3ab52d7c") {
     zkAsset.name = "zkTestnetDAI";
     zkAsset.scalingFactor = 1;
     zkAsset.symbol = "zkDAI";
-  } else if (address == "0xfD3CEbb289B26ad63a389365187689fe21f204Cd") {
+  } else if (address == "0xfd3cebb289b26ad63a389365187689fe21f204cd") {
     zkAsset.name = "zkZEENUS";
     zkAsset.scalingFactor = 1;
     zkAsset.symbol = "zkZEENUS";
+  } else {
+    zkAsset.name = "unknown";
+    zkAsset.scalingFactor = 1;
+    zkAsset.symbol = "unknown";
   }
 
   zkAsset.save();
