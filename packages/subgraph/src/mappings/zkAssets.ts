@@ -11,7 +11,7 @@ export function addZkAsset(address: string): void {
   zkAsset = new ZkAsset(address);
 
   /* Testnets */
-  if (address == "0x9a5df4e3c6de1f39fe09cbe6C1f27a4c3ab52d7c") {
+  if (address == "0x9a5df4e3c6de1f39fe09cbe6c1f27a4c3ab52d7c") {
     zkAsset.name = "zkTestnetDAI";
     zkAsset.scalingFactor = 1;
     zkAsset.symbol = "zkDAI";
