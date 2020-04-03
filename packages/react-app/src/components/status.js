@@ -51,7 +51,7 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
     async function updateMaxWithdrawalValue() {
       const timeBetweenNotes = (stream.stopTime-stream.lastWithdrawTime)/note.value
       const maxWithdrawalValue = await calculateMaxWithdrawalValue(stream, note.value)
-      setAvailableBalance(maxWithdrawalValue)
+      setAvailableBalance(Math.max(maxWithdrawalValue, 0))
 
       if (!maxWithdrawalValue) {
         // If don't have a good max withdrawal value then check again quickly
