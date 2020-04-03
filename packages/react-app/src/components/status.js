@@ -112,7 +112,7 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
         <LinearProgress variant="determinate" value={withdrawPercentage} color="secondary" />
         Withdrawn: {withdrawPercentage}%
       </Grid>
-      {role === "recipient" && 
+      {role === "recipient" ?
         <>
           <Grid item>
             {`${availableBalance}/${note.value} ${stream.zkAsset.symbol}`} available to withdraw
@@ -134,6 +134,23 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
                 onClick={() => withdrawFunds(aztec, streamContractInstance, stream.id, userAddress)}
                 >
                 Withdraw
+              </Button>
+            </Grid>
+          </Grid>
+        </>
+      :
+        <>
+          <Grid item>
+            {`${availableBalance}/${note.value} ${stream.zkAsset.symbol}`} streamed to recipient
+          </Grid>
+          <Grid item container justify="flex-end">
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => cancelStream(aztec, streamContractInstance, stream.id, userAddress)}
+                >
+                Cancel
               </Button>
             </Grid>
           </Grid>
