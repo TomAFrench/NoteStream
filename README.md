@@ -21,7 +21,7 @@ For those of you not familiar with Sablier, this means that NoteStream is a priv
 
 This could be applied in many areas but one obvious usecase is that it allows a salary to be paid out every second, making payday a thing of the past. While this is possible using Sablier today, it has the unfortunate sideeffect of telling everyone *exactly* how much you earn as everything is public on the Ethereum blockchain. NoteStream solves this issue by making use of [AZTEC Protocol](https://www.aztecprotocol.com) to encrypt the value of your salary to keep it private while ensuring that you can always withdraw the money you have earned so far.
 
-NoteStream was started at the [2020 ETHLondon Hackathon](https://ethlondon.com/) by [Tom French](https://github.com/TomAFrench), [Moe Adham](https://github.com/moeadham), [Evgeni Shavkunov](https://github.com/eshavkun) and [György Tamás Klöczl](https://github.com/glodzl). NoteStream was one of six finalists and was chosen as "Best use of AZTEC Protocol".
+NoteStream was started at the [2020 ETHLondon Hackathon](https://ethlondon.com/) (under the name Quachtli) by [Tom French](https://github.com/TomAFrench), [Moe Adham](https://github.com/moeadham), [Evgeni Shavkunov](https://github.com/eshavkun) and [György Tamás Klöczl](https://github.com/glodzl). NoteStream was one of six finalists and was chosen as "Best use of AZTEC Protocol".
 
 **Notice:** I learned a lot about how to build on top of Aztec Protocol while creating NoteStream. As AZTEC is still very new, there isn't a lot of documentation out there, to help with this I'm in the process of writing a blog post which explains NoteStream how operates. I'll post a link here when I'm done.
 
