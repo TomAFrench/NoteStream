@@ -1,20 +1,20 @@
 {
-  "name": "@quachtli/react-app",
+  "name": "@notestream/react-app",
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TomAFrench/Quachtli.git"
+    "url": "git+https://github.com/TomAFrench/NoteStream.git"
   },
   "author": "Tom French",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TomAFrench/Quachtli/issues"
+    "url": "https://github.com/TomAFrench/NoteStream/issues"
   },
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.41",
     "@material-ui/core": "^4.9.5",
     "@material-ui/icons": "^4.9.1",
-    "@quachtli/contract-artifacts": "^0.0.4",
+    "@notestream/contract-artifacts": "^0.1.0",
     "aztec.js": "^0.17.0",
     "graphql": "^14.6.0",
     "moment": "^2.24.0",

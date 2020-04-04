@@ -19,13 +19,13 @@ import Deposit from './components/deposit';
 import Status from './components/status';
 
 import getZkAssetsForNetwork from "zkasset-metadata"
-import { getContractAddressesForNetwork, abis } from "@quachtli/contract-artifacts"
+import { getContractAddressesForNetwork, abis } from "@notestream/contract-artifacts"
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/tomafrench/quachtli-rinkeby',
+    uri: 'https://api.thegraph.com/subgraphs/name/tomafrench/notestream-rinkeby',
   })
 });
 
@@ -152,7 +152,7 @@ const App = () => {
           <Toolbar>
             <LocalAtmIcon className={classes.icon}/>
             <Typography variant="h6" className={classes.title}>
-              Quachtli
+              NoteStream
             </Typography>
             {/* <Button className={classes.button} variant="contained" >Connect to Wallet</Button> */}
           </Toolbar>

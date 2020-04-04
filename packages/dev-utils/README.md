@@ -1,19 +1,19 @@
 ## Dev Utils
 
-Dev utils to be shared across Quachtli projects and packages.
+Dev utils to be shared across NoteStream projects and packages.
 
 ## Usage
 
 Install the module:
 
 ```bash
-$ yarn add @quachtli/dev-utils
+$ yarn add @notestream/dev-utils
 ```
 
 And import it in your project:
 
 ```js
-const quachtliDevUtils = require("@quachtli/dev-utils");
+const devUtils = require("@notestream/dev-utils");
 ```
 
 ### Install Modules

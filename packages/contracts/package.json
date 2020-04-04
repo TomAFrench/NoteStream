@@ -1,18 +1,18 @@
 {
-  "name": "@quachtli/contracts",
-  "version": "1.0.0",
-  "description": "Quachtli contracts",
+  "name": "@notestream/contracts",
+  "version": "0.1.0",
+  "description": "NoteStream contracts",
   "main": "./src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TomAFrench/Quachtli.git"
+    "url": "git+https://github.com/TomAFrench/NoteStream.git"
   },
   "author": "Tom French",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TomAFrench/Quachtli/issues"
+    "url": "https://github.com/TomAFrench/NoteStream/issues"
   },
-  "homepage": "https://github.com/TomAFrench/Quachtli#readme",
+  "homepage": "https://github.com/TomAFrench/NoteStream#readme",
   "scripts": {
     "compile": "buidler compile",
     "clean": "buidler clean",

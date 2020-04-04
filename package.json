@@ -1,5 +1,5 @@
 {
-  "name": "@quachtli/monorepo",
+  "name": "@notestream/monorepo",
   "version": "1.0.0",
   "keywords": [
     "ethereum",
@@ -9,17 +9,17 @@
   ],
   "private": true,
   "scripts": {
-    "contracts:compile": "yarn workspace @quachtli/contracts compile",
-    "contracts:deploy": "yarn workspace @quachtli/contracts deploy",
-    "contracts:test": "yarn workspace @quachtli/contracts test",
-    "react-app:build": "yarn workspace @quachtli/react-app build",
-    "react-app:eject": "yarn workspace @quachtli/react-app eject",
-    "react-app:start": "yarn workspace @quachtli/react-app start",
-    "react-app:test": "yarn workspace @quachtli/react-app test",
-    "subgraph:auth": "yarn workspace @quachtli/subgraph auth",
-    "subgraph:codegen": "yarn workspace @quachtli/subgraph codegen",
-    "subgraph:build": "yarn workspace @quachtli/subgraph build",
-    "subgraph:deploy": "yarn workspace @quachtli/subgraph deploy"
+    "contracts:compile": "yarn workspace @notestream/contracts compile",
+    "contracts:deploy": "yarn workspace @notestream/contracts deploy",
+    "contracts:test": "yarn workspace @notestream/contracts test",
+    "react-app:build": "yarn workspace @notestream/react-app build",
+    "react-app:eject": "yarn workspace @notestream/react-app eject",
+    "react-app:start": "yarn workspace @notestream/react-app start",
+    "react-app:test": "yarn workspace @notestream/react-app test",
+    "subgraph:auth": "yarn workspace @notestream/subgraph auth",
+    "subgraph:codegen": "yarn workspace @notestream/subgraph codegen",
+    "subgraph:build": "yarn workspace @notestream/subgraph build",
+    "subgraph:deploy": "yarn workspace @notestream/subgraph deploy"
   },
   "workspaces": {
     "packages": [

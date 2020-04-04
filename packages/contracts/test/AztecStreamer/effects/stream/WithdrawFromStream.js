@@ -1,4 +1,4 @@
-const { devConstants, mochaContexts } = require("@quachtli/dev-utils");
+const { devConstants, mochaContexts } = require("@notestream/dev-utils");
 const BigNumber = require("bignumber.js");
 const moment = require("moment");
 const truffleAssert = require("truffle-assertions");

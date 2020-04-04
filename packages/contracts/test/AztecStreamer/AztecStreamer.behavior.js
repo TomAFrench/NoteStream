@@ -1,4 +1,4 @@
-const { devConstants } = require("@quachtli/dev-utils");
+const { devConstants } = require("@notestream/dev-utils");
 const truffleAssert = require("truffle-assertions");
 
 const shouldBehaveLikeGetStream = require("./view/GetStream");

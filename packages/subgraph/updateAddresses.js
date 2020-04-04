@@ -8,17 +8,17 @@ const { t } = require("typy");
 function getNetworkNameForSubgraph() {
   switch (process.env.SUBGRAPH) {
     case undefined:
-    case "tomafrench/quachtli":
+    case "tomafrench/notestream":
       return "mainnet";
-    case "tomafrench/quachtli-goerli":
+    case "tomafrench/notestream-goerli":
       return "goerli";
-    case "tomafrench/quachtli-kovan":
+    case "tomafrench/notestream-kovan":
       return "kovan";
-    case "tomafrench/quachtli-rinkeby":
+    case "tomafrench/notestream-rinkeby":
       return "rinkeby";
-    case "tomafrench/quachtli-ropsten":
+    case "tomafrench/notestream-ropsten":
       return "ropsten";
-    case "tomafrench/quachtli-local":
+    case "tomafrench/notestream-local":
       return "local";
     default:
       return null;

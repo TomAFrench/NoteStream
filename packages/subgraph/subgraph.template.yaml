@@ -1,6 +1,6 @@
 specVersion: 0.0.1
-description: Quachtli is the Ethereum protocol for private real-time finance
-repository: https://github.com/TomAFrech/Quachtli/packages/subgraph
+description: NoteStream is the Ethereum protocol for private real-time finance
+repository: https://github.com/TomAFrech/NoteStream/packages/subgraph
 schema:
   file: ./schema.graphql
 dataSources:
