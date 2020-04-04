@@ -93,7 +93,7 @@ $ yarn deploy --network rinkeby
 
 ## Contact us :envelope:
 
-While NoteStream was built primarily as a proof of concept in order to learn about how to use AZTEC Protocol and isn't being taken further (currently). I'd love to hear from anybody building on top of NoteStream, if you have any questions or just want to show off what you've made, ping me on [Twitter](https://twitter.com/tomfrench_eth).
+I'd love to hear from anybody wanting to build on top of NoteStream or building something similar. If you have any questions or just want to show off what you've made, ping me on [Twitter](https://twitter.com/tomfrench_eth).
 
 ## Contributing :raising_hand_woman:
 
