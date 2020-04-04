@@ -1,4 +1,4 @@
-const { chaiPlugin } = require("@quachtli/dev-utils");
+const { chaiPlugin } = require("@notestream/dev-utils");
 const traveler = require("ganache-time-traveler");
 
 const BigNumber = require("bignumber.js");

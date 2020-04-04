@@ -1,4 +1,4 @@
-const { devConstants } = require("@quachtli/dev-utils");
+const { devConstants } = require("@notestream/dev-utils");
 const shouldBehaveLikeAztecStreamer = require("./AztecStreamer.behavior");
 
 const ACE = artifacts.require("./ACE.sol");

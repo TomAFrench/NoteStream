@@ -6,9 +6,10 @@ import "./StreamUtilities.sol";
 
 import "./Types.sol";
 
+
 /**
- * @title Quachtli's Money Streaming
- * @author Quachtli
+ * @title NoteStream's Money Streaming
+ * @author NoteStream
  */
 contract AztecStreamer is ReentrancyGuard {
     using SafeMath for uint256;
@@ -269,9 +270,7 @@ contract AztecStreamer is ReentrancyGuard {
         // If the stream has been fully withdrawn then we can skip
         // withdrawing the stream note and just delete the stream
         if (stream.lastWithdrawTime == stream.stopTime) {
-            delete streams[streamId];
-            emit CancelStream(streamId, stream.sender, stream.recipient, 0);
-            return true;
+            return _cancelStreamInternal(streamId, 0);
         }
 
         // Otherwise check that cancelling party isn't trying to scam the other
@@ -311,13 +310,22 @@ contract AztecStreamer is ReentrancyGuard {
             stream
         );
 
-        delete streams[streamId];
+        return _cancelStreamInternal(streamId, _unclaimedTime);
+    }
+
+    function _cancelStreamInternal(uint256 _streamId, uint256 _withdrawalTime)
+        internal
+        returns (bool)
+    {
+        Types.AztecStream storage stream = streams[_streamId];
+
         emit CancelStream(
-            streamId,
+            _streamId,
             stream.sender,
             stream.recipient,
-            _unclaimedTime
+            _withdrawalTime
         );
+        delete streams[_streamId];
         return true;
     }
 }

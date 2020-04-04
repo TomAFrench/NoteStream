@@ -1,10 +1,10 @@
-## Quachtli Subgraph
+## NoteStream Subgraph
 
 The Graph is a tool that helps dapps index their blockchain data so that users don't have to wait hours or more for the website to load.
 
 This is our subgraph, a collection of schemas and event handlers that parse the data broadcast on the Ethereum blockchain to GraphQL form.
 
-Our smart contracts can be found in the [Quachtli monorepo](https://github.com/TomAFrench/Quachtli).
+Our smart contracts can be found in the [NoteStream monorepo](https://github.com/TomAFrench/NoteStream).
 
 ## Contributing
 

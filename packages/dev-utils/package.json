@@ -1,12 +1,12 @@
 {
-  "name": "@quachtli/dev-utils",
-  "description": "Dev utils to be shared across Quachtli packages",
-  "version": "1.0.0",
+  "name": "@notestream/dev-utils",
+  "description": "Dev utils to be shared across NoteStream packages",
+  "version": "0.1.0",
   "author": {
     "name": "Tom French"
   },
   "bugs": {
-    "url": "https://github.com/TomAFrench/Quachtli/issues"
+    "url": "https://github.com/TomAFrench/NoteStream/issues"
   },
   "dependencies": {
     "bignumber.js": "^9.0.0"
@@ -29,7 +29,7 @@
   "files": [
     "/lib"
   ],
-  "homepage": "https://github.com/TomAFrench/Quachtli/tree/develop/packages/dev-utils#readme",
+  "homepage": "https://github.com/TomAFrench/NoteStream/tree/develop/packages/dev-utils#readme",
   "license": "LGPL-3.0",
   "main": "./lib",
   "publishConfig": {
@@ -37,7 +37,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TomAFrench/Quachtli.git",
+    "url": "https://github.com/TomAFrench/NoteStream.git",
     "directory": "packages/dev-utils"
   },
   "scripts": {

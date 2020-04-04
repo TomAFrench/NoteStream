@@ -17,7 +17,7 @@ type Transaction @entity {
   to: Bytes
 }
 
-### Quachtli ###
+### NoteStream ###
 
 # The id is the stream's id
 type Cancellation @entity {
