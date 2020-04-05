@@ -15,7 +15,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import moment from 'moment';
 import calculateTime from '../utils/time';
 
-import { calculateMaxWithdrawalValue, withdrawFunds } from '../utils/withdrawal';
+import { calculateWithdrawal, withdrawFunds } from '../utils/withdrawal';
 import { cancelStream } from '../utils/cancellation';
 
 const NoteDecoder = ({ render, zkNote, noteHash }) => {
@@ -50,13 +50,13 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
   useEffect(() => {
     async function updateMaxWithdrawalValue() {
       const timeBetweenNotes = (stream.stopTime-stream.lastWithdrawTime)/note.value
-      const maxWithdrawalValue = await calculateMaxWithdrawalValue(stream, note.value)
-      setAvailableBalance(Math.max(maxWithdrawalValue, 0))
+      const { withdrawalValue } = await calculateWithdrawal(note.value, stream.lastWithdrawTime, stream.stopTime)
+      setAvailableBalance(Math.max(withdrawalValue, 0))
 
-      if (!maxWithdrawalValue) {
+      if (!withdrawalValue) {
         // If don't have a good max withdrawal value then check again quickly
         timeoutId = setTimeout(updateMaxWithdrawalValue, 1000)
-      } else if (maxWithdrawalValue !== note.value){
+      } else if (withdrawalValue !== note.value){
         // If stream is not complete then recheck when a new note should be available
         timeoutId = setTimeout(updateMaxWithdrawalValue, timeBetweenNotes/2 * 1000)
       }

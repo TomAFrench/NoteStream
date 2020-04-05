@@ -6,6 +6,8 @@ const BUFFER_SECONDS = 120
 export async function cancelStream(aztec, streamContractInstance, streamId, userAddress) {
   const streamObj = await streamContractInstance.methods.getStream(streamId).call();
 
+  const note = await aztec.zkNote(streamObj.currentBalance)
+
   // If stream sender is cancelling the stream then they need to cancel
   // at a timestamp AFTER which the transaction is included in a block.
   // We then add a buffer of 2 minutes to the time which they try to cancel at.
@@ -15,7 +17,7 @@ export async function cancelStream(aztec, streamContractInstance, streamId, user
   const {
     withdrawalValue,
     withdrawalDuration
-  } = await calculateWithdrawal(streamObj, aztec, bufferSeconds)
+  } = await calculateWithdrawal(note.value, streamObj.lastWithdrawTime, streamObj.stopTime, bufferSeconds)
 
   const { proof1, proof2 } = await buildProofs(aztec, streamContractInstance.options.address, streamObj, withdrawalValue);
 

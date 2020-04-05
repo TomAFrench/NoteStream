@@ -1,73 +1,69 @@
 import moment from 'moment';
 
 import { buildProofs } from './proofs/withdrawalProof';
+import { getFraction } from './note';
 
-export async function calculateWithdrawal(stream, aztec, bufferTime=0) {
+export async function calculateWithdrawal(noteValue, lastWithdrawTime, stopTime, bufferTime=0) {
+ 
+  if (noteValue === 0) {
+    return {
+      withdrawalValue: 0,
+      withdrawalDuration: 0
+    }
+  }
 
-  const note = await aztec.zkNote(stream.currentBalance)
-  const withdrawalValue = await calculateMaxWithdrawalValue(stream, note.value, bufferTime)
-  const withdrawalDuration = await calculateWithdrawalDuration(stream, withdrawalValue, aztec)
+  const remainingStreamLength = moment.duration(
+    moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))
+    ).asSeconds()
+
+  // withdraw up to now or to end of stream
+  if (moment().isAfter(moment.unix(stopTime))){
+    return {
+      withdrawalValue: noteValue,
+      withdrawalDuration: remainingStreamLength
+    }
+  }
+  
+  const targettedWithdrawDuration = moment.duration(
+    moment().startOf('second').diff(moment.unix(lastWithdrawTime))
+    ).add(bufferTime, 'seconds').asSeconds();
+  
+  const { withdrawalValue, withdrawalDuration } = calculateSafeWithdrawal(noteValue, remainingStreamLength, targettedWithdrawDuration)
+
   return {
     withdrawalValue,
     withdrawalDuration
   }
 }
 
-export async function calculateMaxWithdrawalValue(stream, noteValue, bufferTime=0) {
-  const {
-    lastWithdrawTime, stopTime,
-  } = stream;
-
-  // withdraw up to now or to end of stream
-  if (moment().isAfter(moment.unix(stopTime))){
-    return noteValue
-  }
-
-  const remainingStreamLength = moment.duration(
-    moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))
-    ).asSeconds()
-
-  if (remainingStreamLength === 0) return 0
-
-  const idealWithdrawDuration = moment.duration(
-    moment().startOf('second').diff(moment.unix(lastWithdrawTime))
-    ).add(bufferTime, 'seconds').asSeconds();
-
-  // Get withdrawal amount if notes were infinitely divisible
-  // Floor this to get maximum possible withdrawal
-  const idealWithdrawalValue = (idealWithdrawDuration / remainingStreamLength) * noteValue
-  const withdrawalValue = Math.floor(idealWithdrawalValue)
-
-  return withdrawalValue
-}
-
-export async function calculateWithdrawalDuration(stream, withdrawalValue, aztec) {
-  const {
-    currentBalance, lastWithdrawTime, stopTime,
-  } = stream;
-
-  const streamZkNote = await aztec.zkNote(currentBalance);
-  
-  if (streamZkNote.value === 0) return 0
-
-  const remainingStreamLength = moment.duration(
-    moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))
-    ).asSeconds()
-
+function calculateSafeWithdrawal(currentBalance, remainingStreamLength, targettedWithdrawDuration) {
   // Find time period for single note to be unlocked then multiply by withdrawal
-  const timeBetweenNotes = remainingStreamLength / streamZkNote.value
+  const timeBetweenNotes = remainingStreamLength / currentBalance
+  
+  // This is often a decimal so we want to get the smallest number of periods to generate a duration of an integer number of seconds
+  const safeMultipleOfPeriods = getFraction(timeBetweenNotes).denominator
+  const safeTimeBetweenNotes = timeBetweenNotes * safeMultipleOfPeriods
+
+  // Calculate the number of complete safe periods which has passed to give number of withdrawable notes
+  const withdrawalValue = Math.floor(targettedWithdrawDuration / safeTimeBetweenNotes) * safeMultipleOfPeriods
   const withdrawalDuration = withdrawalValue * timeBetweenNotes
-  return withdrawalDuration
+  
+  return {
+    withdrawalValue,
+    withdrawalDuration
+  }
 }
 
 export async function withdrawFunds(aztec, streamContractInstance, streamId, userAddress) {
   const streamObj = await streamContractInstance.methods.getStream(streamId).call();
 
+  const note = await aztec.zkNote(streamObj.currentBalance)
+
   // Calculate what value of the stream is redeemable
   const {
     withdrawalValue,
     withdrawalDuration
-  } = await calculateWithdrawal(streamObj, aztec)
+  } = await calculateWithdrawal(note.value, streamObj.lastWithdrawTime, streamObj.stopTime,)
 
   const { proof1, proof2 } = await buildProofs(aztec, streamContractInstance.options.address, streamObj, withdrawalValue);
 
