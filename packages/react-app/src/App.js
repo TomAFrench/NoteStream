@@ -14,13 +14,14 @@ import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 
 import getWeb3 from './utils/web3';
 
-import Create from './components/create';
-import Deposit from './components/deposit';
 import Status from './components/status';
 
 import getZkAssetsForNetwork from "zkasset-metadata"
 import { getContractAddressesForNetwork, abis } from "@notestream/contract-artifacts"
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
+import DepositDialog from './components/modals/DepositModal';
+import WithdrawDialog from './components/modals/WithdrawModal';
+import CreateStreamDialog from './components/modals/CreateStreamModal';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -158,103 +159,64 @@ const App = () => {
           </Toolbar>
         </AppBar>
       <main className={classes.layout}>
+        <Paper className={`${classes.pageElement} ${classes.paper}`}>
         <Grid
-          container
-          direction="row"
-          spacing={3}
-        >
-          <Grid
-            item
             container
-            direction="column"
-            justify="flex-start"
-            // alignContent="stretch"
-            // alignItems="stretch"
+            direction="row"
+            justify="space-around"
             spacing={3}
-            xs={6}
           >
           <Grid item>
-           <Paper className={`${classes.pageElement} ${classes.paper}`}>
-            <Typography variant="h5" gutterBottom>
-              Select ZkAsset
-            </Typography>
-            <TextField
-              select
-              label="zkAsset"
-              value={zkAsset ? zkAsset.address : undefined}
-              onChange={val => updateZkAsset(val.target.value)}
-              SelectProps={{
-                native: true,
-              }}
-              variant="filled"
-              fullWidth
-              // className={classes.formControl}
-            >
-              {Object.entries(zkAssets).map(([address, metadata]) => (
-                  <option key={address} value={address}>
-                    {metadata.symbol}
-                  </option>
-              ))}
-            </TextField>
-          </Paper>
+            <DepositDialog
+              aztec={window.aztec}
+              zkAssets={zkAssets}
+              userAddress={account}
+            />
+          </Grid>
+          <Grid item>
+            <CreateStreamDialog
+              aztec={window.aztec}
+              zkAssets={zkAssets}
+              userAddress={account}
+              streamContractInstance={streamContractInstance}
+            />
+          </Grid>
+          <Grid item>
+            <WithdrawDialog
+              aztec={window.aztec}
+              zkAssets={zkAssets}
+              userAddress={account}
+            />
+          </Grid>
         </Grid>
-            <Grid item>
-              <Paper className={`${classes.pageElement} ${classes.paper}`}>
-                <Typography variant="h5" gutterBottom>
-                  Swap Tokens for zkTokens
-                </Typography>
-                <Deposit
+        </Paper>
+        <Grid item xs={12} className={classes.pageElement}>
+          <AppBar position="static">
+          <Tabs value={value} onChange={(event, newValue) => setValue(newValue)} variant="fullWidth">
+            <Tab label="Sending"  />
+            <Tab label="Receiving"  />
+          </Tabs>
+        </AppBar>
+          <Paper className={classes.paper}>
+            <TabPanel value={value} index={0}>
+              <Status
+                  role="sender"
                   userAddress={account}
-                  zkAsset={zkAsset}
-                  streamContractAddress={addresses.AztecStreamer}
-                  daiBalance={daiBalance}
+                  aztec={window.aztec}
+                  streamContractInstance={streamContractInstance}
                   zkdaiBalance={zkdaiBalance}
                 />
-              </Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={`${classes.pageElement} ${classes.paper}`}>
-                <Typography variant="h5" gutterBottom>
-                  Create a private stream
-                </Typography>
-                <Create
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <Status
+                  role="recipient"
                   userAddress={account}
-                  zkAsset={zkAsset}
-                  streamContractAddress={addresses.AztecStreamer}
+                  aztec={window.aztec}
                   streamContractInstance={streamContractInstance}
+                  zkdaiBalance={zkdaiBalance}
                 />
-              </Paper>
-            </Grid>
-          </Grid>
-          
-          <Grid item xs={6} className={classes.pageElement}>
-            <AppBar position="static">
-            <Tabs value={value} onChange={(event, newValue) => setValue(newValue)} variant="fullWidth">
-              <Tab label="Sending"  />
-              <Tab label="Receiving"  />
-            </Tabs>
-          </AppBar>
-            <Paper className={classes.paper}>
-              <TabPanel value={value} index={0}>
-                <Status
-                    role="sender"
-                    userAddress={account}
-                    aztec={window.aztec}
-                    streamContractInstance={streamContractInstance}
-                    zkdaiBalance={zkdaiBalance}
-                  />
-              </TabPanel>
-              <TabPanel value={value} index={1}>
-                <Status
-                    role="recipient"
-                    userAddress={account}
-                    aztec={window.aztec}
-                    streamContractInstance={streamContractInstance}
-                    zkdaiBalance={zkdaiBalance}
-                  />
-              </TabPanel>
-            </Paper>
-          </Grid>
+            </TabPanel>
+          </Paper>
         </Grid>
       </main>
     </ApolloProvider>
