@@ -1,6 +1,6 @@
 rinkeby:
   contracts:
     AztecStreamer:
-      address: '0x455cD682E2411C0cF9a8c91c4498732B8Dd5B751'
+      address: '0x15b1E0446b3f96C2C49Aa2d4E280f4613082449E'
       startBlock: 6203213
   networkName: rinkeby
