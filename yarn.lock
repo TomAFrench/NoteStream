@@ -7409,7 +7409,7 @@ graphql-tag@^2.10.2:
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.10.3.tgz#ea1baba5eb8fc6339e4c4cf049dabe522b0edf03"
   integrity sha512-4FOv3ZKfA4WdOKJeHdz6B3F/vxBLSgmBcGeAFPf4n1F64ltJUvOOerNj0rsJxONQGdhUMynQIvd6LzB+1J5oKA==
 
-graphql@^14.0.2:
+graphql@^14.0.2, graphql@^14.6.0:
   version "14.6.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.6.0.tgz#57822297111e874ea12f5cd4419616930cd83e49"
   integrity sha512-VKzfvHEKybTKjQVpTFrA5yUq2S9ihcZvfJAtsDBBCuV6wauPu1xl/f9ehgVf0FcEJJs4vz6ysb/ZMkGigQZseg==
@@ -16912,3 +16912,10 @@ zen-observable@^0.8.14:
   version "0.8.15"
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
+
+zkasset-metadata@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/zkasset-metadata/-/zkasset-metadata-0.1.2.tgz#ba6842662fecbca889c3a2431356a30b6d3bb3bb"
+  integrity sha512-gRkBT4mI4SSVyheMSffD5niYNkIEZ9qLh/nteAmV0sgcUH8+sSWktu4nL2qulx85j+oS5w5Y/0rvSkifePbG1g==
+  dependencies:
+    lodash "^4.17.11"
