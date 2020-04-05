@@ -15,8 +15,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import moment from 'moment';
 import calculateTime from '../utils/time';
 
-import { calculateMaxWithdrawalValue, withdrawFunds } from '../utils/withdrawal';
-// import { cancelStream } from '../utils/cancellation';
+import { calculateWithdrawal, withdrawFunds } from '../utils/withdrawal';
+import { cancelStream } from '../utils/cancellation';
 
 const NoteDecoder = ({ render, zkNote, noteHash }) => {
   const [note, setNote] = useState({});
@@ -50,13 +50,13 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
   useEffect(() => {
     async function updateMaxWithdrawalValue() {
       const timeBetweenNotes = (stream.stopTime-stream.lastWithdrawTime)/note.value
-      const maxWithdrawalValue = await calculateMaxWithdrawalValue(stream, note.value)
-      setAvailableBalance(maxWithdrawalValue)
+      const { withdrawalValue } = await calculateWithdrawal(note.value, stream.lastWithdrawTime, stream.stopTime)
+      setAvailableBalance(Math.max(withdrawalValue, 0))
 
-      if (!maxWithdrawalValue) {
+      if (!withdrawalValue) {
         // If don't have a good max withdrawal value then check again quickly
         timeoutId = setTimeout(updateMaxWithdrawalValue, 1000)
-      } else if (maxWithdrawalValue !== note.value){
+      } else if (withdrawalValue !== note.value){
         // If stream is not complete then recheck when a new note should be available
         timeoutId = setTimeout(updateMaxWithdrawalValue, timeBetweenNotes/2 * 1000)
       }
@@ -112,13 +112,13 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
         <LinearProgress variant="determinate" value={withdrawPercentage} color="secondary" />
         Withdrawn: {withdrawPercentage}%
       </Grid>
-      {role === "recipient" && 
+      {role === "recipient" ?
         <>
           <Grid item>
             {`${availableBalance}/${note.value} ${stream.zkAsset.symbol}`} available to withdraw
           </Grid>
-          <Grid item container justify="center">
-            {/* <Grid item>
+          <Grid item container justify="space-between">
+            <Grid item>
               <Button
                 variant="contained"
                 color="primary"
@@ -126,7 +126,7 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
                 >
                 Cancel
               </Button>
-            </Grid> */}
+            </Grid>
             <Grid item>
               <Button
                 variant="contained"
@@ -134,6 +134,23 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
                 onClick={() => withdrawFunds(aztec, streamContractInstance, stream.id, userAddress)}
                 >
                 Withdraw
+              </Button>
+            </Grid>
+          </Grid>
+        </>
+      :
+        <>
+          <Grid item>
+            {`${availableBalance}/${note.value} ${stream.zkAsset.symbol}`} streamed to recipient
+          </Grid>
+          <Grid item container justify="flex-end">
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => cancelStream(aztec, streamContractInstance, stream.id, userAddress)}
+                >
+                Cancel
               </Button>
             </Grid>
           </Grid>

@@ -1,15 +1,23 @@
 import { calculateWithdrawal } from './withdrawal';
 import { buildProofs } from './proofs/cancellationProof';
 
+const BUFFER_SECONDS = 120
 
 export async function cancelStream(aztec, streamContractInstance, streamId, userAddress) {
   const streamObj = await streamContractInstance.methods.getStream(streamId).call();
 
-  // Calculate what value of the stream is redeemable
+  const note = await aztec.zkNote(streamObj.currentBalance)
+
+  // If stream sender is cancelling the stream then they need to cancel
+  // at a timestamp AFTER which the transaction is included in a block.
+  // We then add a buffer of 2 minutes to the time which they try to cancel at.
+  const bufferSeconds = userAddress === streamObj.sender ? BUFFER_SECONDS : 0
+  
+  // Calculate a valid timestamp to cancel stream at
   const {
     withdrawalValue,
     withdrawalDuration
-  } = await calculateWithdrawal(streamObj, aztec)
+  } = await calculateWithdrawal(note.value, streamObj.lastWithdrawTime, streamObj.stopTime, bufferSeconds)
 
   const { proof1, proof2 } = await buildProofs(aztec, streamContractInstance.options.address, streamObj, withdrawalValue);
 

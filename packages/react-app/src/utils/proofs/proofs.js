@@ -40,6 +40,7 @@ export async function buildJoinSplitProof(
   streamContractAddress,
   streamNote,
   withdrawPaymentNote,
+  changeNoteOwner,
   aztec,
 ) {
   const { sender, recipient } = stream;
@@ -53,7 +54,7 @@ export async function buildJoinSplitProof(
     changeValue,
     [{ address: payer.address, linkedPublicKey: payer.linkedPublicKey },
       { address: payee.address, linkedPublicKey: payee.linkedPublicKey }],
-    streamContractAddress,
+    changeNoteOwner
   );
 
   const proofData = new aztec.JoinSplitProof(
