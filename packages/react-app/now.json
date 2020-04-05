@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "scope": "tomafrench",
+  "public": true,
+  "github": {
+    "enabled": false
+  }
+}
