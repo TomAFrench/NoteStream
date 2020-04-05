@@ -1,7 +1,7 @@
 {
   "name": "@notestream/contract-artifacts",
   "description": "Addresses of deployed AZTEC contracts on Ethereum mainnet and testnets",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Tom French",
   "bugs": {
     "url": "https://github.com/TomAFrench/NoteStream/issues"
