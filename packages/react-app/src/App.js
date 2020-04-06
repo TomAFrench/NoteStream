@@ -121,7 +121,7 @@ const App = () => {
         contractAddresses: {
           ACE: addresses.ACE
         },
-        apiKey: 'test1234', // API key for use with GSN for free txs.
+        apiKey: '9HRKN7S-JSZMRJM-KWSDWSY-B2VSRD9', // API key for use with GSN for free txs.
       });
       if (account) {
         console.log("Initialised AZTEC");
