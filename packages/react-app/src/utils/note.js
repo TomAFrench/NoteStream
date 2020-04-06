@@ -1,4 +1,3 @@
-
 /*
  * Calculate the optimal fraction for the Dividend proof to minimise the remainder
  */
