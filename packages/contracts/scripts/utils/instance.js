@@ -1,23 +1,19 @@
-import {
-  spawn,
-  exec,
-} from 'child_process';
-import {
-  log,
-  successLog,
-  errorLog,
-} from './log';
+import { spawn, exec } from "child_process";
+import { log, successLog, errorLog } from "./log";
 
-const childProcessHandler = (childProcess, {
-  shouldStart,
-  handleClear,
-  onStart,
-  onReceiveOutput,
-  onReceiveErrorOutput,
-  onError,
-  onClose,
-  handleStderrAsNormalOutput,
-}) => {
+const childProcessHandler = (
+  childProcess,
+  {
+    shouldStart,
+    handleClear,
+    onStart,
+    onReceiveOutput,
+    onReceiveErrorOutput,
+    onError,
+    onClose,
+    handleStderrAsNormalOutput,
+  }
+) => {
   let hasStarted = false;
   let onStartCallbacks = [];
   let stashedOutputs = [];
@@ -35,7 +31,7 @@ const childProcessHandler = (childProcess, {
 
   const chainNextInstance = (nextInstance) => {
     if (!nextInstance) return;
-    if (typeof nextInstance.next !== 'function') {
+    if (typeof nextInstance.next !== "function") {
       errorLog("'next' can only be called on instance.");
       return;
     }
@@ -51,16 +47,15 @@ const childProcessHandler = (childProcess, {
       errorLog("'next' is not a function.");
       return;
     }
-    const nextInstance = params.length > 0
-      ? await cb(...params)
-      : await cb(onStart && onStart());
+    const nextInstance =
+      params.length > 0 ? await cb(...params) : await cb(onStart && onStart());
 
     if (onStartCallbacks.length > 0) {
       chainNextInstance(nextInstance);
     }
   };
 
-  if (!('next' in childProcess)) {
+  if (!("next" in childProcess)) {
     childProcess.next = registerOnStartCallbacks; // eslint-disable-line no-param-reassign
   } else {
     errorLog("'next' is a property of child process.");
@@ -69,7 +64,7 @@ const childProcessHandler = (childProcess, {
   const hasNext = () => onStartCallbacks.length > 0;
 
   if (handleClear) {
-    if (!('clear' in childProcess)) {
+    if (!("clear" in childProcess)) {
       childProcess.clear = handleClear; // eslint-disable-line no-param-reassign
     } else {
       errorLog("'next' is a property of child process.");
@@ -77,7 +72,7 @@ const childProcessHandler = (childProcess, {
   }
 
   const handleNormalOtput = (data) => {
-    const output = data.toString('utf8');
+    const output = data.toString("utf8");
     if (!hasStarted && shouldStart) {
       const onStartMessage = shouldStart(output);
       if (onStartMessage) {
@@ -102,15 +97,15 @@ const childProcessHandler = (childProcess, {
     }
   };
 
-  childProcess.stdout.on('data', handleNormalOtput);
+  childProcess.stdout.on("data", handleNormalOtput);
 
-  childProcess.stderr.on('data', (data) => {
+  childProcess.stderr.on("data", (data) => {
     if (handleStderrAsNormalOutput) {
       handleNormalOtput(data);
       return;
     }
 
-    const output = data.toString('utf8');
+    const output = data.toString("utf8");
     if (!shouldStart && hasNext()) {
       stashedErrors.push(output);
     }
@@ -121,8 +116,8 @@ const childProcessHandler = (childProcess, {
     }
   });
 
-  childProcess.on('error', (error) => {
-    const output = error.toString('utf8');
+  childProcess.on("error", (error) => {
+    const output = error.toString("utf8");
     if (onError) {
       onError(output);
     } else {
@@ -130,9 +125,9 @@ const childProcessHandler = (childProcess, {
     }
   });
 
-  childProcess.on('close', (code) => {
+  childProcess.on("close", (code) => {
     if (!shouldStart && hasNext()) {
-      triggerNext(stashedOutputs.join(''), stashedErrors.join(''));
+      triggerNext(stashedOutputs.join(""), stashedErrors.join(""));
     } else if (onClose) {
       onClose(code);
     } else if (code !== 0) {
@@ -148,23 +143,15 @@ export default function instance(...args) {
   let params;
   let options;
   let childProcess;
-  if (args.length === 1
-        || (args.length === 2 && !Array.isArray(args[1]))
-  ) {
+  if (args.length === 1 || (args.length === 2 && !Array.isArray(args[1]))) {
     [command, options] = args;
     childProcess = exec(command);
   } else {
     [command, params, options] = args;
-    const {
+    const { windowsVerbatimArguments } = options;
+    childProcess = spawn(command, params, {
       windowsVerbatimArguments,
-    } = options;
-    childProcess = spawn(
-      command,
-      params,
-      {
-        windowsVerbatimArguments,
-      },
-    );
+    });
   }
 
   const {
@@ -178,17 +165,14 @@ export default function instance(...args) {
     handleStderrAsNormalOutput,
   } = options || {};
 
-  return childProcessHandler(
-    childProcess,
-    {
-      shouldStart,
-      handleClear,
-      onStart,
-      onReceiveOutput,
-      onReceiveErrorOutput,
-      onError,
-      onClose,
-      handleStderrAsNormalOutput,
-    },
-  );
+  return childProcessHandler(childProcess, {
+    shouldStart,
+    handleClear,
+    onStart,
+    onReceiveOutput,
+    onReceiveErrorOutput,
+    onError,
+    onClose,
+    handleStderrAsNormalOutput,
+  });
 }

@@ -9,6 +9,7 @@ import "@aztec/protocol/contracts/libs/MetaDataUtils.sol";
 
 import "./Types.sol";
 
+
 library StreamUtilities {
     using SafeMath for uint256;
     using SafeMath for uint32;
@@ -87,7 +88,6 @@ library StreamUtilities {
                 _stream.currentBalance,
             "incorrect notional note in proof 1"
         );
-
     }
 
     function _validateJoinSplitProof(
@@ -102,8 +102,12 @@ library StreamUtilities {
             .get(0);
 
         // Extract notes used in proof
-        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = proof2Outputs
-            .extractProofOutput();
+        (
+            bytes memory _proof2InputNotes,
+            bytes memory _proof2OutputNotes,
+            ,
+
+        ) = proof2Outputs.extractProofOutput();
 
         // Requires that output note respects dividend proof
         require(
@@ -133,8 +137,12 @@ library StreamUtilities {
             _stream
         );
 
-        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = proof2Outputs
-            .extractProofOutput();
+        (
+            bytes memory _proof2InputNotes,
+            bytes memory _proof2OutputNotes,
+            ,
+
+        ) = proof2Outputs.extractProofOutput();
 
         Note memory newStreamNote = _noteCoderToStruct(
             _proof2OutputNotes.get(1)
@@ -189,8 +197,12 @@ library StreamUtilities {
             _stream
         );
         // Extract notes used in proof
-        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = proof2Outputs
-            .extractProofOutput();
+        (
+            bytes memory _proof2InputNotes,
+            bytes memory _proof2OutputNotes,
+            ,
+
+        ) = proof2Outputs.extractProofOutput();
 
         bytes32 inputNoteHash = _noteCoderToStruct(_proof2InputNotes.get(0))
             .noteHash;
