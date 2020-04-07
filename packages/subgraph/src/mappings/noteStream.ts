@@ -1,11 +1,11 @@
-import { Cancellation, Stream, Withdrawal } from '../types/schema';
+import { Cancellation, Stream, Withdrawal } from "../types/schema";
 import {
   CreateStream as CreateStreamEvent,
   WithdrawFromStream as WithdrawFromStreamEvent,
   CancelStream as CancelStreamEvent,
-} from '../types/NoteStream/NoteStream';
-import { addZkAsset } from './zkAssets';
-import { addTransaction } from './transactions';
+} from "../types/NoteStream/NoteStream";
+import addZkAsset from "./zkAssets";
+import addTransaction from "./transactions";
 
 export function handleCreateStream(event: CreateStreamEvent): void {
   /* Create the stream object */
@@ -22,7 +22,7 @@ export function handleCreateStream(event: CreateStreamEvent): void {
   stream.save();
 
   /* Create adjacent but important objects */
-  addTransaction('CreateStream', event, streamId);
+  addTransaction("CreateStream", event, streamId);
   addZkAsset(event.params.zkAsset.toHex());
 }
 
@@ -33,9 +33,10 @@ export function handleWithdrawFromStream(event: WithdrawFromStreamEvent): void {
     return;
   }
   stream.noteHash = event.params.noteHash;
-  stream.lastWithdrawTime = stream.lastWithdrawTime.plus(event.params.withdrawDuration);
+  stream.lastWithdrawTime = stream.lastWithdrawTime.plus(
+    event.params.withdrawDuration
+  );
   stream.save();
-
 
   const withdrawal = new Withdrawal(event.transaction.hash.toHex());
   withdrawal.stream = streamId;
@@ -44,7 +45,7 @@ export function handleWithdrawFromStream(event: WithdrawFromStreamEvent): void {
   withdrawal.zkAsset = stream.zkAsset;
   withdrawal.save();
 
-  addTransaction('WithdrawFromStream', event, streamId);
+  addTransaction("WithdrawFromStream", event, streamId);
 }
 
 export function handleCancelStream(event: CancelStreamEvent): void {
@@ -65,5 +66,5 @@ export function handleCancelStream(event: CancelStreamEvent): void {
   stream.cancellation = streamId;
   stream.save();
 
-  addTransaction('CancelStream', event, streamId);
+  addTransaction("CancelStream", event, streamId);
 }
