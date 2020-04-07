@@ -1,7 +1,7 @@
 {
   "name": "@notestream/contract-artifacts",
   "description": "Addresses of deployed AZTEC contracts on Ethereum mainnet and testnets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Tom French",
   "bugs": {
     "url": "https://github.com/TomAFrench/NoteStream/issues"
@@ -43,9 +43,10 @@
     "url": "git+https://github.com/TomAFrench/NoteStream.git"
   },
   "scripts": {
-    "prepare": "yarn clean && yarn lint --fix",
-    "build": "yarn prepare && yarn build:types && yarn build:js",
-    "build:js": " babel src --out-dir lib --extensions '.ts,.tsx' --root-mode upward ./src",
+    "prepublish": "yarn clean && yarn lint --fix",
+    "prepack": "yarn build",
+    "build": "yarn build:types && yarn build:js",
+    "build:js": "babel src --out-dir lib --extensions '.ts,.tsx' --root-mode upward ./src",
     "build:types": "tsc --emitDeclarationOnly",
     "clean": "shx rm -rf ./lib",
     "lint": "eslint --config .eslintrc.js --ext .js,.ts . ",
