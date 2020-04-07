@@ -85,7 +85,7 @@ library StreamUtilities {
         // This prevents recipient using a larger note for this proof to allow a larger withdrawal
         require(
             _noteCoderToStruct(_proof1InputNotes.get(0)).noteHash ==
-                _stream.currentBalance,
+                _stream.noteHash,
             "incorrect notional note in proof 1"
         );
     }
@@ -119,7 +119,7 @@ library StreamUtilities {
         // Require that input note is stream note
         require(
             _noteCoderToStruct(_proof2InputNotes.get(0)).noteHash ==
-                _stream.currentBalance,
+                _stream.noteHash,
             "stream note in 2 is not correct"
         );
     }
@@ -129,7 +129,7 @@ library StreamUtilities {
         bytes memory _proof2,
         bytes memory _proof1OutputNotes,
         Types.AztecStream storage _stream
-    ) internal returns (bytes32 newCurrentInterestBalance) {
+    ) internal returns (bytes32) {
         bytes memory proof2Outputs = _validateJoinSplitProof(
             _aceContractAddress,
             _proof2,
@@ -181,7 +181,7 @@ library StreamUtilities {
         );
 
         // Update new contract note
-        newCurrentInterestBalance = newStreamNote.noteHash;
+        return newStreamNote.noteHash;
     }
 
     function _processCancelation(

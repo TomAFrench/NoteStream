@@ -9,11 +9,11 @@ export async function buildDividendProof(
   withdrawalValue: number,
   aztec: any,
 ): Promise<any> {
-  const { recipient, currentBalance } = stream;
+  const { recipient, noteHash } = stream;
 
   const payee = await aztec.user(recipient);
 
-  const streamZkNote = await aztec.zkNote(currentBalance);
+  const streamZkNote = await aztec.zkNote(noteHash);
   const streamNote = await streamZkNote.export();
 
   const ratio = getFraction(withdrawalValue / streamZkNote.value);

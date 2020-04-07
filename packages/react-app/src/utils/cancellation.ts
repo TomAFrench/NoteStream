@@ -13,7 +13,7 @@ export default async function cancelStream(
   const streamObj: Stream = await streamContractInstance.methods.getStream(streamId).call();
 
   console.log(streamObj);
-  const note = await aztec.zkNote(streamObj.currentBalance);
+  const note = await aztec.zkNote(streamObj.noteHash);
 
   // If stream sender is cancelling the stream then they need to cancel
   // at a timestamp AFTER which the transaction is included in a block.

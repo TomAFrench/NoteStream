@@ -21,6 +21,5 @@ export type Stream = any;
 //   stopTime: number;
 //   tokenAddress: Address;
 //   noteHash: Hash;
-//   currentBalance: Hash;
 //   zkAsset: any;
 // }

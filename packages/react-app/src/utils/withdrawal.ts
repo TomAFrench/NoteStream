@@ -74,7 +74,7 @@ export async function withdrawFunds(
 ): Promise<void> {
   const streamObj = await streamContractInstance.methods.getStream(streamId).call();
 
-  const note = await aztec.zkNote(streamObj.currentBalance);
+  const note = await aztec.zkNote(streamObj.noteHash);
 
   // Calculate what value of the stream is redeemable
   const { withdrawalValue, withdrawalDuration } = calculateWithdrawal(

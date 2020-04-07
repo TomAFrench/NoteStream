@@ -5,7 +5,7 @@ const contracts = path.resolve(__dirname, "../artifacts/");
 const abiDirectory = path.resolve(__dirname, "../../contract-artifacts/abis/");
 const subgraphAbiDirectory = path.resolve(__dirname, "../../subgraph/abis/");
 
-const builtContracts = ["AztecStreamer.json"];
+const builtContracts = ["NoteStream.json"];
 
 async function main() {
   // loop over every contract
