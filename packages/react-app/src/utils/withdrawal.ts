@@ -2,8 +2,36 @@ import moment from 'moment';
 
 import buildProofs from './proofs/withdrawalProof';
 import { getFraction } from './note';
+import { Address } from '../types/types';
 
-export function calculateWithdrawal(noteValue, lastWithdrawTime, stopTime, bufferTime = 0) {
+function calculateSafeWithdrawal(
+  currentBalance: number,
+  remainingStreamLength: number,
+  targettedWithdrawDuration: number,
+): { withdrawalValue: number; withdrawalDuration: number } {
+  // Find time period for single note to be unlocked then multiply by withdrawal
+  const timeBetweenNotes = remainingStreamLength / currentBalance;
+
+  // This is often a decimal so we want to get the smallest number of periods to generate a duration of an integer number of seconds
+  const safeMultipleOfPeriods = getFraction(timeBetweenNotes).denominator;
+  const safeTimeBetweenNotes = timeBetweenNotes * safeMultipleOfPeriods;
+
+  // Calculate the number of complete safe periods which has passed to give number of withdrawable notes
+  const withdrawalValue = Math.floor(targettedWithdrawDuration / safeTimeBetweenNotes) * safeMultipleOfPeriods;
+  const withdrawalDuration = withdrawalValue * timeBetweenNotes;
+
+  return {
+    withdrawalValue,
+    withdrawalDuration,
+  };
+}
+
+export function calculateWithdrawal(
+  noteValue: number,
+  lastWithdrawTime: number,
+  stopTime: number,
+  bufferTime = 0,
+): { withdrawalValue: number; withdrawalDuration: number } {
   if (noteValue === 0) {
     return {
       withdrawalValue: 0,
@@ -38,25 +66,12 @@ export function calculateWithdrawal(noteValue, lastWithdrawTime, stopTime, buffe
   };
 }
 
-function calculateSafeWithdrawal(currentBalance, remainingStreamLength, targettedWithdrawDuration) {
-  // Find time period for single note to be unlocked then multiply by withdrawal
-  const timeBetweenNotes = remainingStreamLength / currentBalance;
-
-  // This is often a decimal so we want to get the smallest number of periods to generate a duration of an integer number of seconds
-  const safeMultipleOfPeriods = getFraction(timeBetweenNotes).denominator;
-  const safeTimeBetweenNotes = timeBetweenNotes * safeMultipleOfPeriods;
-
-  // Calculate the number of complete safe periods which has passed to give number of withdrawable notes
-  const withdrawalValue = Math.floor(targettedWithdrawDuration / safeTimeBetweenNotes) * safeMultipleOfPeriods;
-  const withdrawalDuration = withdrawalValue * timeBetweenNotes;
-
-  return {
-    withdrawalValue,
-    withdrawalDuration,
-  };
-}
-
-export async function withdrawFunds(aztec, streamContractInstance, streamId, userAddress) {
+export async function withdrawFunds(
+  aztec: any,
+  streamContractInstance: any,
+  streamId: number,
+  userAddress: Address,
+): Promise<void> {
   const streamObj = await streamContractInstance.methods.getStream(streamId).call();
 
   const note = await aztec.zkNote(streamObj.currentBalance);
@@ -68,7 +83,7 @@ export async function withdrawFunds(aztec, streamContractInstance, streamId, use
     streamObj.stopTime,
   );
 
-  const { proof1, proof2 } = await buildProofs(
+  const { proof1, proof2 }: { proof1: any; proof2: any } = await buildProofs(
     aztec,
     streamContractInstance.options.address,
     streamObj,

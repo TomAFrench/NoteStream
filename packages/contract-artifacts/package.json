@@ -6,14 +6,13 @@
   "bugs": {
     "url": "https://github.com/TomAFrench/NoteStream/issues"
   },
-  "dependencies": {
-    "lodash": "^4.17.11"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
-    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-typescript": "^7.9.0",
     "eslint": "^5.15.3",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -44,11 +43,12 @@
     "url": "git+https://github.com/TomAFrench/NoteStream.git"
   },
   "scripts": {
-    "build:dev": "yarn clean && babel --copy-files --out-dir ./lib --root-mode upward ./src",
-    "build": "yarn clean && babel --copy-files --out-dir ./lib --root-mode upward ./src",
-    "build:prod": "yarn build",
+    "prepare": "yarn clean && yarn lint --fix",
+    "build": "yarn prepare && yarn build:types && yarn build:js",
+    "build:js": " babel src --out-dir lib --extensions '.ts,.tsx' --root-mode upward ./src",
+    "build:types": "tsc --emitDeclarationOnly",
     "clean": "shx rm -rf ./lib",
-    "lint": "eslint --ignore-path ../../.eslintignore .",
-    "watch": "yarn build:dev --watch"
+    "lint": "eslint --config .eslintrc.js --ext .js,.ts . ",
+    "watch": "yarn build --watch"
   }
 }

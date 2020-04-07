@@ -12,20 +12,8 @@ var _rinkeby = _interopRequireDefault(require("../addresses/rinkeby.json"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import mainnetAddresses from "./addresses/mainnet";
-const {
-  isUndefined
-} = require('lodash');
-
 const abis = {
   AztecStreamer: _AztecStreamer.default
-};
-exports.abis = abis;
-const networkToAddresses = {
-  // '1': {
-  //   ...mainnetAddresses,
-  // },
-  4: { ..._rinkeby.default
-  }
 };
 /**
  * Used to get addresses of contracts that have been deployed to either the
@@ -36,12 +24,18 @@ const networkToAddresses = {
  * given networkId.
  */
 
-const getContractAddressesForNetwork = networkId => {
-  if (isUndefined(networkToAddresses[networkId])) {
-    throw new Error(`Unknown network id (${networkId}). No known AZTEC contracts have been deployed on this network.`);
-  }
+exports.abis = abis;
 
-  return networkToAddresses[networkId];
+const getContractAddressesForNetwork = networkId => {
+  switch (networkId) {
+    // case 1:
+    // return mainnetAddresses;
+    case 4:
+      return _rinkeby.default;
+
+    default:
+      throw new Error(`Unknown network id (${networkId}). No known NoteStream contracts have been deployed on this network.`);
+  }
 };
 
 exports.getContractAddressesForNetwork = getContractAddressesForNetwork;

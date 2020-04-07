@@ -1,6 +1,7 @@
 module.exports = {
     "env": {
-        "es6": true
+        "es6": true,
+        "browser": true
     },
     "extends": [
         'eslint:recommended',
@@ -20,9 +21,28 @@ module.exports = {
         "@typescript-eslint",
     //     "@typescript-eslint/tslint"
     ],
+    "rules": {
+        "spaced-comment": ["error", "always", { "markers": ["/"] }],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+              "js": "never",
+              "jsx": "never",
+              "ts": "never",
+              "tsx": "never"
+            }
+        ]
+    },                                                            
     "settings": {
         "react": {
             "version": "detect"
-        }
+        },
+        'import/resolver': {
+            node: {
+                paths: ["src", "node_modules"],
+                extensions: ['.js', '.jsx', '.ts', '.tsx']
+            },
+        },
     }
 };

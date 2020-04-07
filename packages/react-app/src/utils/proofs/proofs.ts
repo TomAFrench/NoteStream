@@ -1,8 +1,14 @@
 // import { note, DividendProof, JoinSplitProof } from 'aztec.js';
 import secp256k1 from '@aztec/secp256k1';
 import { getFraction, computeRemainderNoteValue } from '../note';
+import { Stream, Address } from '../../types/types';
 
-export async function buildDividendProof(stream, streamContractAddress, withdrawalValue, aztec) {
+export async function buildDividendProof(
+  stream: Stream,
+  streamContractAddress: any,
+  withdrawalValue: number,
+  aztec: any,
+): Promise<any> {
   const { recipient, currentBalance } = stream;
 
   const payee = await aztec.user(recipient);
@@ -14,7 +20,7 @@ export async function buildDividendProof(stream, streamContractAddress, withdraw
 
   console.table(ratio);
 
-  const withdrawPayment = computeRemainderNoteValue(streamZkNote.value, ratio.numerator, ratio.denominator);
+  const withdrawPayment: any = computeRemainderNoteValue(streamZkNote.value, ratio.numerator, ratio.denominator);
 
   const withdrawPaymentNote = await payee.createNote(withdrawPayment.expectedNoteValue, [payee.address]);
   const remainderNote = await payee.createNote(withdrawPayment.remainder);
@@ -32,13 +38,13 @@ export async function buildDividendProof(stream, streamContractAddress, withdraw
 }
 
 export async function buildJoinSplitProof(
-  stream,
-  streamContractAddress,
-  streamNote,
-  withdrawPaymentNote,
-  changeNoteOwner,
-  aztec,
-) {
+  stream: Stream,
+  streamContractAddress: Address,
+  streamNote: any,
+  withdrawPaymentNote: any,
+  changeNoteOwner: Address,
+  aztec: any,
+): Promise<any> {
   const { sender, recipient } = stream;
 
   const payer = await aztec.user(sender);

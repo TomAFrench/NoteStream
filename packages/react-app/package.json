@@ -34,9 +34,11 @@
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
+    "@babel/preset-typescript": "^7.9.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/react-copy-to-clipboard": "^4.3.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.27.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
@@ -45,13 +47,17 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "prettier": "^2.0.4",
+    "shx": "^0.3.2",
     "typescript": "^3.8.3"
   },
   "scripts": {
+    "prepare": "yarn clean && yarn lint",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "yarn prepare",
+    "build:js": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "clean": "shx rm -rf ./build",
     "lint": "eslint --config .eslintrc.js ./src --ext .js,.jsx,.ts,.tsx"
   },
   "eslintConfig": {

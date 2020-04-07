@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
@@ -11,6 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment';
+import { Address, Hash } from '../../types/types';
 
 const daysOption = [...Array(366).keys()];
 const hoursOption = [...Array(24).keys()];
@@ -23,36 +24,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateStreamDialog({ aztec, zkAssets, userAddress, streamContractInstance }) {
+export default function CreateStreamDialog({
+  aztec,
+  zkAssets,
+  userAddress,
+  streamContractInstance,
+}: {
+  aztec: any;
+  zkAssets: Array<any>;
+  userAddress: Address;
+  streamContractInstance: any;
+}): ReactElement {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [zkAsset, setZkAsset] = useState();
+  const [open, setOpen] = useState(false);
+  const [zkAsset, setZkAsset] = useState({} as any);
   const [privateBalance, setPrivateBalance] = useState(0);
-  const [streamAmount, setStreamAmount] = useState(null);
-  const [recipient, setRecipient] = useState(null);
-  const [days, setDays] = useState(0);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
+  const [streamAmount, setStreamAmount] = useState<string>('0');
+  const [recipient, setRecipient] = useState('');
+  const [days, setDays] = useState<string>('0');
+  const [hours, setHours] = useState<string>('0');
+  const [minutes, setMinutes] = useState<string>('0');
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (): void => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setOpen(false);
   };
 
-  async function depositZkToken(depositAmount) {
-    await zkAsset.deposit([{ to: userAddress, amount: parseInt(depositAmount, 10) }]);
-    handleClose();
-  }
+  const updateZkAsset = async (address: Address): Promise<void> => {
+    const newZkAsset = await aztec.zkAsset(address);
+    setZkAsset(newZkAsset);
 
-  const updateZkAsset = async (address) => {
-    const zkAsset = await aztec.zkAsset(address);
-    setZkAsset(zkAsset);
-
-    const privateBalance = await zkAsset.balance(userAddress);
-    setPrivateBalance(privateBalance);
+    const newPrivateBalance = await newZkAsset.balance(userAddress);
+    setPrivateBalance(newPrivateBalance);
   };
 
   useEffect(() => {
@@ -61,20 +67,30 @@ export default function CreateStreamDialog({ aztec, zkAssets, userAddress, strea
     }
   }, [aztec.zkAsset, zkAssets]);
 
-  function initialiseStream(payeeAddress, noteForStreamContract, startTime, endTime) {
+  function initialiseStream(
+    payeeAddress: Address,
+    noteForStreamContract: any,
+    startTime: number,
+    endTime: number,
+  ): number {
     return streamContractInstance.methods
       .createStream(payeeAddress, noteForStreamContract.noteHash, zkAsset.address, startTime, endTime)
-      .send({ from: userAddress }, (err, streamID) => {
+      .send({ from: userAddress }, (err: any, txHash: Hash) => {
         if (err) {
           console.log(err);
           return null;
         }
-        console.log('Steam ID', streamID);
-        return streamID;
+        console.log('transaction hash', txHash);
+        return txHash;
       });
   }
 
-  async function fundStream(streamContractAddress, payeeAddress, sendAmount, asset) {
+  async function fundStream(
+    streamContractAddress: Address,
+    payeeAddress: Address,
+    sendAmount: number,
+    asset: any,
+  ): Promise<object> {
     const { outputNotes } = await asset.send(
       [
         {
@@ -91,7 +107,12 @@ export default function CreateStreamDialog({ aztec, zkAssets, userAddress, strea
     return noteForStreamContract;
   }
 
-  async function createStream(sendAmount, payeeAddress, startTime, endTime) {
+  async function createStream(
+    sendAmount: number,
+    payeeAddress: Address,
+    startTime: number,
+    endTime: number,
+  ): Promise<number> {
     const streamNote = await fundStream(streamContractInstance.options.address, payeeAddress, sendAmount, zkAsset);
     return initialiseStream(payeeAddress, streamNote, startTime, endTime);
   }
@@ -112,24 +133,23 @@ export default function CreateStreamDialog({ aztec, zkAssets, userAddress, strea
                 placeholder="0x...."
                 variant="outlined"
                 value={recipient}
-                onChange={(val) => setRecipient(val.target.value)}
+                onChange={(val): void => setRecipient(val.target.value)}
                 fullWidth
-                flexGrow={1}
               />
             </Grid>
             <DialogContentText>
-              Enter the value of the stream: (Note: this value isn't published onchain publicly, only in the form of an
-              encrypted AZTEC note.)
+              Enter the value of the stream: (Note: this value isn&apos;t published on-chain publicly, only in the form
+              on an encrypted AZTEC note.)
             </DialogContentText>
             <DialogContentText>
-              {`Your private balance: ${privateBalance} ${zkAsset && zkAssets[zkAsset.address].symbol}`}
+              {`Your private balance: ${privateBalance} ${zkAsset.address && zkAssets[zkAsset.address].symbol}`}
             </DialogContentText>
             <Grid item xs={12}>
               <TextField
                 select
                 label="zkAsset"
                 value={zkAsset ? zkAsset.address : undefined}
-                onChange={(val) => updateZkAsset(val.target.value)}
+                onChange={(val): Promise<void> => updateZkAsset(val.target.value)}
                 SelectProps={{
                   native: true,
                 }}
@@ -137,7 +157,7 @@ export default function CreateStreamDialog({ aztec, zkAssets, userAddress, strea
                 fullWidth
                 // className={classes.formControl}
               >
-                {Object.entries(zkAssets).map(([address, metadata]) => (
+                {Object.entries(zkAssets).map(([address, metadata]: [any, any]) => (
                   <option key={address} value={address}>
                     {metadata.symbol}
                   </option>
@@ -150,9 +170,8 @@ export default function CreateStreamDialog({ aztec, zkAssets, userAddress, strea
                 placeholder=""
                 variant="outlined"
                 value={streamAmount}
-                onChange={(val) => setStreamAmount(val.target.value)}
+                onChange={(val): void => setStreamAmount(val.target.value)}
                 fullWidth
-                flexGrow={1}
               />
             </Grid>
             <DialogContentText>Enter the duration of the stream:</DialogContentText>
@@ -162,7 +181,7 @@ export default function CreateStreamDialog({ aztec, zkAssets, userAddress, strea
                   select
                   label="Days"
                   value={days}
-                  onChange={(val) => setDays(val.target.value)}
+                  onChange={(val): void => setDays(val.target.value)}
                   SelectProps={{
                     native: true,
                   }}
@@ -182,7 +201,7 @@ export default function CreateStreamDialog({ aztec, zkAssets, userAddress, strea
                   select
                   label="Hours"
                   value={hours}
-                  onChange={(val) => setHours(val.target.value)}
+                  onChange={(val): void => setHours(val.target.value)}
                   SelectProps={{
                     native: true,
                   }}
@@ -202,7 +221,7 @@ export default function CreateStreamDialog({ aztec, zkAssets, userAddress, strea
                   select
                   label="Minutes"
                   value={minutes}
-                  onChange={(val) => setMinutes(val.target.value)}
+                  onChange={(val): void => setMinutes(val.target.value)}
                   SelectProps={{
                     native: true,
                   }}
@@ -219,8 +238,8 @@ export default function CreateStreamDialog({ aztec, zkAssets, userAddress, strea
               </Grid>
             </Grid>
             <DialogContentText>
-              After you click "Create Stream", you will be asked to sign two transactions. The first sends the AZTEC
-              note to the NoteStream contract and the second creates the stream.
+              After you click &quot;Create Stream&quot;, you will be asked to sign two transactions. The first sends the
+              AZTEC note to the NoteStream contract and the second creates the stream.
             </DialogContentText>
             <DialogContentText>In a later update, these two transactions will be combined.</DialogContentText>
           </Grid>
@@ -230,9 +249,9 @@ export default function CreateStreamDialog({ aztec, zkAssets, userAddress, strea
             Cancel
           </Button>
           <Button
-            onClick={async () => {
+            onClick={async (): Promise<void> => {
               await createStream(
-                streamAmount,
+                parseInt(streamAmount, 10),
                 recipient,
                 parseInt(moment().add(5, 'minutes').format('X'), 10),
                 parseInt(

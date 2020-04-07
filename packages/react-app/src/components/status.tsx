@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import PropTypes from 'prop-types';
 
 import { useQuery } from '@apollo/client';
@@ -9,60 +9,75 @@ import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import moment from 'moment';
 import { GET_SENDER_STREAMS, GET_RECIPIENT_STREAMS } from '../graphql/streams';
 import calculateTime from '../utils/time';
 
 import { calculateWithdrawal, withdrawFunds } from '../utils/withdrawal';
-import { cancelStream } from '../utils/cancellation';
+import cancelStream from '../utils/cancellation';
+import { Address, Hash, Stream } from '../types/types';
 
-const NoteDecoder = ({ render, zkNote, noteHash }) => {
+const NoteDecoder = ({ render, zkNote, noteHash }: { render: Function; zkNote: any; noteHash: Hash }): ReactElement => {
   const [note, setNote] = useState({});
 
   useEffect(() => {
     if (zkNote) {
-      zkNote(noteHash).then((decodedNote) => setNote(decodedNote));
+      zkNote(noteHash).then((decodedNote: object) => setNote(decodedNote));
     }
   }, [zkNote, noteHash]);
 
   return render(note);
 };
 
-const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddress, role }) => {
-  const [timePercentage, setTimePercentage] = useState(0);
-  const [availableBalance, setAvailableBalance] = useState(0);
+const StreamDisplay = ({
+  stream,
+  note,
+  aztec,
+  streamContractInstance,
+  userAddress,
+  role,
+}: {
+  stream: Stream;
+  note: any;
+  aztec: any;
+  streamContractInstance: any;
+  userAddress: Address;
+  role: string;
+}): ReactElement => {
+  const [timePercentage, setTimePercentage] = useState<number>(0);
+  const [availableBalance, setAvailableBalance] = useState<number>(0);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       const newTimePercentage = calculateTime(Number(stream.startTime) * 1000, Number(stream.stopTime) * 1000);
-      setTimePercentage(newTimePercentage.toFixed(2));
+      setTimePercentage(parseFloat(newTimePercentage.toFixed(2)));
     }, 1000);
-    return () => {
+    return (): void => {
       clearInterval(intervalId);
     };
   }, [stream.startTime, stream.stopTime]);
 
   useEffect(() => {
-    let timeoutId;
+    let timeoutId: number;
 
-    async function updateMaxWithdrawalValue() {
+    function updateMaxWithdrawalValue(): void {
       const timeBetweenNotes = (stream.stopTime - stream.lastWithdrawTime) / note.value;
-      const { withdrawalValue } = await calculateWithdrawal(note.value, stream.lastWithdrawTime, stream.stopTime);
+      const { withdrawalValue } = calculateWithdrawal(note.value, stream.lastWithdrawTime, stream.stopTime);
       setAvailableBalance(Math.max(withdrawalValue, 0));
 
       if (!withdrawalValue) {
         // If don't have a good max withdrawal value then check again quickly
-        timeoutId = setTimeout(updateMaxWithdrawalValue, 1000);
+        timeoutId = window.setTimeout(updateMaxWithdrawalValue, 1000, 1000);
       } else if (withdrawalValue !== note.value) {
         // If stream is not complete then recheck when a new note should be available
-        timeoutId = setTimeout(updateMaxWithdrawalValue, (timeBetweenNotes / 2) * 1000);
+        timeoutId = window.setTimeout(updateMaxWithdrawalValue, (timeBetweenNotes / 2) * 1000, 1000);
       }
     }
 
     updateMaxWithdrawalValue();
-    return () => {
+    return (): void => {
       clearTimeout(timeoutId);
     };
   }, [stream, note.value]);
@@ -105,7 +120,7 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => cancelStream(aztec, streamContractInstance, stream.id, userAddress)}
+                onClick={(): Promise<void> => cancelStream(aztec, streamContractInstance, stream.id, userAddress)}
               >
                 Cancel
               </Button>
@@ -114,7 +129,7 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => withdrawFunds(aztec, streamContractInstance, stream.id, userAddress)}
+                onClick={(): Promise<void> => withdrawFunds(aztec, streamContractInstance, stream.id, userAddress)}
               >
                 Withdraw
               </Button>
@@ -129,7 +144,7 @@ const StreamDisplay = ({ stream, note, aztec, streamContractInstance, userAddres
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => cancelStream(aztec, streamContractInstance, stream.id, userAddress)}
+                onClick={(): Promise<void> => cancelStream(aztec, streamContractInstance, stream.id, userAddress)}
               >
                 Cancel
               </Button>
@@ -150,7 +165,17 @@ StreamDisplay.propTypes = {
   role: PropTypes.string.isRequired,
 };
 
-const Status = ({ role, userAddress, streamContractInstance, aztec }) => {
+const Status = ({
+  role,
+  userAddress,
+  streamContractInstance,
+  aztec,
+}: {
+  role: string;
+  userAddress: Address;
+  streamContractInstance: any;
+  aztec: any;
+}): ReactElement => {
   const { loading, error, data } = useQuery(role === 'sender' ? GET_SENDER_STREAMS : GET_RECIPIENT_STREAMS, {
     variables: { address: userAddress },
     fetchPolicy: 'network-only',
@@ -160,15 +185,15 @@ const Status = ({ role, userAddress, streamContractInstance, aztec }) => {
   if (!aztec || !aztec.enabled || loading || error) {
     content = <CircularProgress />;
   } else {
-    const streamInProgress = data.streams.filter((stream) => stream.cancellation == null);
+    const streamInProgress = data.streams.filter((stream: Stream) => stream.cancellation == null);
     content =
       streamInProgress.length > 0 ? (
-        streamInProgress.map((stream) => (
+        streamInProgress.map((stream: Stream) => (
           <NoteDecoder
             zkNote={aztec.zkNote}
             noteHash={stream.noteHash}
             key={stream.id}
-            render={(note) => (
+            render={(note: object): ReactElement => (
               <StreamDisplay
                 stream={stream}
                 note={note}

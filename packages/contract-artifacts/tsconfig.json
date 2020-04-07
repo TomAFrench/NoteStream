@@ -1,26 +1,28 @@
 {
   "compilerOptions": {
+    /* Basic Options */
     "lib": [
+      "ES2015",
       "DOM"
     ],
-    "module": "esnext",
-    "outDir": "build",
+    "module": "ES2015",
+    "outDir": "lib",
     "sourceMap": true,
     "target": "ES2015",
-    "allowJs": true,
+    "declaration": true,
+    /* Strict Type-Checking Options  */
     "noImplicitAny": true,
     "strict": true,
+    /* Module Resolution Options */
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "skipLibCheck": false,
+    /* Advanced Options */
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
-    "noEmit": true,
   },
   "include": [
-    "./src/**/*"
-  ],
+    "./src/**/*",
+    "./lib/**/*"
+  ]
 }

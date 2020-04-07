@@ -1,11 +1,18 @@
 import { calculateWithdrawal } from './withdrawal';
 import buildProofs from './proofs/cancellationProof';
+import { Address, Stream } from '../types/types';
 
 const BUFFER_SECONDS = 120;
 
-export default async function cancelStream(aztec, streamContractInstance, streamId, userAddress) {
-  const streamObj = await streamContractInstance.methods.getStream(streamId).call();
+export default async function cancelStream(
+  aztec: any,
+  streamContractInstance: any,
+  streamId: number,
+  userAddress: Address,
+): Promise<void> {
+  const streamObj: Stream = await streamContractInstance.methods.getStream(streamId).call();
 
+  console.log(streamObj);
   const note = await aztec.zkNote(streamObj.currentBalance);
 
   // If stream sender is cancelling the stream then they need to cancel
@@ -14,13 +21,14 @@ export default async function cancelStream(aztec, streamContractInstance, stream
   const bufferSeconds = userAddress === streamObj.sender ? BUFFER_SECONDS : 0;
 
   // Calculate a valid timestamp to cancel stream at
-  const { withdrawalValue, withdrawalDuration } = await calculateWithdrawal(
+  const { withdrawalValue, withdrawalDuration } = calculateWithdrawal(
     note.value,
     streamObj.lastWithdrawTime,
     streamObj.stopTime,
     bufferSeconds,
   );
 
+  console.log('building proofs');
   const { proof1, proof2 } = await buildProofs(
     aztec,
     streamContractInstance.options.address,
