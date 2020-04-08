@@ -4,8 +4,8 @@ import {
   WithdrawFromStream as WithdrawFromStreamEvent,
   CancelStream as CancelStreamEvent,
 } from "../types/NoteStream/NoteStream";
-import addZkAsset from "./zkAssets";
-import addTransaction from "./transactions";
+import { addZkAsset } from "./zkAssets";
+import { addTransaction } from "./transactions";
 
 export function handleCreateStream(event: CreateStreamEvent): void {
   /* Create the stream object */

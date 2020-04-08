@@ -2,7 +2,7 @@ import { EthereumEvent } from "@graphprotocol/graph-ts";
 
 import { Transaction } from "../types/schema";
 
-export default function addTransaction(
+export function addTransaction(
   name: string,
   event: EthereumEvent,
   streamId: string
