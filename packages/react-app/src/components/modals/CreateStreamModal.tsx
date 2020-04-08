@@ -73,9 +73,9 @@ export default function CreateStreamDialog({
     startTime: number,
     endTime: number,
   ): number {
-    return streamContractInstance.methods
+    return streamContractInstance
       .createStream(payeeAddress, noteForStreamContract.noteHash, zkAsset.address, startTime, endTime)
-      .send({ from: userAddress }, (err: any, txHash: Hash) => {
+      .then((err: any, txHash: Hash) => {
         if (err) {
           console.log(err);
           return null;
@@ -113,7 +113,7 @@ export default function CreateStreamDialog({
     startTime: number,
     endTime: number,
   ): Promise<number> {
-    const streamNote = await fundStream(streamContractInstance.options.address, payeeAddress, sendAmount, zkAsset);
+    const streamNote = await fundStream(streamContractInstance.address, payeeAddress, sendAmount, zkAsset);
     return initialiseStream(payeeAddress, streamNote, startTime, endTime);
   }
 
