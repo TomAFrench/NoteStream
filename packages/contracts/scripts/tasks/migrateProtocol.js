@@ -1,11 +1,8 @@
-import migrateContractsInstance from '../instances/migrateContractsInstance';
+import migrateContractsInstance from "../instances/migrateContractsInstance";
 
-export default function migrateProtocol({
-  onError,
-  onClose,
-} = {}) {
+export default function migrateProtocol({ onError, onClose } = {}) {
   return migrateContractsInstance({
-    packageName: 'protocol',
+    packageName: "protocol",
     onError,
     onClose,
   });

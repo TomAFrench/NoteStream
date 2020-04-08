@@ -1,6 +1,5 @@
 import { ZkAsset } from "../types/schema";
 
-
 export function addZkAsset(address: string): void {
   let zkAsset = ZkAsset.load(address);
   if (zkAsset != null) {

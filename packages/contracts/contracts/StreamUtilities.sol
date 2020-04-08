@@ -9,6 +9,7 @@ import "@aztec/protocol/contracts/libs/MetaDataUtils.sol";
 
 import "./Types.sol";
 
+
 library StreamUtilities {
     using SafeMath for uint256;
     using SafeMath for uint32;
@@ -84,10 +85,9 @@ library StreamUtilities {
         // This prevents recipient using a larger note for this proof to allow a larger withdrawal
         require(
             _noteCoderToStruct(_proof1InputNotes.get(0)).noteHash ==
-                _stream.currentBalance,
+                _stream.noteHash,
             "incorrect notional note in proof 1"
         );
-
     }
 
     function _validateJoinSplitProof(
@@ -102,8 +102,12 @@ library StreamUtilities {
             .get(0);
 
         // Extract notes used in proof
-        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = proof2Outputs
-            .extractProofOutput();
+        (
+            bytes memory _proof2InputNotes,
+            bytes memory _proof2OutputNotes,
+            ,
+
+        ) = proof2Outputs.extractProofOutput();
 
         // Requires that output note respects dividend proof
         require(
@@ -115,7 +119,7 @@ library StreamUtilities {
         // Require that input note is stream note
         require(
             _noteCoderToStruct(_proof2InputNotes.get(0)).noteHash ==
-                _stream.currentBalance,
+                _stream.noteHash,
             "stream note in 2 is not correct"
         );
     }
@@ -125,7 +129,7 @@ library StreamUtilities {
         bytes memory _proof2,
         bytes memory _proof1OutputNotes,
         Types.AztecStream storage _stream
-    ) internal returns (bytes32 newCurrentInterestBalance) {
+    ) internal returns (bytes32) {
         bytes memory proof2Outputs = _validateJoinSplitProof(
             _aceContractAddress,
             _proof2,
@@ -133,8 +137,12 @@ library StreamUtilities {
             _stream
         );
 
-        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = proof2Outputs
-            .extractProofOutput();
+        (
+            bytes memory _proof2InputNotes,
+            bytes memory _proof2OutputNotes,
+            ,
+
+        ) = proof2Outputs.extractProofOutput();
 
         Note memory newStreamNote = _noteCoderToStruct(
             _proof2OutputNotes.get(1)
@@ -173,7 +181,7 @@ library StreamUtilities {
         );
 
         // Update new contract note
-        newCurrentInterestBalance = newStreamNote.noteHash;
+        return newStreamNote.noteHash;
     }
 
     function _processCancelation(
@@ -189,8 +197,12 @@ library StreamUtilities {
             _stream
         );
         // Extract notes used in proof
-        (bytes memory _proof2InputNotes, bytes memory _proof2OutputNotes, , ) = proof2Outputs
-            .extractProofOutput();
+        (
+            bytes memory _proof2InputNotes,
+            bytes memory _proof2OutputNotes,
+            ,
+
+        ) = proof2Outputs.extractProofOutput();
 
         bytes32 inputNoteHash = _noteCoderToStruct(_proof2InputNotes.get(0))
             .noteHash;

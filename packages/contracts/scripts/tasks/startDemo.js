@@ -1,39 +1,29 @@
-import detectPort from 'detect-port';
-import {
-  terminal,
-} from 'terminal-kit';
-import chalk from 'chalk';
-import {
-  warnLog,
-  log,
-} from '../utils/log';
-import instance from '../utils/instance';
+import detectPort from "detect-port";
+import { terminal } from "terminal-kit";
+import chalk from "chalk";
+import { warnLog, log } from "../utils/log";
+import instance from "../utils/instance";
 
-export default function startDemo({
-  onError,
-  onClose,
-} = {}) {
+export default function startDemo({ onError, onClose } = {}) {
   const defaultPort = 3000;
 
   const handleStart = (port) => {
-    log('\n');
-    log('Starting up http-server, serving ./demo');
-    log('Demo dapp is running on:\n');
+    log("\n");
+    log("Starting up http-server, serving ./demo");
+    log("Demo dapp is running on:\n");
     log(`    ${chalk.cyan(`http://localhost:${port}`)}`);
-    log('\n');
+    log("\n");
   };
 
-  const doStartDemo = port => instance(
-    `cd demo && http-server -p ${port}`,
-    {
+  const doStartDemo = (port) =>
+    instance(`cd demo && http-server -p ${port}`, {
       onReceiveOutput: () => {},
       onReceiveErrorOutput: () => {},
-      shouldStart: output => output.includes('Available on')
-        && handleStart(port),
+      shouldStart: (output) =>
+        output.includes("Available on") && handleStart(port),
       onError,
       onClose,
-    },
-  );
+    });
 
   detectPort(defaultPort, (error, _port) => {
     if (error) {
@@ -44,22 +34,22 @@ export default function startDemo({
     }
 
     if (_port !== defaultPort) {
-      log('\n');
+      log("\n");
       warnLog(`There is already a process running on port ${defaultPort}\n`);
       log(`Would you like to run the demo on port ${_port} instead? (y/n)`);
 
       terminal.grabInput(true);
-      terminal.on('key', (key) => {
+      terminal.on("key", (key) => {
         switch (key) {
-          case 'CTRL_C':
-          case 'n':
-          case 'N': {
+          case "CTRL_C":
+          case "n":
+          case "N": {
             onClose();
             break;
           }
-          case 'ENTER':
-          case 'y':
-          case 'Y':
+          case "ENTER":
+          case "y":
+          case "Y":
             terminal.grabInput(false);
             doStartDemo(_port);
             break;

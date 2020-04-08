@@ -3,14 +3,14 @@ import {
   CreateStream as CreateStreamEvent,
   WithdrawFromStream as WithdrawFromStreamEvent,
   CancelStream as CancelStreamEvent,
-} from "../types/AztecStreamer/AztecStreamer";
+} from "../types/NoteStream/NoteStream";
 import { addZkAsset } from "./zkAssets";
 import { addTransaction } from "./transactions";
 
 export function handleCreateStream(event: CreateStreamEvent): void {
   /* Create the stream object */
-  let streamId = event.params.streamId.toString();
-  let stream = new Stream(streamId);
+  const streamId = event.params.streamId.toString();
+  const stream = new Stream(streamId);
   stream.lastWithdrawTime = event.params.startTime;
   stream.noteHash = event.params.noteHash;
   stream.recipient = event.params.recipient;
@@ -27,17 +27,18 @@ export function handleCreateStream(event: CreateStreamEvent): void {
 }
 
 export function handleWithdrawFromStream(event: WithdrawFromStreamEvent): void {
-  let streamId = event.params.streamId.toString();
-  let stream = Stream.load(streamId);
+  const streamId = event.params.streamId.toString();
+  const stream = Stream.load(streamId);
   if (stream == null) {
     return;
   }
   stream.noteHash = event.params.noteHash;
-  stream.lastWithdrawTime = stream.lastWithdrawTime.plus(event.params.withdrawDuration);
-  stream.save()
+  stream.lastWithdrawTime = stream.lastWithdrawTime.plus(
+    event.params.withdrawDuration
+  );
+  stream.save();
 
-
-  let withdrawal = new Withdrawal(event.transaction.hash.toHex());
+  const withdrawal = new Withdrawal(event.transaction.hash.toHex());
   withdrawal.stream = streamId;
   withdrawal.duration = event.params.withdrawDuration;
   withdrawal.timestamp = event.block.timestamp;
@@ -48,13 +49,13 @@ export function handleWithdrawFromStream(event: WithdrawFromStreamEvent): void {
 }
 
 export function handleCancelStream(event: CancelStreamEvent): void {
-  let streamId = event.params.streamId.toString();
-  let stream = Stream.load(streamId);
+  const streamId = event.params.streamId.toString();
+  const stream = Stream.load(streamId);
   if (stream == null) {
     return;
   }
 
-  let cancellation = new Cancellation(streamId);
+  const cancellation = new Cancellation(streamId);
 
   cancellation.duration = event.params.cancelDuration;
   cancellation.timestamp = event.block.timestamp;

@@ -1,15 +1,7 @@
-import {
-  waitForRelay,
-} from '../utils/GNSHelpers';
-import {
-  DEFAULT_GSN_RELAYER_PORT,
-} from '../config/constants';
+import { waitForRelay } from "../utils/GNSHelpers";
+import { DEFAULT_GSN_RELAYER_PORT } from "../config/constants";
 
-
-export default async function waitUntilGSNRealyerUp({
-  onError,
-  onClose,
-} = {}) {
+export default async function waitUntilGSNRealyerUp({ onError, onClose } = {}) {
   const relayUrl = `http://localhost:${DEFAULT_GSN_RELAYER_PORT}`;
 
   try {

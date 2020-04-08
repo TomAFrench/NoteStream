@@ -1,4 +1,4 @@
-const args = index => process.argv[index + 3];
+const args = (index) => process.argv[index + 3];
 
 const argv = (name) => {
   const params = process.argv.slice(3);
@@ -7,16 +7,13 @@ const argv = (name) => {
   }
 
   const pattern = new RegExp(`^(--)?${name}=?(.{0,})$`);
-  const foundArgs = params.find(val => val.match(pattern));
+  const foundArgs = params.find((val) => val.match(pattern));
   if (!foundArgs) {
     return null;
   }
 
-  const [,, value] = foundArgs.match(pattern);
+  const [, , value] = foundArgs.match(pattern);
   return value || true;
 };
 
-export {
-  args,
-  argv,
-};
+export { args, argv };

@@ -1,12 +1,6 @@
-import {
-  terminal,
-} from 'terminal-kit';
-import {
-  log,
-  successLog,
-  warnLog,
-} from './log';
-import stopProcesses from './stopProcesses';
+import { terminal } from "terminal-kit";
+import { log, successLog, warnLog } from "./log";
+import stopProcesses from "./stopProcesses";
 
 export default class GracefulKiller {
   constructor() {
@@ -43,22 +37,24 @@ export default class GracefulKiller {
 
   enable() {
     terminal.grabInput(true);
-    terminal.on('key', (key) => {
+    terminal.on("key", (key) => {
       switch (key) {
-        case 'CTRL_C': {
+        case "CTRL_C": {
           if (!this.confirmClose) {
             this.confirmClose = true;
-            warnLog('\nGracefully stopping child processes...\n');
-            log('Press ctrl+c again to force exit.');
-            log('(Doing so may cause problems when running the same process again.)\n');
+            warnLog("\nGracefully stopping child processes...\n");
+            log("Press ctrl+c again to force exit.");
+            log(
+              "(Doing so may cause problems when running the same process again.)\n"
+            );
             this.handleClose();
           } else {
             process.exit(0);
           }
           break;
         }
-        case 'ENTER':
-          log('\n');
+        case "ENTER":
+          log("\n");
           break;
         default:
           if (this.confirmClose) {
@@ -68,7 +64,8 @@ export default class GracefulKiller {
     });
   }
 
-  disable() { // eslint-disable-line class-methods-use-this
+  disable() {
+    // eslint-disable-line class-methods-use-this
     terminal.grabInput(false);
   }
 }

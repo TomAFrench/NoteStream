@@ -1,16 +1,11 @@
-import Web3 from 'web3';
-import killPort from 'kill-port';
-import '../../env';
-import ganacheConfig from '../config/ganache';
-import instance from '../utils/instance';
-import getNetwork from '../utils/getNetwork';
-import {
-  warnLog,
-  log,
-} from '../utils/log';
-import {
-  argv,
-} from '../utils/cmd';
+import Web3 from "web3";
+import killPort from "kill-port";
+import "../../env";
+import ganacheConfig from "../config/ganache";
+import instance from "../utils/instance";
+import getNetwork from "../utils/getNetwork";
+import { warnLog, log } from "../utils/log";
+import { argv } from "../utils/cmd";
 
 let web3;
 
@@ -20,31 +15,25 @@ const defaultPort = 8545;
 const defaultNumberOfAccounts = 10;
 
 export const getPort = (fallbackPort = defaultPort) => {
-  let port = argv('port');
+  let port = argv("port");
   if (!port) {
-    ({
-      port,
-    } = (ganacheConfig.networks || {})[network] || {});
+    ({ port } = (ganacheConfig.networks || {})[network] || {});
   }
 
   return port || fallbackPort;
 };
 
 const getNetworkId = () => {
-  let networkId = argv('networkId');
+  let networkId = argv("networkId");
   if (!networkId) {
-    ({
-      network_id: networkId,
-    } = (ganacheConfig.networks || {})[network] || {});
+    ({ network_id: networkId } = (ganacheConfig.networks || {})[network] || {});
   }
 
   return networkId;
 };
 
 export const getHost = () => {
-  const {
-    host = 'localhost',
-  } = (ganacheConfig.networks || {})[network] || {};
+  const { host = "localhost" } = (ganacheConfig.networks || {})[network] || {};
 
   return `http://${host}`;
 };
@@ -62,14 +51,14 @@ const generateAccounts = () => {
     if (privateKey) {
       ({ address } = web3.eth.accounts.privateKeyToAccount(privateKey));
     } else {
-      ({
-        address,
-        privateKey,
-      } = web3.eth.accounts.create());
+      ({ address, privateKey } = web3.eth.accounts.create());
     }
     const balance = web3.utils.toWei(
-      `${process.env[`GANACHE_TESTING_ACCOUNT_${i}_BALANCE`] || defaultBalanceEther}`,
-      'ether',
+      `${
+        process.env[`GANACHE_TESTING_ACCOUNT_${i}_BALANCE`] ||
+        defaultBalanceEther
+      }`,
+      "ether"
     );
 
     accounts.push({
@@ -91,7 +80,9 @@ export default function ganacheInstance({
 } = {}) {
   let port = getPort(0);
   if (!port) {
-    warnLog(`Port is not defined for network '${network}'. Using default port number ${defaultPort}`);
+    warnLog(
+      `Port is not defined for network '${network}'. Using default port number ${defaultPort}`
+    );
     port = defaultPort;
   }
 
@@ -101,15 +92,12 @@ export default function ganacheInstance({
 
   const params = [];
   const accounts = generateAccounts();
-  accounts.forEach(({
-    privateKey,
-    balance,
-  }) => {
+  accounts.forEach(({ privateKey, balance }) => {
     params.push(`--account=${privateKey},${balance}`);
   });
   const networkId = getNetworkId();
   if (networkId.match(/^[1-9]+$/)) {
-    params.push('-i');
+    params.push("-i");
     params.push(`${networkId}`);
   }
 
@@ -129,7 +117,7 @@ export default function ganacheInstance({
         }
         process.stdout.write(output);
       }
-      lastMethod = '';
+      lastMethod = "";
     }
   };
 
@@ -138,28 +126,21 @@ export default function ganacheInstance({
     log(`Clear process running on port ${port}`);
   };
 
-  return instance(
-    './node_modules/.bin/ganache-cli',
-    [
-      '-p',
-      port,
-      ...params,
-    ],
-    {
-      shouldStart: output => output.includes('Listening on')
-        && `Ganache is listening on ${host}:${port}\n`,
-      onStart: () => {
-        if (onStart) {
-          onStart(port);
-        }
-        return port;
-      },
-      handleClear,
-      onReceiveOutput: handleReceiveOutput,
-      onReceiveErrorOutput,
-      onError,
-      onClose,
-      windowsVerbatimArguments: true,
+  return instance("./node_modules/.bin/ganache-cli", ["-p", port, ...params], {
+    shouldStart: (output) =>
+      output.includes("Listening on") &&
+      `Ganache is listening on ${host}:${port}\n`,
+    onStart: () => {
+      if (onStart) {
+        onStart(port);
+      }
+      return port;
     },
-  );
+    handleClear,
+    onReceiveOutput: handleReceiveOutput,
+    onReceiveErrorOutput,
+    onError,
+    onClose,
+    windowsVerbatimArguments: true,
+  });
 }

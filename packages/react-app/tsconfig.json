@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "DOM"
+    ],
+    "module": "esnext",
+    "outDir": "build",
+    "sourceMap": true,
+    "target": "ES2015",
+    "allowJs": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": false,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "noEmit": true,
+  },
+  "include": [
+    "./src/**/*"
+  ],
+}
