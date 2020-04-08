@@ -25,7 +25,7 @@ import { setupAztec, setupOnboard } from './utils/setup';
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/tomafrench/notestream-rinkeby',
+    uri: process.env.REACT_APP_SUBGRAPH_URL,
   }),
 });
 
@@ -75,7 +75,7 @@ function TabPanel(props: any): ReactElement {
   );
 }
 
-const NETWORK_ID = 4;
+const NETWORK_ID: number = parseInt(process.env.REACT_APP_NETWORK_ID as string, 10);
 
 const App = (): ReactElement => {
   const classes = useStyles();
