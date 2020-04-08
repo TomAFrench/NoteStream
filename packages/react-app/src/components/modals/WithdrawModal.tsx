@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,42 +8,51 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
-export default function WithdrawDialog({aztec, zkAssets, userAddress}) {
+import { Address } from '../../types/types';
+
+export default function WithdrawDialog({
+  aztec,
+  zkAssets,
+  userAddress,
+}: {
+  aztec: any;
+  zkAssets: any;
+  userAddress: Address;
+}): ReactElement {
   const [open, setOpen] = React.useState(false);
-  const [zkAsset, setZkAsset] = useState();
+  const [zkAsset, setZkAsset] = useState({} as any);
   const [publicBalance, setPublicBalance] = useState(0);
   const [privateBalance, setPrivateBalance] = useState(0);
-  const [amount, setAmount] = useState(null);
+  const [amount, setAmount] = useState('0');
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (): void => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setOpen(false);
   };
 
-  async function withdrawZkToken(withdrawAmount) {
-    await zkAsset.withdraw(parseInt(withdrawAmount, 10));
-    handleClose()
+  async function withdrawZkToken(withdrawAmount: string): Promise<void> {
+    if (zkAsset) await zkAsset.withdraw(parseInt(withdrawAmount, 10));
+    handleClose();
   }
 
-  const updateZkAsset = async (address) => {
-    const zkAsset = await aztec.zkAsset(address)
-    setZkAsset(zkAsset)
+  const updateZkAsset = async (address: Address): Promise<void> => {
+    const newZkAsset = await aztec.zkAsset(address);
+    setZkAsset(newZkAsset);
 
-    const privateBalance = await zkAsset.balance(userAddress)
-    setPrivateBalance(privateBalance)
-    const publicBalance = await zkAsset.balanceOfLinkedToken(userAddress);
-    setPublicBalance(publicBalance.toString(10));
-  }
-  
-  useEffect(()=> {
-    if (aztec.zkAsset && Object.keys(zkAssets).length){
-      updateZkAsset(Object.keys(zkAssets)[0])}
-    },
-    [aztec.zkAsset, zkAssets]
-  )
+    const newPrivateBalance = await newZkAsset.balance(userAddress);
+    setPrivateBalance(newPrivateBalance);
+    const newPublicBalance = await newZkAsset.balanceOfLinkedToken(userAddress);
+    setPublicBalance(newPublicBalance.toString(10));
+  };
+
+  useEffect(() => {
+    if (aztec.zkAsset && Object.keys(zkAssets).length) {
+      updateZkAsset(Object.keys(zkAssets)[0]);
+    }
+  }, [aztec.zkAsset, zkAssets]);
 
   return (
     <div>
@@ -53,14 +62,12 @@ export default function WithdrawDialog({aztec, zkAssets, userAddress}) {
       <Dialog open={open} onClose={handleClose} scroll="body">
         <DialogTitle id="form-dialog-title">Withdraw tokens</DialogTitle>
         <DialogContent>
+          <DialogContentText>Once done, you can convert your ZkAssets back into ERC20 tokens.</DialogContentText>
           <DialogContentText>
-            Once done, you can convert your ZkAssets back into ERC20 tokens.
+            {`Your public balance: ${publicBalance} ${zkAsset.address && zkAssets[zkAsset.address].symbol.slice(2)}`}
           </DialogContentText>
           <DialogContentText>
-           {`Your public balance: ${publicBalance} ${zkAsset && zkAssets[zkAsset.address].symbol.slice(2)}`} 
-          </DialogContentText>
-          <DialogContentText>
-           {`Your private balance: ${privateBalance} ${zkAsset && zkAssets[zkAsset.address].symbol}`}
+            {`Your private balance: ${privateBalance} ${zkAsset.address && zkAssets[zkAsset.address].symbol}`}
           </DialogContentText>
           <Grid container direction="row" spacing={3}>
             <Grid item xs={12}>
@@ -68,7 +75,7 @@ export default function WithdrawDialog({aztec, zkAssets, userAddress}) {
                 select
                 label="zkAsset"
                 value={zkAsset ? zkAsset.address : undefined}
-                onChange={val => updateZkAsset(val.target.value)}
+                onChange={(val): Promise<void> => updateZkAsset(val.target.value)}
                 SelectProps={{
                   native: true,
                 }}
@@ -76,10 +83,10 @@ export default function WithdrawDialog({aztec, zkAssets, userAddress}) {
                 fullWidth
                 // className={classes.formControl}
               >
-                {Object.entries(zkAssets).map(([address, metadata]) => (
-                    <option key={address} value={address}>
-                      {metadata.symbol}
-                    </option>
+                {Object.entries(zkAssets).map(([address, metadata]: [any, any]) => (
+                  <option key={address} value={address}>
+                    {metadata.symbol}
+                  </option>
                 ))}
               </TextField>
             </Grid>
@@ -89,7 +96,7 @@ export default function WithdrawDialog({aztec, zkAssets, userAddress}) {
                 placeholder=""
                 variant="outlined"
                 value={amount}
-                onChange={val => setAmount(val.target.value)}
+                onChange={(val): void => setAmount(val.target.value)}
                 fullWidth
               />
             </Grid>
@@ -99,7 +106,7 @@ export default function WithdrawDialog({aztec, zkAssets, userAddress}) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => withdrawZkToken(amount)} color="primary">
+          <Button onClick={(): Promise<void> => withdrawZkToken(amount)} color="primary">
             Withdraw
           </Button>
         </DialogActions>

@@ -37,12 +37,12 @@
     "deploy:mainnet": "yarn prepare:mainnet && SUBGRAPH=tomafrench/notestream yarn deploy",
     "deploy:rinkeby": "yarn prepare:rinkeby && SUBGRAPH=tomafrench/notestream-rinkeby yarn deploy",
     "deploy:ropsten": "yarn prepare:ropsten && SUBGRAPH=tomafrench/notestream-ropsten yarn deploy",
-    "prepare:goerli": "NETWORK_NAME=goerli node ./templatify.js",
-    "prepare:kovan": "NETWORK_NAME=kovan node ./templatify.js",
-    "prepare:mainnet": "NETWORK_NAME=mainnet node ./templatify.js",
-    "prepare:rinkeby": "NETWORK_NAME=rinkeby node ./templatify.js",
-    "prepare:ropsten": "NETWORK_NAME=ropsten node ./templatify.js",
-    "prepare:local": "NETWORK_NAME=local node ./templatify.js",
+    "prepare:goerli": "NETWORK_NAME=goerli node ./updateAddresses.js && NETWORK_NAME=goerli node ./templatify.js",
+    "prepare:kovan": "NETWORK_NAME=kovan node ./updateAddresses.js && NETWORK_NAME=kovan node ./templatify.js",
+    "prepare:mainnet": "NETWORK_NAME=mainnet node ./updateAddresses.js && NETWORK_NAME=mainnet node ./templatify.js",
+    "prepare:rinkeby": "NETWORK_NAME=rinkeby node ./updateAddresses.js && NETWORK_NAME=rinkeby node ./templatify.js",
+    "prepare:ropsten": "NETWORK_NAME=ropsten node ./updateAddresses.js && NETWORK_NAME=ropsten node ./templatify.js",
+    "prepare:local": "NETWORK_NAME=local node ./updateAddresses.js && NETWORK_NAME=local node ./templatify.js",
     "remove-local": "graph remove tomafrench/notestream --node http://127.0.0.1:8020/",
     "reset-local": "yarn codegen && yarn remove-local && yarn create-local && yarn deploy-local"
   }

@@ -1,4 +1,4 @@
-const isPromise = fn => typeof fn.then === 'function';
+const isPromise = (fn) => typeof fn.then === "function";
 
 export default function taskPromise(task) {
   if (isPromise(task)) {

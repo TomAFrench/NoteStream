@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "lib": [
+      "ES2015",
+      "DOM"
+    ],
+    "module": "ES2015",
+    "outDir": "lib",
+    "sourceMap": true,
+    "target": "ES2015",
+    "declaration": true,
+    /* Strict Type-Checking Options  */
+    "noImplicitAny": true,
+    "strict": true,
+    /* Module Resolution Options */
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": false,
+    /* Advanced Options */
+    "forceConsistentCasingInFileNames": true,
+  },
+  "include": [
+    "./src/**/*",
+    "./lib/**/*"
+  ]
+}

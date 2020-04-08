@@ -5,18 +5,18 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: AztecStreamer
+    name: NoteStream
     network: {{networkName}}
     source:
-      abi: AztecStreamer
-      address: '{{contracts.AztecStreamer.address}}'
-      startBlock: {{contracts.AztecStreamer.startBlock}}
+      abi: NoteStream
+      address: '{{contracts.NoteStream.address}}'
+      startBlock: {{contracts.NoteStream.startBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
       abis:
-        - name: AztecStreamer
-          file: ./abis/AztecStreamer.json
+        - name: NoteStream
+          file: ./abis/NoteStream.json
       entities:
         - Cancellation
         - Stream
@@ -30,5 +30,5 @@ dataSources:
           handler: handleWithdrawFromStream
         - event: CancelStream(indexed uint256,indexed address,indexed address,uint256)
           handler: handleCancelStream
-      file: ./src/mappings/aztecStreamer.ts
+      file: ./src/mappings/noteStream.ts
       language: wasm/assemblyscript

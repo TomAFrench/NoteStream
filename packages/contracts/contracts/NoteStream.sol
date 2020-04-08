@@ -11,7 +11,7 @@ import "./Types.sol";
  * @title NoteStream's Money Streaming
  * @author NoteStream
  */
-contract AztecStreamer is ReentrancyGuard {
+contract NoteStream is ReentrancyGuard {
     using SafeMath for uint256;
 
     /*** Storage Properties ***/
@@ -114,7 +114,7 @@ contract AztecStreamer is ReentrancyGuard {
         returns (
             address sender,
             address recipient,
-            bytes32 currentBalance,
+            bytes32 noteHash,
             address tokenAddress,
             uint256 startTime,
             uint256 lastWithdrawTime,
@@ -123,7 +123,7 @@ contract AztecStreamer is ReentrancyGuard {
     {
         sender = streams[streamId].sender;
         recipient = streams[streamId].recipient;
-        currentBalance = streams[streamId].currentBalance;
+        noteHash = streams[streamId].noteHash;
         tokenAddress = address(streams[streamId].tokenAddress);
         startTime = streams[streamId].startTime;
         lastWithdrawTime = streams[streamId].lastWithdrawTime;
@@ -168,7 +168,7 @@ contract AztecStreamer is ReentrancyGuard {
         /* Create and store the stream object. */
         uint256 streamId = nextStreamId;
         streams[streamId] = Types.AztecStream({
-            currentBalance: noteHash,
+            noteHash: noteHash,
             sender: msg.sender,
             recipient: recipient,
             startTime: startTime,
@@ -220,7 +220,7 @@ contract AztecStreamer is ReentrancyGuard {
 
         // Check that withdrawal transaction is valid and perform transfer
         // i.e. change note remains on contract, sender and recipient have view access, etc.
-        bytes32 newCurrentBalanceNoteHash = StreamUtilities._processWithdrawal(
+        bytes32 newNoteHash = StreamUtilities._processWithdrawal(
             aceContractAddress,
             _proof2,
             _proof1OutputNotes,
@@ -228,7 +228,7 @@ contract AztecStreamer is ReentrancyGuard {
         );
 
         // Update stream information
-        stream.currentBalance = newCurrentBalanceNoteHash;
+        stream.noteHash = newNoteHash;
         stream.lastWithdrawTime = stream.lastWithdrawTime.add(
             _streamDurationToWithdraw
         );
@@ -237,7 +237,7 @@ contract AztecStreamer is ReentrancyGuard {
             streamId,
             stream.sender,
             stream.recipient,
-            newCurrentBalanceNoteHash,
+            newNoteHash,
             _streamDurationToWithdraw
         );
     }
