@@ -8,6 +8,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
+import ZkAssetSelect from '../form/ZkAssetSelect';
+
 import { Address } from '../../types/types';
 
 export default function WithdrawDialog({
@@ -71,24 +73,7 @@ export default function WithdrawDialog({
           </DialogContentText>
           <Grid container direction="row" spacing={3}>
             <Grid item xs={12}>
-              <TextField
-                select
-                label="zkAsset"
-                value={zkAsset ? zkAsset.address : undefined}
-                onChange={(val): Promise<void> => updateZkAsset(val.target.value)}
-                SelectProps={{
-                  native: true,
-                }}
-                variant="filled"
-                fullWidth
-                // className={classes.formControl}
-              >
-                {Object.entries(zkAssets).map(([address, metadata]: [any, any]) => (
-                  <option key={address} value={address}>
-                    {metadata.symbol}
-                  </option>
-                ))}
-              </TextField>
+              <ZkAssetSelect currentAsset={zkAsset} updateAsset={updateZkAsset} assetList={zkAssets} />
             </Grid>
             <Grid item xs={12}>
               <TextField

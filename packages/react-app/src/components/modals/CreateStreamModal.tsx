@@ -11,6 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment';
+import ZkAssetSelect from '../form/ZkAssetSelect';
 import { Address, Hash } from '../../types/types';
 
 const daysOption = [...Array(366).keys()];
@@ -145,24 +146,7 @@ export default function CreateStreamDialog({
               {`Your private balance: ${privateBalance} ${zkAsset.address && zkAssets[zkAsset.address].symbol}`}
             </DialogContentText>
             <Grid item xs={12}>
-              <TextField
-                select
-                label="zkAsset"
-                value={zkAsset ? zkAsset.address : undefined}
-                onChange={(val): Promise<void> => updateZkAsset(val.target.value)}
-                SelectProps={{
-                  native: true,
-                }}
-                variant="filled"
-                fullWidth
-                // className={classes.formControl}
-              >
-                {Object.entries(zkAssets).map(([address, metadata]: [any, any]) => (
-                  <option key={address} value={address}>
-                    {metadata.symbol}
-                  </option>
-                ))}
-              </TextField>
+              <ZkAssetSelect currentAsset={zkAsset} updateAsset={updateZkAsset} assetList={zkAssets} />
             </Grid>
             <Grid item xs={12}>
               <TextField
