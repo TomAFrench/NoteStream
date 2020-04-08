@@ -1,4 +1,4 @@
-import AztecStreamerABI from "../abis/AztecStreamer.json";
+import NoteStreamABI from "../abis/NoteStream.json";
 // import mainnetAddresses from "./addresses/mainnet";
 import rinkebyAddresses from "../addresses/rinkeby.json";
 
@@ -6,11 +6,11 @@ export type Address = string;
 
 export interface Deployment {
   ACE: Address;
-  AztecStreamer: Address;
+  NoteStream: Address;
 }
 
 export const abis: object = {
-  AztecStreamer: AztecStreamerABI,
+  NoteStream: NoteStreamABI,
 };
 
 /**

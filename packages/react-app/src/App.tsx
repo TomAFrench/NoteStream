@@ -103,11 +103,11 @@ const App = (): ReactElement => {
       const accounts = await web3.eth.getAccounts();
       setUserAddress(accounts[0]);
 
-      const streamContract = new web3.eth.Contract(abis.AztecStreamer, addresses.AztecStreamer);
+      const streamContract = new web3.eth.Contract(abis.NoteStream, addresses.NoteStream);
       setStreamContractInstance(streamContract);
     }
     init();
-  }, [addresses.AztecStreamer]);
+  }, [addresses.NoteStream]);
 
   return (
     <ApolloProvider client={client}>

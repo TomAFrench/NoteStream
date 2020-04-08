@@ -1,6 +1,6 @@
 rinkeby:
   contracts:
     NoteStream:
-      address: '0x15b1E0446b3f96C2C49Aa2d4E280f4613082449E'
+      address: '0xCcb98Efa4eA6a3814ece095f73264c43D7D50071'
       startBlock: 6203213
   networkName: rinkeby
