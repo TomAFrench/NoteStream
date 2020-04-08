@@ -108,6 +108,7 @@ const App = (): ReactElement => {
           <Typography variant="h6" className={classes.title}>
             NoteStream
           </Typography>
+          <Typography variant="h6">{window.aztec.enabled ? 'AZTEC Ready' : 'Not Ready'}</Typography>
           {/* <Button className={classes.button} variant="contained" >Connect to Wallet</Button> */}
         </Toolbar>
       </AppBar>
