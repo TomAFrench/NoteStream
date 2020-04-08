@@ -7,14 +7,6 @@ export async function setupOnboard(onboard: any, defaultWallet: string): Promise
       const ready = await onboard.walletCheck();
       if (ready) {
         const walletState = onboard.getState();
-        const {
-          address,
-          network,
-          balance,
-          wallet,
-          mobileDevice,
-          // appNetworkId
-        } = walletState;
         console.log(walletState);
       } else {
         // Connection to wallet failed
