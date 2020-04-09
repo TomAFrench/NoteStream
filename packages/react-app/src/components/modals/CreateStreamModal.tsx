@@ -11,6 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment';
+import AddressInput from '../form/AddressInput';
 import ZkAssetSelect from '../form/ZkAssetSelect';
 import { Address, Hash } from '../../types/types';
 
@@ -129,12 +130,13 @@ export default function CreateStreamDialog({
           <DialogContentText>Enter the address of who you want to stream to:</DialogContentText>
           <Grid container direction="column" spacing={3}>
             <Grid item xs={12}>
-              <TextField
+              <AddressInput
                 label="Recipient"
                 placeholder="0x...."
                 variant="outlined"
-                value={recipient}
-                onChange={(val): void => setRecipient(val.target.value)}
+                address={recipient}
+                setAddress={setRecipient}
+                aztec={aztec}
                 fullWidth
               />
             </Grid>
