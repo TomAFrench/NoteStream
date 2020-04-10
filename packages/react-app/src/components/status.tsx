@@ -177,7 +177,7 @@ const Status = ({
   aztec: any;
 }): ReactElement => {
   const { loading, error, data } = useQuery(role === 'sender' ? GET_SENDER_STREAMS : GET_RECIPIENT_STREAMS, {
-    variables: { address: userAddress },
+    variables: { address: userAddress || '' },
     fetchPolicy: 'network-only',
   });
 
