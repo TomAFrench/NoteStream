@@ -13,7 +13,7 @@ import calculateTime from '../../utils/time';
 
 import { calculateWithdrawal, withdrawFunds } from '../../utils/withdrawal';
 import cancelStream from '../../utils/cancellation';
-import { Address, Hash, Stream } from '../../types/types';
+import { Address, Stream } from '../../types/types';
 
 const StreamDisplay = ({
   stream,
