@@ -66,10 +66,7 @@ class OnboardProvider extends Component {
   }
 
   componentDidMount(): void {
-    // Sneakily require user to click through Onboard to give time for AZTEC to load
-    // Can remove this late
-    this.setup('');
-    // this.setup('MetaMask');
+    this.setup('MetaMask');
   }
 
   async setup(defaultWallet: string): Promise<void> {
