@@ -11,9 +11,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment';
+import createStream from '../../utils/streamCreation';
+
 import AddressInput from '../form/AddressInput';
 import ZkAssetSelect from '../form/ZkAssetSelect';
-import { Address, Hash } from '../../types/types';
+import { Address } from '../../types/types';
 
 const daysOption = [...Array(366).keys()];
 const hoursOption = [...Array(24).keys()];
@@ -68,56 +70,6 @@ export default function CreateStreamDialog({
       updateZkAsset(Object.keys(zkAssets)[0]);
     }
   }, [aztec.zkAsset, zkAssets]);
-
-  function initialiseStream(
-    payeeAddress: Address,
-    noteForStreamContract: any,
-    startTime: number,
-    endTime: number,
-  ): number {
-    return streamContractInstance
-      .createStream(payeeAddress, noteForStreamContract.noteHash, zkAsset.address, startTime, endTime)
-      .then((err: any, txHash: Hash) => {
-        if (err) {
-          console.log(err);
-          return null;
-        }
-        console.log('transaction hash', txHash);
-        return txHash;
-      });
-  }
-
-  async function fundStream(
-    streamContractAddress: Address,
-    payeeAddress: Address,
-    sendAmount: number,
-    asset: any,
-  ): Promise<object> {
-    const { outputNotes } = await asset.send(
-      [
-        {
-          to: streamContractAddress,
-          amount: sendAmount,
-          aztecAccountNotRequired: true,
-          numberOfOutputNotes: 1, // contract has one
-        },
-      ],
-      { userAccess: [userAddress, payeeAddress] }, // Give view access to sender and recipient
-    );
-    const noteForStreamContract = outputNotes[0];
-    console.log('noteForStreamContract', noteForStreamContract);
-    return noteForStreamContract;
-  }
-
-  async function createStream(
-    sendAmount: number,
-    payeeAddress: Address,
-    startTime: number,
-    endTime: number,
-  ): Promise<number> {
-    const streamNote = await fundStream(streamContractInstance.address, payeeAddress, sendAmount, zkAsset);
-    return initialiseStream(payeeAddress, streamNote, startTime, endTime);
-  }
 
   return (
     <div>
@@ -238,7 +190,10 @@ export default function CreateStreamDialog({
             onClick={async (): Promise<void> => {
               await createStream(
                 parseInt(streamAmount, 10),
+                streamContractInstance,
+                userAddress,
                 recipient,
+                zkAsset,
                 parseInt(moment().add(5, 'minutes').format('X'), 10),
                 parseInt(
                   moment()
