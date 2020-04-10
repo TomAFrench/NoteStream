@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useCallback, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
@@ -57,19 +57,22 @@ export default function CreateStreamDialog({
     setOpen(false);
   };
 
-  const updateZkAsset = async (address: Address): Promise<void> => {
-    const newZkAsset = await aztec.zkAsset(address);
-    setZkAsset(newZkAsset);
+  const updateZkAsset = useCallback(
+    async (address: Address): Promise<void> => {
+      const newZkAsset = await aztec.zkAsset(address);
+      setZkAsset(newZkAsset);
 
-    const newPrivateBalance = await newZkAsset.balance(userAddress);
-    setPrivateBalance(newPrivateBalance);
-  };
+      const newPrivateBalance = await newZkAsset.balance(userAddress);
+      setPrivateBalance(newPrivateBalance);
+    },
+    [aztec, userAddress],
+  );
 
   useEffect(() => {
     if (aztec.zkAsset && Object.keys(zkAssets).length) {
       updateZkAsset(Object.keys(zkAssets)[0]);
     }
-  }, [aztec.zkAsset, zkAssets]);
+  }, [aztec.zkAsset, zkAssets, updateZkAsset]);
 
   return (
     <div>

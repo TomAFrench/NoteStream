@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useCallback, useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -41,21 +41,24 @@ export default function DepositDialog({
     handleClose();
   }
 
-  const updateZkAsset = async (address: Address): Promise<void> => {
-    const newZkAsset = await aztec.zkAsset(address);
-    setZkAsset(newZkAsset);
+  const updateZkAsset = useCallback(
+    async (address: Address): Promise<void> => {
+      const newZkAsset = await aztec.zkAsset(address);
+      setZkAsset(newZkAsset);
 
-    const newPrivateBalance = await newZkAsset.balance(userAddress);
-    setPrivateBalance(newPrivateBalance);
-    const newPublicBalance = await newZkAsset.balanceOfLinkedToken(userAddress);
-    setPublicBalance(newPublicBalance.toString(10));
-  };
+      const newPrivateBalance = await newZkAsset.balance(userAddress);
+      setPrivateBalance(newPrivateBalance);
+      const newPublicBalance = await newZkAsset.balanceOfLinkedToken(userAddress);
+      setPublicBalance(newPublicBalance.toString(10));
+    },
+    [aztec, userAddress],
+  );
 
   useEffect(() => {
     if (aztec.zkAsset && Object.keys(zkAssets).length) {
       updateZkAsset(Object.keys(zkAssets)[0]);
     }
-  }, [aztec.zkAsset, zkAssets]);
+  }, [aztec.zkAsset, zkAssets, updateZkAsset]);
 
   return (
     <div>
