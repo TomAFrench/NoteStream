@@ -1,4 +1,6 @@
-import React, { Component, createContext, useContext } from 'react';
+import React, { Component, createContext, ReactElement, useContext } from 'react';
+import PropTypes from 'prop-types';
+
 import Onboard from 'bnc-onboard';
 
 export const OnboardContext = createContext({} as any);
@@ -21,6 +23,10 @@ class OnboardProvider extends Component {
     balance: '' as string,
     network: 0 as number,
     wallet: {} as any,
+  };
+
+  propTypes = {
+    children: PropTypes.any.isRequired,
   };
 
   constructor(props: any) {
@@ -89,7 +95,7 @@ class OnboardProvider extends Component {
 
   setConfig = (config: any): void => this.state.onboard.config(config);
 
-  render() {
+  render(): ReactElement {
     return (
       <OnboardContext.Provider
         value={
