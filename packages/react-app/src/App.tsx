@@ -87,6 +87,7 @@ const App = (): ReactElement => {
   const addresses = getContractAddressesForNetwork(NETWORK_ID);
   const zkAssets = getZkAssetsForNetwork(NETWORK_ID);
 
+  const { aztec } = window;
   useEffect(() => {
     setupAztec(NETWORK_ID);
   }, []);
@@ -107,7 +108,7 @@ const App = (): ReactElement => {
           <Typography variant="h6" className={classes.title}>
             NoteStream
           </Typography>
-          <Typography variant="h6">{window.aztec.enabled ? 'AZTEC Ready' : 'Not Ready'}</Typography>
+          <Typography variant="h6">{aztec.enabled ? 'AZTEC Ready' : 'Not Ready'}</Typography>
           {/* <Button className={classes.button} variant="contained" >Connect to Wallet</Button> */}
         </Toolbar>
       </AppBar>
@@ -115,18 +116,18 @@ const App = (): ReactElement => {
         <Paper className={`${classes.pageElement} ${classes.paper}`}>
           <Grid container direction="row" justify="space-around" spacing={3}>
             <Grid item>
-              <DepositDialog aztec={window.aztec} zkAssets={zkAssets} userAddress={userAddress} />
+              <DepositDialog aztec={aztec} zkAssets={zkAssets} userAddress={userAddress} />
             </Grid>
             <Grid item>
               <CreateStreamDialog
-                aztec={window.aztec}
+                aztec={aztec}
                 zkAssets={zkAssets}
                 userAddress={userAddress}
                 streamContractInstance={streamContractInstance}
               />
             </Grid>
             <Grid item>
-              <WithdrawDialog aztec={window.aztec} zkAssets={zkAssets} userAddress={userAddress} />
+              <WithdrawDialog aztec={aztec} zkAssets={zkAssets} userAddress={userAddress} />
             </Grid>
           </Grid>
         </Paper>
@@ -142,7 +143,7 @@ const App = (): ReactElement => {
               <Status
                 role="sender"
                 userAddress={userAddress}
-                aztec={window.aztec}
+                aztec={aztec}
                 streamContractInstance={streamContractInstance}
               />
             </TabPanel>
@@ -150,7 +151,7 @@ const App = (): ReactElement => {
               <Status
                 role="recipient"
                 userAddress={userAddress}
-                aztec={window.aztec}
+                aztec={aztec}
                 streamContractInstance={streamContractInstance}
               />
             </TabPanel>
