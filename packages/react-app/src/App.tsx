@@ -19,8 +19,8 @@ import Status from './components/status';
 import DepositDialog from './components/modals/DepositModal';
 import WithdrawDialog from './components/modals/WithdrawModal';
 import CreateStreamDialog from './components/modals/CreateStreamModal';
-import { useOnboard, useGetState } from './contexts/OnboardContext';
-import { setupAztec, setupOnboard } from './utils/setup';
+import { useAddress, useWallet } from './contexts/OnboardContext';
+import setupAztec from './utils/setup';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -79,8 +79,8 @@ const NETWORK_ID: number = parseInt(process.env.REACT_APP_NETWORK_ID as string, 
 
 const App = (): ReactElement => {
   const classes = useStyles();
-  const onboard = useOnboard();
-  const onboardState = useGetState();
+  const userAddress = useAddress();
+  const wallet = useWallet();
   const [streamContractInstance, setStreamContractInstance] = useState({});
   const [value, setValue] = useState(0);
 
@@ -88,17 +88,16 @@ const App = (): ReactElement => {
   const zkAssets = getZkAssetsForNetwork(NETWORK_ID);
 
   useEffect(() => {
-    setupOnboard(onboard, 'MetaMask');
     setupAztec(NETWORK_ID);
-  }, [window.aztec]);
+  }, []);
 
   useEffect(() => {
-    if (onboardState.wallet.provider) {
-      const signer = new ethers.providers.Web3Provider(onboardState.wallet.provider).getSigner();
+    if (wallet.provider) {
+      const signer = new ethers.providers.Web3Provider(wallet.provider).getSigner();
       const streamContract = new ethers.Contract(addresses.NoteStream, abis.NoteStream, signer);
       setStreamContractInstance(streamContract);
     }
-  }, [onboardState.wallet.provider, addresses.NoteStrem]);
+  }, [wallet.provider, addresses.NoteStream]);
 
   return (
     <ApolloProvider client={client}>
@@ -116,18 +115,18 @@ const App = (): ReactElement => {
         <Paper className={`${classes.pageElement} ${classes.paper}`}>
           <Grid container direction="row" justify="space-around" spacing={3}>
             <Grid item>
-              <DepositDialog aztec={window.aztec} zkAssets={zkAssets} userAddress={onboardState.address} />
+              <DepositDialog aztec={window.aztec} zkAssets={zkAssets} userAddress={userAddress} />
             </Grid>
             <Grid item>
               <CreateStreamDialog
                 aztec={window.aztec}
                 zkAssets={zkAssets}
-                userAddress={onboardState.address}
+                userAddress={userAddress}
                 streamContractInstance={streamContractInstance}
               />
             </Grid>
             <Grid item>
-              <WithdrawDialog aztec={window.aztec} zkAssets={zkAssets} userAddress={onboardState.address} />
+              <WithdrawDialog aztec={window.aztec} zkAssets={zkAssets} userAddress={userAddress} />
             </Grid>
           </Grid>
         </Paper>
@@ -142,7 +141,7 @@ const App = (): ReactElement => {
             <TabPanel value={value} index={0}>
               <Status
                 role="sender"
-                userAddress={onboardState.address}
+                userAddress={userAddress}
                 aztec={window.aztec}
                 streamContractInstance={streamContractInstance}
               />
@@ -150,7 +149,7 @@ const App = (): ReactElement => {
             <TabPanel value={value} index={1}>
               <Status
                 role="recipient"
-                userAddress={onboardState.address}
+                userAddress={userAddress}
                 aztec={window.aztec}
                 streamContractInstance={streamContractInstance}
               />
