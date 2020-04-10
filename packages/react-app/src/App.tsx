@@ -75,14 +75,17 @@ const App = (): ReactElement => {
   const wallet = useWallet();
   const [streamContractInstance, setStreamContractInstance] = useState({});
   const [value, setValue] = useState(0);
-
+  const [aztec, setAztec] = useState({} as any);
   const addresses = getContractAddressesForNetwork(NETWORK_ID);
   const zkAssets = getZkAssetsForNetwork(NETWORK_ID);
 
-  const { aztec } = window;
   useEffect(() => {
-    setupAztec(NETWORK_ID);
-  }, [aztec]);
+    window.addEventListener('load', () => {
+      setupAztec(NETWORK_ID).then(() => {
+        setAztec(window.aztec);
+      });
+    });
+  }, []);
 
   useEffect(() => {
     if (wallet.provider) {
