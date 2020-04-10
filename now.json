@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "build": {
+    "env": {
+      "REACT_APP_SUBGRAPH_URL": "https://api.thegraph.com/subgraphs/name/tomafrench/notestream-rinkeby",
+      "REACT_APP_NETWORK_ID": "4"
+    }
+  }
+}
