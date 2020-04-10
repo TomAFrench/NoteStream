@@ -17,21 +17,21 @@ const AddressInput = (props: any): ReactElement => {
 
   const [invalidAddress, setInvalidAddress] = useState<boolean>(false);
 
-  const checkAddressIsValid = async (testAddress: Address): Promise<void> => {
-    try {
-      if (utils.getAddress(testAddress)) {
-        const user = await aztec.user(testAddress);
-        setInvalidAddress(!user.registered);
-      }
-    } catch (e) {
-      // Don't show error state if user is still typing
-      setInvalidAddress(false);
-    }
-  };
-
   useEffect(() => {
+    const checkAddressIsValid = async (testAddress: Address): Promise<void> => {
+      try {
+        if (utils.getAddress(testAddress)) {
+          const user = await aztec.user(testAddress);
+          setInvalidAddress(!user.registered);
+        }
+      } catch (e) {
+        // Don't show error state if user is still typing
+        setInvalidAddress(false);
+      }
+    };
+
     checkAddressIsValid(address);
-  }, [address]);
+  }, [aztec, address]);
 
   return (
     <TextField
