@@ -30,25 +30,26 @@ const StreamDisplay = ({
   userAddress: Address;
   role: string;
 }): ReactElement => {
+  const { sender, recipient, id, startTime, lastWithdrawTime, stopTime, zkAsset } = stream;
   const [timePercentage, setTimePercentage] = useState<number>(0);
   const [availableBalance, setAvailableBalance] = useState<number>(0);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newTimePercentage = calculateTime(Number(stream.startTime) * 1000, Number(stream.stopTime) * 1000);
+      const newTimePercentage = calculateTime(Number(startTime) * 1000, Number(stopTime) * 1000);
       setTimePercentage(parseFloat(newTimePercentage.toFixed(2)));
     }, 1000);
     return (): void => {
       clearInterval(intervalId);
     };
-  }, [stream.startTime, stream.stopTime]);
+  }, [startTime, stopTime]);
 
   useEffect(() => {
     let timeoutId: number;
 
     function updateMaxWithdrawalValue(): void {
-      const timeBetweenNotes = (stream.stopTime - stream.lastWithdrawTime) / note.value;
-      const { withdrawalValue } = calculateWithdrawal(note.value, stream.lastWithdrawTime, stream.stopTime);
+      const timeBetweenNotes = (stopTime - lastWithdrawTime) / note.value;
+      const { withdrawalValue } = calculateWithdrawal(note.value, lastWithdrawTime, stopTime);
       setAvailableBalance(Math.max(withdrawalValue, 0));
 
       if (!withdrawalValue) {
@@ -64,31 +65,27 @@ const StreamDisplay = ({
     return (): void => {
       clearTimeout(timeoutId);
     };
-  }, [stream, note.value]);
+  }, [lastWithdrawTime, stopTime, note.value]);
 
-  const withdrawPercentage = calculateTime(
-    Number(stream.startTime),
-    Number(stream.stopTime),
-    Number(stream.lastWithdrawTime),
-  );
+  const withdrawPercentage = calculateTime(Number(startTime), Number(stopTime), Number(lastWithdrawTime));
 
   return (
     <Grid item container direction="column" alignItems="stretch" spacing={3}>
       <Grid item container justify="space-between">
-        <CopyToClipboard text={role === 'recipient' ? stream.sender : stream.recipient}>
+        <CopyToClipboard text={role === 'recipient' ? sender : recipient}>
           <Grid item>
             {role === 'recipient'
-              ? `Sender: ${stream.sender.slice(0, 6)}...${stream.sender.slice(-5, -1)}`
-              : `Receiver: ${stream.recipient.slice(0, 6)}...${stream.recipient.slice(-5, -1)}`}
+              ? `Sender: ${sender.slice(0, 6)}...${sender.slice(-5, -1)}`
+              : `Receiver: ${recipient.slice(0, 6)}...${recipient.slice(-5, -1)}`}
           </Grid>
         </CopyToClipboard>
-        <CopyToClipboard text={stream.zkAsset.id}>
-          <Grid item>Asset: {stream.zkAsset.symbol}</Grid>
+        <CopyToClipboard text={zkAsset.id}>
+          <Grid item>Asset: {zkAsset.symbol}</Grid>
         </CopyToClipboard>
       </Grid>
       <Grid item container justify="space-between">
-        <Grid item>Start: {moment.unix(stream.startTime).format('DD-MM-YYYY HH:mm')}</Grid>
-        <Grid item>Stop: {moment.unix(stream.stopTime).format('DD-MM-YYYY HH:mm')}</Grid>
+        <Grid item>Start: {moment.unix(startTime).format('DD-MM-YYYY HH:mm')}</Grid>
+        <Grid item>Stop: {moment.unix(stopTime).format('DD-MM-YYYY HH:mm')}</Grid>
       </Grid>
       <Grid item>
         Streamed: {timePercentage}%
@@ -98,13 +95,13 @@ const StreamDisplay = ({
       </Grid>
       {role === 'recipient' ? (
         <>
-          <Grid item>{`${availableBalance}/${note.value} ${stream.zkAsset.symbol}`} available to withdraw</Grid>
+          <Grid item>{`${availableBalance}/${note.value} ${zkAsset.symbol}`} available to withdraw</Grid>
           <Grid item container justify="space-between">
             <Grid item>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={(): Promise<void> => cancelStream(aztec, streamContractInstance, stream.id, userAddress)}
+                onClick={(): Promise<void> => cancelStream(aztec, streamContractInstance, id, userAddress)}
               >
                 Cancel
               </Button>
@@ -113,7 +110,7 @@ const StreamDisplay = ({
               <Button
                 variant="contained"
                 color="primary"
-                onClick={(): Promise<void> => withdrawFunds(aztec, streamContractInstance, stream.id, userAddress)}
+                onClick={(): Promise<void> => withdrawFunds(aztec, streamContractInstance, id, userAddress)}
               >
                 Withdraw
               </Button>
@@ -122,13 +119,13 @@ const StreamDisplay = ({
         </>
       ) : (
         <>
-          <Grid item>{`${availableBalance}/${note.value} ${stream.zkAsset.symbol}`} streamed to recipient</Grid>
+          <Grid item>{`${availableBalance}/${note.value} ${zkAsset.symbol}`} streamed to recipient</Grid>
           <Grid item container justify="flex-end">
             <Grid item>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={(): Promise<void> => cancelStream(aztec, streamContractInstance, stream.id, userAddress)}
+                onClick={(): Promise<void> => cancelStream(aztec, streamContractInstance, id, userAddress)}
               >
                 Cancel
               </Button>
