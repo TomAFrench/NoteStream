@@ -43,7 +43,7 @@ export default function CreateStreamDialog({
   const [open, setOpen] = useState(false);
   const [zkAsset, setZkAsset] = useState({} as any);
   const [privateBalance, setPrivateBalance] = useState(0);
-  const [streamAmount, setStreamAmount] = useState<string>('0');
+  const [streamAmount, setStreamAmount] = useState<string>('');
   const [recipient, setRecipient] = useState('');
   const [days, setDays] = useState<string>('0');
   const [hours, setHours] = useState<string>('0');
