@@ -25,7 +25,7 @@ class OnboardProvider extends Component {
     wallet: {} as any,
   };
 
-  propTypes = {
+  static propTypes = {
     children: PropTypes.any.isRequired,
   };
 
