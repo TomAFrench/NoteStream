@@ -12,7 +12,6 @@ import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 
 import getZkAssetsForNetwork from 'zkasset-metadata';
 import { getContractAddressesForNetwork, abis } from '@notestream/contract-artifacts';
-import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
 import { ethers } from 'ethers';
 
 import Status from './components/status';
@@ -21,13 +20,6 @@ import WithdrawDialog from './components/modals/WithdrawModal';
 import CreateStreamDialog from './components/modals/CreateStreamModal';
 import { useAddress, useWallet } from './contexts/OnboardContext';
 import setupAztec from './utils/setup';
-
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: new HttpLink({
-    uri: process.env.REACT_APP_SUBGRAPH_URL,
-  }),
-});
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -90,7 +82,7 @@ const App = (): ReactElement => {
   const { aztec } = window;
   useEffect(() => {
     setupAztec(NETWORK_ID);
-  }, []);
+  }, [aztec]);
 
   useEffect(() => {
     if (wallet.provider) {
@@ -101,7 +93,7 @@ const App = (): ReactElement => {
   }, [wallet.provider, addresses.NoteStream]);
 
   return (
-    <ApolloProvider client={client}>
+    <>
       <AppBar position="static">
         <Toolbar>
           <LocalAtmIcon className={classes.icon} />
@@ -158,7 +150,7 @@ const App = (): ReactElement => {
           </Paper>
         </Grid>
       </main>
-    </ApolloProvider>
+    </>
   );
 };
 
