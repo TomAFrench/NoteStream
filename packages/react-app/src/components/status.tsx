@@ -30,40 +30,39 @@ const Status = ({
     fetchPolicy: 'network-only',
   });
 
-  let content;
   if (loading || error) {
-    content = <CircularProgress />;
-  } else {
-    const streamInProgress = data.streams.filter((stream: Stream) => stream.cancellation == null);
-    content =
-      streamInProgress.length > 0 ? (
-        streamInProgress.map((stream: Stream) => (
-          <NoteDecoder
-            zkNote={aztec.zkNote}
-            noteHash={stream.noteHash}
-            key={stream.id}
-            render={(note: object): ReactElement => (
-              <StreamDisplay
-                stream={stream}
-                note={note}
-                aztec={aztec}
-                streamContractInstance={streamContractInstance}
-                userAddress={userAddress}
-                role={role}
-              />
-            )}
-          />
-        ))
-      ) : (
-        <Typography color="textSecondary">No streams to display</Typography>
-      );
+    return (
+      <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
+        <CircularProgress />
+      </Grid>
+    );
   }
 
-  return (
-    <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
-      {content}
-    </Grid>
-  );
+  const streamInProgress = data.streams.filter((stream: Stream) => stream.cancellation == null);
+  if (streamInProgress.length === 0) {
+    return (
+      <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
+        <Typography color="textSecondary">No streams to display</Typography>
+      </Grid>
+    );
+  }
+  return streamInProgress.map((stream: Stream) => (
+    <NoteDecoder
+      zkNote={aztec.zkNote}
+      noteHash={stream.noteHash}
+      key={stream.id}
+      render={(note: object): ReactElement => (
+        <StreamDisplay
+          stream={stream}
+          note={note}
+          aztec={aztec}
+          streamContractInstance={streamContractInstance}
+          userAddress={userAddress}
+          role={role}
+        />
+      )}
+    />
+  ));
 };
 
 Status.propTypes = {
