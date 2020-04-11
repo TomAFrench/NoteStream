@@ -44,8 +44,8 @@ const Header = (): ReactElement => {
           }
           label={trimmedAddress}
         />
-        <IconButton className={classes.icon} target="_blank" rel="noopener noreferrer" href="https://docs.note.stream">
-          <HelpIcon />
+        <IconButton target="_blank" rel="noopener noreferrer" href="https://docs.note.stream">
+          <HelpIcon color="action" />
         </IconButton>
         <IconButton
           className={classes.icon}
