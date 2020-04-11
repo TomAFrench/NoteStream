@@ -1,6 +1,7 @@
 # Summary​
 
 
+* [Getting Started](getting_started/README.md)
 * [Using Aztec notes](using_aztec/README.md)
 * [Comparison to other money streaming options](comparison_to_others/README.md)
 
