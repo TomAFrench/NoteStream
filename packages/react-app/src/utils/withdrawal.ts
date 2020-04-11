@@ -72,7 +72,7 @@ export async function withdrawFunds(
   streamId: number,
   userAddress: Address,
 ): Promise<void> {
-  const streamObj = await streamContractInstance.methods.getStream(streamId).call();
+  const streamObj = await streamContractInstance.getStream(streamId);
 
   const note = await aztec.zkNote(streamObj.noteHash);
 
@@ -85,15 +85,18 @@ export async function withdrawFunds(
 
   const { proof1, proof2 }: { proof1: any; proof2: any } = await buildProofs(
     aztec,
-    streamContractInstance.options.address,
+    streamContractInstance.address,
     streamObj,
     withdrawalValue,
   );
 
   console.log('Withdrawing from stream:', streamId);
   console.log('Proofs:', proof1, proof2);
-  const results = await streamContractInstance.methods
-    .withdrawFromStream(streamId, proof1.encodeABI(), proof2.encodeABI(streamObj.tokenAddress), withdrawalDuration)
-    .send({ from: userAddress });
+  const results = await streamContractInstance.withdrawFromStream(
+    streamId,
+    proof1.encodeABI(),
+    proof2.encodeABI(streamObj.tokenAddress),
+    withdrawalDuration,
+  );
   console.log(results);
 }
