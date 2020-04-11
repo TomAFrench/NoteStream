@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Chip from '@material-ui/core/Chip';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import HelpIcon from '@material-ui/icons/Help';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Avatar from '@material-ui/core/Avatar';
 
@@ -43,8 +44,15 @@ const Header = (): ReactElement => {
           }
           label={trimmedAddress}
         />
-
-        <IconButton className={classes.icon} href="https://github.com/TomAFrench/NoteStream">
+        <IconButton className={classes.icon} target="_blank" rel="noopener noreferrer" href="https://docs.note.stream">
+          <HelpIcon />
+        </IconButton>
+        <IconButton
+          className={classes.icon}
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://github.com/TomAFrench/NoteStream"
+        >
           <GitHubIcon />
         </IconButton>
       </Toolbar>
