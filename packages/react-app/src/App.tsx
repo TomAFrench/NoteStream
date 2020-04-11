@@ -7,8 +7,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import Toolbar from '@material-ui/core/Toolbar';
-import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 
 import getZkAssetsForNetwork from 'zkasset-metadata';
 import { getContractAddressesForNetwork, abis } from '@notestream/contract-artifacts';
@@ -20,6 +18,7 @@ import WithdrawDialog from './components/modals/WithdrawModal';
 import CreateStreamDialog from './components/modals/CreateStreamModal';
 import { useAddress, useWallet } from './contexts/OnboardContext';
 import setupAztec from './utils/setup';
+import Header from './components/header/Header';
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -97,16 +96,7 @@ const App = (): ReactElement => {
 
   return (
     <>
-      <AppBar position="static">
-        <Toolbar>
-          <LocalAtmIcon className={classes.icon} />
-          <Typography variant="h6" className={classes.title}>
-            NoteStream
-          </Typography>
-          <Typography variant="h6">{aztec.enabled ? 'AZTEC Ready' : 'Not Ready'}</Typography>
-          {/* <Button className={classes.button} variant="contained" >Connect to Wallet</Button> */}
-        </Toolbar>
-      </AppBar>
+      <Header />
       <main className={classes.layout}>
         <Paper className={`${classes.pageElement} ${classes.paper}`}>
           <Grid container direction="row" justify="space-around" spacing={3}>

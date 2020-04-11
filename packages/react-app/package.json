@@ -23,6 +23,7 @@
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
+    "react-blockies": "^1.4.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.0",
     "react-router": "^5.1.2",
