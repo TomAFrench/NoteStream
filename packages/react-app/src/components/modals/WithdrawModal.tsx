@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactElement } from 'react';
+import React, { useCallback, useState, useEffect, ReactElement } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,6 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
+
+import ZkAssetSelect from '../form/ZkAssetSelect';
 
 import { Address } from '../../types/types';
 
@@ -38,21 +40,24 @@ export default function WithdrawDialog({
     handleClose();
   }
 
-  const updateZkAsset = async (address: Address): Promise<void> => {
-    const newZkAsset = await aztec.zkAsset(address);
-    setZkAsset(newZkAsset);
+  const updateZkAsset = useCallback(
+    async (address: Address): Promise<void> => {
+      const newZkAsset = await aztec.zkAsset(address);
+      setZkAsset(newZkAsset);
 
-    const newPrivateBalance = await newZkAsset.balance(userAddress);
-    setPrivateBalance(newPrivateBalance);
-    const newPublicBalance = await newZkAsset.balanceOfLinkedToken(userAddress);
-    setPublicBalance(newPublicBalance.toString(10));
-  };
+      const newPrivateBalance = await newZkAsset.balance(userAddress);
+      setPrivateBalance(newPrivateBalance);
+      const newPublicBalance = await newZkAsset.balanceOfLinkedToken(userAddress);
+      setPublicBalance(newPublicBalance.toString(10));
+    },
+    [aztec, userAddress],
+  );
 
   useEffect(() => {
     if (aztec.zkAsset && Object.keys(zkAssets).length) {
       updateZkAsset(Object.keys(zkAssets)[0]);
     }
-  }, [aztec.zkAsset, zkAssets]);
+  }, [aztec.zkAsset, zkAssets, updateZkAsset]);
 
   return (
     <div>
@@ -71,24 +76,7 @@ export default function WithdrawDialog({
           </DialogContentText>
           <Grid container direction="row" spacing={3}>
             <Grid item xs={12}>
-              <TextField
-                select
-                label="zkAsset"
-                value={zkAsset ? zkAsset.address : undefined}
-                onChange={(val): Promise<void> => updateZkAsset(val.target.value)}
-                SelectProps={{
-                  native: true,
-                }}
-                variant="filled"
-                fullWidth
-                // className={classes.formControl}
-              >
-                {Object.entries(zkAssets).map(([address, metadata]: [any, any]) => (
-                  <option key={address} value={address}>
-                    {metadata.symbol}
-                  </option>
-                ))}
-              </TextField>
+              <ZkAssetSelect currentAsset={zkAsset} updateAsset={updateZkAsset} assetList={zkAssets} />
             </Grid>
             <Grid item xs={12}>
               <TextField

@@ -10,7 +10,7 @@ export default async function cancelStream(
   streamId: number,
   userAddress: Address,
 ): Promise<void> {
-  const streamObj: Stream = await streamContractInstance.methods.getStream(streamId).call();
+  const streamObj: Stream = await streamContractInstance.getStream(streamId);
 
   console.log(streamObj);
   const note = await aztec.zkNote(streamObj.noteHash);
@@ -29,17 +29,15 @@ export default async function cancelStream(
   );
 
   console.log('building proofs');
-  const { proof1, proof2 } = await buildProofs(
-    aztec,
-    streamContractInstance.options.address,
-    streamObj,
-    withdrawalValue,
-  );
+  const { proof1, proof2 } = await buildProofs(aztec, streamContractInstance.address, streamObj, withdrawalValue);
 
   console.log('Cancelling stream:', streamId);
   console.log('Proofs:', proof1, proof2);
-  const results = await streamContractInstance.methods
-    .cancelStream(streamId, proof1.encodeABI(), proof2.encodeABI(streamObj.tokenAddress), withdrawalDuration)
-    .send({ from: userAddress });
+  const results = await streamContractInstance.cancelStream(
+    streamId,
+    proof1.encodeABI(),
+    proof2.encodeABI(streamObj.tokenAddress),
+    withdrawalDuration,
+  );
   console.log(results);
 }

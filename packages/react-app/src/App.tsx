@@ -7,25 +7,18 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import Toolbar from '@material-ui/core/Toolbar';
-import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 
 import getZkAssetsForNetwork from 'zkasset-metadata';
 import { getContractAddressesForNetwork, abis } from '@notestream/contract-artifacts';
-import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
-import Web3 from 'web3';
+import { ethers } from 'ethers';
+
 import Status from './components/status';
-import getWeb3 from './utils/web3';
 import DepositDialog from './components/modals/DepositModal';
 import WithdrawDialog from './components/modals/WithdrawModal';
 import CreateStreamDialog from './components/modals/CreateStreamModal';
-
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/tomafrench/notestream-rinkeby',
-  }),
-});
+import { useAddress, useWallet } from './contexts/OnboardContext';
+import setupAztec from './utils/setup';
+import Header from './components/header/Header';
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -73,69 +66,53 @@ function TabPanel(props: any): ReactElement {
   );
 }
 
+const NETWORK_ID: number = parseInt(process.env.REACT_APP_NETWORK_ID as string, 10);
+
 const App = (): ReactElement => {
   const classes = useStyles();
-  const [userAddress, setUserAddress] = useState('');
+  const userAddress = useAddress();
+  const wallet = useWallet();
   const [streamContractInstance, setStreamContractInstance] = useState({});
   const [value, setValue] = useState(0);
-
-  const addresses = getContractAddressesForNetwork(4);
-  const zkAssets = getZkAssetsForNetwork(4);
+  const [aztec, setAztec] = useState({} as any);
+  const addresses = getContractAddressesForNetwork(NETWORK_ID);
+  const zkAssets = getZkAssetsForNetwork(NETWORK_ID);
 
   useEffect(() => {
-    async function initialiseAztec(): Promise<void> {
-      const account = await window.aztec.enable({
-        contractAddresses: {
-          ACE: addresses.ACE,
-        },
-        apiKey: '9HRKN7S-JSZMRJM-KWSDWSY-B2VSRD9', // API key for use with GSN for free txs.
+    window.addEventListener('load', () => {
+      setupAztec(NETWORK_ID).then(() => {
+        setAztec(window.aztec);
       });
-      if (account) {
-        console.log('Initialised AZTEC');
-      }
-    }
-    initialiseAztec();
-  }, [userAddress, addresses]);
+    });
+  }, []);
 
   useEffect(() => {
-    async function init(): Promise<void> {
-      const web3: Web3 = await getWeb3();
-      const accounts = await web3.eth.getAccounts();
-      setUserAddress(accounts[0]);
-
-      const streamContract = new web3.eth.Contract(abis.NoteStream, addresses.NoteStream);
+    if (wallet.provider) {
+      const signer = new ethers.providers.Web3Provider(wallet.provider).getSigner();
+      const streamContract = new ethers.Contract(addresses.NoteStream, abis.NoteStream, signer);
       setStreamContractInstance(streamContract);
     }
-    init();
-  }, [addresses.NoteStream]);
+  }, [wallet.provider, addresses.NoteStream]);
 
   return (
-    <ApolloProvider client={client}>
-      <AppBar position="static">
-        <Toolbar>
-          <LocalAtmIcon className={classes.icon} />
-          <Typography variant="h6" className={classes.title}>
-            NoteStream
-          </Typography>
-          {/* <Button className={classes.button} variant="contained" >Connect to Wallet</Button> */}
-        </Toolbar>
-      </AppBar>
+    <>
+      <Header />
       <main className={classes.layout}>
         <Paper className={`${classes.pageElement} ${classes.paper}`}>
           <Grid container direction="row" justify="space-around" spacing={3}>
             <Grid item>
-              <DepositDialog aztec={window.aztec} zkAssets={zkAssets} userAddress={userAddress} />
+              <DepositDialog aztec={aztec} zkAssets={zkAssets} userAddress={userAddress} />
             </Grid>
             <Grid item>
               <CreateStreamDialog
-                aztec={window.aztec}
+                aztec={aztec}
                 zkAssets={zkAssets}
                 userAddress={userAddress}
                 streamContractInstance={streamContractInstance}
               />
             </Grid>
             <Grid item>
-              <WithdrawDialog aztec={window.aztec} zkAssets={zkAssets} userAddress={userAddress} />
+              <WithdrawDialog aztec={aztec} zkAssets={zkAssets} userAddress={userAddress} />
             </Grid>
           </Grid>
         </Paper>
@@ -151,7 +128,7 @@ const App = (): ReactElement => {
               <Status
                 role="sender"
                 userAddress={userAddress}
-                aztec={window.aztec}
+                aztec={aztec}
                 streamContractInstance={streamContractInstance}
               />
             </TabPanel>
@@ -159,14 +136,14 @@ const App = (): ReactElement => {
               <Status
                 role="recipient"
                 userAddress={userAddress}
-                aztec={window.aztec}
+                aztec={aztec}
                 streamContractInstance={streamContractInstance}
               />
             </TabPanel>
           </Paper>
         </Grid>
       </main>
-    </ApolloProvider>
+    </>
   );
 };
 
