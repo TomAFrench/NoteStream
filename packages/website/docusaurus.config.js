@@ -42,11 +42,11 @@ module.exports = {
           items: [
             {
               label: "Getting Started",
-              to: "docs/getting_started/getting_started",
+              to: "docs/getting_started/using_notestream",
             },
             {
               label: "Privacy",
-              to: "docs/privacy/privacy",
+              to: "docs/privacy/main",
             },
           ],
         },

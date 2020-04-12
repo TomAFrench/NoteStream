@@ -20,7 +20,8 @@
     "subgraph:auth": "yarn workspace @notestream/subgraph auth",
     "subgraph:codegen": "yarn workspace @notestream/subgraph codegen",
     "subgraph:build": "yarn workspace @notestream/subgraph build",
-    "subgraph:deploy": "yarn workspace @notestream/subgraph deploy"
+    "subgraph:deploy": "yarn workspace @notestream/subgraph deploy",
+    "website:start": "yarn workspace @notestream/website start"
   },
   "workspaces": {
     "packages": [
