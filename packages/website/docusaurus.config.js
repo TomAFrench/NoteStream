@@ -15,7 +15,7 @@ module.exports = {
       // },
       links: [
         {
-          to: "https://note.stream",
+          to: "https://app.note.stream",
           activeBasePath: "app",
           label: "App",
           position: "left",
