@@ -156,24 +156,24 @@ function runTests() {
       });
     });
 
-    describe("when the withdrawal amount is zero", function () {
-      const dividendProof = crypto.randomBytes(1);
-      const joinSplitProof = crypto.randomBytes(1);
-      const withdrawalDuration = new BigNumber(0).toString(10);
+    // describe("when the withdrawal amount is zero", function () {
+    //   const dividendProof = crypto.randomBytes(1);
+    //   const joinSplitProof = crypto.randomBytes(1);
+    //   const withdrawalDuration = new BigNumber(0).toString(10);
 
-      it("reverts", async function () {
-        await truffleAssert.reverts(
-          this.noteStream.withdrawFromStream(
-            this.streamId,
-            dividendProof,
-            joinSplitProof,
-            withdrawalDuration,
-            this.opts
-          ),
-          "zero value withdrawal"
-        );
-      });
-    });
+    //   it("reverts", async function () {
+    //     await truffleAssert.reverts(
+    //       this.noteStream.withdrawFromStream(
+    //         this.streamId,
+    //         dividendProof,
+    //         joinSplitProof,
+    //         withdrawalDuration,
+    //         this.opts
+    //       ),
+    //       "zero value withdrawal"
+    //     );
+    //   });
+    // });
   });
 
   describe("when paused", function () {
