@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const { devConstants, mochaContexts } = require("@notestream/dev-utils");
 const BigNumber = require("bignumber.js");
 const moment = require("moment");

@@ -1,4 +1,5 @@
-const { devConstants } = require("@notestream/dev-utils");
+/* eslint-disable func-names */
+// const { devConstants } = require("@notestream/dev-utils");
 const bn128 = require("@aztec/bn128");
 const { proofs } = require("@aztec/dev-utils");
 

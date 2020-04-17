@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const { devConstants } = require("@notestream/dev-utils");
 const truffleAssert = require("truffle-assertions");
 
