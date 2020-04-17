@@ -9,6 +9,7 @@
   ],
   "private": true,
   "scripts": {
+    "commit": "git-cz",
     "contracts:compile": "yarn workspace @notestream/contracts compile",
     "contracts:deploy": "yarn workspace @notestream/contracts deploy",
     "contracts:test": "yarn workspace @notestream/contracts test",
