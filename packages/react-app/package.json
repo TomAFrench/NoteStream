@@ -56,7 +56,6 @@
     "prestart": "yarn clean && yarn lint --fix",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "clean": "shx rm -rf ./build",
     "lint": "eslint --config .eslintrc.js ./src --ext .js,.jsx,.ts,.tsx"
