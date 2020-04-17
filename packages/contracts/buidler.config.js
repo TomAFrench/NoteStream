@@ -35,8 +35,8 @@ module.exports = {
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
       chainId: 4,
-      from: process.env.GANACHE_TESTING_ACCOUNT_0_ADDRESS,
-      accounts: [process.env.GANACHE_TESTING_ACCOUNT_0],
+      from: process.env.TESTING_ACCOUNT_ADDRESS,
+      accounts: [process.env.TESTING_ACCOUNT],
       // gas: 5500000,
       gasPrice: 10000000000,
     },
