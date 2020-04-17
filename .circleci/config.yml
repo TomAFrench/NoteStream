@@ -14,8 +14,8 @@ jobs:
                 name: "Update NPM"
                 command: sudo npm install -g npm@6.13.4
             - run:
-                name: "Install Yarn"
-                command: sudo npm install -g yarn@1.22.5
+                name: "Update Yarn"
+                command: yarn policies set-version 1.22.4
             - run:
                 name: "Set caching variables"
                 command: |
