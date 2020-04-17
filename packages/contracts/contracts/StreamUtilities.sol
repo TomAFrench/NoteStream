@@ -106,8 +106,10 @@ library StreamUtilities {
             bytes memory _proof2InputNotes,
             bytes memory _proof2OutputNotes,
             ,
-
+            int256 publicValue
         ) = proof2Outputs.extractProofOutput();
+
+        require(publicValue == 0, "nonzero public value transfer");
 
         // Requires that output note respects dividend proof
         require(

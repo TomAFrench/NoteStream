@@ -209,7 +209,10 @@ contract NoteStream is Pausable, ReentrancyGuard {
     {
         Types.AztecStream storage stream = streams[streamId];
 
-        // First check that fraction to withdraw isn't greater than fraction of time passed
+        // First check that this isn't a zero value withdrawal
+        require(_streamDurationToWithdraw > 0, "zero value withdrawal");
+
+        // Check that fraction to withdraw isn't greater than fraction of time passed
         require(
             stream.lastWithdrawTime.add(_streamDurationToWithdraw) <
                 block.timestamp, // solium-disable-line security/no-block-members
