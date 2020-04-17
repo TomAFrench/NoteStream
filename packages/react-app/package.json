@@ -58,6 +58,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "clean": "shx rm -rf ./build",
+    "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh react-app",
     "lint": "eslint --config .eslintrc.js ./src --ext .js,.jsx,.ts,.tsx"
   },
   "eslintConfig": {

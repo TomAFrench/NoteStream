@@ -18,6 +18,7 @@
     "clean": "buidler clean",
     "deploy": "buidler run scripts/deploy.js",
     "export": "buidler run scripts/export.js",
+    "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh contracts",
     "test": "buidler test",
     "lint:js": "eslint --config .eslintrc.js ./scripts"
   },

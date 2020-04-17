@@ -50,6 +50,7 @@
     "build:js": " babel src --out-dir lib --extensions '.ts,.tsx' --root-mode upward ./src",
     "build:types": "tsc --emitDeclarationOnly",
     "clean": "shx rm -rf ./lib",
+    "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh contract-artifacts",
     "lint": "eslint --config .eslintrc.js --ext .js,.ts . ",
     "watch": "yarn build --watch"
   }

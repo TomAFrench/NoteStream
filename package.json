@@ -22,7 +22,7 @@
     "subgraph:codegen": "yarn workspace @notestream/subgraph codegen",
     "subgraph:build": "yarn workspace @notestream/subgraph build",
     "subgraph:deploy": "yarn workspace @notestream/subgraph deploy",
-    "test": "yarn wsrun --package $PKG --serial -c --ifDependency test",
+    "test": "yarn wsrun --package $PKG --serial -c --if has:changed --ifDependency test",
     "wsrun": "wsrun --exclude-missing --fast-exit"
   },
   "workspaces": {
