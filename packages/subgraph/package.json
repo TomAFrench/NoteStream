@@ -26,7 +26,6 @@
     "url": "git+https://github.com/TomAFrench/NoteStream.git"
   },
   "scripts": {
-    "build": "graph build --debug",
     "clean": "shx rm -rf ./build ./src/types ./subgraph.yaml",
     "codegen": "graph codegen --debug --output-dir src/types/",
     "create:local": "graph create tomafrench/notestream --node http://127.0.0.1:8020",
