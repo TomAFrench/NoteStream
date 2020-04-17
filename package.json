@@ -9,6 +9,7 @@
   ],
   "private": true,
   "scripts": {
+    "build": "lerna link && yarn wsrun --package $PKG --recursive --stages -c build",
     "commit": "git-cz",
     "contracts:compile": "yarn workspace @notestream/contracts compile",
     "contracts:deploy": "yarn workspace @notestream/contracts deploy",
@@ -20,7 +21,9 @@
     "subgraph:auth": "yarn workspace @notestream/subgraph auth",
     "subgraph:codegen": "yarn workspace @notestream/subgraph codegen",
     "subgraph:build": "yarn workspace @notestream/subgraph build",
-    "subgraph:deploy": "yarn workspace @notestream/subgraph deploy"
+    "subgraph:deploy": "yarn workspace @notestream/subgraph deploy",
+    "test": "yarn wsrun --package $PKG --serial -c --ifDependency test",
+    "wsrun": "wsrun --exclude-missing --fast-exit"
   },
   "workspaces": {
     "packages": [
@@ -36,7 +39,9 @@
     "@commitlint/config-conventional": "^8.3.4",
     "commitizen": "^4.0.4",
     "husky": "^4.2.5",
-    "now": "^18.0.0"
+    "lerna": "^3.20.2",
+    "now": "^18.0.0",
+    "wsrun": "^5.2.0"
   },
   "config": {
     "commitizen": {
