@@ -9,6 +9,7 @@
   ],
   "private": true,
   "scripts": {
+    "commit": "git-cz",
     "contracts:compile": "yarn workspace @notestream/contracts compile",
     "contracts:deploy": "yarn workspace @notestream/contracts deploy",
     "contracts:test": "yarn workspace @notestream/contracts test",
@@ -29,5 +30,17 @@
       "**/@graphprotocol/graph-ts",
       "**/@graphprotocol/graph-ts/**"
     ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "commitizen": "^4.0.4",
+    "husky": "^4.2.5",
+    "now": "^18.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
