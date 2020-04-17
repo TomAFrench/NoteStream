@@ -19,22 +19,19 @@ const {
 
 function runTests() {
   describe("when the stream did not start", function () {
-    const dividendProof = crypto.randomBytes(1);
-    const joinSplitProof = crypto.randomBytes(1);
-    const cancellationDuration = new BigNumber(0).toString(10);
-
+    // const dividendProof = crypto.randomBytes(1);
+    // const joinSplitProof = crypto.randomBytes(1);
+    // const cancellationDuration = new BigNumber(0).toString(10);
     // it("cancels the stream", async function() {
     //   await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
     //   await truffleAssert.reverts(this.aztecStreamer.getStream(this.streamId), "stream does not exist");
     // });
-
     // it("transfers all tokens to the sender of the stream", async function() {
     //   const balance = await this.token.balanceOf(this.sender, this.opts);
     //   await this.sablier.cancelStream(this.streamId, this.opts);
     //   const newBalance = await this.token.balanceOf(this.sender, this.opts);
     //   newBalance.should.be.bignumber.equal(balance.plus(this.deposit));
     // });
-
     // it("emits a cancel event", async function() {
     //   const result = await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
     //   truffleAssert.eventEmitted(result, "CancelStream");
@@ -42,15 +39,13 @@ function runTests() {
   });
 
   contextForStreamDidStartButNotEnd(function () {
-    const dividendProof = crypto.randomBytes(1);
-    const joinSplitProof = crypto.randomBytes(1);
-    const cancellationDuration = STANDARD_TIME_OFFSET;
-
+    // const dividendProof = crypto.randomBytes(1);
+    // const joinSplitProof = crypto.randomBytes(1);
+    // const cancellationDuration = STANDARD_TIME_OFFSET;
     // it("cancels the stream", async function() {
     //   await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
     //   await truffleAssert.reverts(this.aztecStreamer.getStream(this.streamId), "stream does not exist");
     // });
-
     // it("transfers the tokens to the sender of the stream", async function() {
     //   const balance = await this.token.balanceOf(this.sender, this.opts);
     //   await this.sablier.cancelStream(this.streamId, this.opts);
@@ -62,14 +57,12 @@ function runTests() {
     //     tolerateByAddition,
     //   );
     // });
-
     // it("transfers the tokens to the recipient of the stream", async function() {
     //   const balance = await this.token.balanceOf(this.recipient, this.opts);
     //   await this.sablier.cancelStream(this.streamId, this.opts);
     //   const newBalance = await this.token.balanceOf(this.recipient, this.opts);
     //   newBalance.should.tolerateTheBlockTimeVariation(balance.plus(streamedAmount), STANDARD_SCALE);
     // });
-
     // it("emits a cancel event", async function() {
     //   const result = await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
     //   truffleAssert.eventEmitted(result, "CancelStream");
@@ -77,30 +70,26 @@ function runTests() {
   });
 
   contextForStreamDidEnd(function () {
-    const streamedAmount = STANDARD_SALARY.toString(10);
-    const dividendProof = null;
-    const joinSplitProof = null;
-    const cancellationDuration = null;
-
+    // const streamedAmount = STANDARD_SALARY.toString(10);
+    // const dividendProof = null;
+    // const joinSplitProof = null;
+    // const cancellationDuration = null;
     // it("cancels the stream", async function() {
     //   await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
     //   await truffleAssert.reverts(this.aztecStreamer.getStream(this.streamId), "stream does not exist");
     // });
-
     // it("transfers nothing to the sender of the stream", async function() {
     //   const balance = await this.token.balanceOf(this.sender, this.opts);
     //   await this.sablier.cancelStream(this.streamId, this.opts);
     //   const newBalance = await this.token.balanceOf(this.recipient, this.opts);
     //   newBalance.should.be.bignumber.equal(balance);
     // });
-
     // it("transfers all tokens to the recipient of the stream", async function() {
     //   const balance = await this.token.balanceOf(this.recipient, this.opts);
     //   await this.sablier.cancelStream(this.streamId, this.opts);
     //   const newBalance = await this.token.balanceOf(this.recipient, this.opts);
     //   newBalance.should.be.bignumber.equal(balance.plus(streamedAmount));
     // });
-
     // it("emits a cancel event", async function() {
     //   const result = await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
     //   truffleAssert.eventEmitted(result, "CancelStream");
@@ -131,21 +120,21 @@ function shouldBehaveLikeCancelStream(alice, bob, eve) {
       this.streamId = Number(result.logs[0].args.streamId);
     });
 
-    // describe("when the caller is the sender of the stream", function() {
-    //   beforeEach(function() {
-    //     this.opts = { from: this.sender };
-    //   });
+    describe("when the caller is the sender of the stream", function () {
+      beforeEach(function () {
+        this.opts = { from: this.sender };
+      });
 
-    //   runTests();
-    // });
+      runTests();
+    });
 
-    // describe("when the caller is the recipient of the stream", function() {
-    //   beforeEach(function() {
-    //     this.opts = { from: this.recipient };
-    //   });
+    describe("when the caller is the recipient of the stream", function () {
+      beforeEach(function () {
+        this.opts = { from: this.recipient };
+      });
 
-    //   runTests();
-    // });
+      runTests();
+    });
 
     describe("when the caller is not the sender or the recipient of the stream", function () {
       const opts = { from: eve };
