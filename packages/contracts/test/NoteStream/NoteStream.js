@@ -34,7 +34,7 @@ const generateFactoryId = (epoch, cryptoSystem, assetType) => {
   return epoch * 256 ** 2 + cryptoSystem * 256 ** 1 + assetType * 256 ** 0;
 };
 
-contract("AztecStreamer", function aztecStreamer([alice, bob, carol, eve]) {
+contract("NoteStream", function noteStream([alice, bob, carol, eve]) {
   beforeEach(async function () {
     const opts = { from: alice };
 
