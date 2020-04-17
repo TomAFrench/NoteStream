@@ -21,7 +21,56 @@ function shouldBehaveLikeCreateStream(alice, bob) {
   const notehash = crypto.randomBytes(32);
 
   describe("when not paused", function () {
-    // describe("when the recipient is valid", function() {}
+    describe("when the recipient is valid", function () {
+      const recipient = bob;
+
+      it("creates the stream", async function () {
+        const result = await this.noteStream.createStream(
+          recipient,
+          notehash,
+          this.zkAsset.address,
+          startTime,
+          stopTime,
+          opts
+        );
+        const streamObject = await this.noteStream.getStream(
+          Number(result.logs[0].args.streamId)
+        );
+        streamObject.sender.should.be.equal(sender);
+        streamObject.recipient.should.be.equal(recipient);
+        streamObject.noteHash.should.be.equal(`0x${notehash.toString("hex")}`);
+        streamObject.tokenAddress.should.be.equal(this.zkAsset.address);
+        streamObject.startTime.should.be.bignumber.equal(startTime);
+        streamObject.lastWithdrawTime.should.be.bignumber.equal(startTime);
+        streamObject.stopTime.should.be.bignumber.equal(stopTime);
+      });
+
+      it("increases the next stream id", async function () {
+        const nextStreamId = await this.noteStream.nextStreamId();
+        await this.noteStream.createStream(
+          recipient,
+          notehash,
+          this.zkAsset.address,
+          startTime,
+          stopTime,
+          opts
+        );
+        const newNextStreamId = await this.noteStream.nextStreamId();
+        newNextStreamId.should.be.bignumber.equal(nextStreamId.plus(1));
+      });
+
+      it("emits a createStream event", async function () {
+        const result = await this.noteStream.createStream(
+          recipient,
+          notehash,
+          this.zkAsset.address,
+          startTime,
+          stopTime,
+          opts
+        );
+        truffleAssert.eventEmitted(result, "CreateStream");
+      });
+    });
 
     describe("when the recipient is the caller itself", function () {
       const recipient = sender;
