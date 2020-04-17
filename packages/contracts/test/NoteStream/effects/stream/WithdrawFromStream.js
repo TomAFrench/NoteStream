@@ -225,11 +225,23 @@ function shouldBehaveLikeWithdrawFromStream(alice, bob, eve) {
     });
 
     describe("when the caller is the sender of the stream", function () {
-      beforeEach(function () {
-        this.opts = { from: this.sender };
-      });
+      const opts = { from: this.sender };
+      const dividendProof = crypto.randomBytes(1);
+      const joinSplitProof = crypto.randomBytes(1);
+      const withdrawDuration = 1;
 
-      runTests();
+      it("reverts", async function () {
+        await truffleAssert.reverts(
+          this.noteStream.withdrawFromStream(
+            this.streamId,
+            dividendProof,
+            joinSplitProof,
+            withdrawDuration,
+            opts
+          ),
+          "caller is not the recipient of the stream"
+        );
+      });
     });
 
     describe("when the caller is the recipient of the stream", function () {
@@ -255,7 +267,7 @@ function shouldBehaveLikeWithdrawFromStream(alice, bob, eve) {
             withdrawDuration,
             opts
           ),
-          "caller is not the sender or the recipient of the stream"
+          "caller is not the recipient of the stream"
         );
       });
     });
