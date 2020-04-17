@@ -29,5 +29,8 @@
       "**/@graphprotocol/graph-ts",
       "**/@graphprotocol/graph-ts/**"
     ]
+  },
+  "devDependencies": {
+    "now": "^18.0.0"
   }
 }
