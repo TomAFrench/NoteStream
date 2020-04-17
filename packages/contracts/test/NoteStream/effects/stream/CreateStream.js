@@ -89,7 +89,7 @@ function shouldBehaveLikeCreateStream(alice, bob) {
       });
     });
 
-    describe("when the recipient is the contract itself", function () {
+    describe("when the recipient is the NoteStream contract itself", function () {
       it("reverts", async function () {
         // Can't be defined in the context above because "this.noteStream" is undefined there
         const recipient = this.noteStream.address;
