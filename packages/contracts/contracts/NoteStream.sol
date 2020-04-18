@@ -283,6 +283,9 @@ contract NoteStream is Pausable, ReentrancyGuard {
             return _cancelStreamInternal(streamId, 0);
         }
 
+        // We require the denominator of ratio proof to be nonzero
+        require(_unclaimedTime > 0, "cancellation with zero unclaimed time");
+
         // Otherwise check that cancelling party isn't trying to scam the other
         // Each party can only cancel from a timestamp favourable to the other party.
         // This ensure that it is close to the true time.

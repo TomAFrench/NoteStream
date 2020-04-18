@@ -19,26 +19,73 @@ const {
 
 function runTests() {
   describe("when the stream did not start", function () {
-    // const dividendProof = crypto.randomBytes(1);
-    // const joinSplitProof = crypto.randomBytes(1);
-    // const cancellationDuration = new BigNumber(0).toString(10);
-    // it("cancels the stream", async function() {
-    //   await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
-    //   await truffleAssert.reverts(this.aztecStreamer.getStream(this.streamId), "stream does not exist");
-    // });
-    // it("transfers all tokens to the sender of the stream", async function() {
-    //   const balance = await this.token.balanceOf(this.sender, this.opts);
-    //   await this.sablier.cancelStream(this.streamId, this.opts);
-    //   const newBalance = await this.token.balanceOf(this.sender, this.opts);
-    //   newBalance.should.be.bignumber.equal(balance.plus(this.deposit));
-    // });
-    // it("emits a cancel event", async function() {
-    //   const result = await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
-    //   truffleAssert.eventEmitted(result, "CancelStream");
+    describe("when the cancellation has zero duration", function () {
+      const dividendProof = crypto.randomBytes(1);
+      const joinSplitProof = crypto.randomBytes(1);
+      const cancellationDuration = new BigNumber(0).toString(10);
+      it("reverts", async function () {
+        await truffleAssert.reverts(
+          this.noteStream.cancelStream(
+            this.streamId,
+            dividendProof,
+            joinSplitProof,
+            cancellationDuration,
+            this.opts
+          ),
+          "cancellation with zero unclaimed time"
+        );
+      });
+    });
+
+    // describe("when the cancellation is valid", function () {
+    //   const dividendProof = crypto.randomBytes(1);
+    //   const joinSplitProof = crypto.randomBytes(1);
+    //   const cancellationDuration = new BigNumber(1).toString(10);
+
+    //   it("cancels the stream", async function () {
+    //     await this.noteStream.cancelStream(
+    //       this.streamId,
+    //       dividendProof,
+    //       joinSplitProof,
+    //       cancellationDuration,
+    //       this.opts
+    //     );
+    //     await truffleAssert.reverts(
+    //       this.aztecStreamer.getStream(this.streamId),
+    //       "stream does not exist"
+    //     );
+    //   });
+    //   it("emits a cancel event", async function () {
+    //     const result = await this.noteStream.cancelStream(
+    //       this.streamId,
+    //       dividendProof,
+    //       joinSplitProof,
+    //       cancellationDuration,
+    //       this.opts
+    //     );
+    //     truffleAssert.eventEmitted(result, "CancelStream");
+    //   });
     // });
   });
 
   contextForStreamDidStartButNotEnd(function () {
+    describe("when the cancellation has zero duration", function () {
+      const dividendProof = crypto.randomBytes(1);
+      const joinSplitProof = crypto.randomBytes(1);
+      const cancellationDuration = new BigNumber(0).toString(10);
+      it("reverts", async function () {
+        await truffleAssert.reverts(
+          this.noteStream.cancelStream(
+            this.streamId,
+            dividendProof,
+            joinSplitProof,
+            cancellationDuration,
+            this.opts
+          ),
+          "cancellation with zero unclaimed time"
+        );
+      });
+    });
     // const dividendProof = crypto.randomBytes(1);
     // const joinSplitProof = crypto.randomBytes(1);
     // const cancellationDuration = STANDARD_TIME_OFFSET;
@@ -70,6 +117,28 @@ function runTests() {
   });
 
   contextForStreamDidEnd(function () {
+    describe("when the cancellation has zero duration", function () {
+      // describe("when the stream has been fully withdrawn", function () {
+      //   // succeeds
+      // });
+      describe("when the stream has not been fully withdrawn", function () {
+        const dividendProof = crypto.randomBytes(1);
+        const joinSplitProof = crypto.randomBytes(1);
+        const cancellationDuration = new BigNumber(0).toString(10);
+        it("reverts", async function () {
+          await truffleAssert.reverts(
+            this.noteStream.cancelStream(
+              this.streamId,
+              dividendProof,
+              joinSplitProof,
+              cancellationDuration,
+              this.opts
+            ),
+            "cancellation with zero unclaimed time"
+          );
+        });
+      });
+    });
     // const streamedAmount = STANDARD_SALARY.toString(10);
     // const dividendProof = null;
     // const joinSplitProof = null;
@@ -101,12 +170,11 @@ function shouldBehaveLikeCancelStream(alice, bob, eve) {
   const now = new BigNumber(moment().format("X"));
 
   describe("when the stream exists", function () {
-    const startTime = now.plus(STANDARD_TIME_OFFSET);
-    const stopTime = startTime.plus(STANDARD_TIME_DELTA);
-
     beforeEach(async function () {
       this.sender = alice;
       this.recipient = bob;
+      const startTime = now.plus(STANDARD_TIME_OFFSET.multipliedBy(2));
+      const stopTime = startTime.plus(STANDARD_TIME_DELTA);
       const notehash = crypto.randomBytes(32);
       const opts = { from: this.sender };
       const result = await this.noteStream.createStream(
@@ -140,7 +208,7 @@ function shouldBehaveLikeCancelStream(alice, bob, eve) {
       const opts = { from: eve };
       const dividendProof = crypto.randomBytes(1);
       const joinSplitProof = crypto.randomBytes(1);
-      const cancellationDuration = STANDARD_TIME_OFFSET;
+      const cancellationDuration = STANDARD_TIME_OFFSET.toString(10);
 
       it("reverts", async function () {
         await truffleAssert.reverts(
@@ -161,7 +229,7 @@ function shouldBehaveLikeCancelStream(alice, bob, eve) {
     const recipient = bob;
     const dividendProof = crypto.randomBytes(1);
     const joinSplitProof = crypto.randomBytes(1);
-    const cancellationDuration = STANDARD_TIME_OFFSET;
+    const cancellationDuration = STANDARD_TIME_OFFSET.toString(10);
     const opts = { from: recipient };
 
     it("reverts", async function () {
