@@ -38,6 +38,7 @@ const generateFactoryId = (epoch, cryptoSystem, assetType) => {
   return epoch * 256 ** 2 + cryptoSystem * 256 ** 1 + assetType * 256 ** 0;
 };
 
+// eslint-disable-next-line no-undef
 contract("NoteStream", function noteStream([alice, bob, carol, eve]) {
   beforeEach(async function () {
     const opts = { from: alice };
