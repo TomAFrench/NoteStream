@@ -70,6 +70,56 @@ function shouldBehaveLikeCreateStream(alice, bob) {
         );
         truffleAssert.eventEmitted(result, "CreateStream");
       });
+
+      describe("when the stream starts in the past", function () {
+        const invalidStartTime = now.minus(STANDARD_TIME_OFFSET);
+        it("reverts", async function () {
+          await truffleAssert.reverts(
+            this.noteStream.createStream(
+              recipient,
+              notehash,
+              this.zkAsset.address,
+              invalidStartTime,
+              stopTime,
+              opts
+            ),
+            "start time before block.timestamp"
+          );
+        });
+      });
+
+      describe("when the stream duration is zero", function () {
+        it("reverts", async function () {
+          await truffleAssert.reverts(
+            this.noteStream.createStream(
+              recipient,
+              notehash,
+              this.zkAsset.address,
+              startTime,
+              startTime,
+              opts
+            ),
+            "Stream duration not greater than zero"
+          );
+        });
+      });
+
+      describe("when the stream duration is zero", function () {
+        const invalidStopTime = startTime.minus(STANDARD_TIME_DELTA);
+        it("reverts", async function () {
+          await truffleAssert.reverts(
+            this.noteStream.createStream(
+              recipient,
+              notehash,
+              this.zkAsset.address,
+              startTime,
+              invalidStopTime,
+              opts
+            ),
+            "Stream duration not greater than zero"
+          );
+        });
+      });
     });
 
     describe("when the recipient is the caller itself", function () {
