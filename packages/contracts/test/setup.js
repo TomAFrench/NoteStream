@@ -11,11 +11,13 @@ chai.use(chaiPlugin);
 
 let snapshotId;
 
+// eslint-disable-next-line no-undef
 before(async () => {
   const snapshot = await traveler.takeSnapshot();
   snapshotId = snapshot.result;
 });
 
+// eslint-disable-next-line no-undef
 after(async () => {
   await traveler.revertToSnapshot(snapshotId);
 });
