@@ -20145,7 +20145,7 @@ web3@^0.20.7:
     xhr2-cookies "^1.1.0"
     xmlhttprequest "*"
 
-web3@^1.0.0-beta.34, web3@^1.2.1:
+web3@^1.0.0-beta.34, web3@^1.2.1, web3@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/web3/-/web3-1.2.6.tgz#c497dcb14cdd8d6d9fb6b445b3b68ff83f8ccf68"
   integrity sha512-tpu9fLIComgxGrFsD8LUtA4s4aCZk7px8UfcdEy6kS2uDi/ZfR07KJqpXZMij7Jvlq+cQrTAhsPSiBVvoMaivA==
