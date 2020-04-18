@@ -1,23 +1,27 @@
 /* eslint-disable func-names */
 // const { devConstants } = require("@notestream/dev-utils");
+const env = require("@nomiclabs/buidler");
+
 const bn128 = require("@aztec/bn128");
 const { proofs } = require("@aztec/dev-utils");
 
 const shouldBehaveLikeNoteStream = require("./NoteStream.behavior");
 
-const ACE = artifacts.require("./ACE.sol");
-const BaseFactory = artifacts.require(
+const ACE = env.artifacts.require("./ACE.sol");
+const BaseFactory = env.artifacts.require(
   "./noteRegistry/epochs/201912/base/FactoryBase201912"
 );
-const JoinSplitValidator = artifacts.require("./JoinSplit");
-const JoinSplitValidatorInterface = artifacts.require("./JoinSplitInterface");
-const DividendValidator = artifacts.require("./Dividend");
-const DividendValidatorInterface = artifacts.require("./DividendInterface");
+const JoinSplitValidator = env.artifacts.require("./JoinSplit");
+const JoinSplitValidatorInterface = env.artifacts.require(
+  "./JoinSplitInterface"
+);
+const DividendValidator = env.artifacts.require("./Dividend");
+const DividendValidatorInterface = env.artifacts.require("./DividendInterface");
 
-const ERC20DetailedMintable = artifacts.require("ERC20DetailedMintable");
-const ZkAsset = artifacts.require("ZkAsset");
+const ERC20DetailedMintable = env.artifacts.require("ERC20DetailedMintable");
+const ZkAsset = env.artifacts.require("ZkAsset");
 
-const NoteStream = artifacts.require("./NoteStream.sol");
+const NoteStream = env.artifacts.require("./NoteStream.sol");
 
 ACE.numberFormat = "BigNumber";
 JoinSplitValidator.numberFormat = "BigNumber";

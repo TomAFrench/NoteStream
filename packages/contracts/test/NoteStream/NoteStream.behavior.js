@@ -1,4 +1,6 @@
 /* eslint-disable func-names */
+const env = require("@nomiclabs/buidler");
+
 const { devConstants } = require("@notestream/dev-utils");
 const truffleAssert = require("truffle-assertions");
 
@@ -8,7 +10,7 @@ const shouldBehaveLikeCreateStream = require("./effects/stream/CreateStream");
 const shouldBehaveLikeWithdrawFromStream = require("./effects/stream/WithdrawFromStream");
 const shouldBehaveLikeCancelStream = require("./effects/stream/CancelStream");
 
-const NoteStream = artifacts.require("./NoteStream.sol");
+const NoteStream = env.artifacts.require("./NoteStream.sol");
 const { ZERO_ADDRESS } = devConstants;
 
 function shouldBehaveLikeNoteStream(alice, bob, carol, eve) {
