@@ -7,7 +7,7 @@ const truffleAssert = require("truffle-assertions");
 
 const {
   // FIVE_UNITS,
-  STANDARD_SALARY,
+  // STANDARD_SALARY,
   // STANDARD_SCALE,
   STANDARD_TIME_OFFSET,
   STANDARD_TIME_DELTA,
@@ -16,6 +16,59 @@ const {
   contextForStreamDidEnd,
   contextForStreamDidStartButNotEnd,
 } = mochaContexts;
+
+function testValidCancellation() {
+  // const dividendProof = crypto.randomBytes(1);
+  // const joinSplitProof = crypto.randomBytes(1);
+  // const cancellationDuration = new BigNumber(1).toString(10);
+  // testStreamDeletion();
+  // it("transfers the tokens to the sender of the stream", async function() {
+  //   const balance = await this.token.balanceOf(this.sender, this.opts);
+  //   await this.sablier.cancelStream(this.streamId, this.opts);
+  //   const newBalance = await this.token.balanceOf(this.sender, this.opts);
+  //   const tolerateByAddition = false;
+  //   newBalance.should.tolerateTheBlockTimeVariation(
+  //     balance.minus(streamedAmount).plus(this.deposit),
+  //     STANDARD_SCALE,
+  //     tolerateByAddition,
+  //   );
+  // });
+  // it("transfers the tokens to the recipient of the stream", async function() {
+  //   const balance = await this.token.balanceOf(this.recipient, this.opts);
+  //   await this.sablier.cancelStream(this.streamId, this.opts);
+  //   const newBalance = await this.token.balanceOf(this.recipient, this.opts);
+  //   newBalance.should.tolerateTheBlockTimeVariation(balance.plus(streamedAmount), STANDARD_SCALE);
+  // });
+}
+
+function testStreamDeletion() {
+  // const dividendProof = crypto.randomBytes(1);
+  // const joinSplitProof = crypto.randomBytes(1);
+  // const cancellationDuration = new BigNumber(1).toString(10);
+  // it("cancels the stream", async function () {
+  //   await this.noteStream.cancelStream(
+  //     this.streamId,
+  //     dividendProof,
+  //     joinSplitProof,
+  //     cancellationDuration,
+  //     this.opts
+  //   );
+  //   await truffleAssert.reverts(
+  //     this.aztecStreamer.getStream(this.streamId),
+  //     "stream does not exist"
+  //   );
+  // });
+  // it("emits a cancel event", async function () {
+  //   const result = await this.noteStream.cancelStream(
+  //     this.streamId,
+  //     dividendProof,
+  //     joinSplitProof,
+  //     cancellationDuration,
+  //     this.opts
+  //   );
+  //   truffleAssert.eventEmitted(result, "CancelStream");
+  // });
+}
 
 function runTests() {
   describe("when the stream did not start", function () {
@@ -37,35 +90,9 @@ function runTests() {
       });
     });
 
-    // describe("when the cancellation is valid", function () {
-    //   const dividendProof = crypto.randomBytes(1);
-    //   const joinSplitProof = crypto.randomBytes(1);
-    //   const cancellationDuration = new BigNumber(1).toString(10);
-
-    //   it("cancels the stream", async function () {
-    //     await this.noteStream.cancelStream(
-    //       this.streamId,
-    //       dividendProof,
-    //       joinSplitProof,
-    //       cancellationDuration,
-    //       this.opts
-    //     );
-    //     await truffleAssert.reverts(
-    //       this.aztecStreamer.getStream(this.streamId),
-    //       "stream does not exist"
-    //     );
-    //   });
-    //   it("emits a cancel event", async function () {
-    //     const result = await this.noteStream.cancelStream(
-    //       this.streamId,
-    //       dividendProof,
-    //       joinSplitProof,
-    //       cancellationDuration,
-    //       this.opts
-    //     );
-    //     truffleAssert.eventEmitted(result, "CancelStream");
-    //   });
-    // });
+    describe("when the cancellation is valid", function () {
+      testValidCancellation();
+    });
   });
 
   contextForStreamDidStartButNotEnd(function () {
@@ -86,41 +113,18 @@ function runTests() {
         );
       });
     });
-    // const dividendProof = crypto.randomBytes(1);
-    // const joinSplitProof = crypto.randomBytes(1);
-    // const cancellationDuration = STANDARD_TIME_OFFSET;
-    // it("cancels the stream", async function() {
-    //   await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
-    //   await truffleAssert.reverts(this.aztecStreamer.getStream(this.streamId), "stream does not exist");
-    // });
-    // it("transfers the tokens to the sender of the stream", async function() {
-    //   const balance = await this.token.balanceOf(this.sender, this.opts);
-    //   await this.sablier.cancelStream(this.streamId, this.opts);
-    //   const newBalance = await this.token.balanceOf(this.sender, this.opts);
-    //   const tolerateByAddition = false;
-    //   newBalance.should.tolerateTheBlockTimeVariation(
-    //     balance.minus(streamedAmount).plus(this.deposit),
-    //     STANDARD_SCALE,
-    //     tolerateByAddition,
-    //   );
-    // });
-    // it("transfers the tokens to the recipient of the stream", async function() {
-    //   const balance = await this.token.balanceOf(this.recipient, this.opts);
-    //   await this.sablier.cancelStream(this.streamId, this.opts);
-    //   const newBalance = await this.token.balanceOf(this.recipient, this.opts);
-    //   newBalance.should.tolerateTheBlockTimeVariation(balance.plus(streamedAmount), STANDARD_SCALE);
-    // });
-    // it("emits a cancel event", async function() {
-    //   const result = await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
-    //   truffleAssert.eventEmitted(result, "CancelStream");
-    // });
+
+    describe("when the cancellation is valid", function () {
+      testValidCancellation();
+    });
   });
 
   contextForStreamDidEnd(function () {
     describe("when the cancellation has zero duration", function () {
-      // describe("when the stream has been fully withdrawn", function () {
-      //   // succeeds
-      // });
+      describe("when the stream has been fully withdrawn", function () {
+        testStreamDeletion();
+      });
+
       describe("when the stream has not been fully withdrawn", function () {
         const dividendProof = crypto.randomBytes(1);
         const joinSplitProof = crypto.randomBytes(1);
@@ -139,30 +143,15 @@ function runTests() {
         });
       });
     });
-    // const streamedAmount = STANDARD_SALARY.toString(10);
-    // const dividendProof = null;
-    // const joinSplitProof = null;
-    // const cancellationDuration = null;
-    // it("cancels the stream", async function() {
-    //   await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
-    //   await truffleAssert.reverts(this.aztecStreamer.getStream(this.streamId), "stream does not exist");
-    // });
-    // it("transfers nothing to the sender of the stream", async function() {
-    //   const balance = await this.token.balanceOf(this.sender, this.opts);
-    //   await this.sablier.cancelStream(this.streamId, this.opts);
-    //   const newBalance = await this.token.balanceOf(this.recipient, this.opts);
-    //   newBalance.should.be.bignumber.equal(balance);
-    // });
-    // it("transfers all tokens to the recipient of the stream", async function() {
-    //   const balance = await this.token.balanceOf(this.recipient, this.opts);
-    //   await this.sablier.cancelStream(this.streamId, this.opts);
-    //   const newBalance = await this.token.balanceOf(this.recipient, this.opts);
-    //   newBalance.should.be.bignumber.equal(balance.plus(streamedAmount));
-    // });
-    // it("emits a cancel event", async function() {
-    //   const result = await this.aztecStreamer.cancelStream(this.streamId, dividendProof, joinSplitProof, cancellationDuration, this.opts);
-    //   truffleAssert.eventEmitted(result, "CancelStream");
-    // });
+
+    describe("when the cancellation has nonzero duration", function () {
+      describe("when the stream has been fully withdrawn", function () {
+        // reverts
+      });
+      describe("when the stream has not been fully withdrawn", function () {
+        testValidCancellation();
+      });
+    });
   });
 }
 
