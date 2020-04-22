@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const BigNumber = require("bignumber.js");
 const truffleAssert = require("truffle-assertions");
 
@@ -5,10 +6,13 @@ function shouldBehaveLikeGetStream(alice) {
   const sender = alice;
   const opts = { from: sender };
 
-  describe("when the stream does not exist", function() {
-    it("reverts", async function() {
+  describe("when the stream does not exist", function () {
+    it("reverts", async function () {
       const streamId = new BigNumber(419863);
-      await truffleAssert.reverts(this.aztecStreamer.getStream(streamId, opts), "stream does not exist");
+      await truffleAssert.reverts(
+        this.noteStream.getStream(streamId, opts),
+        "stream does not exist"
+      );
     });
   });
 }

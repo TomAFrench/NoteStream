@@ -26,7 +26,6 @@
     "url": "git+https://github.com/TomAFrench/NoteStream.git"
   },
   "scripts": {
-    "build": "graph build --debug",
     "clean": "shx rm -rf ./build ./src/types ./subgraph.yaml",
     "codegen": "graph codegen --debug --output-dir src/types/",
     "create:local": "graph create tomafrench/notestream --node http://127.0.0.1:8020",
@@ -44,6 +43,7 @@
     "prepare:ropsten": "NETWORK_NAME=ropsten node ./updateAddresses.js && NETWORK_NAME=ropsten node ./templatify.js",
     "prepare:local": "NETWORK_NAME=local node ./updateAddresses.js && NETWORK_NAME=local node ./templatify.js",
     "remove-local": "graph remove tomafrench/notestream --node http://127.0.0.1:8020/",
-    "reset-local": "yarn codegen && yarn remove-local && yarn create-local && yarn deploy-local"
+    "reset-local": "yarn codegen && yarn remove-local && yarn create-local && yarn deploy-local",
+    "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh subgraph"
   }
 }

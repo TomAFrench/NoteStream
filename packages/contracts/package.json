@@ -18,8 +18,9 @@
     "clean": "buidler clean",
     "deploy": "buidler run scripts/deploy.js",
     "export": "buidler run scripts/export.js",
+    "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh contracts",
     "test": "buidler test",
-    "lint:js": "eslint --config .eslintrc.js ./scripts"
+    "lint:js": "eslint --config .eslintrc.js ./scripts ./test"
   },
   "files": [
     "/contracts"
@@ -41,9 +42,15 @@
     "@nomiclabs/buidler-etherscan": "^1.2.0",
     "@nomiclabs/buidler-truffle5": "^1.2.0",
     "@nomiclabs/buidler-web3": "^1.2.0",
+    "@notestream/dev-utils": "^0.1.0",
     "@openzeppelin/contracts": "^2.5.0",
+    "bignumber.js": "^9.0.0",
+    "chai": "^4.2.0",
     "chai-bignumber": "^3.0.0",
+    "crypto": "^1.0.1",
     "ganache-time-traveler": "^1.0.14",
-    "truffle-assertions": "^0.9.2"
+    "moment": "^2.24.0",
+    "truffle-assertions": "^0.9.2",
+    "web3": "^1.2.6"
   }
 }

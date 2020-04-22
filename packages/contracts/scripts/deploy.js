@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const env = require("@nomiclabs/buidler");
 const { getContractAddressesForNetwork } = require("@aztec/contract-addresses");
 const bn128 = require("@aztec/bn128");
