@@ -2806,11 +2806,6 @@
     web3-eth-contract "1.2.2"
     web3-utils "1.2.2"
 
-"@paulrberg/eslint-config@^1.0.0":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@paulrberg/eslint-config/-/eslint-config-1.0.2.tgz#2f26e957b9934f233e4891c1dde030c869a16b62"
-  integrity sha512-4JQyK4+jjwQ/Srv+s/YYbczML7h79wdIOI3GeuhRaNcgV/OOh9ANuWsGfEPNpo0tOD0DhEcVqNR0dWz6J1fUJw==
-
 "@portis/eth-json-rpc-middleware@^4.1.2":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@portis/eth-json-rpc-middleware/-/eth-json-rpc-middleware-4.1.2.tgz#391e392da03dea348c8111a8111ce4550aa24a02"
@@ -13553,6 +13548,11 @@ moment@^2.24.0:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
+
+moment@^2.25.3:
+  version "2.25.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.25.3.tgz#252ff41319cf41e47761a1a88cab30edfe9808c0"
+  integrity sha512-PuYv0PHxZvzc15Sp8ybUCoQ+xpyPWvjOuK72a5ovzp2LI32rJXOiIfyoFoYvG3s6EwwrdkMyWuRiEHSZRLJNdg==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
