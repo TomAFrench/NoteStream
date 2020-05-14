@@ -1,3 +1,5 @@
+const { usePlugin, task } = require("@nomiclabs/buidler/config");
+
 usePlugin("@nomiclabs/buidler-truffle5");
 usePlugin("@nomiclabs/buidler-etherscan");
 require("dotenv").config({ path: ".env.development" });
