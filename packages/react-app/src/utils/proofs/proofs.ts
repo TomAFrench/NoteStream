@@ -1,7 +1,7 @@
 // import { note, DividendProof, JoinSplitProof } from 'aztec.js';
 import secp256k1 from '@aztec/secp256k1';
 import { getFraction, computeRemainderNoteValue } from '../note';
-import { Stream, Address, Fraction, Dividend } from '../../types/types';
+import { Stream, Address, Fraction, Dividend, Note } from '../../types/types';
 
 export async function buildDividendProof(
   stream: Stream,
@@ -31,7 +31,7 @@ export async function buildDividendProof(
   ]);
   const remainderNote = await payee.createNote(withdrawPayment.residual);
 
-  const proofData = new aztec.DividendProof(
+  return new aztec.DividendProof(
     streamNote,
     remainderNote,
     withdrawPaymentNote,
@@ -39,19 +39,13 @@ export async function buildDividendProof(
     ratio.denominator,
     ratio.numerator,
   );
-
-  return {
-    proofData,
-    inputNotes: [streamNote],
-    outputNotes: [withdrawPaymentNote, remainderNote],
-  };
 }
 
 export async function buildJoinSplitProof(
   stream: Stream,
   streamContractAddress: Address,
-  streamNote: any,
-  withdrawPaymentNote: any,
+  streamNote: Note,
+  withdrawPaymentNote: Note,
   changeNoteOwner: Address,
   aztec: any,
 ): Promise<any> {
@@ -74,17 +68,11 @@ export async function buildJoinSplitProof(
     changeNoteOwner,
   );
 
-  const proofData = new aztec.JoinSplitProof(
+  return new aztec.JoinSplitProof(
     [streamNote],
     [withdrawPaymentNote, changeNote],
     streamContractAddress,
     0, // No transfer from private to public assets or vice versa
     recipient,
   );
-
-  return {
-    proofData,
-    inputNotes: [streamNote],
-    outputNotes: [withdrawPaymentNote, changeNote],
-  };
 }

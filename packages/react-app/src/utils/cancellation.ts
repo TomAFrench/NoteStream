@@ -28,7 +28,7 @@ export default async function cancelStream(
     bufferSeconds,
   );
 
-  const { proof1, proof2 } = await buildProofs(
+  const { dividendProof, joinSplitProof } = await buildProofs(
     aztec,
     streamContractInstance.address,
     streamObj,
@@ -36,11 +36,11 @@ export default async function cancelStream(
   );
 
   console.log('Cancelling stream:', streamId);
-  console.log('Proofs:', proof1, proof2);
+  console.log('Proofs:', dividendProof, joinSplitProof);
   return streamContractInstance.cancelStream(
     streamId,
-    proof1.encodeABI(),
-    proof2.encodeABI(streamObj.tokenAddress),
+    dividendProof.encodeABI(),
+    joinSplitProof.encodeABI(streamObj.tokenAddress),
     withdrawalDuration,
   );
 }

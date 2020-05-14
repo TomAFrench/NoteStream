@@ -86,7 +86,7 @@ export async function withdrawFunds(
     streamObj.stopTime,
   );
 
-  const { proof1, proof2 }: { proof1: any; proof2: any } = await buildProofs(
+  const { dividendProof, joinSplitProof } = await buildProofs(
     aztec,
     streamContractInstance.address,
     streamObj,
@@ -94,11 +94,11 @@ export async function withdrawFunds(
   );
 
   console.log('Withdrawing from stream:', streamId);
-  console.log('Proofs:', proof1, proof2);
+  console.log('Proofs:', dividendProof, joinSplitProof);
   return streamContractInstance.withdrawFromStream(
     streamId,
-    proof1.encodeABI(),
-    proof2.encodeABI(streamObj.tokenAddress),
+    dividendProof.encodeABI(),
+    joinSplitProof.encodeABI(streamObj.tokenAddress),
     withdrawalDuration,
   );
 }
