@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 const BigNumber = require("bignumber.js");
 const truffleAssert = require("truffle-assertions");
 

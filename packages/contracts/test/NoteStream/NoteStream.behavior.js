@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 const env = require("@nomiclabs/buidler");
 
 const { devConstants } = require("@notestream/dev-utils");
