@@ -31,6 +31,10 @@ export async function buildDividendProof(
   ]);
   const remainderNote = await payee.createNote(withdrawPayment.residual);
 
+  // Note: The current dividend proof implementation takes the residual note as an argument before the target note
+  // It also has swapped the meanings of z_a and z_b relative to the documentation.
+  // This results in the slightly unintuitive argument ordering below
+  // see https://github.com/AztecProtocol/AZTEC/blob/develop/packages/aztec.js/src/proof/proofs/UTILITY/epoch0/dividend/index.js
   return new aztec.DividendProof(
     streamNote,
     remainderNote,
