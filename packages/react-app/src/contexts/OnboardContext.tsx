@@ -1,4 +1,9 @@
-import React, { Component, createContext, ReactElement, useContext } from 'react';
+import React, {
+  Component,
+  createContext,
+  ReactElement,
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import Onboard from 'bnc-onboard';
@@ -38,7 +43,8 @@ class OnboardProvider extends Component {
       walletCheck: walletChecks,
       walletSelect: {
         heading: 'Select a wallet to connect to NoteStream',
-        description: 'To use NoteStream you need an Ethereum wallet. Please select one from below:',
+        description:
+          'To use NoteStream you need an Ethereum wallet. Please select one from below:',
         wallets,
       },
       subscriptions: {

@@ -3,7 +3,11 @@
  */
 export function getFraction(value: number, maxdenom = 10000): any {
   const best = { numerator: 1, denominator: 1, err: Math.abs(value - 1) };
-  for (let denominator = 1; best.err > 0 && denominator <= maxdenom; denominator += 1) {
+  for (
+    let denominator = 1;
+    best.err > 0 && denominator <= maxdenom;
+    denominator += 1
+  ) {
     const numerator = Math.round(value * denominator);
     const err = Math.abs(value - numerator / denominator);
     if (err < best.err) {
@@ -18,7 +22,11 @@ export function getFraction(value: number, maxdenom = 10000): any {
 /*
  * Calculates the values of the target and remainder notes for a given source note and ratio za:zb
  */
-export const computeRemainderNoteValue = (value: number, za: number, zb: number): object => {
+export const computeRemainderNoteValue = (
+  value: number,
+  za: number,
+  zb: number,
+): object => {
   const expectedNoteValue = Math.floor(value * (za / zb));
   const remainder = value * za - expectedNoteValue * zb;
 

@@ -25,23 +25,40 @@ const Status = ({
   streamContractInstance: any;
   aztec: any;
 }): ReactElement => {
-  const { loading, error, data } = useQuery(role === 'sender' ? GET_SENDER_STREAMS : GET_RECIPIENT_STREAMS, {
-    variables: { address: userAddress || '' },
-    fetchPolicy: 'network-only',
-  });
+  const { loading, error, data } = useQuery(
+    role === 'sender' ? GET_SENDER_STREAMS : GET_RECIPIENT_STREAMS,
+    {
+      variables: { address: userAddress || '' },
+      fetchPolicy: 'network-only',
+    },
+  );
 
   if (loading || error) {
     return (
-      <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        spacing={3}
+      >
         <CircularProgress />
       </Grid>
     );
   }
 
-  const streamInProgress = data.streams.filter((stream: Stream) => stream.cancellation == null);
+  const streamInProgress = data.streams.filter(
+    (stream: Stream) => stream.cancellation == null,
+  );
   if (streamInProgress.length === 0) {
     return (
-      <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        spacing={3}
+      >
         <Typography color="textSecondary">No streams to display</Typography>
       </Grid>
     );

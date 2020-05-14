@@ -2,7 +2,15 @@ import { useState, useEffect, ReactElement } from 'react';
 
 import { Hash } from '../types/types';
 
-const NoteDecoder = ({ render, zkNote, noteHash }: { render: Function; zkNote: any; noteHash: Hash }): ReactElement => {
+const NoteDecoder = ({
+  render,
+  zkNote,
+  noteHash,
+}: {
+  render: Function;
+  zkNote: any;
+  noteHash: Hash;
+}): ReactElement => {
   const [note, setNote] = useState({});
 
   useEffect(() => {

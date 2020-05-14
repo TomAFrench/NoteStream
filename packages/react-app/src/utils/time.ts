@@ -1,7 +1,11 @@
 /*
  * Calculates the fraction of time through an interval the current time is.
  */
-const calculateTime = (startTime: number, endTime: number, testTime: any = Date.now()): number => {
+const calculateTime = (
+  startTime: number,
+  endTime: number,
+  testTime: any = Date.now(),
+): number => {
   if (startTime > testTime) {
     return 0;
   }

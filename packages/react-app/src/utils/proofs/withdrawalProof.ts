@@ -7,7 +7,11 @@ export default async function buildProofs(
   streamObj: Stream,
   withdrawalValue: number,
 ): Promise<{ proof1: object; proof2: object }> {
-  const { proofData: proofData1, inputNotes, outputNotes } = await buildDividendProof(
+  const {
+    proofData: proofData1,
+    inputNotes,
+    outputNotes,
+  } = await buildDividendProof(
     streamObj,
     streamContractAddress,
     withdrawalValue,

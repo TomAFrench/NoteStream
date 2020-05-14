@@ -20,9 +20,16 @@ export async function buildDividendProof(
 
   console.table(ratio);
 
-  const withdrawPayment: any = computeRemainderNoteValue(streamZkNote.value, ratio.numerator, ratio.denominator);
+  const withdrawPayment: any = computeRemainderNoteValue(
+    streamZkNote.value,
+    ratio.numerator,
+    ratio.denominator,
+  );
 
-  const withdrawPaymentNote = await payee.createNote(withdrawPayment.expectedNoteValue, [payee.address]);
+  const withdrawPaymentNote = await payee.createNote(
+    withdrawPayment.expectedNoteValue,
+    [payee.address],
+  );
   const remainderNote = await payee.createNote(withdrawPayment.remainder);
 
   const proofData = new aztec.DividendProof(
@@ -34,7 +41,11 @@ export async function buildDividendProof(
     ratio.numerator,
   );
 
-  return { proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, remainderNote] };
+  return {
+    proofData,
+    inputNotes: [streamNote],
+    outputNotes: [withdrawPaymentNote, remainderNote],
+  };
 }
 
 export async function buildJoinSplitProof(
@@ -49,7 +60,10 @@ export async function buildJoinSplitProof(
 
   const payer = await aztec.user(sender);
   const payee = await aztec.user(recipient);
-  const changeValue = Math.max(streamNote.k.toNumber() - withdrawPaymentNote.k.toNumber(), 0);
+  const changeValue = Math.max(
+    streamNote.k.toNumber() - withdrawPaymentNote.k.toNumber(),
+    0,
+  );
 
   const changeNote = await aztec.note.create(
     secp256k1.generateAccount().publicKey,
@@ -69,5 +83,9 @@ export async function buildJoinSplitProof(
     recipient,
   );
 
-  return { proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, changeNote] };
+  return {
+    proofData,
+    inputNotes: [streamNote],
+    outputNotes: [withdrawPaymentNote, changeNote],
+  };
 }

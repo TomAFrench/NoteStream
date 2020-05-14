@@ -82,7 +82,9 @@ export default function CreateStreamDialog({
       <Dialog open={open} onClose={handleClose} scroll="body">
         <DialogTitle id="form-dialog-title">Create Stream</DialogTitle>
         <DialogContent>
-          <DialogContentText>Enter the address of who you want to stream to:</DialogContentText>
+          <DialogContentText>
+            Enter the address of who you want to stream to:
+          </DialogContentText>
           <Grid container direction="column" spacing={3}>
             <Grid item xs={12}>
               <AddressInput
@@ -96,14 +98,21 @@ export default function CreateStreamDialog({
               />
             </Grid>
             <DialogContentText>
-              Enter the value of the stream: (Note: this value isn&apos;t published on-chain publicly, only in the form
-              on an encrypted AZTEC note.)
+              Enter the value of the stream: (Note: this value isn&apos;t
+              published on-chain publicly, only in the form on an encrypted
+              AZTEC note.)
             </DialogContentText>
             <DialogContentText>
-              {`Your private balance: ${privateBalance} ${zkAsset.address && zkAssets[zkAsset.address].symbol}`}
+              {`Your private balance: ${privateBalance} ${
+                zkAsset.address && zkAssets[zkAsset.address].symbol
+              }`}
             </DialogContentText>
             <Grid item xs={12}>
-              <ZkAssetSelect currentAsset={zkAsset} updateAsset={updateZkAsset} assetList={zkAssets} />
+              <ZkAssetSelect
+                currentAsset={zkAsset}
+                updateAsset={updateZkAsset}
+                assetList={zkAssets}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -115,8 +124,18 @@ export default function CreateStreamDialog({
                 fullWidth
               />
             </Grid>
-            <DialogContentText>Enter the duration of the stream:</DialogContentText>
-            <Grid item container direction="row" justify="center" alignContent="stretch" spacing={2} xs={12}>
+            <DialogContentText>
+              Enter the duration of the stream:
+            </DialogContentText>
+            <Grid
+              item
+              container
+              direction="row"
+              justify="center"
+              alignContent="stretch"
+              spacing={2}
+              xs={12}
+            >
               <Grid item>
                 <TextField
                   select
@@ -179,10 +198,13 @@ export default function CreateStreamDialog({
               </Grid>
             </Grid>
             <DialogContentText>
-              After you click &quot;Create Stream&quot;, you will be asked to sign two transactions. The first sends the
-              AZTEC note to the NoteStream contract and the second creates the stream.
+              After you click &quot;Create Stream&quot;, you will be asked to
+              sign two transactions. The first sends the AZTEC note to the
+              NoteStream contract and the second creates the stream.
             </DialogContentText>
-            <DialogContentText>In a later update, these two transactions will be combined.</DialogContentText>
+            <DialogContentText>
+              In a later update, these two transactions will be combined.
+            </DialogContentText>
           </Grid>
         </DialogContent>
         <DialogActions>

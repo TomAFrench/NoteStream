@@ -1,6 +1,6 @@
-import NoteStreamABI from "../abis/NoteStream.json";
+import NoteStreamABI from '../abis/NoteStream.json';
 // import mainnetAddresses from "./addresses/mainnet";
-import rinkebyAddresses from "../addresses/rinkeby.json";
+import rinkebyAddresses from '../addresses/rinkeby.json';
 
 export type Address = string;
 
@@ -22,7 +22,7 @@ export const abis: object = {
  * given networkId.
  */
 export const getContractAddressesForNetwork = (
-  networkId: number
+  networkId: number,
 ): Deployment => {
   switch (networkId) {
     // case 1:
@@ -31,7 +31,7 @@ export const getContractAddressesForNetwork = (
       return rinkebyAddresses;
     default:
       throw new Error(
-        `Unknown network id (${networkId}). No known NoteStream contracts have been deployed on this network.`
+        `Unknown network id (${networkId}). No known NoteStream contracts have been deployed on this network.`,
       );
   }
 };

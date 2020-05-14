@@ -17,7 +17,9 @@ function calculateSafeWithdrawal(
   const safeTimeBetweenNotes = timeBetweenNotes * safeMultipleOfPeriods;
 
   // Calculate the number of complete safe periods which has passed to give number of withdrawable notes
-  const withdrawalValue = Math.floor(targettedWithdrawDuration / safeTimeBetweenNotes) * safeMultipleOfPeriods;
+  const withdrawalValue =
+    Math.floor(targettedWithdrawDuration / safeTimeBetweenNotes) *
+    safeMultipleOfPeriods;
   const withdrawalDuration = withdrawalValue * timeBetweenNotes;
 
   return {
@@ -39,7 +41,9 @@ export function calculateWithdrawal(
     };
   }
 
-  const remainingStreamLength = moment.duration(moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))).asSeconds();
+  const remainingStreamLength = moment
+    .duration(moment.unix(stopTime).diff(moment.unix(lastWithdrawTime)))
+    .asSeconds();
 
   // withdraw up to now or to end of stream
   if (moment().isAfter(moment.unix(stopTime))) {

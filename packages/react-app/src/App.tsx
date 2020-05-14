@@ -9,7 +9,10 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
 import getZkAssetsForNetwork from 'zkasset-metadata';
-import { getContractAddressesForNetwork, abis } from '@notestream/contract-artifacts';
+import {
+  getContractAddressesForNetwork,
+  abis,
+} from '@notestream/contract-artifacts';
 import { ethers } from 'ethers';
 
 import Status from './components/status';
@@ -60,13 +63,22 @@ function TabPanel(props: any): ReactElement {
   const { children, value, index, ...other } = props;
 
   return (
-    <Typography component="div" role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} {...other}>
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      {...other}
+    >
       {value === index && <Box p={3}>{children}</Box>}
     </Typography>
   );
 }
 
-const NETWORK_ID: number = parseInt(process.env.REACT_APP_NETWORK_ID as string, 10);
+const NETWORK_ID: number = parseInt(
+  process.env.REACT_APP_NETWORK_ID as string,
+  10,
+);
 
 const App = (): ReactElement => {
   const classes = useStyles();
@@ -88,8 +100,14 @@ const App = (): ReactElement => {
 
   useEffect(() => {
     if (wallet.provider) {
-      const signer = new ethers.providers.Web3Provider(wallet.provider).getSigner();
-      const streamContract = new ethers.Contract(addresses.NoteStream, abis.NoteStream, signer);
+      const signer = new ethers.providers.Web3Provider(
+        wallet.provider,
+      ).getSigner();
+      const streamContract = new ethers.Contract(
+        addresses.NoteStream,
+        abis.NoteStream,
+        signer,
+      );
       setStreamContractInstance(streamContract);
     }
   }, [wallet.provider, addresses.NoteStream]);
@@ -101,7 +119,11 @@ const App = (): ReactElement => {
         <Paper className={`${classes.pageElement} ${classes.paper}`}>
           <Grid container direction="row" justify="space-around" spacing={3}>
             <Grid item>
-              <DepositDialog aztec={aztec} zkAssets={zkAssets} userAddress={userAddress} />
+              <DepositDialog
+                aztec={aztec}
+                zkAssets={zkAssets}
+                userAddress={userAddress}
+              />
             </Grid>
             <Grid item>
               <CreateStreamDialog
@@ -112,13 +134,21 @@ const App = (): ReactElement => {
               />
             </Grid>
             <Grid item>
-              <WithdrawDialog aztec={aztec} zkAssets={zkAssets} userAddress={userAddress} />
+              <WithdrawDialog
+                aztec={aztec}
+                zkAssets={zkAssets}
+                userAddress={userAddress}
+              />
             </Grid>
           </Grid>
         </Paper>
         <Grid item xs={12} className={classes.pageElement}>
           <AppBar position="static">
-            <Tabs value={value} onChange={(event, newValue): void => setValue(newValue)} variant="fullWidth">
+            <Tabs
+              value={value}
+              onChange={(event, newValue): void => setValue(newValue)}
+              variant="fullWidth"
+            >
               <Tab label="Sending" />
               <Tab label="Receiving" />
             </Tabs>

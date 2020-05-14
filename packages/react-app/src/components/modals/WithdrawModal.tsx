@@ -47,7 +47,9 @@ export default function WithdrawDialog({
 
       const newPrivateBalance = await newZkAsset.balance(userAddress);
       setPrivateBalance(newPrivateBalance);
-      const newPublicBalance = await newZkAsset.balanceOfLinkedToken(userAddress);
+      const newPublicBalance = await newZkAsset.balanceOfLinkedToken(
+        userAddress,
+      );
       setPublicBalance(newPublicBalance.toString(10));
     },
     [aztec, userAddress],
@@ -67,16 +69,26 @@ export default function WithdrawDialog({
       <Dialog open={open} onClose={handleClose} scroll="body">
         <DialogTitle id="form-dialog-title">Withdraw tokens</DialogTitle>
         <DialogContent>
-          <DialogContentText>Once done, you can convert your ZkAssets back into ERC20 tokens.</DialogContentText>
           <DialogContentText>
-            {`Your public balance: ${publicBalance} ${zkAsset.address && zkAssets[zkAsset.address].symbol.slice(2)}`}
+            Once done, you can convert your ZkAssets back into ERC20 tokens.
           </DialogContentText>
           <DialogContentText>
-            {`Your private balance: ${privateBalance} ${zkAsset.address && zkAssets[zkAsset.address].symbol}`}
+            {`Your public balance: ${publicBalance} ${
+              zkAsset.address && zkAssets[zkAsset.address].symbol.slice(2)
+            }`}
+          </DialogContentText>
+          <DialogContentText>
+            {`Your private balance: ${privateBalance} ${
+              zkAsset.address && zkAssets[zkAsset.address].symbol
+            }`}
           </DialogContentText>
           <Grid container direction="row" spacing={3}>
             <Grid item xs={12}>
-              <ZkAssetSelect currentAsset={zkAsset} updateAsset={updateZkAsset} assetList={zkAssets} />
+              <ZkAssetSelect
+                currentAsset={zkAsset}
+                updateAsset={updateZkAsset}
+                assetList={zkAssets}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -94,7 +106,10 @@ export default function WithdrawDialog({
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={(): Promise<void> => withdrawZkToken(amount)} color="primary">
+          <Button
+            onClick={(): Promise<void> => withdrawZkToken(amount)}
+            color="primary"
+          >
             Withdraw
           </Button>
         </DialogActions>

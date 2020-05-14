@@ -4,8 +4,8 @@ const errors = require('./errors');
 const mochaContexts = require('./mochaContexts');
 
 module.exports = {
-    chaiPlugin,
-    devConstants,
-    errors,
-    mochaContexts,
+  chaiPlugin,
+  devConstants,
+  errors,
+  mochaContexts,
 };

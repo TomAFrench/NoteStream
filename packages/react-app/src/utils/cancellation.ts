@@ -29,7 +29,12 @@ export default async function cancelStream(
   );
 
   console.log('building proofs');
-  const { proof1, proof2 } = await buildProofs(aztec, streamContractInstance.address, streamObj, withdrawalValue);
+  const { proof1, proof2 } = await buildProofs(
+    aztec,
+    streamContractInstance.address,
+    streamObj,
+    withdrawalValue,
+  );
 
   console.log('Cancelling stream:', streamId);
   console.log('Proofs:', proof1, proof2);

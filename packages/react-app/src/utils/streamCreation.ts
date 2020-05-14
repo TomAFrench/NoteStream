@@ -9,7 +9,13 @@ function initialiseStream(
   endTime: number,
 ): number {
   return streamContractInstance
-    .createStream(payeeAddress, noteForStreamContract.noteHash, zkAssetAddress, startTime, endTime)
+    .createStream(
+      payeeAddress,
+      noteForStreamContract.noteHash,
+      zkAssetAddress,
+      startTime,
+      endTime,
+    )
     .then((err: any, txHash: Hash) => {
       if (err) {
         console.log(err);
@@ -52,8 +58,21 @@ async function createStream(
   startTime: number,
   endTime: number,
 ): Promise<number> {
-  const streamNote = await fundStream(streamContractInstance.address, payerAddress, payeeAddress, sendAmount, zkAsset);
-  return initialiseStream(streamContractInstance, payeeAddress, streamNote, zkAsset.address, startTime, endTime);
+  const streamNote = await fundStream(
+    streamContractInstance.address,
+    payerAddress,
+    payeeAddress,
+    sendAmount,
+    zkAsset,
+  );
+  return initialiseStream(
+    streamContractInstance,
+    payeeAddress,
+    streamNote,
+    zkAsset.address,
+    startTime,
+    endTime,
+  );
 }
 
 export default createStream;

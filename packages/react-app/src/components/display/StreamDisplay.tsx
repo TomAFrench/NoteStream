@@ -30,13 +30,24 @@ const StreamDisplay = ({
   userAddress: Address;
   role: string;
 }): ReactElement => {
-  const { sender, recipient, id, startTime, lastWithdrawTime, stopTime, zkAsset } = stream;
+  const {
+    sender,
+    recipient,
+    id,
+    startTime,
+    lastWithdrawTime,
+    stopTime,
+    zkAsset,
+  } = stream;
   const [timePercentage, setTimePercentage] = useState<number>(0);
   const [availableBalance, setAvailableBalance] = useState<number>(0);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newTimePercentage = calculateTime(Number(startTime) * 1000, Number(stopTime) * 1000);
+      const newTimePercentage = calculateTime(
+        Number(startTime) * 1000,
+        Number(stopTime) * 1000,
+      );
       setTimePercentage(parseFloat(newTimePercentage.toFixed(2)));
     }, 1000);
     return (): void => {
@@ -49,7 +60,11 @@ const StreamDisplay = ({
 
     function updateMaxWithdrawalValue(): void {
       const timeBetweenNotes = (stopTime - lastWithdrawTime) / note.value;
-      const { withdrawalValue } = calculateWithdrawal(note.value, lastWithdrawTime, stopTime);
+      const { withdrawalValue } = calculateWithdrawal(
+        note.value,
+        lastWithdrawTime,
+        stopTime,
+      );
       setAvailableBalance(Math.max(withdrawalValue, 0));
 
       if (!withdrawalValue) {
@@ -57,7 +72,11 @@ const StreamDisplay = ({
         timeoutId = window.setTimeout(updateMaxWithdrawalValue, 1000, 1000);
       } else if (withdrawalValue !== note.value) {
         // If stream is not complete then recheck when a new note should be available
-        timeoutId = window.setTimeout(updateMaxWithdrawalValue, (timeBetweenNotes / 2) * 1000, 1000);
+        timeoutId = window.setTimeout(
+          updateMaxWithdrawalValue,
+          (timeBetweenNotes / 2) * 1000,
+          1000,
+        );
       }
     }
 
@@ -67,7 +86,11 @@ const StreamDisplay = ({
     };
   }, [lastWithdrawTime, stopTime, note.value]);
 
-  const withdrawPercentage = calculateTime(Number(startTime), Number(stopTime), Number(lastWithdrawTime));
+  const withdrawPercentage = calculateTime(
+    Number(startTime),
+    Number(stopTime),
+    Number(lastWithdrawTime),
+  );
 
   return (
     <Grid item container direction="column" alignItems="stretch" spacing={3}>
@@ -76,7 +99,10 @@ const StreamDisplay = ({
           <Grid item>
             {role === 'recipient'
               ? `Sender: ${sender.slice(0, 6)}...${sender.slice(-5, -1)}`
-              : `Receiver: ${recipient.slice(0, 6)}...${recipient.slice(-5, -1)}`}
+              : `Receiver: ${recipient.slice(0, 6)}...${recipient.slice(
+                  -5,
+                  -1,
+                )}`}
           </Grid>
         </CopyToClipboard>
         <CopyToClipboard text={zkAsset.id}>
@@ -84,24 +110,37 @@ const StreamDisplay = ({
         </CopyToClipboard>
       </Grid>
       <Grid item container justify="space-between">
-        <Grid item>Start: {moment.unix(startTime).format('DD-MM-YYYY HH:mm')}</Grid>
-        <Grid item>Stop: {moment.unix(stopTime).format('DD-MM-YYYY HH:mm')}</Grid>
+        <Grid item>
+          Start: {moment.unix(startTime).format('DD-MM-YYYY HH:mm')}
+        </Grid>
+        <Grid item>
+          Stop: {moment.unix(stopTime).format('DD-MM-YYYY HH:mm')}
+        </Grid>
       </Grid>
       <Grid item>
         Streamed: {timePercentage}%
         <LinearProgress variant="determinate" value={timePercentage} />
-        <LinearProgress variant="determinate" value={withdrawPercentage} color="secondary" />
+        <LinearProgress
+          variant="determinate"
+          value={withdrawPercentage}
+          color="secondary"
+        />
         Withdrawn: {withdrawPercentage}%
       </Grid>
       {role === 'recipient' ? (
         <>
-          <Grid item>{`${availableBalance}/${note.value} ${zkAsset.symbol}`} available to withdraw</Grid>
+          <Grid item>
+            {`${availableBalance}/${note.value} ${zkAsset.symbol}`} available to
+            withdraw
+          </Grid>
           <Grid item container justify="space-between">
             <Grid item>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={(): Promise<void> => cancelStream(aztec, streamContractInstance, id, userAddress)}
+                onClick={(): Promise<void> =>
+                  cancelStream(aztec, streamContractInstance, id, userAddress)
+                }
               >
                 Cancel
               </Button>
@@ -110,7 +149,9 @@ const StreamDisplay = ({
               <Button
                 variant="contained"
                 color="primary"
-                onClick={(): Promise<void> => withdrawFunds(aztec, streamContractInstance, id, userAddress)}
+                onClick={(): Promise<void> =>
+                  withdrawFunds(aztec, streamContractInstance, id, userAddress)
+                }
               >
                 Withdraw
               </Button>
@@ -119,13 +160,18 @@ const StreamDisplay = ({
         </>
       ) : (
         <>
-          <Grid item>{`${availableBalance}/${note.value} ${zkAsset.symbol}`} streamed to recipient</Grid>
+          <Grid item>
+            {`${availableBalance}/${note.value} ${zkAsset.symbol}`} streamed to
+            recipient
+          </Grid>
           <Grid item container justify="flex-end">
             <Grid item>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={(): Promise<void> => cancelStream(aztec, streamContractInstance, id, userAddress)}
+                onClick={(): Promise<void> =>
+                  cancelStream(aztec, streamContractInstance, id, userAddress)
+                }
               >
                 Cancel
               </Button>
