@@ -11,16 +11,13 @@ import Grid from '@material-ui/core/Grid';
 import ZkAssetSelect from '../form/ZkAssetSelect';
 
 import { Address } from '../../types/types';
+import { useAztec, useZkAssets } from '../../contexts/AztecContext';
+import { useAddress } from '../../contexts/OnboardContext';
 
-export default function WithdrawDialog({
-  aztec,
-  zkAssets,
-  userAddress,
-}: {
-  aztec: any;
-  zkAssets: any;
-  userAddress: Address;
-}): ReactElement {
+export default function WithdrawDialog(): ReactElement {
+  const userAddress = useAddress();
+  const aztec = useAztec();
+  const zkAssets = useZkAssets();
   const [open, setOpen] = React.useState(false);
   const [zkAsset, setZkAsset] = useState({} as any);
   const [publicBalance, setPublicBalance] = useState(0);

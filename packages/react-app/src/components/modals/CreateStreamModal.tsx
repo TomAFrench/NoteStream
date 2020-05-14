@@ -17,6 +17,8 @@ import createStream from '../../utils/streamCreation';
 import AddressInput from '../form/AddressInput';
 import ZkAssetSelect from '../form/ZkAssetSelect';
 import { Address } from '../../types/types';
+import { useAztec, useZkAssets } from '../../contexts/AztecContext';
+import { useAddress } from '../../contexts/OnboardContext';
 
 const daysOption = [...Array(366).keys()];
 const hoursOption = [...Array(24).keys()];
@@ -30,17 +32,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateStreamDialog({
-  aztec,
-  zkAssets,
-  userAddress,
   streamContractInstance,
 }: {
-  aztec: any;
-  zkAssets: Array<any>;
-  userAddress: Address;
   streamContractInstance: Contract;
 }): ReactElement | null {
   const classes = useStyles();
+  const userAddress = useAddress();
+  const aztec = useAztec();
+  const zkAssets = useZkAssets();
   const [open, setOpen] = useState(false);
   const [zkAsset, setZkAsset] = useState({} as any);
   const [privateBalance, setPrivateBalance] = useState(0);

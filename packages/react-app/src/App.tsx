@@ -8,7 +8,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import getZkAssetsForNetwork from 'zkasset-metadata';
 import {
   getContractAddressesForNetwork,
   abis,
@@ -19,8 +18,8 @@ import Status from './components/status';
 import DepositDialog from './components/modals/DepositModal';
 import WithdrawDialog from './components/modals/WithdrawModal';
 import CreateStreamDialog from './components/modals/CreateStreamModal';
-import { useAddress, useWallet } from './contexts/OnboardContext';
-import setupAztec from './utils/setup';
+import { useWallet } from './contexts/OnboardContext';
+
 import Header from './components/header/Header';
 
 const useStyles = makeStyles((theme) => ({
@@ -82,23 +81,12 @@ const NETWORK_ID: number = parseInt(
 
 const App = (): ReactElement => {
   const classes = useStyles();
-  const userAddress = useAddress();
   const wallet = useWallet();
   const [streamContractInstance, setStreamContractInstance] = useState<
     Contract
   >();
   const [value, setValue] = useState(0);
-  const [aztec, setAztec] = useState({} as any);
   const addresses = getContractAddressesForNetwork(NETWORK_ID);
-  const zkAssets = getZkAssetsForNetwork(NETWORK_ID);
-
-  useEffect(() => {
-    window.addEventListener('load', () => {
-      setupAztec(NETWORK_ID).then(() => {
-        setAztec(window.aztec);
-      });
-    });
-  }, []);
 
   useEffect(() => {
     if (wallet.provider) {
@@ -121,28 +109,17 @@ const App = (): ReactElement => {
         <Paper className={`${classes.pageElement} ${classes.paper}`}>
           <Grid container direction="row" justify="space-around" spacing={3}>
             <Grid item>
-              <DepositDialog
-                aztec={aztec}
-                zkAssets={zkAssets}
-                userAddress={userAddress}
-              />
+              <DepositDialog />
             </Grid>
             {streamContractInstance && (
               <Grid item>
                 <CreateStreamDialog
-                  aztec={aztec}
-                  zkAssets={zkAssets}
-                  userAddress={userAddress}
                   streamContractInstance={streamContractInstance}
                 />
               </Grid>
             )}
             <Grid item>
-              <WithdrawDialog
-                aztec={aztec}
-                zkAssets={zkAssets}
-                userAddress={userAddress}
-              />
+              <WithdrawDialog />
             </Grid>
           </Grid>
         </Paper>
@@ -163,16 +140,12 @@ const App = (): ReactElement => {
                 <TabPanel value={value} index={0}>
                   <Status
                     role="sender"
-                    userAddress={userAddress}
-                    aztec={aztec}
                     streamContractInstance={streamContractInstance}
                   />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                   <Status
                     role="recipient"
-                    userAddress={userAddress}
-                    aztec={aztec}
                     streamContractInstance={streamContractInstance}
                   />
                 </TabPanel>

@@ -11,17 +11,15 @@ import Grid from '@material-ui/core/Grid';
 import ZkAssetSelect from '../form/ZkAssetSelect';
 
 import { Address } from '../../types/types';
+import { useAztec, useZkAssets } from '../../contexts/AztecContext';
+import { useAddress } from '../../contexts/OnboardContext';
 
-export default function DepositDialog({
-  aztec,
-  zkAssets,
-  userAddress,
-}: {
-  aztec: any;
-  zkAssets: any;
-  userAddress: Address;
-}): ReactElement {
-  const [open, setOpen] = React.useState<boolean>(false);
+export default function DepositDialog(): ReactElement {
+  const userAddress = useAddress();
+  const aztec = useAztec();
+  const zkAssets = useZkAssets();
+
+  const [open, setOpen] = useState<boolean>(false);
   const [zkAsset, setZkAsset] = useState<any>({} as any);
   const [publicBalance, setPublicBalance] = useState<number>(0);
   const [privateBalance, setPrivateBalance] = useState<number>(0);

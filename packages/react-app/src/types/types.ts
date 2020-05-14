@@ -46,3 +46,14 @@ export type Dividend = {
   target: number;
   residual: number;
 };
+
+export type zkAssetMetadata = {
+  name: string;
+  symbol: string;
+  scalingFactor: number;
+  linkedToken: Address;
+};
+
+export type zkAssetMap = {
+  [name: string]: zkAssetMetadata;
+};

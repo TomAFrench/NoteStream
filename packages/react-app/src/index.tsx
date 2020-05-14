@@ -10,6 +10,7 @@ import {
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import OnboardProvider from './contexts/OnboardContext';
+import AztecProvider from './contexts/AztecContext';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -20,9 +21,11 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <OnboardProvider>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
+    <AztecProvider>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </AztecProvider>
   </OnboardProvider>,
   document.getElementById('root'),
 );

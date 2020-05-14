@@ -13,19 +13,19 @@ import StreamDisplay from './display/StreamDisplay';
 
 import { GET_SENDER_STREAMS, GET_RECIPIENT_STREAMS } from '../graphql/streams';
 
-import { Address, Stream } from '../types/types';
+import { Stream } from '../types/types';
+import { useAztec } from '../contexts/AztecContext';
+import { useAddress } from '../contexts/OnboardContext';
 
 const Status = ({
   role,
-  userAddress,
   streamContractInstance,
-  aztec,
 }: {
   role: string;
-  userAddress: Address;
   streamContractInstance: Contract;
-  aztec: any;
 }): ReactElement => {
+  const userAddress = useAddress();
+  const aztec = useAztec();
   const { loading, error, data } = useQuery(
     role === 'sender' ? GET_SENDER_STREAMS : GET_RECIPIENT_STREAMS,
     {
@@ -84,10 +84,8 @@ const Status = ({
 };
 
 Status.propTypes = {
-  userAddress: PropTypes.string.isRequired,
   streamContractInstance: PropTypes.any.isRequired,
   role: PropTypes.string.isRequired,
-  aztec: PropTypes.object.isRequired,
 };
 
 export default Status;
