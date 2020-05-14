@@ -12,19 +12,18 @@ declare global {
   }
 }
 
-export type Stream = any;
-// export interface Stream {
-//   id: number;
-//   cancellation: any;
-//   sender: Address;
-//   recipient: Address;
-//   startTime: number;
-//   lastWithdrawTime: number;
-//   stopTime: number;
-//   tokenAddress: Address;
-//   noteHash: Hash;
-//   zkAsset: any;
-// }
+export interface Stream {
+  id: number;
+  cancellation: any;
+  sender: Address;
+  recipient: Address;
+  startTime: number;
+  lastWithdrawTime: number;
+  stopTime: number;
+  tokenAddress: Address;
+  noteHash: Hash;
+  zkAsset: any;
+}
 
 export type Note = {
   a: BN;
