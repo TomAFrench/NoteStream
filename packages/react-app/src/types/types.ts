@@ -1,3 +1,5 @@
+import BN from 'bn.js';
+
 export type Address = string;
 
 export type Hash = string;
@@ -25,10 +27,10 @@ export type Stream = any;
 // }
 
 export type Note = {
-  a: object;
-  k: object;
-  gamma: object;
-  sigma: object;
+  a: BN;
+  k: BN;
+  gamma: BN;
+  sigma: BN;
   noteHash: Hash;
   metadata: string;
   owner: Address;
