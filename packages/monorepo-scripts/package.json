@@ -14,7 +14,13 @@
   },
   "homepage": "https://github.com/TomAFrench/NoteStream#readme",
   "scripts": {
+    "commit": "git-cz",
     "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh monorepo-scripts",
     "lint": "eslint --ignore-path ../../.eslintignore ./"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

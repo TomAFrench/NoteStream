@@ -41,10 +41,16 @@
     "directory": "packages/dev-utils"
   },
   "scripts": {
+    "commit": "git-cz",
     "build": "yarn clean && babel --copy-files --out-dir ./lib --root-mode upward ./src",
     "clean": "shx rm -rf ./lib",
     "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh dev-utils",
     "lint": "eslint --ignore-path ../../.eslintignore .",
     "watch": "yarn build --watch"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

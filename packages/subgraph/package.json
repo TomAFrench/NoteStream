@@ -26,6 +26,7 @@
     "url": "git+https://github.com/TomAFrench/NoteStream.git"
   },
   "scripts": {
+    "commit": "git-cz",
     "clean": "shx rm -rf ./build ./src/types ./subgraph.yaml",
     "codegen": "graph codegen --debug --output-dir src/types/",
     "create:local": "graph create tomafrench/notestream --node http://127.0.0.1:8020",
@@ -45,5 +46,10 @@
     "remove-local": "graph remove tomafrench/notestream --node http://127.0.0.1:8020/",
     "reset-local": "yarn codegen && yarn remove-local && yarn create-local && yarn deploy-local",
     "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh subgraph"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

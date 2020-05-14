@@ -53,6 +53,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
+    "commit": "git-cz",
     "prestart": "yarn clean && yarn lint --fix",
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -75,5 +76,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
