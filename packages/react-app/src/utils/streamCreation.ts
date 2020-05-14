@@ -1,9 +1,10 @@
-import { Address, Hash } from '../types/types';
+import { Contract } from 'ethers';
+import { Address, Hash, Note } from '../types/types';
 
 function initialiseStream(
-  streamContractInstance: any,
+  streamContractInstance: Contract,
   payeeAddress: Address,
-  noteForStreamContract: any,
+  noteForStreamContract: Note,
   zkAssetAddress: Address,
   startTime: number,
   endTime: number,
@@ -32,7 +33,7 @@ async function fundStream(
   payeeAddress: Address,
   sendAmount: number,
   asset: any,
-): Promise<object> {
+): Promise<Note> {
   const { outputNotes } = await asset.send(
     [
       {
@@ -51,7 +52,7 @@ async function fundStream(
 
 async function createStream(
   sendAmount: number,
-  streamContractInstance: any,
+  streamContractInstance: Contract,
   payerAddress: Address,
   payeeAddress: Address,
   zkAsset: any,

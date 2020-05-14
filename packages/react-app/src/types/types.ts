@@ -23,3 +23,25 @@ export type Stream = any;
 //   noteHash: Hash;
 //   zkAsset: any;
 // }
+
+export type Note = {
+  a: object;
+  k: object;
+  gamma: object;
+  sigma: object;
+  noteHash: Hash;
+  metadata: string;
+  owner: Address;
+};
+
+export type Fraction = {
+  numerator: number;
+  denominator: number;
+  err: number;
+};
+
+export type Dividend = {
+  source: number;
+  target: number;
+  residual: number;
+};

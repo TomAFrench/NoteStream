@@ -9,6 +9,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 import moment from 'moment';
 
+import { Contract } from 'ethers';
 import calculateTime from '../../utils/time';
 
 import { calculateWithdrawal, withdrawFunds } from '../../utils/withdrawal';
@@ -26,7 +27,7 @@ const StreamDisplay = ({
   stream: Stream;
   note: any;
   aztec: any;
-  streamContractInstance: any;
+  streamContractInstance: Contract;
   userAddress: Address;
   role: string;
 }): ReactElement => {
@@ -150,7 +151,7 @@ const StreamDisplay = ({
                 variant="contained"
                 color="primary"
                 onClick={(): Promise<void> =>
-                  withdrawFunds(aztec, streamContractInstance, id, userAddress)
+                  withdrawFunds(aztec, streamContractInstance, id)
                 }
               >
                 Withdraw
@@ -184,7 +185,7 @@ const StreamDisplay = ({
 };
 
 StreamDisplay.propTypes = {
-  streamContractInstance: PropTypes.object.isRequired,
+  streamContractInstance: PropTypes.instanceOf(Contract),
   note: PropTypes.object.isRequired,
   stream: PropTypes.object.isRequired,
   aztec: PropTypes.object.isRequired,

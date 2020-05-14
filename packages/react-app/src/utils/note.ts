@@ -1,7 +1,8 @@
+import { Fraction, Dividend } from '../types/types';
 /*
  * Calculate the optimal fraction for the Dividend proof to minimise the remainder
  */
-export function getFraction(value: number, maxdenom = 10000): any {
+export function getFraction(value: number, maxdenom = 10000): Fraction {
   const best = { numerator: 1, denominator: 1, err: Math.abs(value - 1) };
   for (
     let denominator = 1;
@@ -23,15 +24,16 @@ export function getFraction(value: number, maxdenom = 10000): any {
  * Calculates the values of the target and remainder notes for a given source note and ratio za:zb
  */
 export const computeRemainderNoteValue = (
-  value: number,
+  source: number,
   za: number,
   zb: number,
-): object => {
-  const expectedNoteValue = Math.floor(value * (za / zb));
-  const remainder = value * za - expectedNoteValue * zb;
+): Dividend => {
+  const target = Math.floor(source * (za / zb));
+  const residual = source * za - target * zb;
 
   return {
-    remainder,
-    expectedNoteValue,
+    source,
+    target,
+    residual,
   };
 };

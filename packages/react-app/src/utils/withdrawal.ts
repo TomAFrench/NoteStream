@@ -1,8 +1,8 @@
 import moment from 'moment';
 
+import { Contract } from 'ethers';
 import buildProofs from './proofs/withdrawalProof';
 import { getFraction } from './note';
-import { Address } from '../types/types';
 
 function calculateSafeWithdrawal(
   currentBalance: number,
@@ -72,9 +72,8 @@ export function calculateWithdrawal(
 
 export async function withdrawFunds(
   aztec: any,
-  streamContractInstance: any,
+  streamContractInstance: Contract,
   streamId: number,
-  userAddress: Address,
 ): Promise<void> {
   const streamObj = await streamContractInstance.getStream(streamId);
 
@@ -96,11 +95,10 @@ export async function withdrawFunds(
 
   console.log('Withdrawing from stream:', streamId);
   console.log('Proofs:', proof1, proof2);
-  const results = await streamContractInstance.withdrawFromStream(
+  return streamContractInstance.withdrawFromStream(
     streamId,
     proof1.encodeABI(),
     proof2.encodeABI(streamObj.tokenAddress),
     withdrawalDuration,
   );
-  console.log(results);
 }

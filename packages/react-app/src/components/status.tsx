@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import { Contract } from 'ethers';
 import NoteDecoder from './NoteDecoder';
 import StreamDisplay from './display/StreamDisplay';
 
@@ -22,7 +23,7 @@ const Status = ({
 }: {
   role: string;
   userAddress: Address;
-  streamContractInstance: any;
+  streamContractInstance: Contract;
   aztec: any;
 }): ReactElement => {
   const { loading, error, data } = useQuery(

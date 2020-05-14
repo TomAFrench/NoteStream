@@ -17,7 +17,7 @@
     "@material-ui/icons": "^4.9.1",
     "@notestream/contract-artifacts": "^1.0.1",
     "aztec.js": "^0.17.0",
-    "bnc-onboard": "^1.7.1",
+    "bnc-onboard": "^1.9.0",
     "ethers": "^4.0.46",
     "graphql": "^14.6.0",
     "moment": "^2.24.0",

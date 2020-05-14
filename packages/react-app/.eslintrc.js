@@ -38,7 +38,8 @@ module.exports = {
             }
         ],
         "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error"
+        "react/jsx-uses-vars": "error",
+        "no-console": "off"
     },                                                            
     settings: {
         react: {

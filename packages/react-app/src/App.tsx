@@ -13,7 +13,7 @@ import {
   getContractAddressesForNetwork,
   abis,
 } from '@notestream/contract-artifacts';
-import { ethers } from 'ethers';
+import { ethers, Contract } from 'ethers';
 
 import Status from './components/status';
 import DepositDialog from './components/modals/DepositModal';
@@ -84,7 +84,9 @@ const App = (): ReactElement => {
   const classes = useStyles();
   const userAddress = useAddress();
   const wallet = useWallet();
-  const [streamContractInstance, setStreamContractInstance] = useState({});
+  const [streamContractInstance, setStreamContractInstance] = useState<
+    Contract
+  >();
   const [value, setValue] = useState(0);
   const [aztec, setAztec] = useState({} as any);
   const addresses = getContractAddressesForNetwork(NETWORK_ID);
@@ -125,14 +127,16 @@ const App = (): ReactElement => {
                 userAddress={userAddress}
               />
             </Grid>
-            <Grid item>
-              <CreateStreamDialog
-                aztec={aztec}
-                zkAssets={zkAssets}
-                userAddress={userAddress}
-                streamContractInstance={streamContractInstance}
-              />
-            </Grid>
+            {streamContractInstance && (
+              <Grid item>
+                <CreateStreamDialog
+                  aztec={aztec}
+                  zkAssets={zkAssets}
+                  userAddress={userAddress}
+                  streamContractInstance={streamContractInstance}
+                />
+              </Grid>
+            )}
             <Grid item>
               <WithdrawDialog
                 aztec={aztec}
@@ -154,22 +158,26 @@ const App = (): ReactElement => {
             </Tabs>
           </AppBar>
           <Paper className={classes.paper}>
-            <TabPanel value={value} index={0}>
-              <Status
-                role="sender"
-                userAddress={userAddress}
-                aztec={aztec}
-                streamContractInstance={streamContractInstance}
-              />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <Status
-                role="recipient"
-                userAddress={userAddress}
-                aztec={aztec}
-                streamContractInstance={streamContractInstance}
-              />
-            </TabPanel>
+            {streamContractInstance && (
+              <>
+                <TabPanel value={value} index={0}>
+                  <Status
+                    role="sender"
+                    userAddress={userAddress}
+                    aztec={aztec}
+                    streamContractInstance={streamContractInstance}
+                  />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                  <Status
+                    role="recipient"
+                    userAddress={userAddress}
+                    aztec={aztec}
+                    streamContractInstance={streamContractInstance}
+                  />
+                </TabPanel>
+              </>
+            )}
           </Paper>
         </Grid>
       </main>

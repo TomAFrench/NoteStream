@@ -1,7 +1,7 @@
 // import { note, DividendProof, JoinSplitProof } from 'aztec.js';
 import secp256k1 from '@aztec/secp256k1';
 import { getFraction, computeRemainderNoteValue } from '../note';
-import { Stream, Address } from '../../types/types';
+import { Stream, Address, Fraction, Dividend } from '../../types/types';
 
 export async function buildDividendProof(
   stream: Stream,
@@ -16,21 +16,20 @@ export async function buildDividendProof(
   const streamZkNote = await aztec.zkNote(noteHash);
   const streamNote = await streamZkNote.export();
 
-  const ratio = getFraction(withdrawalValue / streamZkNote.value);
+  const ratio: Fraction = getFraction(withdrawalValue / streamZkNote.value);
 
   console.table(ratio);
 
-  const withdrawPayment: any = computeRemainderNoteValue(
+  const withdrawPayment: Dividend = computeRemainderNoteValue(
     streamZkNote.value,
     ratio.numerator,
     ratio.denominator,
   );
 
-  const withdrawPaymentNote = await payee.createNote(
-    withdrawPayment.expectedNoteValue,
-    [payee.address],
-  );
-  const remainderNote = await payee.createNote(withdrawPayment.remainder);
+  const withdrawPaymentNote = await payee.createNote(withdrawPayment.target, [
+    payee.address,
+  ]);
+  const remainderNote = await payee.createNote(withdrawPayment.residual);
 
   const proofData = new aztec.DividendProof(
     streamNote,

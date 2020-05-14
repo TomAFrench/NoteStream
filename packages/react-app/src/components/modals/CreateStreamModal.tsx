@@ -11,6 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment';
+import { Contract } from 'ethers';
 import createStream from '../../utils/streamCreation';
 
 import AddressInput from '../form/AddressInput';
@@ -37,8 +38,8 @@ export default function CreateStreamDialog({
   aztec: any;
   zkAssets: Array<any>;
   userAddress: Address;
-  streamContractInstance: any;
-}): ReactElement {
+  streamContractInstance: Contract;
+}): ReactElement | null {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [zkAsset, setZkAsset] = useState({} as any);
@@ -74,6 +75,7 @@ export default function CreateStreamDialog({
     }
   }, [aztec.zkAsset, zkAssets, updateZkAsset]);
 
+  if (!streamContractInstance) return null;
   return (
     <div>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
