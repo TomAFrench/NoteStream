@@ -46,8 +46,8 @@ const StreamDisplay = ({
   useEffect(() => {
     const intervalId = setInterval(() => {
       const newTimePercentage = calculateTime(
-        Number(startTime) * 1000,
-        Number(stopTime) * 1000,
+        moment.unix(startTime),
+        moment.unix(stopTime),
       );
       setTimePercentage(parseFloat(newTimePercentage.toFixed(2)));
     }, 1000);
@@ -88,9 +88,9 @@ const StreamDisplay = ({
   }, [lastWithdrawTime, stopTime, note.value]);
 
   const withdrawPercentage = calculateTime(
-    Number(startTime),
-    Number(stopTime),
-    Number(lastWithdrawTime),
+    moment.unix(startTime),
+    moment.unix(stopTime),
+    moment.unix(lastWithdrawTime),
   );
 
   return (
