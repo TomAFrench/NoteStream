@@ -14,7 +14,7 @@ import {
 } from '@notestream/contract-artifacts';
 import { ethers, Contract } from 'ethers';
 
-import Status from './components/status';
+import Status from './components/Status';
 import DepositDialog from './components/modals/DepositModal';
 import WithdrawDialog from './components/modals/WithdrawModal';
 import CreateStreamDialog from './components/modals/CreateStreamModal';
