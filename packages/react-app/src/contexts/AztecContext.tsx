@@ -33,6 +33,16 @@ const NETWORK_ID: number = parseInt(
   10,
 );
 
+async function setup(networkId: number): Promise<void> {
+  const addresses = getContractAddressesForNetwork(networkId);
+  await window.aztec.enable({
+    contractAddresses: {
+      ACE: addresses.ACE,
+    },
+    apiKey: AZTEC_API_KEY,
+  });
+}
+
 class AztecProvider extends Component<Props, State> {
   state: Readonly<State> = {
     aztec: {},
@@ -54,22 +64,10 @@ class AztecProvider extends Component<Props, State> {
 
   componentDidMount(): void {
     window.addEventListener('load', () => {
-      this.setup(NETWORK_ID).then(() => {
+      setup(NETWORK_ID).then(() => {
         this.setState({ aztec: window.aztec });
       });
     });
-  }
-
-  async setup(networkId: number): Promise<void> {
-    const addresses = getContractAddressesForNetwork(networkId);
-    const account = await window.aztec.enable({
-      contractAddresses: {
-        ACE: addresses.ACE,
-      },
-      apiKey: AZTEC_API_KEY,
-    });
-    console.log('Using account:', account);
-    console.log(this.state.aztec, window.aztec);
   }
 
   render(): ReactElement {
