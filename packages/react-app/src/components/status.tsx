@@ -6,16 +6,21 @@ import { useQuery } from '@apollo/client';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 import { Contract } from 'ethers';
 import NoteDecoder from './NoteDecoder';
-import StreamDisplay from './display/StreamDisplay';
 
 import { GET_SENDER_STREAMS, GET_RECIPIENT_STREAMS } from '../graphql/streams';
 
 import { Stream } from '../types/types';
 import { useAztec } from '../contexts/AztecContext';
 import { useAddress } from '../contexts/OnboardContext';
+import StreamRow from './display/StreamRow';
 
 const Status = ({
   role,
@@ -64,23 +69,37 @@ const Status = ({
       </Grid>
     );
   }
-  return streamInProgress.map((stream: Stream) => (
+
+  const tableContents = streamInProgress.map((stream: Stream) => (
     <NoteDecoder
       zkNote={aztec.zkNote}
       noteHash={stream.noteHash}
       key={stream.id}
       render={(note: object): ReactElement => (
-        <StreamDisplay
+        <StreamRow
           stream={stream}
           note={note}
-          aztec={aztec}
           streamContractInstance={streamContractInstance}
-          userAddress={userAddress}
           role={role}
         />
       )}
     />
   ));
+  return (
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>{role === 'recipient' ? 'Recipient' : 'Sender'}</TableCell>
+          <TableCell align="right">Value remaining</TableCell>
+          <TableCell align="right">Progress</TableCell>
+          <TableCell align="right">Start time</TableCell>
+          <TableCell align="right">End time</TableCell>
+          <TableCell align="right"></TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>{tableContents}</TableBody>
+    </Table>
+  );
 };
 
 Status.propTypes = {
