@@ -24,6 +24,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.18.2",
+    "lint-staged": "^10.2.2",
     "mocha": "^6.2.0",
     "shx": "^0.3.2"
   },
@@ -42,6 +43,7 @@
     "directory": "packages/dev-utils"
   },
   "scripts": {
+    "precommit": "lint-staged",
     "commit": "git-cz",
     "build": "yarn clean && babel --copy-files --out-dir ./lib --root-mode upward ./src",
     "clean": "shx rm -rf ./lib",

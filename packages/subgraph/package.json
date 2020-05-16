@@ -17,6 +17,7 @@
     "fs-extra": "^8.1.0",
     "handlebars": "^4.5.2",
     "js-yaml": "^3.13.1",
+    "lint-staged": "^10.2.2",
     "shx": "^0.3.2",
     "typy": "^3.3.0"
   },
@@ -26,6 +27,7 @@
     "url": "git+https://github.com/TomAFrench/NoteStream.git"
   },
   "scripts": {
+    "precommit": "lint-staged",
     "commit": "git-cz",
     "clean": "shx rm -rf ./build ./src/types ./subgraph.yaml",
     "codegen": "graph codegen --debug --output-dir src/types/",

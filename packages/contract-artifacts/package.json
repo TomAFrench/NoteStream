@@ -17,6 +17,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.20.2",
+    "lint-staged": "^10.2.2",
     "shx": "^0.3.2",
     "typescript": "^3.8.3"
   },
@@ -44,6 +45,7 @@
     "url": "git+https://github.com/TomAFrench/NoteStream.git"
   },
   "scripts": {
+    "precommit": "lint-staged",
     "commit": "git-cz",
     "prepare": "yarn clean && yarn lint --fix",
     "build": "yarn prepare && yarn build:types && yarn build:js",
