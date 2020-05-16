@@ -1,50 +1,54 @@
 /* eslint-disable func-names */
-const BigNumber = require('bignumber.js');
+const { bigNumberify } = require('ethers/utils');
 const moment = require('moment');
-const traveler = require('ganache-time-traveler');
+const traveler = require('ether-time-traveler');
 
 const devConstants = require('./constants');
 
 const { STANDARD_TIME_OFFSET, STANDARD_TIME_DELTA } = devConstants;
 
-function contextForStreamDidStartButNotEnd(functions) {
-  const now = new BigNumber(moment().format('X'));
+function contextForSpecificTime(
+  contextText,
+  timeDuration,
+  provider,
+  functions,
+) {
+  const now = bigNumberify(moment().format('X'));
 
-  describe('when the stream did start but not end', () => {
-    beforeEach(async () => {
+  describe(contextText, function () {
+    beforeEach(async function () {
       await traveler.advanceBlockAndSetTime(
-        now.plus(STANDARD_TIME_OFFSET).plus(5).toNumber(),
+        provider,
+        now.add(timeDuration.toString()).toNumber(),
       );
     });
 
     functions();
 
-    afterEach(async () => {
-      await traveler.advanceBlockAndSetTime(now.toNumber());
+    afterEach(async function () {
+      await traveler.advanceBlockAndSetTime(provider, now.toNumber());
     });
   });
 }
 
-function contextForStreamDidEnd(functions) {
-  const now = new BigNumber(moment().format('X'));
+function contextForStreamDidStartButNotEnd(provider, functions) {
+  const timeDuration = STANDARD_TIME_OFFSET.plus(5);
+  contextForSpecificTime(
+    'when the stream did start but not end',
+    timeDuration,
+    provider,
+    functions,
+  );
+}
 
-  describe('when the stream did end', () => {
-    beforeEach(async () => {
-      await traveler.advanceBlockAndSetTime(
-        now
-          .plus(STANDARD_TIME_OFFSET)
-          .plus(STANDARD_TIME_DELTA)
-          .plus(5)
-          .toNumber(),
-      );
-    });
-
-    functions();
-
-    afterEach(async () => {
-      await traveler.advanceBlockAndSetTime(now.toNumber());
-    });
-  });
+function contextForStreamDidEnd(provider, functions) {
+  const timeDuration = STANDARD_TIME_OFFSET.plus(STANDARD_TIME_DELTA).plus(5);
+  contextForSpecificTime(
+    'when the stream did end',
+    timeDuration,
+    provider,
+    functions,
+  );
 }
 
 module.exports = {

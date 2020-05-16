@@ -1,7 +1,7 @@
 const { usePlugin, task } = require('@nomiclabs/buidler/config');
 const { exportContracts } = require('./tasks/export.js');
 
-usePlugin('@nomiclabs/buidler-truffle5');
+usePlugin('@nomiclabs/buidler-waffle');
 usePlugin('@nomiclabs/buidler-etherscan');
 require('dotenv').config({ path: '.env.development' });
 
@@ -17,6 +17,9 @@ module.exports = {
             runs: 200,
         },
         evmVersion: 'istanbul',
+    },
+    paths: {
+        artifacts: './build',
     },
     // contracts_build_directory: "./build",
     mocha: {
