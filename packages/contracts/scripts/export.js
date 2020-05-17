@@ -1,33 +1,49 @@
-/* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
+const bre = require('@nomiclabs/buidler');
 
-const contracts = path.resolve(__dirname, '../artifacts/');
-const abiDirectory = path.resolve(__dirname, '../../contract-artifacts/abis/');
-const subgraphAbiDirectory = path.resolve(__dirname, '../../subgraph/abis/');
-
-const builtContracts = ['NoteStream.json'];
+const contractDir = bre.config.paths.sources;
+const artifactsDir = bre.config.paths.artifacts;
+const publishDir = path.resolve(
+    __dirname,
+    '../../contract-artifacts/contracts/'
+);
 
 async function main() {
-    // loop over every contract
-    builtContracts.forEach((contract) => {
-        console.log(contract);
-        // Get the JSON for a specific contract
-        const json = JSON.parse(
-            fs.readFileSync(path.resolve(contracts, contract))
-        );
-        // Extract just the abi
-        const { abi } = json;
-        // Write the abi to a new file in the ABI directory
-        fs.writeFileSync(
-            path.resolve(abiDirectory, contract),
-            JSON.stringify(abi, null, 2)
-        );
-        fs.writeFileSync(
-            path.resolve(subgraphAbiDirectory, contract),
-            JSON.stringify(abi, null, 2)
-        );
+    if (!fs.existsSync(publishDir)) {
+        fs.mkdirSync(publishDir);
+    }
+    const finalContractList = [];
+    fs.readdirSync(contractDir).forEach((file) => {
+        if (file.indexOf('.sol') >= 0) {
+            const contractName = file.replace('.sol', '');
+            console.log(
+                'Publishing',
+                chalk.cyan(contractName),
+                'to',
+                chalk.yellow(publishDir)
+            );
+            try {
+                const contract = fs
+                    .readFileSync(
+                        path.resolve(artifactsDir, `${contractName}.json`)
+                    )
+                    .toString();
+                fs.writeFileSync(
+                    `${publishDir}/${contractName}.ts`,
+                    `export default ${contract}`
+                );
+                finalContractList.push(contractName);
+            } catch (e) {
+                console.log(e);
+            }
+        }
     });
+    fs.writeFileSync(
+        `${publishDir}/contracts.ts`,
+        `export default ${JSON.stringify(finalContractList)}`
+    );
 }
 
 main()
