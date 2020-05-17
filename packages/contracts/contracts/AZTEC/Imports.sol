@@ -4,6 +4,7 @@ import "@aztec/protocol/contracts/ACE/ACE.sol";
 import "@aztec/protocol/contracts/ACE/noteRegistry/epochs/201912/base/FactoryBase201912.sol";
 import "@aztec/protocol/contracts/ACE/validators/joinSplit/JoinSplit.sol";
 import "@aztec/protocol/contracts/ACE/validators/dividend/Dividend.sol";
+import "@aztec/protocol/contracts/ERC1724/ZkAsset.sol";
 
 
 // You might think this file is a bit odd, but let me explain.
