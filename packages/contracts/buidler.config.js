@@ -1,11 +1,12 @@
 const { usePlugin, task } = require('@nomiclabs/buidler/config');
+const { exportContracts } = require('./tasks/export.js');
 
 usePlugin('@nomiclabs/buidler-truffle5');
 usePlugin('@nomiclabs/buidler-etherscan');
 require('dotenv').config({ path: '.env.development' });
 
-task('export', 'Exports the contract ABIs', async () => {
-    require('./scripts/export.js');
+task('export', 'Exports the contract ABIs').setAction(async (args, bre) => {
+    exportContracts(bre);
 });
 
 module.exports = {

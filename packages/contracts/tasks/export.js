@@ -1,16 +1,16 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const bre = require('@nomiclabs/buidler');
+// const bre = require('@nomiclabs/buidler');
 
-const contractDir = bre.config.paths.sources;
-const artifactsDir = bre.config.paths.artifacts;
 const publishDir = path.resolve(
     __dirname,
     '../../contract-artifacts/contracts/'
 );
 
-async function main() {
+async function exportContracts(bre) {
+    const contractDir = bre.config.paths.sources;
+    const artifactsDir = bre.config.paths.artifacts;
     if (!fs.existsSync(publishDir)) {
         fs.mkdirSync(publishDir);
     }
@@ -46,9 +46,4 @@ async function main() {
     );
 }
 
-main()
-    .then(() => process.exit(0))
-    .catch((error) => {
-        console.error(error);
-        process.exit(1);
-    });
+module.exports = { exportContracts };
