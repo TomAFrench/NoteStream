@@ -89,7 +89,7 @@ const Status = ({
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell>{role === 'recipient' ? 'Recipient' : 'Sender'}</TableCell>
+          <TableCell>{role === 'recipient' ? 'Sender' : 'Recipient'}</TableCell>
           <TableCell align="right">Value remaining</TableCell>
           <TableCell align="right">Progress</TableCell>
           <TableCell align="right">Start time</TableCell>
