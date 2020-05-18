@@ -1,15 +1,22 @@
-import { Address, Hash } from '../types/types';
+import { Contract } from 'ethers';
+import { Address, Hash, Note } from '../types/types';
 
 function initialiseStream(
-  streamContractInstance: any,
+  streamContractInstance: Contract,
   payeeAddress: Address,
-  noteForStreamContract: any,
+  noteForStreamContract: Note,
   zkAssetAddress: Address,
   startTime: number,
   endTime: number,
 ): number {
   return streamContractInstance
-    .createStream(payeeAddress, noteForStreamContract.noteHash, zkAssetAddress, startTime, endTime)
+    .createStream(
+      payeeAddress,
+      noteForStreamContract.noteHash,
+      zkAssetAddress,
+      startTime,
+      endTime,
+    )
     .then((err: any, txHash: Hash) => {
       if (err) {
         console.log(err);
@@ -26,7 +33,7 @@ async function fundStream(
   payeeAddress: Address,
   sendAmount: number,
   asset: any,
-): Promise<object> {
+): Promise<Note> {
   const { outputNotes } = await asset.send(
     [
       {
@@ -45,15 +52,28 @@ async function fundStream(
 
 async function createStream(
   sendAmount: number,
-  streamContractInstance: any,
+  streamContractInstance: Contract,
   payerAddress: Address,
   payeeAddress: Address,
   zkAsset: any,
   startTime: number,
   endTime: number,
 ): Promise<number> {
-  const streamNote = await fundStream(streamContractInstance.address, payerAddress, payeeAddress, sendAmount, zkAsset);
-  return initialiseStream(streamContractInstance, payeeAddress, streamNote, zkAsset.address, startTime, endTime);
+  const streamNote = await fundStream(
+    streamContractInstance.address,
+    payerAddress,
+    payeeAddress,
+    sendAmount,
+    zkAsset,
+  );
+  return initialiseStream(
+    streamContractInstance,
+    payeeAddress,
+    streamNote,
+    zkAsset.address,
+    startTime,
+    endTime,
+  );
 }
 
 export default createStream;

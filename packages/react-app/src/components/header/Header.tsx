@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme) => ({
 const Header = (): ReactElement => {
   const classes = useStyles();
   const userAddress = useAddress();
-  const trimmedAddress = `${userAddress.slice(0, 6)}...${userAddress.slice(-5, -1)}`;
+  const trimmedAddress = `${userAddress.slice(0, 6)}...${userAddress.slice(
+    -5,
+    -1,
+  )}`;
 
   return (
     <AppBar position="static">
@@ -44,7 +47,11 @@ const Header = (): ReactElement => {
           }
           label={trimmedAddress}
         />
-        <IconButton target="_blank" rel="noopener noreferrer" href="https://docs.note.stream">
+        <IconButton
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://docs.note.stream"
+        >
           <HelpIcon color="action" />
         </IconButton>
         <IconButton

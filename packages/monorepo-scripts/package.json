@@ -1,20 +1,30 @@
 {
-  "name": "@notestream/monorepo-scripts",
-  "version": "0.1.0",
-  "description": "NoteStream monorepo scripts",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TomAFrench/NoteStream.git"
-  },
-  "author": "Tom French",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/TomAFrench/NoteStream/issues"
-  },
-  "homepage": "https://github.com/TomAFrench/NoteStream#readme",
-  "scripts": {
-    "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh monorepo-scripts",
-    "lint": "eslint --ignore-path ../../.eslintignore ./"
-  }
+    "name": "@notestream/monorepo-scripts",
+    "version": "0.1.0",
+    "description": "NoteStream monorepo scripts",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/TomAFrench/NoteStream.git"
+    },
+    "author": "Tom French",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/TomAFrench/NoteStream/issues"
+    },
+    "homepage": "https://github.com/TomAFrench/NoteStream#readme",
+    "scripts": {
+        "precommit": "lint-staged",
+        "commit": "git-cz",
+        "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh monorepo-scripts",
+        "lint": "eslint --ignore-path ../../.eslintignore ./"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "devDependencies": {
+        "lint-staged": "^10.2.2"
+    }
 }

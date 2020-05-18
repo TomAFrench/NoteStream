@@ -1,11 +1,11 @@
-import { EthereumEvent } from "@graphprotocol/graph-ts";
+import { EthereumEvent } from '@graphprotocol/graph-ts';
 
-import { Transaction } from "../types/schema";
+import { Transaction } from '../types/schema';
 
 export function addTransaction(
   name: string,
   event: EthereumEvent,
-  streamId: string
+  streamId: string,
 ): void {
   const transaction = new Transaction(event.transaction.hash.toHex());
   transaction.event = name;

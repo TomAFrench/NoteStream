@@ -1,48 +1,80 @@
-import React, { Component, createContext, ReactElement, useContext } from 'react';
+import React, {
+  Component,
+  createContext,
+  ReactElement,
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import Onboard from 'bnc-onboard';
+import {
+  API,
+  ConfigOptions,
+  Initialization,
+  UserState,
+  WalletCheckInit,
+  Wallet,
+  WalletInitOptions,
+  // eslint-disable-next-line import/no-unresolved
+} from 'bnc-onboard/dist/src/interfaces';
+import { Address } from '../types/types';
 
-export const OnboardContext = createContext({} as any);
+interface Props {
+  children: ReactElement | Array<ReactElement>;
+}
 
-export function useOnboardContext() {
+interface State extends UserState {
+  onboard: API;
+}
+
+export const OnboardContext = createContext({} as State);
+
+export function useOnboardContext(): State {
   return useContext(OnboardContext);
 }
 
-const walletChecks = [{ checkName: 'connect' }, { checkName: 'network' }];
+const walletChecks: Array<WalletCheckInit> = [
+  { checkName: 'connect' },
+  { checkName: 'network' },
+];
 
-const wallets: any = [{ walletName: 'metamask', preferred: true }];
+const wallets: Array<WalletInitOptions> = [
+  { walletName: 'metamask', preferred: true },
+];
 
 // dappid is mandatory so will have throw away id for local usage.
 const testid = 'c212885d-e81d-416f-ac37-06d9ad2cf5af';
 
-class OnboardProvider extends Component {
-  state = {
-    onboard: {} as any,
-    address: '' as string,
-    balance: '' as string,
-    network: 0 as number,
-    wallet: {} as any,
+class OnboardProvider extends Component<Props, State> {
+  state: Readonly<State> = {
+    onboard: {} as API,
+    address: '',
+    balance: '',
+    network: 0,
+    wallet: {} as Wallet,
+    mobileDevice: false,
+    appNetworkId: 0,
   };
 
   static propTypes = {
     children: PropTypes.any.isRequired,
   };
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
 
-    const initialisation = {
+    const initialisation: Initialization = {
       dappId: testid,
       networkId: 4,
       walletCheck: walletChecks,
       walletSelect: {
         heading: 'Select a wallet to connect to NoteStream',
-        description: 'To use NoteStream you need an Ethereum wallet. Please select one from below:',
+        description:
+          'To use NoteStream you need an Ethereum wallet. Please select one from below:',
         wallets,
       },
       subscriptions: {
-        address: (address: string): void => {
+        address: (address: Address): void => {
           this.setState({ address });
         },
         balance: (balance: string): void => {
@@ -51,7 +83,7 @@ class OnboardProvider extends Component {
         network: (network: number): void => {
           this.setState({ network });
         },
-        wallet: (wallet: any): void => {
+        wallet: (wallet: Wallet): void => {
           this.setState({ wallet });
         },
       },
@@ -90,43 +122,34 @@ class OnboardProvider extends Component {
     }
   }
 
-  setConfig = (config: any): void => this.state.onboard.config(config);
+  setConfig = (config: ConfigOptions): void =>
+    this.state.onboard.config(config);
 
   render(): ReactElement {
     return (
-      <OnboardContext.Provider
-        value={
-          {
-            onboard: this.state.onboard,
-            address: this.state.address,
-            balance: this.state.balance,
-            network: this.state.network,
-            wallet: this.state.wallet,
-          } as any
-        }
-      >
+      <OnboardContext.Provider value={this.state}>
         {this.props.children}
       </OnboardContext.Provider>
     );
   }
 }
 
-export const useOnboard = () => {
+export const useOnboard = (): API => {
   const { onboard } = useOnboardContext();
   return onboard;
 };
 
-export const useGetState = () => {
-  const [{ onboard }] = useOnboardContext();
+export const useGetState = (): UserState => {
+  const { onboard } = useOnboardContext();
   return onboard.getState();
 };
 
-export const useAddress = () => {
+export const useAddress = (): Address => {
   const { address } = useOnboardContext();
   return address;
 };
 
-export const useWallet = () => {
+export const useWallet = (): Wallet => {
   const { wallet } = useOnboardContext();
   return wallet;
 };

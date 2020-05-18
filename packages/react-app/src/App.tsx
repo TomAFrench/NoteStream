@@ -8,16 +8,18 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import getZkAssetsForNetwork from 'zkasset-metadata';
-import { getContractAddressesForNetwork, abis } from '@notestream/contract-artifacts';
-import { ethers } from 'ethers';
+import {
+  getContractAddressesForNetwork,
+  abis,
+} from '@notestream/contract-artifacts';
+import { ethers, Contract } from 'ethers';
 
-import Status from './components/status';
+import Status from './components/Status';
 import DepositDialog from './components/modals/DepositModal';
 import WithdrawDialog from './components/modals/WithdrawModal';
 import CreateStreamDialog from './components/modals/CreateStreamModal';
-import { useAddress, useWallet } from './contexts/OnboardContext';
-import setupAztec from './utils/setup';
+import { useWallet } from './contexts/OnboardContext';
+
 import Header from './components/header/Header';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,36 +62,42 @@ function TabPanel(props: any): ReactElement {
   const { children, value, index, ...other } = props;
 
   return (
-    <Typography component="div" role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} {...other}>
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      {...other}
+    >
       {value === index && <Box p={3}>{children}</Box>}
     </Typography>
   );
 }
 
-const NETWORK_ID: number = parseInt(process.env.REACT_APP_NETWORK_ID as string, 10);
+const NETWORK_ID: number = parseInt(
+  process.env.REACT_APP_NETWORK_ID as string,
+  10,
+);
 
 const App = (): ReactElement => {
   const classes = useStyles();
-  const userAddress = useAddress();
   const wallet = useWallet();
-  const [streamContractInstance, setStreamContractInstance] = useState({});
+  const [streamContractInstance, setStreamContractInstance] = useState<
+    Contract
+  >();
   const [value, setValue] = useState(0);
-  const [aztec, setAztec] = useState({} as any);
   const addresses = getContractAddressesForNetwork(NETWORK_ID);
-  const zkAssets = getZkAssetsForNetwork(NETWORK_ID);
-
-  useEffect(() => {
-    window.addEventListener('load', () => {
-      setupAztec(NETWORK_ID).then(() => {
-        setAztec(window.aztec);
-      });
-    });
-  }, []);
 
   useEffect(() => {
     if (wallet.provider) {
-      const signer = new ethers.providers.Web3Provider(wallet.provider).getSigner();
-      const streamContract = new ethers.Contract(addresses.NoteStream, abis.NoteStream, signer);
+      const signer = new ethers.providers.Web3Provider(
+        wallet.provider,
+      ).getSigner();
+      const streamContract = new ethers.Contract(
+        addresses.NoteStream,
+        abis.NoteStream,
+        signer,
+      );
       setStreamContractInstance(streamContract);
     }
   }, [wallet.provider, addresses.NoteStream]);
@@ -101,45 +109,48 @@ const App = (): ReactElement => {
         <Paper className={`${classes.pageElement} ${classes.paper}`}>
           <Grid container direction="row" justify="space-around" spacing={3}>
             <Grid item>
-              <DepositDialog aztec={aztec} zkAssets={zkAssets} userAddress={userAddress} />
+              <DepositDialog />
             </Grid>
+            {streamContractInstance && (
+              <Grid item>
+                <CreateStreamDialog
+                  streamContractInstance={streamContractInstance}
+                />
+              </Grid>
+            )}
             <Grid item>
-              <CreateStreamDialog
-                aztec={aztec}
-                zkAssets={zkAssets}
-                userAddress={userAddress}
-                streamContractInstance={streamContractInstance}
-              />
-            </Grid>
-            <Grid item>
-              <WithdrawDialog aztec={aztec} zkAssets={zkAssets} userAddress={userAddress} />
+              <WithdrawDialog />
             </Grid>
           </Grid>
         </Paper>
         <Grid item xs={12} className={classes.pageElement}>
           <AppBar position="static">
-            <Tabs value={value} onChange={(event, newValue): void => setValue(newValue)} variant="fullWidth">
+            <Tabs
+              value={value}
+              onChange={(event, newValue): void => setValue(newValue)}
+              variant="fullWidth"
+            >
               <Tab label="Sending" />
               <Tab label="Receiving" />
             </Tabs>
           </AppBar>
           <Paper className={classes.paper}>
-            <TabPanel value={value} index={0}>
-              <Status
-                role="sender"
-                userAddress={userAddress}
-                aztec={aztec}
-                streamContractInstance={streamContractInstance}
-              />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <Status
-                role="recipient"
-                userAddress={userAddress}
-                aztec={aztec}
-                streamContractInstance={streamContractInstance}
-              />
-            </TabPanel>
+            {streamContractInstance && (
+              <>
+                <TabPanel value={value} index={0}>
+                  <Status
+                    role="sender"
+                    streamContractInstance={streamContractInstance}
+                  />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                  <Status
+                    role="recipient"
+                    streamContractInstance={streamContractInstance}
+                  />
+                </TabPanel>
+              </>
+            )}
           </Paper>
         </Grid>
       </main>

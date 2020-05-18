@@ -1,8 +1,8 @@
 import moment from 'moment';
 
+import { Contract } from 'ethers';
 import buildProofs from './proofs/withdrawalProof';
 import { getFraction } from './note';
-import { Address } from '../types/types';
 
 function calculateSafeWithdrawal(
   currentBalance: number,
@@ -17,7 +17,9 @@ function calculateSafeWithdrawal(
   const safeTimeBetweenNotes = timeBetweenNotes * safeMultipleOfPeriods;
 
   // Calculate the number of complete safe periods which has passed to give number of withdrawable notes
-  const withdrawalValue = Math.floor(targettedWithdrawDuration / safeTimeBetweenNotes) * safeMultipleOfPeriods;
+  const withdrawalValue =
+    Math.floor(targettedWithdrawDuration / safeTimeBetweenNotes) *
+    safeMultipleOfPeriods;
   const withdrawalDuration = withdrawalValue * timeBetweenNotes;
 
   return {
@@ -39,7 +41,9 @@ export function calculateWithdrawal(
     };
   }
 
-  const remainingStreamLength = moment.duration(moment.unix(stopTime).diff(moment.unix(lastWithdrawTime))).asSeconds();
+  const remainingStreamLength = moment
+    .duration(moment.unix(stopTime).diff(moment.unix(lastWithdrawTime)))
+    .asSeconds();
 
   // withdraw up to now or to end of stream
   if (moment().isAfter(moment.unix(stopTime))) {
@@ -68,9 +72,8 @@ export function calculateWithdrawal(
 
 export async function withdrawFunds(
   aztec: any,
-  streamContractInstance: any,
+  streamContractInstance: Contract,
   streamId: number,
-  userAddress: Address,
 ): Promise<void> {
   const streamObj = await streamContractInstance.getStream(streamId);
 
@@ -83,7 +86,7 @@ export async function withdrawFunds(
     streamObj.stopTime,
   );
 
-  const { proof1, proof2 }: { proof1: any; proof2: any } = await buildProofs(
+  const { dividendProof, joinSplitProof } = await buildProofs(
     aztec,
     streamContractInstance.address,
     streamObj,
@@ -91,12 +94,11 @@ export async function withdrawFunds(
   );
 
   console.log('Withdrawing from stream:', streamId);
-  console.log('Proofs:', proof1, proof2);
-  const results = await streamContractInstance.withdrawFromStream(
+  console.log('Proofs:', dividendProof, joinSplitProof);
+  return streamContractInstance.withdrawFromStream(
     streamId,
-    proof1.encodeABI(),
-    proof2.encodeABI(streamObj.tokenAddress),
+    dividendProof.encodeABI(),
+    joinSplitProof.encodeABI(streamObj.tokenAddress),
     withdrawalDuration,
   );
-  console.log(results);
 }

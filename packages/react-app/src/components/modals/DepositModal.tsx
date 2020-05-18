@@ -11,17 +11,15 @@ import Grid from '@material-ui/core/Grid';
 import ZkAssetSelect from '../form/ZkAssetSelect';
 
 import { Address } from '../../types/types';
+import { useAztec, useZkAssets } from '../../contexts/AztecContext';
+import { useAddress } from '../../contexts/OnboardContext';
 
-export default function DepositDialog({
-  aztec,
-  zkAssets,
-  userAddress,
-}: {
-  aztec: any;
-  zkAssets: any;
-  userAddress: Address;
-}): ReactElement {
-  const [open, setOpen] = React.useState<boolean>(false);
+export default function DepositDialog(): ReactElement {
+  const userAddress = useAddress();
+  const aztec = useAztec();
+  const zkAssets = useZkAssets();
+
+  const [open, setOpen] = useState<boolean>(false);
   const [zkAsset, setZkAsset] = useState<any>({} as any);
   const [publicBalance, setPublicBalance] = useState<number>(0);
   const [privateBalance, setPrivateBalance] = useState<number>(0);
@@ -37,7 +35,9 @@ export default function DepositDialog({
 
   async function depositZkToken(depositAmount: string): Promise<void> {
     console.log(zkAsset);
-    await zkAsset.deposit([{ to: userAddress, amount: parseInt(depositAmount, 10) }]);
+    await zkAsset.deposit([
+      { to: userAddress, amount: parseInt(depositAmount, 10) },
+    ]);
     handleClose();
   }
 
@@ -48,7 +48,9 @@ export default function DepositDialog({
 
       const newPrivateBalance = await newZkAsset.balance(userAddress);
       setPrivateBalance(newPrivateBalance);
-      const newPublicBalance = await newZkAsset.balanceOfLinkedToken(userAddress);
+      const newPublicBalance = await newZkAsset.balanceOfLinkedToken(
+        userAddress,
+      );
       setPublicBalance(newPublicBalance.toString(10));
     },
     [aztec, userAddress],
@@ -69,8 +71,8 @@ export default function DepositDialog({
         <DialogTitle id="form-dialog-title">Deposit tokens</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To use NoteStream, you need to exchange your ERC20 tokens for ZkAssets which can interact with AZTEC
-            Protocol
+            To use NoteStream, you need to exchange your ERC20 tokens for
+            ZkAssets which can interact with AZTEC Protocol
           </DialogContentText>
           <DialogContentText>
             You can mint some{' '}
@@ -92,14 +94,22 @@ export default function DepositDialog({
             in order to test NoteStream using Etherscan.
           </DialogContentText>
           <DialogContentText>
-            {`Your public balance: ${publicBalance} ${zkAsset.address && zkAssets[zkAsset.address].symbol.slice(2)}`}
+            {`Your public balance: ${publicBalance} ${
+              zkAsset.address && zkAssets[zkAsset.address].symbol.slice(2)
+            }`}
           </DialogContentText>
           <DialogContentText>
-            {`Your private balance: ${privateBalance} ${zkAsset.address && zkAssets[zkAsset.address].symbol}`}
+            {`Your private balance: ${privateBalance} ${
+              zkAsset.address && zkAssets[zkAsset.address].symbol
+            }`}
           </DialogContentText>
           <Grid container direction="row" spacing={3}>
             <Grid item xs={12}>
-              <ZkAssetSelect currentAsset={zkAsset} updateAsset={updateZkAsset} assetList={zkAssets} />
+              <ZkAssetSelect
+                currentAsset={zkAsset}
+                updateAsset={updateZkAsset}
+                assetList={zkAssets}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -117,7 +127,10 @@ export default function DepositDialog({
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={(): Promise<void> => depositZkToken(amount)} color="primary">
+          <Button
+            onClick={(): Promise<void> => depositZkToken(amount)}
+            color="primary"
+          >
             Deposit
           </Button>
         </DialogActions>

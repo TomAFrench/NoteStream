@@ -6,25 +6,28 @@ export default async function buildProofs(
   streamContractAddress: Address,
   streamObj: Stream,
   withdrawalValue: number,
-): Promise<{ proof1: object; proof2: object }> {
-  const { proofData: proofData1, inputNotes, outputNotes } = await buildDividendProof(
+): Promise<{ dividendProof: any; joinSplitProof: any }> {
+  const dividendProof = await buildDividendProof(
     streamObj,
     streamContractAddress,
     withdrawalValue,
     aztec,
   );
 
-  const { proofData: proofData2 } = await buildJoinSplitProof(
+  const [streamNote] = dividendProof.inputNotes;
+  const [withdrawalNote] = dividendProof.outputNotes;
+
+  const joinSplitProof = await buildJoinSplitProof(
     streamObj,
     streamContractAddress,
-    inputNotes[0],
-    outputNotes[0],
+    streamNote,
+    withdrawalNote,
     streamContractAddress,
     aztec,
   );
 
   return {
-    proof1: proofData1,
-    proof2: proofData2,
+    dividendProof,
+    joinSplitProof,
   };
 }

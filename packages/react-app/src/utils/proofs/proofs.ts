@@ -1,7 +1,7 @@
 // import { note, DividendProof, JoinSplitProof } from 'aztec.js';
 import secp256k1 from '@aztec/secp256k1';
 import { getFraction, computeRemainderNoteValue } from '../note';
-import { Stream, Address } from '../../types/types';
+import { Stream, Address, Fraction, Dividend, Note } from '../../types/types';
 
 export async function buildDividendProof(
   stream: Stream,
@@ -16,16 +16,26 @@ export async function buildDividendProof(
   const streamZkNote = await aztec.zkNote(noteHash);
   const streamNote = await streamZkNote.export();
 
-  const ratio = getFraction(withdrawalValue / streamZkNote.value);
+  const ratio: Fraction = getFraction(withdrawalValue / streamZkNote.value);
 
   console.table(ratio);
 
-  const withdrawPayment: any = computeRemainderNoteValue(streamZkNote.value, ratio.numerator, ratio.denominator);
+  const withdrawPayment: Dividend = computeRemainderNoteValue(
+    streamZkNote.value,
+    ratio.numerator,
+    ratio.denominator,
+  );
 
-  const withdrawPaymentNote = await payee.createNote(withdrawPayment.expectedNoteValue, [payee.address]);
-  const remainderNote = await payee.createNote(withdrawPayment.remainder);
+  const withdrawPaymentNote = await payee.createNote(withdrawPayment.target, [
+    payee.address,
+  ]);
+  const remainderNote = await payee.createNote(withdrawPayment.residual);
 
-  const proofData = new aztec.DividendProof(
+  // Note: The current dividend proof implementation takes the residual note as an argument before the target note
+  // It also has swapped the meanings of z_a and z_b relative to the documentation.
+  // This results in the slightly unintuitive argument ordering below
+  // see https://github.com/AztecProtocol/AZTEC/blob/develop/packages/aztec.js/src/proof/proofs/UTILITY/epoch0/dividend/index.js
+  return new aztec.DividendProof(
     streamNote,
     remainderNote,
     withdrawPaymentNote,
@@ -33,15 +43,13 @@ export async function buildDividendProof(
     ratio.denominator,
     ratio.numerator,
   );
-
-  return { proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, remainderNote] };
 }
 
 export async function buildJoinSplitProof(
   stream: Stream,
   streamContractAddress: Address,
-  streamNote: any,
-  withdrawPaymentNote: any,
+  streamNote: Note,
+  withdrawPaymentNote: Note,
   changeNoteOwner: Address,
   aztec: any,
 ): Promise<any> {
@@ -49,7 +57,10 @@ export async function buildJoinSplitProof(
 
   const payer = await aztec.user(sender);
   const payee = await aztec.user(recipient);
-  const changeValue = Math.max(streamNote.k.toNumber() - withdrawPaymentNote.k.toNumber(), 0);
+  const changeValue = Math.max(
+    streamNote.k.toNumber() - withdrawPaymentNote.k.toNumber(),
+    0,
+  );
 
   const changeNote = await aztec.note.create(
     secp256k1.generateAccount().publicKey,
@@ -61,13 +72,11 @@ export async function buildJoinSplitProof(
     changeNoteOwner,
   );
 
-  const proofData = new aztec.JoinSplitProof(
+  return new aztec.JoinSplitProof(
     [streamNote],
     [withdrawPaymentNote, changeNote],
     streamContractAddress,
     0, // No transfer from private to public assets or vice versa
     recipient,
   );
-
-  return { proofData, inputNotes: [streamNote], outputNotes: [withdrawPaymentNote, changeNote] };
 }
