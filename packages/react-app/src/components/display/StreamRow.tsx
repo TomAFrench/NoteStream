@@ -13,7 +13,7 @@ import calculateTime from '../../utils/time';
 
 import { withdrawFunds } from '../../utils/withdrawal';
 import cancelStream from '../../utils/cancellation';
-import { Stream } from '../../types/types';
+import { Stream, ZkNote } from '../../types/types';
 import { useAztec } from '../../contexts/AztecContext';
 import { useAddress } from '../../contexts/OnboardContext';
 
@@ -24,7 +24,7 @@ const StreamRow = ({
   role,
 }: {
   stream: Stream;
-  note: any;
+  note: ZkNote;
   streamContractInstance: Contract;
   role: string;
 }): ReactElement => {
