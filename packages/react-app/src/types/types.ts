@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import BN from 'bn.js';
 
 export type Address = string;
@@ -24,6 +25,24 @@ export interface Stream {
   noteHash: Hash;
   zkAsset: any;
 }
+
+export type ZkNote = {
+  asset: {
+    address: Address;
+    linkedTokenAddress: Address;
+  };
+  id: Hash;
+  noteHash: Hash;
+  owner: {
+    address: Address;
+  };
+  status: 'CREATED' | 'DESTROYED';
+  value: number;
+  viewingKey: string;
+  valid: boolean;
+  visible: boolean;
+  destroyed: boolean;
+};
 
 export type Note = {
   a: BN;

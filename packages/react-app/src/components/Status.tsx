@@ -17,7 +17,7 @@ import NoteDecoder from './NoteDecoder';
 
 import { GET_SENDER_STREAMS, GET_RECIPIENT_STREAMS } from '../graphql/streams';
 
-import { Stream } from '../types/types';
+import { Stream, ZkNote } from '../types/types';
 import { useAztec } from '../contexts/AztecContext';
 import { useAddress } from '../contexts/OnboardContext';
 import StreamRow from './display/StreamRow';
@@ -75,7 +75,7 @@ const Status = ({
       zkNote={aztec.zkNote}
       noteHash={stream.noteHash}
       key={stream.id}
-      render={(note: object): ReactElement => (
+      render={(note: ZkNote): ReactElement => (
         <StreamRow
           stream={stream}
           note={note}
