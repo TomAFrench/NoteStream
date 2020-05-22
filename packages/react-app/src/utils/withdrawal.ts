@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import { Contract } from 'ethers';
-import buildProofs from './proofs/withdrawalProof';
+import { buildWithdrawalProofs } from './proofs';
 import { getFraction } from './note';
 
 function calculateSafeWithdrawal(
@@ -86,7 +86,7 @@ export async function withdrawFunds(
     streamObj.stopTime,
   );
 
-  const { dividendProof, joinSplitProof } = await buildProofs(
+  const { dividendProof, joinSplitProof } = await buildWithdrawalProofs(
     aztec,
     streamContractInstance.address,
     streamObj,
