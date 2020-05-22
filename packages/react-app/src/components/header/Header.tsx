@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -12,8 +12,10 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import Avatar from '@material-ui/core/Avatar';
 
 import Blockies from 'react-blockies';
+import { Web3Provider } from 'ethers/providers';
 
-import { useAddress } from '../../contexts/OnboardContext';
+import lookupAddress from '../../utils/ens/lookupAddress';
+import { useAddress, useWalletProvider } from '../../contexts/OnboardContext';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -24,13 +26,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const trimAddress = (address: string): string =>
+  `${address.slice(0, 6)}...${address.slice(-5, -1)}`;
+
 const Header = (): ReactElement => {
   const classes = useStyles();
   const userAddress = useAddress();
-  const trimmedAddress = `${userAddress.slice(0, 6)}...${userAddress.slice(
-    -5,
-    -1,
-  )}`;
+  const provider = useWalletProvider();
+  const [ensName, setEnsName] = useState<string>(userAddress || '');
+
+  useEffect(() => {
+    if (provider) {
+      const ethersProvider = new Web3Provider(provider);
+      lookupAddress(ethersProvider, userAddress).then((name) => {
+        if (name) setEnsName(name);
+      });
+    }
+  }, [userAddress, provider]);
 
   return (
     <AppBar position="static">
@@ -45,7 +57,7 @@ const Header = (): ReactElement => {
               <Blockies seed={userAddress} />
             </Avatar>
           }
-          label={trimmedAddress}
+          label={ensName || trimAddress(userAddress)}
         />
         <IconButton
           target="_blank"

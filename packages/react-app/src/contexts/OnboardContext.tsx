@@ -154,4 +154,10 @@ export const useWallet = (): Wallet => {
   return wallet;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const useWalletProvider = (): any | null => {
+  const { provider } = useWallet() || {};
+  return provider;
+};
+
 export default OnboardProvider;

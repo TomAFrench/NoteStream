@@ -12,13 +12,14 @@ import {
   getContractAddressesForNetwork,
   abis,
 } from '@notestream/contract-artifacts';
-import { ethers, Contract } from 'ethers';
+import { Contract } from 'ethers';
+import { Web3Provider } from 'ethers/providers';
 
 import Status from './components/Status';
 import DepositDialog from './components/modals/DepositModal';
 import WithdrawDialog from './components/modals/WithdrawModal';
 import CreateStreamDialog from './components/modals/CreateStreamModal';
-import { useWallet } from './contexts/OnboardContext';
+import { useWalletProvider } from './contexts/OnboardContext';
 
 import Header from './components/header/Header';
 
@@ -81,7 +82,7 @@ const NETWORK_ID: number = parseInt(
 
 const App = (): ReactElement => {
   const classes = useStyles();
-  const wallet = useWallet();
+  const provider = useWalletProvider();
   const [streamContractInstance, setStreamContractInstance] = useState<
     Contract
   >();
@@ -89,18 +90,16 @@ const App = (): ReactElement => {
   const addresses = getContractAddressesForNetwork(NETWORK_ID);
 
   useEffect(() => {
-    if (wallet.provider) {
-      const signer = new ethers.providers.Web3Provider(
-        wallet.provider,
-      ).getSigner();
-      const streamContract = new ethers.Contract(
+    if (provider) {
+      const signer = new Web3Provider(provider).getSigner();
+      const streamContract = new Contract(
         addresses.NoteStream,
         abis.NoteStream,
         signer,
       );
       setStreamContractInstance(streamContract);
     }
-  }, [wallet.provider, addresses.NoteStream]);
+  }, [provider, addresses.NoteStream]);
 
   return (
     <>
