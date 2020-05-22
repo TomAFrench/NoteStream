@@ -11,8 +11,7 @@ import moment from 'moment';
 import { Contract } from 'ethers';
 import calculateTime from '../../utils/time';
 
-import { withdrawFunds } from '../../utils/withdrawal';
-import cancelStream from '../../utils/cancellation';
+import { withdrawFunds, cancelStream } from '../../utils/stream';
 import { Stream } from '../../types/types';
 import { useAztec } from '../../contexts/AztecContext';
 import { useAddress } from '../../contexts/OnboardContext';

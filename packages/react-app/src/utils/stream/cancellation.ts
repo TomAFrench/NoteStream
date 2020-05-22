@@ -1,7 +1,7 @@
 import { Contract } from 'ethers';
 import { calculateWithdrawal } from './withdrawal';
-import { buildCancellationProofs } from './proofs';
-import { Address, Stream } from '../types/types';
+import { buildCancellationProofs } from '../proofs';
+import { Address, Stream } from '../../types/types';
 
 const BUFFER_SECONDS = 120;
 

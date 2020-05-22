@@ -1,5 +1,5 @@
 import { Contract } from 'ethers';
-import { Address, Hash, Note } from '../types/types';
+import { Address, Hash, Note } from '../../types/types';
 
 function initialiseStream(
   streamContractInstance: Contract,

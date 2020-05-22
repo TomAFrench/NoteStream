@@ -12,7 +12,7 @@ import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment';
 import { Contract } from 'ethers';
-import createStream from '../../utils/streamCreation';
+import { createStream } from '../../utils/stream';
 
 import AddressInput from '../form/AddressInput';
 import ZkAssetSelect from '../form/ZkAssetSelect';
