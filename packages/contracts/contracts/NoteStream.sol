@@ -203,7 +203,6 @@ contract NoteStream is Pausable, ReentrancyGuard {
     )
         public
         nonReentrant
-        whenNotPaused
         streamExists(streamId)
         onlyRecipient(streamId)
     {
