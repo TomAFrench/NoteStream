@@ -28,30 +28,6 @@ const {
 
 use(solidity);
 
-function runProofTests() {
-    it(
-        'reverts if the dividend proof ratio does not match withdrawal duration'
-    );
-    it('reverts if the dividend proof does not use stream note as source');
-    it('reverts if the joinsplit proof has a non-zero public value transfer');
-    it('reverts if the joinsplit proof does not have one input note only');
-    it('reverts if the joinsplit proof does not have two output notes only');
-    it(
-        'reverts if the joinsplit proof does not use same withdraw note as dividend proof'
-    );
-    it('reverts if the joinsplit proof does not use stream note as input');
-    it('reverts if the new streamNote is not owned by NoteStream contract');
-    it('reverts if the withdraw note is not owned by recipient');
-    it('reverts if the sender does not have view access to the new streamNote');
-    it(
-        'reverts if the recipient does not have view access to the new streamNote'
-    );
-    describe('when the withdrawal is valid', function () {
-        it('updates the streams lastWithdrawTime parameter');
-        it('emits a WithdrawFromStream event');
-    });
-}
-
 function runTests() {
     const provider = new MockProvider();
     const [sender, recipient] = provider.getWallets();
@@ -99,11 +75,7 @@ function runTests() {
         });
 
         contextForStreamDidStartButNotEnd(provider, function () {
-            describe('when the withdrawal amount does not exceed the available balance', function () {
-                runProofTests();
-            });
-
-            it('revertswhen the withdrawal amount exceeds the available balance', async function () {
+            it('reverts if the withdrawal amount exceeds the available balance', async function () {
                 const withdrawDuration = STANDARD_TIME_OFFSET.multipliedBy(
                     2
                 ).toString(10);
@@ -118,19 +90,12 @@ function runTests() {
                     )
                 ).to.be.revertedWith('withdraw is greater than allowed');
             });
+            it('updates the streams lastWithdrawTime parameter');
+            it('emits a WithdrawFromStream event');
         });
 
         contextForStreamDidEnd(provider, function () {
-            describe('when the withdrawal amount does not exceed the available balance', function () {
-                describe('when the balance is not withdrawn in full', function () {
-                    runProofTests();
-                });
-                describe('when the balance is withdrawn in full', function () {
-                    runProofTests();
-                });
-            });
-
-            it('reverts when the withdrawal amount exceeds the available balance', async function () {
+            it('reverts if the withdrawal amount exceeds the available balance', async function () {
                 const withdrawDuration = bigNumberify(
                     STANDARD_TIME_DELTA.toString()
                 )
@@ -146,6 +111,14 @@ function runTests() {
                         withdrawDuration
                     )
                 ).to.be.revertedWith('withdraw is greater than allowed');
+            });
+            describe('when the balance is not withdrawn in full', function () {
+                it('updates the streams lastWithdrawTime parameter');
+                it('emits a WithdrawFromStream event');
+            });
+            describe('when the balance is withdrawn in full', function () {
+                it('updates the streams lastWithdrawTime parameter');
+                it('emits a WithdrawFromStream event');
             });
         });
     });
