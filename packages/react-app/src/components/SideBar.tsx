@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -13,16 +13,18 @@ import Avatar from '@material-ui/core/Avatar';
 import HomeIcon from '@material-ui/icons/Home';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
-// import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import HelpIcon from '@material-ui/icons/Help';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Blockies from 'react-blockies';
 
 import { Web3Provider } from 'ethers/providers';
+import TransakSDK from '@transak/transak-sdk';
 import Link from './Link';
 
 import lookupAddress from '../utils/ens/lookupAddress';
+import setupTransak from '../utils/transak';
 import {
   useAddress,
   useSetup,
@@ -104,10 +106,16 @@ const SideBar = ({
   setOpen: Function;
 }): ReactElement => {
   const classes = useStyles();
+  const theme = useTheme();
   const setup = useSetup();
   const userAddress = useAddress();
   const provider = useWalletProvider();
   const [ensName, setEnsName] = useState<string>(userAddress || '');
+  const [transak, setTransak] = useState<typeof TransakSDK>();
+
+  useEffect(() => {
+    setTransak(setupTransak(userAddress, theme.palette.primary.main));
+  }, [userAddress, theme.palette.primary.main]);
 
   const toggleDraw = (): void => {
     setOpen(!open);
@@ -121,8 +129,6 @@ const SideBar = ({
       });
     }
   }, [userAddress, provider]);
-
-  // useEffect(() => setup('MetaMask'), [setup]);
 
   return (
     <Drawer
@@ -165,6 +171,12 @@ const SideBar = ({
             <ListItemText primary={link.text} />
           </ListItem>
         ))}
+        <ListItem button onClick={(): Promise<void> => transak.init()}>
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Buy crypto" />
+        </ListItem>
       </List>
     </Drawer>
   );

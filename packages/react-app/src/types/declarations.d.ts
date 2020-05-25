@@ -5,3 +5,5 @@ declare module 'zkasset-metadata';
 declare module '@notestream/contract-artifacts';
 
 declare module 'react-blockies';
+
+declare module '@transak/transak-sdk';
