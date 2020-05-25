@@ -20,7 +20,7 @@ import ExchangePage from './pages/ExchangePage';
 import SendPage from './pages/SendPage';
 import ReceivePage from './pages/ReceivePage';
 
-import SideBar from './components/SideBar';
+import SideBar from './components/sidebar/SideBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
