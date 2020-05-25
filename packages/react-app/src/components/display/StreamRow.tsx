@@ -20,12 +20,12 @@ import { useAddress } from '../../contexts/OnboardContext';
 const StreamRow = ({
   stream,
   note,
-  streamContractInstance,
+  streamContract,
   role,
 }: {
   stream: Stream;
   note: ZkNote;
-  streamContractInstance: Contract;
+  streamContract: Contract;
   role: string;
 }): ReactElement => {
   const userAddress = useAddress();
@@ -66,9 +66,7 @@ const StreamRow = ({
       <Button
         variant="contained"
         color="primary"
-        onClick={(): Promise<void> =>
-          withdrawFunds(aztec, streamContractInstance, id)
-        }
+        onClick={(): Promise<void> => withdrawFunds(aztec, streamContract, id)}
       >
         Withdraw
       </Button>
@@ -77,7 +75,7 @@ const StreamRow = ({
         variant="contained"
         color="primary"
         onClick={(): Promise<void> =>
-          cancelStream(aztec, streamContractInstance, id, userAddress)
+          cancelStream(aztec, streamContract, id, userAddress)
         }
       >
         Cancel
@@ -109,7 +107,7 @@ const StreamRow = ({
 };
 
 StreamRow.propTypes = {
-  streamContractInstance: PropTypes.instanceOf(Contract),
+  streamContract: PropTypes.instanceOf(Contract),
   note: PropTypes.object.isRequired,
   stream: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired,

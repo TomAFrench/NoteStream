@@ -71,20 +71,18 @@ const App = (): ReactElement => {
   const classes = useStyles();
   const provider = useWalletProvider();
   const [open, setOpen] = useState(true);
-  const [streamContractInstance, setStreamContractInstance] = useState<
-    Contract
-  >();
+  const [streamContract, setStreamContract] = useState<Contract>();
   const addresses = getContractAddressesForNetwork(NETWORK_ID);
 
   useEffect(() => {
     if (provider) {
       const signer = new Web3Provider(provider).getSigner();
-      const streamContract = new Contract(
+      const noteStreamContract = new Contract(
         addresses.NoteStream,
         abis.NoteStream,
         signer,
       );
-      setStreamContractInstance(streamContract);
+      setStreamContract(noteStreamContract);
     }
   }, [provider, addresses.NoteStream]);
 
@@ -100,10 +98,10 @@ const App = (): ReactElement => {
               <ExchangePage />
             </Route>
             <Route exact path="/send">
-              <SendPage streamContractInstance={streamContractInstance} />
+              <SendPage streamContract={streamContract} />
             </Route>
             <Route exact path="/receive">
-              <ReceivePage streamContractInstance={streamContractInstance} />
+              <ReceivePage streamContract={streamContract} />
             </Route>
             <Route exact path="/"></Route>
           </Switch>

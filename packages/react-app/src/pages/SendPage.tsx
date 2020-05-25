@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SendPage = ({
-  streamContractInstance,
+  streamContract,
 }: {
-  streamContractInstance?: Contract;
+  streamContract?: Contract;
 }): ReactElement => {
   const classes = useStyles();
 
-  if (!streamContractInstance) {
+  if (!streamContract) {
     return (
       <Paper className={classes.paper}>
         <Grid
@@ -51,14 +51,12 @@ const SendPage = ({
       <Paper className={classes.paper}>
         <Grid container direction="row" justify="space-around" spacing={3}>
           <Grid item>
-            <CreateStreamDialog
-              streamContractInstance={streamContractInstance}
-            />
+            <CreateStreamDialog streamContract={streamContract} />
           </Grid>
         </Grid>
       </Paper>
       <Paper className={classes.paper}>
-        <Status role="sender" streamContractInstance={streamContractInstance} />
+        <Status role="sender" streamContract={streamContract} />
       </Paper>
     </>
   );

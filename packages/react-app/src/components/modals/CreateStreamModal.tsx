@@ -32,9 +32,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateStreamDialog({
-  streamContractInstance,
+  streamContract,
 }: {
-  streamContractInstance: Contract;
+  streamContract: Contract;
 }): ReactElement | null {
   const classes = useStyles();
   const userAddress = useAddress();
@@ -74,7 +74,7 @@ export default function CreateStreamDialog({
     }
   }, [aztec.zkAsset, zkAssets, updateZkAsset]);
 
-  if (!streamContractInstance) return null;
+  if (!streamContract) return null;
   return (
     <div>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
@@ -216,7 +216,7 @@ export default function CreateStreamDialog({
             onClick={async (): Promise<void> => {
               await createStream(
                 parseInt(streamAmount, 10),
-                streamContractInstance,
+                streamContract,
                 userAddress,
                 recipient,
                 zkAsset,

@@ -29,13 +29,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ReceivePage = ({
-  streamContractInstance,
+  streamContract,
 }: {
-  streamContractInstance?: Contract;
+  streamContract?: Contract;
 }): ReactElement => {
   const classes = useStyles();
 
-  if (!streamContractInstance) {
+  if (!streamContract) {
     return (
       <Paper className={classes.paper}>
         <Grid
@@ -52,10 +52,7 @@ const ReceivePage = ({
   }
   return (
     <Paper className={classes.paper}>
-      <Status
-        role="recipient"
-        streamContractInstance={streamContractInstance}
-      />
+      <Status role="recipient" streamContract={streamContract} />
     </Paper>
   );
 };
