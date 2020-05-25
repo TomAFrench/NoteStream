@@ -10,9 +10,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
-// import AddIcon from '@material-ui/icons/Add';
+import HomeIcon from '@material-ui/icons/Home';
+import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 // import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-// import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import HelpIcon from '@material-ui/icons/Help';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Blockies from 'react-blockies';
@@ -75,13 +77,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const links = [
-  // { text: 'Deposit', icon: <AddIcon />, url: '/deposit' },
-  // { text: 'Buy Options', icon: <ShoppingCartIcon />, url: '/options/buy' },
-  // {
-  //   text: 'Exercise Options',
-  //   icon: <SwapHorizIcon />,
-  //   url: '/options/exercise',
-  // },
+  { text: 'Home', icon: <HomeIcon />, url: '/' },
+  { text: 'Convert assets', icon: <SwapHorizIcon />, url: '/exchange' },
+  { text: 'Create new stream', icon: <LocalAtmIcon />, url: '/send' },
+  {
+    text: 'Collect earnings',
+    icon: <AccountBalanceWalletIcon />,
+    url: '/receive',
+  },
   { text: 'FAQ', icon: <HelpIcon />, url: 'https://docs.note.stream' },
   {
     text: 'Github',
@@ -149,7 +152,7 @@ const SideBar = ({
           <ListItemText primary={ensName || trimAddress(userAddress)} />
         </ListItem>
       ) : (
-        <ListItem button onClick={() => setup()}>
+        <ListItem button onClick={(): void => setup()}>
           {/* <ListItemIcon></ListItemIcon> */}
           <ListItemText primary={'Connect to Wallet'} />
         </ListItem>

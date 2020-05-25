@@ -65,7 +65,7 @@ export default function DepositDialog(): ReactElement {
   return (
     <div>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        1. Deposit ERC20 tokens for private assets
+        Deposit ERC20 tokens for private assets
       </Button>
       <Dialog open={open} onClose={handleClose} scroll="body">
         <DialogTitle id="form-dialog-title">Deposit tokens</DialogTitle>

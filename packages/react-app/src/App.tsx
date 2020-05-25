@@ -2,17 +2,10 @@ import React, { ReactElement, useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   // Redirect,
-  // Route,
-  // Switch,
+  Route,
+  Switch,
 } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
 
 import {
   getContractAddressesForNetwork,
@@ -21,11 +14,11 @@ import {
 import { Contract } from 'ethers';
 import { Web3Provider } from 'ethers/providers';
 
-import Status from './components/Status';
-import DepositDialog from './components/modals/DepositModal';
-import WithdrawDialog from './components/modals/WithdrawModal';
-import CreateStreamDialog from './components/modals/CreateStreamModal';
 import { useWalletProvider } from './contexts/OnboardContext';
+
+import ExchangePage from './pages/ExchangePage';
+import SendPage from './pages/SendPage';
+import ReceivePage from './pages/ReceivePage';
 
 import SideBar from './components/SideBar';
 
@@ -69,22 +62,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TabPanel(props: any): ReactElement {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
-}
-
 const NETWORK_ID: number = parseInt(
   process.env.REACT_APP_NETWORK_ID as string,
   10,
@@ -97,7 +74,6 @@ const App = (): ReactElement => {
   const [streamContractInstance, setStreamContractInstance] = useState<
     Contract
   >();
-  const [value, setValue] = useState(0);
   const addresses = getContractAddressesForNetwork(NETWORK_ID);
 
   useEffect(() => {
@@ -114,60 +90,25 @@ const App = (): ReactElement => {
 
   return (
     <div className={classes.root}>
-      <SideBar open={open} setOpen={setOpen} />
-      <main
-        className={`${classes.content} ${open ? classes.contentShift : ''}`}
-      >
-        <Router>
-          <Paper className={`${classes.pageElement} ${classes.paper}`}>
-            <Grid container direction="row" justify="space-around" spacing={3}>
-              <Grid item>
-                <DepositDialog />
-              </Grid>
-              {streamContractInstance && (
-                <Grid item>
-                  <CreateStreamDialog
-                    streamContractInstance={streamContractInstance}
-                  />
-                </Grid>
-              )}
-              <Grid item>
-                <WithdrawDialog />
-              </Grid>
-            </Grid>
-          </Paper>
-          <Grid item xs={12} className={classes.pageElement}>
-            <AppBar position="static">
-              <Tabs
-                value={value}
-                onChange={(event, newValue): void => setValue(newValue)}
-                variant="fullWidth"
-              >
-                <Tab label="Sending" />
-                <Tab label="Receiving" />
-              </Tabs>
-            </AppBar>
-            <Paper className={classes.paper}>
-              {streamContractInstance && (
-                <>
-                  <TabPanel value={value} index={0}>
-                    <Status
-                      role="sender"
-                      streamContractInstance={streamContractInstance}
-                    />
-                  </TabPanel>
-                  <TabPanel value={value} index={1}>
-                    <Status
-                      role="recipient"
-                      streamContractInstance={streamContractInstance}
-                    />
-                  </TabPanel>
-                </>
-              )}
-            </Paper>
-          </Grid>
-        </Router>
-      </main>
+      <Router>
+        <SideBar open={open} setOpen={setOpen} />
+        <main
+          className={`${classes.content} ${open ? classes.contentShift : ''}`}
+        >
+          <Switch>
+            <Route exact path="/exchange">
+              <ExchangePage />
+            </Route>
+            <Route exact path="/send">
+              <SendPage streamContractInstance={streamContractInstance} />
+            </Route>
+            <Route exact path="/receive">
+              <ReceivePage streamContractInstance={streamContractInstance} />
+            </Route>
+            <Route exact path="/"></Route>
+          </Switch>
+        </main>
+      </Router>
     </div>
   );
 };

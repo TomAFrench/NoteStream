@@ -78,7 +78,7 @@ export default function CreateStreamDialog({
   return (
     <div>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        2. Create a new stream
+        Create a new stream
       </Button>
       <Dialog open={open} onClose={handleClose} scroll="body">
         <DialogTitle id="form-dialog-title">Create Stream</DialogTitle>

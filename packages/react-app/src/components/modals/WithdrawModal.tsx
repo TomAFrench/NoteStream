@@ -61,7 +61,7 @@ export default function WithdrawDialog(): ReactElement {
   return (
     <div>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        3. Withdraw back to ERC20 tokens
+        Withdraw back to ERC20 tokens
       </Button>
       <Dialog open={open} onClose={handleClose} scroll="body">
         <DialogTitle id="form-dialog-title">Withdraw tokens</DialogTitle>
