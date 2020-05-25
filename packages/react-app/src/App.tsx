@@ -1,4 +1,10 @@
 import React, { ReactElement, useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  // Redirect,
+  // Route,
+  // Switch,
+} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -21,18 +27,25 @@ import WithdrawDialog from './components/modals/WithdrawModal';
 import CreateStreamDialog from './components/modals/CreateStreamModal';
 import { useWalletProvider } from './contexts/OnboardContext';
 
-import Header from './components/header/Header';
+import SideBar from './components/SideBar';
 
 const useStyles = makeStyles((theme) => ({
-  layout: {
-    width: 'auto',
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up(1200 + theme.spacing(2) * 2)]: {
-      width: 1200,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+  root: {
+    display: 'flex',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   paper: {
     padding: theme.spacing(2),
@@ -51,9 +64,6 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
   },
-  // button: {
-  //   marginRight: theme.spacing(2),
-  // },
   title: {
     flexGrow: 1,
   },
@@ -83,6 +93,7 @@ const NETWORK_ID: number = parseInt(
 const App = (): ReactElement => {
   const classes = useStyles();
   const provider = useWalletProvider();
+  const [open, setOpen] = useState(true);
   const [streamContractInstance, setStreamContractInstance] = useState<
     Contract
   >();
@@ -102,58 +113,62 @@ const App = (): ReactElement => {
   }, [provider, addresses.NoteStream]);
 
   return (
-    <>
-      <Header />
-      <main className={classes.layout}>
-        <Paper className={`${classes.pageElement} ${classes.paper}`}>
-          <Grid container direction="row" justify="space-around" spacing={3}>
-            <Grid item>
-              <DepositDialog />
-            </Grid>
-            {streamContractInstance && (
+    <div className={classes.root}>
+      <SideBar open={open} setOpen={setOpen} />
+      <main
+        className={`${classes.content} ${open ? classes.contentShift : ''}`}
+      >
+        <Router>
+          <Paper className={`${classes.pageElement} ${classes.paper}`}>
+            <Grid container direction="row" justify="space-around" spacing={3}>
               <Grid item>
-                <CreateStreamDialog
-                  streamContractInstance={streamContractInstance}
-                />
+                <DepositDialog />
               </Grid>
-            )}
-            <Grid item>
-              <WithdrawDialog />
+              {streamContractInstance && (
+                <Grid item>
+                  <CreateStreamDialog
+                    streamContractInstance={streamContractInstance}
+                  />
+                </Grid>
+              )}
+              <Grid item>
+                <WithdrawDialog />
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
-        <Grid item xs={12} className={classes.pageElement}>
-          <AppBar position="static">
-            <Tabs
-              value={value}
-              onChange={(event, newValue): void => setValue(newValue)}
-              variant="fullWidth"
-            >
-              <Tab label="Sending" />
-              <Tab label="Receiving" />
-            </Tabs>
-          </AppBar>
-          <Paper className={classes.paper}>
-            {streamContractInstance && (
-              <>
-                <TabPanel value={value} index={0}>
-                  <Status
-                    role="sender"
-                    streamContractInstance={streamContractInstance}
-                  />
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                  <Status
-                    role="recipient"
-                    streamContractInstance={streamContractInstance}
-                  />
-                </TabPanel>
-              </>
-            )}
           </Paper>
-        </Grid>
+          <Grid item xs={12} className={classes.pageElement}>
+            <AppBar position="static">
+              <Tabs
+                value={value}
+                onChange={(event, newValue): void => setValue(newValue)}
+                variant="fullWidth"
+              >
+                <Tab label="Sending" />
+                <Tab label="Receiving" />
+              </Tabs>
+            </AppBar>
+            <Paper className={classes.paper}>
+              {streamContractInstance && (
+                <>
+                  <TabPanel value={value} index={0}>
+                    <Status
+                      role="sender"
+                      streamContractInstance={streamContractInstance}
+                    />
+                  </TabPanel>
+                  <TabPanel value={value} index={1}>
+                    <Status
+                      role="recipient"
+                      streamContractInstance={streamContractInstance}
+                    />
+                  </TabPanel>
+                </>
+              )}
+            </Paper>
+          </Grid>
+        </Router>
       </main>
-    </>
+    </div>
   );
 };
 
