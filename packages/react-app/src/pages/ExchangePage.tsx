@@ -1,16 +1,10 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Button,
-  Paper,
-  Grid,
-  Typography,
-  TextField,
-  IconButton,
-} from '@material-ui/core';
+import { Button, Paper, Grid, Typography, IconButton } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import AmountInput from '../components/form/AmountInput';
 import ZkAssetSelect from '../components/form/ZkAssetSelect';
 
 import Link from '../components/Link';
@@ -115,54 +109,50 @@ const ExchangePage = (): ReactElement => {
         </Grid>
       </Paper>
       <Paper className={`${classes.pageElement} ${classes.paper}`}>
-        <Grid container justify="center" spacing={3}>
+        <Grid container alignItems="center" justify="center" spacing={3}>
           <Grid item>
-            {`Your public balance: ${publicBalance} ${
-              zkAsset.address && zkAssets[zkAsset.address].symbol.slice(2)
-            }`}
+            <Typography variant="body1">ZkAsset to convert:</Typography>
           </Grid>
           <Grid item>
-            {`Your private balance: ${privateBalance} ${
-              zkAsset.address && zkAssets[zkAsset.address].symbol
-            }`}
+            <ZkAssetSelect
+              currentAsset={zkAsset}
+              updateAsset={updateZkAsset}
+              assetList={zkAssets}
+            />
           </Grid>
-          <Grid item container justify="center" spacing={1}>
-            <Grid item>
-              <TextField
-                label="Enter deposit amount"
+          <Grid item container justify="center" spacing={2}>
+            <Grid item xs={3}>
+              <AmountInput
+                label="Public"
                 placeholder=""
                 variant="outlined"
-                value={amount}
-                onChange={(val): void => setAmount(val.target.value)}
+                amount={amount}
+                setAmount={setAmount}
+                balance={publicBalance}
+                symbol={
+                  zkAssets[zkAsset.address] &&
+                  zkAssets[zkAsset.address].symbol.slice(2)
+                }
                 fullWidth
               />
-            </Grid>
-            <Grid item>
-              <Typography>
-                {zkAssets[zkAsset.address] &&
-                  zkAssets[zkAsset.address].symbol.slice(2)}
-              </Typography>
             </Grid>
             <Grid item>
               <IconButton onClick={(): void => setDeposit(!deposit)}>
                 {deposit ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </IconButton>
             </Grid>
-            <Grid item>
-              <TextField
-                label="Enter deposit amount"
+            <Grid item xs={3}>
+              <AmountInput
+                label="Private"
                 placeholder=""
                 variant="outlined"
-                value={amount}
-                onChange={(val): void => setAmount(val.target.value)}
+                amount={amount}
+                setAmount={setAmount}
+                balance={privateBalance}
+                symbol={
+                  zkAssets[zkAsset.address] && zkAssets[zkAsset.address].symbol
+                }
                 fullWidth
-              />
-            </Grid>
-            <Grid item>
-              <ZkAssetSelect
-                currentAsset={zkAsset}
-                updateAsset={updateZkAsset}
-                assetList={zkAssets}
               />
             </Grid>
           </Grid>

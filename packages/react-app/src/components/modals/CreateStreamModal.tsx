@@ -15,6 +15,7 @@ import { Contract } from 'ethers';
 import { createStream } from '../../utils/stream';
 
 import AddressInput from '../form/AddressInput';
+import AmountInput from '../form/AmountInput';
 import ZkAssetSelect from '../form/ZkAssetSelect';
 import { Address } from '../../types/types';
 import { useAztec, useZkAssets } from '../../contexts/AztecContext';
@@ -103,11 +104,6 @@ export default function CreateStreamDialog({
               published on-chain publicly, only in the form on an encrypted
               AZTEC note.)
             </DialogContentText>
-            <DialogContentText>
-              {`Your private balance: ${privateBalance} ${
-                zkAsset.address && zkAssets[zkAsset.address].symbol
-              }`}
-            </DialogContentText>
             <Grid item xs={12}>
               <ZkAssetSelect
                 currentAsset={zkAsset}
@@ -116,12 +112,14 @@ export default function CreateStreamDialog({
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Stream value"
-                placeholder=""
+              <AmountInput
+                label="Stream amount"
+                placeholder="0"
                 variant="outlined"
-                value={streamAmount}
-                onChange={(val): void => setStreamAmount(val.target.value)}
+                amount={streamAmount}
+                setAmount={setStreamAmount}
+                balance={privateBalance}
+                symbol={zkAsset.address && zkAssets[zkAsset.address].symbol}
                 fullWidth
               />
             </Grid>
