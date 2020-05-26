@@ -2,10 +2,12 @@ import React, { ReactElement } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
+import { Typography } from '@material-ui/core';
 import SideBarLinks from './SideBarLinks';
 import WalletButton from './WalletButton';
 
@@ -35,17 +37,13 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    overflowX: 'hidden',
     width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(8),
     },
   },
-  paper: {},
+  paper: { overflowX: 'hidden' },
   toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
@@ -81,11 +79,23 @@ const SideBar = ({
         }`,
       }}
     >
-      <div className={classes.toolbar}>
-        <IconButton onClick={toggleDraw}>
-          {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-        </IconButton>
-      </div>
+      <Grid
+        container
+        alignItems="center"
+        justify="flex-end"
+        wrap="nowrap"
+        spacing={2}
+        className={classes.toolbar}
+      >
+        <Grid item>
+          <Typography variant="h5">NoteStream</Typography>
+        </Grid>
+        <Grid item>
+          <IconButton onClick={toggleDraw}>
+            {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </Grid>
+      </Grid>
       <Divider />
       <WalletButton />
       <Divider />
