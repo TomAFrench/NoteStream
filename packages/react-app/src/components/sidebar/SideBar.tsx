@@ -14,12 +14,6 @@ import WalletButton from './WalletButton';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  hide: {
-    display: 'none',
-  },
-  avatar: {
-    marginLeft: theme.spacing(-1),
-  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
@@ -47,10 +41,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
   },
 }));
 
