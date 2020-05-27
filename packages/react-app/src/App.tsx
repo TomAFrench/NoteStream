@@ -17,6 +17,7 @@ import { Web3Provider } from 'ethers/providers';
 
 import { useWalletProvider } from './contexts/OnboardContext';
 
+import HomePage from './pages/HomePage';
 import ExchangePage from './pages/ExchangePage';
 import SendPage from './pages/SendPage';
 import ReceivePage from './pages/ReceivePage';
@@ -105,7 +106,9 @@ const App = (): ReactElement => {
             <Route exact path="/receive">
               <ReceivePage streamContract={streamContract} />
             </Route>
-            <Route exact path="/"></Route>
+            <Route exact path="/">
+              <HomePage streamContract={streamContract} />
+            </Route>
           </Switch>
         </main>
       </Router>
