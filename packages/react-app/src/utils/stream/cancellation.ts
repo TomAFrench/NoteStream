@@ -7,11 +7,11 @@ const BUFFER_SECONDS = 120;
 
 export default async function cancelStream(
   aztec: any,
-  streamContractInstance: Contract,
+  streamContract: Contract,
   streamId: number,
   userAddress: Address,
 ): Promise<void> {
-  const streamObj: Stream = await streamContractInstance.getStream(streamId);
+  const streamObj: Stream = await streamContract.getStream(streamId);
 
   const note = await aztec.zkNote(streamObj.noteHash);
 
@@ -30,14 +30,14 @@ export default async function cancelStream(
 
   const { dividendProof, joinSplitProof } = await buildCancellationProofs(
     aztec,
-    streamContractInstance.address,
+    streamContract.address,
     streamObj,
     withdrawalValue,
   );
 
   console.log('Cancelling stream:', streamId);
   console.log('Proofs:', dividendProof, joinSplitProof);
-  return streamContractInstance.cancelStream(
+  return streamContract.cancelStream(
     streamId,
     dividendProof.encodeABI(),
     joinSplitProof.encodeABI(streamObj.tokenAddress),

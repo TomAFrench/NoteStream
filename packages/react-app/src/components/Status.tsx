@@ -24,10 +24,10 @@ import StreamRow from './display/StreamRow';
 
 const Status = ({
   role,
-  streamContractInstance,
+  streamContract,
 }: {
   role: string;
-  streamContractInstance: Contract;
+  streamContract: Contract;
 }): ReactElement => {
   const userAddress = useAddress();
   const aztec = useAztec();
@@ -79,7 +79,7 @@ const Status = ({
         <StreamRow
           stream={stream}
           note={note}
-          streamContractInstance={streamContractInstance}
+          streamContract={streamContract}
           role={role}
         />
       )}
@@ -103,7 +103,7 @@ const Status = ({
 };
 
 Status.propTypes = {
-  streamContractInstance: PropTypes.any.isRequired,
+  streamContract: PropTypes.any.isRequired,
   role: PropTypes.string.isRequired,
 };
 

@@ -72,10 +72,10 @@ export function calculateWithdrawal(
 
 async function withdrawFunds(
   aztec: any,
-  streamContractInstance: Contract,
+  streamContract: Contract,
   streamId: number,
 ): Promise<void> {
-  const streamObj = await streamContractInstance.getStream(streamId);
+  const streamObj = await streamContract.getStream(streamId);
 
   const note = await aztec.zkNote(streamObj.noteHash);
 
@@ -88,14 +88,14 @@ async function withdrawFunds(
 
   const { dividendProof, joinSplitProof } = await buildWithdrawalProofs(
     aztec,
-    streamContractInstance.address,
+    streamContract.address,
     streamObj,
     withdrawalValue,
   );
 
   console.log('Withdrawing from stream:', streamId);
   console.log('Proofs:', dividendProof, joinSplitProof);
-  return streamContractInstance.withdrawFromStream(
+  return streamContract.withdrawFromStream(
     streamId,
     dividendProof.encodeABI(),
     joinSplitProof.encodeABI(streamObj.tokenAddress),

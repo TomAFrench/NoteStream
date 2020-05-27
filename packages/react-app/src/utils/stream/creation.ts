@@ -2,14 +2,14 @@ import { Contract } from 'ethers';
 import { Address, Hash, Note } from '../../types/types';
 
 function initialiseStream(
-  streamContractInstance: Contract,
+  streamContract: Contract,
   payeeAddress: Address,
   noteForStreamContract: Note,
   zkAssetAddress: Address,
   startTime: number,
   endTime: number,
 ): number {
-  return streamContractInstance
+  return streamContract
     .createStream(
       payeeAddress,
       noteForStreamContract.noteHash,
@@ -52,7 +52,7 @@ async function fundStream(
 
 async function createStream(
   sendAmount: number,
-  streamContractInstance: Contract,
+  streamContract: Contract,
   payerAddress: Address,
   payeeAddress: Address,
   zkAsset: any,
@@ -60,14 +60,14 @@ async function createStream(
   endTime: number,
 ): Promise<number> {
   const streamNote = await fundStream(
-    streamContractInstance.address,
+    streamContract.address,
     payerAddress,
     payeeAddress,
     sendAmount,
     zkAsset,
   );
   return initialiseStream(
-    streamContractInstance,
+    streamContract,
     payeeAddress,
     streamNote,
     zkAsset.address,
