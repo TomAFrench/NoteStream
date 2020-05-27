@@ -47,18 +47,18 @@ const SendPage = ({
   }
 
   return (
-    <>
-      <Paper className={classes.paper}>
-        <Grid container direction="row" justify="space-around" spacing={3}>
+    <Paper className={classes.paper}>
+      <Grid container direction="column" spacing={3}>
+        <Grid item>
+          <Status role="sender" streamContract={streamContract} />
+        </Grid>
+        <Grid item container justify="center">
           <Grid item>
             <CreateStreamDialog streamContract={streamContract} />
           </Grid>
         </Grid>
-      </Paper>
-      <Paper className={classes.paper}>
-        <Status role="sender" streamContract={streamContract} />
-      </Paper>
-    </>
+      </Grid>
+    </Paper>
   );
 };
 
