@@ -27,7 +27,7 @@ const StreamRow = ({
   note: ZkNote;
   streamContract: Contract;
   role: string;
-}): ReactElement => {
+}): ReactElement | null => {
   const userAddress = useAddress();
   const aztec = useAztec();
   const {
@@ -81,6 +81,16 @@ const StreamRow = ({
         Cancel
       </Button>
     );
+
+  if (
+    !address ||
+    note.value === undefined ||
+    !zkAsset.symbol ||
+    !startTime ||
+    !stopTime
+  ) {
+    return null;
+  }
   return (
     <TableRow key={stream.id}>
       <TableCell component="th" scope="row">
