@@ -5,6 +5,7 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
@@ -88,6 +89,7 @@ const App = (): ReactElement => {
 
   return (
     <div className={classes.root}>
+      <CssBaseline />
       <Router>
         <SideBar open={open} setOpen={setOpen} />
         <main
