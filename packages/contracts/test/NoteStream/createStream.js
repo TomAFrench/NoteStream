@@ -20,7 +20,6 @@ const { noteStreamFixture } = require('../fixtures');
 
 use(solidity);
 
-// eslint-disable-next-line no-undef
 describe('NoteStream - createStream', function () {
     const { provider } = waffle;
     const [sender, recipient] = provider.getWallets();

@@ -9,7 +9,6 @@ const { ZERO_ADDRESS } = devConstants;
 
 use(solidity);
 
-// eslint-disable-next-line no-undef
 describe('NoteStream - constructor', function () {
     const { provider } = waffle;
     const [deployer] = provider.getWallets();
