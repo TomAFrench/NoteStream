@@ -198,14 +198,6 @@ export default function CreateStreamDialog({
                 </TextField>
               </Grid>
             </Grid>
-            <DialogContentText>
-              After you click &quot;Create Stream&quot;, you will be asked to
-              sign two transactions. The first sends the AZTEC note to the
-              NoteStream contract and the second creates the stream.
-            </DialogContentText>
-            <DialogContentText>
-              In a later update, these two transactions will be combined.
-            </DialogContentText>
           </Grid>
         </DialogContent>
         <DialogActions>
