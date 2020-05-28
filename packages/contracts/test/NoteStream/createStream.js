@@ -17,6 +17,7 @@ const {
 
 const NoteStream = require('../../build/NoteStream.json');
 const { noteStreamFixture } = require('../fixtures');
+const { createStreamDepositProof } = require('../helpers/streamNote');
 
 use(solidity);
 
@@ -30,8 +31,28 @@ describe('NoteStream - createStream', function () {
 
     let noteStream;
     let zkAsset;
+    let depositOutputNotes;
+    let data;
+    let signatures;
     beforeEach(async function () {
-        ({ noteStream, zkAsset } = await loadFixture(noteStreamFixture));
+        ({ noteStream, zkAsset, depositOutputNotes } = await loadFixture(
+            noteStreamFixture
+        ));
+        const {
+            depositProof,
+            depositInputOwnerAccounts,
+        } = await createStreamDepositProof(
+            [depositOutputNotes[0]],
+            noteStream.address,
+            sender.signingKey.privateKey,
+            recipient.signingKey.privateKey,
+            0
+        );
+        data = depositProof.encodeABI(zkAsset.address);
+        signatures = depositProof.constructSignatures(
+            zkAsset.address,
+            depositInputOwnerAccounts
+        );
     });
 
     const now = bigNumberify(moment().format('X'));
@@ -44,7 +65,8 @@ describe('NoteStream - createStream', function () {
             it('creates the stream', async function () {
                 const tx = await noteStream.createStream(
                     recipient.address,
-                    notehash,
+                    data,
+                    signatures,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -71,7 +93,8 @@ describe('NoteStream - createStream', function () {
                 const currentStreamId = await noteStream.nextStreamId();
                 await noteStream.createStream(
                     recipient.address,
-                    notehash,
+                    data,
+                    signatures,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -85,7 +108,8 @@ describe('NoteStream - createStream', function () {
                 await expect(
                     noteStream.createStream(
                         recipient.address,
-                        notehash,
+                        data,
+                        signatures,
                         zkAsset.address,
                         startTime,
                         stopTime
@@ -100,7 +124,8 @@ describe('NoteStream - createStream', function () {
                 await expect(
                     noteStream.createStream(
                         recipient.address,
-                        notehash,
+                        data,
+                        signatures,
                         zkAsset.address,
                         invalidStartTime,
                         stopTime
@@ -112,7 +137,8 @@ describe('NoteStream - createStream', function () {
                 await expect(
                     noteStream.createStream(
                         recipient.address,
-                        notehash,
+                        data,
+                        signatures,
                         zkAsset.address,
                         startTime,
                         startTime
@@ -127,7 +153,8 @@ describe('NoteStream - createStream', function () {
                 await expect(
                     noteStream.createStream(
                         recipient.address,
-                        notehash,
+                        data,
+                        signatures,
                         zkAsset.address,
                         startTime,
                         invalidStopTime
@@ -140,7 +167,8 @@ describe('NoteStream - createStream', function () {
             await expect(
                 noteStream.createStream(
                     sender.address,
-                    notehash,
+                    data,
+                    signatures,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -152,7 +180,8 @@ describe('NoteStream - createStream', function () {
             await expect(
                 noteStream.createStream(
                     noteStream.address,
-                    notehash,
+                    data,
+                    signatures,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -164,7 +193,8 @@ describe('NoteStream - createStream', function () {
             await expect(
                 noteStream.createStream(
                     ZERO_ADDRESS,
-                    notehash,
+                    data,
+                    signatures,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -180,7 +210,8 @@ describe('NoteStream - createStream', function () {
         await expect(
             noteStream.createStream(
                 recipient.address,
-                notehash,
+                data,
+                signatures,
                 zkAsset.address,
                 startTime,
                 stopTime

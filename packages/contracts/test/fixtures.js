@@ -1,7 +1,7 @@
 const { ethers } = require('ethers');
-
 const { deployContract } = require('ethereum-waffle');
 
+const { JoinSplitProof } = require('aztec.js');
 const bn128 = require('@aztec/bn128');
 const { proofs } = require('@aztec/dev-utils');
 
@@ -17,6 +17,8 @@ const {
 const ERC20Mintable = require('../build/ERC20Mintable.json');
 const NoteStream = require('../build/NoteStream.json');
 const StreamUtilitiesMock = require('../build/StreamUtilitiesMock.json');
+
+const { getDepositNotes } = require('./helpers/AZTEC');
 
 const generateFactoryId = (epoch, cryptoSystem, assetType) => {
     return epoch * 256 ** 2 + cryptoSystem * 256 ** 1 + assetType * 256 ** 0;
@@ -71,6 +73,40 @@ async function zkAssetFixture(provider, [wallet]) {
         1,
     ]);
 
+    const depositAmount = '10000000000000';
+
+    await token.mint(wallet.address, depositAmount);
+    await token.approve(ace.address, depositAmount);
+
+    const {
+        depositInputNotes,
+        depositOutputNotes,
+        depositPublicValue,
+        depositInputOwnerAccounts,
+    } = await getDepositNotes([100000], wallet.signingKey.privateKey);
+    const publicValue = depositPublicValue * -1;
+
+    const sender = wallet.address;
+    const publicOwner = wallet.address;
+    const proof = new JoinSplitProof(
+        depositInputNotes,
+        depositOutputNotes,
+        sender,
+        publicValue,
+        publicOwner
+    );
+    const data = proof.encodeABI(zkAsset.address);
+    const signatures = proof.constructSignatures(
+        zkAsset.address,
+        depositInputOwnerAccounts
+    );
+
+    // Approve ACE to spend tokens held by the zkAsset contract
+    await ace.publicApprove(zkAsset.address, proof.hash, 100000);
+
+    // convert some of sender's assets to zkAssets
+    await zkAsset['confidentialTransfer(bytes,bytes)'](data, signatures);
+
     // ethers.errors.setLogLevel('warn');
 
     return {
@@ -80,6 +116,7 @@ async function zkAssetFixture(provider, [wallet]) {
         baseFactory,
         token,
         zkAsset,
+        depositOutputNotes,
     };
 }
 
@@ -94,6 +131,7 @@ async function noteStreamFixture(provider, [wallet]) {
         baseFactory,
         token,
         zkAsset,
+        depositOutputNotes,
     } = await zkAssetFixture(provider, [wallet]);
 
     const noteStream = await deployContract(wallet, NoteStream, [ace.address]);
@@ -106,6 +144,7 @@ async function noteStreamFixture(provider, [wallet]) {
         token,
         zkAsset,
         noteStream,
+        depositOutputNotes,
     };
 }
 
