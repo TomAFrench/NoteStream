@@ -1,5 +1,6 @@
+const { waffle } = require('@nomiclabs/buidler');
 const { use, expect } = require('chai');
-const { solidity, MockProvider, deployContract } = require('ethereum-waffle');
+const { solidity, deployContract } = require('ethereum-waffle');
 
 const { devConstants } = require('@notestream/dev-utils');
 const NoteStream = require('../../build/NoteStream.json');
@@ -10,7 +11,7 @@ use(solidity);
 
 // eslint-disable-next-line no-undef
 describe('NoteStream - constructor', function () {
-    const provider = new MockProvider();
+    const { provider } = waffle;
     const [deployer] = provider.getWallets();
 
     it('reverts when the ACE contract is the zero address', async function () {

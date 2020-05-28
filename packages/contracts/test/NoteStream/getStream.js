@@ -1,10 +1,7 @@
 // const { devConstants } = require("@notestream/dev-utils");
+const { waffle } = require('@nomiclabs/buidler');
 const { use, expect } = require('chai');
-const {
-    solidity,
-    MockProvider,
-    createFixtureLoader,
-} = require('ethereum-waffle');
+const { solidity, createFixtureLoader } = require('ethereum-waffle');
 const { bigNumberify } = require('ethers/utils');
 
 const { noteStreamFixture } = require('../fixtures');
@@ -13,7 +10,7 @@ use(solidity);
 
 // eslint-disable-next-line no-undef
 describe('NoteStream - getStream', function () {
-    const provider = new MockProvider();
+    const { provider } = waffle;
     const [sender, recipient] = provider.getWallets();
     const loadFixture = createFixtureLoader(provider, [sender, recipient]);
 
