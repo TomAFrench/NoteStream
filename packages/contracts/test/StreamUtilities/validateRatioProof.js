@@ -1,15 +1,12 @@
+const { waffle } = require('@nomiclabs/buidler');
 const { use } = require('chai');
-const {
-    solidity,
-    MockProvider,
-    createFixtureLoader,
-} = require('ethereum-waffle');
+const { solidity, createFixtureLoader } = require('ethereum-waffle');
 const { StreamUtilitiesFixture } = require('../fixtures');
 
 use(solidity);
 
 describe('StreamUtilities - validateRatioProof', function () {
-    const provider = new MockProvider();
+    const { provider } = waffle;
     const [sender, recipient] = provider.getWallets();
     const loadFixture = createFixtureLoader(provider, [sender, recipient]);
 

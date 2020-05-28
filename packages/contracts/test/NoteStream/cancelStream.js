@@ -1,9 +1,6 @@
+const { waffle } = require('@nomiclabs/buidler');
 const { use, expect } = require('chai');
-const {
-    solidity,
-    MockProvider,
-    createFixtureLoader,
-} = require('ethereum-waffle');
+const { solidity, createFixtureLoader } = require('ethereum-waffle');
 const { bigNumberify, Interface } = require('ethers/utils');
 
 const { devConstants, mochaContexts } = require('@notestream/dev-utils');
@@ -28,7 +25,7 @@ const {
 
 use(solidity);
 
-const provider = new MockProvider();
+const { provider } = waffle;
 const [sender, recipient, attacker] = provider.getWallets();
 const loadFixture = createFixtureLoader(provider, [sender, recipient]);
 

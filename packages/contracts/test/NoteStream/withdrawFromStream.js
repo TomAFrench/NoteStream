@@ -1,3 +1,4 @@
+const { waffle } = require('@nomiclabs/buidler');
 const { use, expect } = require('chai');
 const {
     solidity,
@@ -29,7 +30,7 @@ const {
 use(solidity);
 
 function runTests() {
-    const provider = new MockProvider();
+    const { provider } = waffle;
     const [sender, recipient] = provider.getWallets();
     const loadFixture = createFixtureLoader(provider, [sender, recipient]);
 
