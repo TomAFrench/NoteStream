@@ -1,11 +1,11 @@
 pragma solidity ^0.5.11;
 
-import "@openzeppelin/contracts/lifecycle/Pausable.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import '@openzeppelin/contracts/lifecycle/Pausable.sol';
+import '@openzeppelin/contracts/utils/ReentrancyGuard.sol';
 
-import "./StreamUtilities.sol";
+import './StreamUtilities.sol';
 
-import "./Types.sol";
+import './Types.sol';
 
 
 /**
@@ -65,7 +65,7 @@ contract NoteStream is Pausable, ReentrancyGuard {
         require(
             msg.sender == streams[streamId].sender ||
                 msg.sender == streams[streamId].recipient,
-            "caller is not the sender or the recipient of the stream"
+            'caller is not the sender or the recipient of the stream'
         );
         _;
     }
@@ -76,7 +76,7 @@ contract NoteStream is Pausable, ReentrancyGuard {
     modifier onlyRecipient(uint256 streamId) {
         require(
             msg.sender == streams[streamId].recipient,
-            "caller is not the recipient of the stream"
+            'caller is not the recipient of the stream'
         );
         _;
     }
@@ -85,7 +85,7 @@ contract NoteStream is Pausable, ReentrancyGuard {
      * @dev Throws if the provided id does not point to a valid stream.
      */
     modifier streamExists(uint256 streamId) {
-        require(streams[streamId].isEntity, "stream does not exist");
+        require(streams[streamId].isEntity, 'stream does not exist');
         _;
     }
 
@@ -94,7 +94,7 @@ contract NoteStream is Pausable, ReentrancyGuard {
     constructor(address _aceContractAddress) public {
         require(
             _aceContractAddress != address(0x00),
-            "ACE contract is the zero address"
+            'ACE contract is the zero address'
         );
         aceContractAddress = _aceContractAddress;
         nextStreamId = 1;
@@ -158,14 +158,14 @@ contract NoteStream is Pausable, ReentrancyGuard {
         uint256 startTime,
         uint256 stopTime
     ) public whenNotPaused returns (uint256) {
-        require(recipient != address(0x00), "stream to the zero address");
-        require(recipient != address(this), "stream to the contract itself");
-        require(recipient != msg.sender, "stream to the caller");
+        require(recipient != address(0x00), 'stream to the zero address');
+        require(recipient != address(this), 'stream to the contract itself');
+        require(recipient != msg.sender, 'stream to the caller');
         require(
             startTime >= block.timestamp, // solium-disable-line security/no-block-members
-            "start time before block.timestamp"
+            'start time before block.timestamp'
         );
-        require(stopTime > startTime, "Stream duration not greater than zero");
+        require(stopTime > startTime, 'Stream duration not greater than zero');
 
         // Transfer the ZkAsset to the streaming contract
         bytes32 streamNoteHash = StreamUtilities._processDeposit(
@@ -211,27 +211,21 @@ contract NoteStream is Pausable, ReentrancyGuard {
         bytes memory _proof1, // Dividend Proof
         bytes memory _proof2, // Join-Split Proof
         uint256 _streamDurationToWithdraw
-    )
-        public
-        nonReentrant
-        streamExists(streamId)
-        onlyRecipient(streamId)
-    {
+    ) public nonReentrant streamExists(streamId) onlyRecipient(streamId) {
         Types.AztecStream storage stream = streams[streamId];
 
         // First check that this isn't a zero value withdrawal
-        require(_streamDurationToWithdraw > 0, "zero value withdrawal");
+        require(_streamDurationToWithdraw > 0, 'zero value withdrawal');
 
         // Check that fraction to withdraw isn't greater than fraction of time passed
         require(
             stream.lastWithdrawTime.add(_streamDurationToWithdraw) <
                 block.timestamp, // solium-disable-line security/no-block-members
-            "withdraw is greater than allowed"
+            'withdraw is greater than allowed'
         );
 
         // Check that value of withdrawal matches the fraction given by the above timestamp
-        (, bytes memory _proof1OutputNotes) = StreamUtilities
-            ._validateRatioProof(
+        bytes32 withdrawalNoteHash = StreamUtilities._validateRatioProof(
             aceContractAddress,
             _proof1,
             _streamDurationToWithdraw,
@@ -243,7 +237,7 @@ contract NoteStream is Pausable, ReentrancyGuard {
         bytes32 newNoteHash = StreamUtilities._processWithdrawal(
             aceContractAddress,
             _proof2,
-            _proof1OutputNotes,
+            withdrawalNoteHash,
             stream
         );
 
@@ -294,7 +288,7 @@ contract NoteStream is Pausable, ReentrancyGuard {
         }
 
         // We require the denominator of ratio proof to be nonzero
-        require(_unclaimedTime > 0, "cancellation with zero unclaimed time");
+        require(_unclaimedTime > 0, 'cancellation with zero unclaimed time');
 
         // Otherwise check that cancelling party isn't trying to scam the other
         // Each party can only cancel from a timestamp favourable to the other party.
@@ -307,20 +301,19 @@ contract NoteStream is Pausable, ReentrancyGuard {
                 stream.lastWithdrawTime.add(_unclaimedTime) > block.timestamp ||
                     stream.lastWithdrawTime.add(_unclaimedTime) ==
                     stream.stopTime,
-                "sender receives too much from cancellation"
+                'sender receives too much from cancellation'
             );
         } else if (msg.sender == stream.recipient) {
             // Recipient can only cancel from a timestamp which has already passed
             require(
                 // solium-disable-next-line security/no-block-members
                 stream.lastWithdrawTime.add(_unclaimedTime) < block.timestamp,
-                "recipient receives too much from cancellation"
+                'recipient receives too much from cancellation'
             );
         }
 
         // Check that value of withdrawal matches the fraction given by the above timestamp
-        (, bytes memory _proof1OutputNotes) = StreamUtilities
-            ._validateRatioProof(
+        bytes32 withdrawalNoteHash = StreamUtilities._validateRatioProof(
             aceContractAddress,
             _proof1,
             _unclaimedTime,
@@ -332,7 +325,7 @@ contract NoteStream is Pausable, ReentrancyGuard {
         StreamUtilities._processCancelation(
             aceContractAddress,
             _proof2,
-            _proof1OutputNotes,
+            withdrawalNoteHash,
             stream
         );
 

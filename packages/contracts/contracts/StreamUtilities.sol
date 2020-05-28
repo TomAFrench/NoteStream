@@ -1,13 +1,13 @@
 pragma solidity ^0.5.11;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import '@openzeppelin/contracts/math/SafeMath.sol';
 
-import "@aztec/protocol/contracts/interfaces/IACE.sol";
-import "@aztec/protocol/contracts/interfaces/IZkAsset.sol";
-import "@aztec/protocol/contracts/libs/NoteUtils.sol";
-import "@aztec/protocol/contracts/libs/MetaDataUtils.sol";
+import '@aztec/protocol/contracts/interfaces/IACE.sol';
+import '@aztec/protocol/contracts/interfaces/IZkAsset.sol';
+import '@aztec/protocol/contracts/libs/NoteUtils.sol';
+import '@aztec/protocol/contracts/libs/MetaDataUtils.sol';
 
-import "./Types.sol";
+import './Types.sol';
 
 
 library StreamUtilities {
@@ -60,18 +60,22 @@ library StreamUtilities {
         address _tokenAddress
     ) internal returns (bytes32 streamNoteHash) {
         // Validate Join-Split proof
-        bytes memory proofOutputs = IACE(_aceContractAddress)
-            .validateProof(JOIN_SPLIT_PROOF, address(this), _proof)
-            .get(0);
+        bytes memory proofOutputs = IACE(_aceContractAddress).validateProof(
+            JOIN_SPLIT_PROOF,
+            msg.sender,
+            _proof
+        );
+
+        bytes memory proofOutput = proofOutputs.get(0);
 
         // Extract notes used in proof
-        (, bytes memory _proofOutputNotes, , ) = proofOutputs
+        (, bytes memory _proofOutputNotes, , ) = proofOutput
             .extractProofOutput();
 
         // Ensure that there is only a single output note to avoid loss of funds
         require(
             _proofOutputNotes.getLength() == 1,
-            "Incorrect number of output notes"
+            'Incorrect number of output notes'
         );
 
         Note memory streamNote = _noteCoderToStruct(_proofOutputNotes.get(0));
@@ -79,7 +83,7 @@ library StreamUtilities {
         // Require that stream note is owned by contract
         require(
             streamNote.owner == address(this),
-            "stream note is not owned by stream contract"
+            'stream note is not owned by stream contract'
         );
 
         // Require that sender and receiver have view access to stream note
@@ -92,7 +96,7 @@ library StreamUtilities {
             "stream recipient can't view stream note"
         );
 
-        // Approve contract to spend stream note
+        // Approve contract to place user's zkAssets into the stream note
         IZkAsset(_tokenAddress).approveProof(
             JOIN_SPLIT_PROOF,
             proofOutputs,
@@ -104,7 +108,7 @@ library StreamUtilities {
         // Send transfer
         IZkAsset(_tokenAddress).confidentialTransferFrom(
             JOIN_SPLIT_PROOF,
-            proofOutputs
+            proofOutput
         );
 
         // Return stream note hash
@@ -116,19 +120,13 @@ library StreamUtilities {
         bytes memory _proof1,
         uint256 _withdrawDuration,
         Types.AztecStream storage _stream
-    )
-        internal
-        returns (
-            bytes memory _proof1InputNotes,
-            bytes memory _proof1OutputNotes
-        )
-    {
+    ) internal returns (bytes32 withdrawalNoteHash) {
         // Check that ratio of notes match that given by fraction of remaining time to withdraw
         uint256 totalTime = _stream.stopTime.sub(_stream.lastWithdrawTime);
         require(
             getRatio(_proof1) ==
                 totalTime.mul(scalingFactor).div(_withdrawDuration),
-            "ratios do not match"
+            'ratios do not match'
         );
 
         // Validate ratio proof
@@ -137,17 +135,23 @@ library StreamUtilities {
             address(this),
             _proof1
         );
-        (_proof1InputNotes, _proof1OutputNotes, , ) = _proof1Outputs
-            .get(0)
-            .extractProofOutput();
+        (
+            bytes memory _proof1InputNotes,
+            bytes memory _proof1OutputNotes,
+            ,
+
+        ) = _proof1Outputs.get(0).extractProofOutput();
 
         // Make sure that recipient has provided the note on the contract as input
         // This prevents recipient using a larger note for this proof to allow a larger withdrawal
         require(
             _noteCoderToStruct(_proof1InputNotes.get(0)).noteHash ==
                 _stream.noteHash,
-            "incorrect notional note in proof 1"
+            'incorrect notional note in proof 1'
         );
+
+        withdrawalNoteHash = _noteCoderToStruct(_proof1OutputNotes.get(0))
+            .noteHash;
     }
 
     function _validateJoinSplitProof(
@@ -169,45 +173,45 @@ library StreamUtilities {
             int256 publicValue
         ) = proof2Outputs.extractProofOutput();
 
-        require(publicValue == 0, "nonzero public value transfer");
+        require(publicValue == 0, 'nonzero public value transfer');
 
         // Ensure stream note is the only input note
         require(
             _proof2InputNotes.getLength() == 1,
-            "Incorrect number of input notes"
+            'Incorrect number of input notes'
         );
 
         // Ensure that there isn't a third output note used to avoid the below checks
         require(
             _proof2OutputNotes.getLength() == 2,
-            "Incorrect number of output notes"
+            'Incorrect number of output notes'
         );
 
         // Requires that output note respects dividend proof
         require(
             _noteCoderToStruct(_proof2OutputNotes.get(0)).noteHash ==
                 _withdrawalNoteHash,
-            "withdraw note in 2 is not the same as 1"
+            'withdraw note in 2 is not the same as 1'
         );
 
         // Require that input note is stream note
         require(
             _noteCoderToStruct(_proof2InputNotes.get(0)).noteHash ==
                 _stream.noteHash,
-            "stream note in 2 is not correct"
+            'stream note in 2 is not correct'
         );
     }
 
     function _processWithdrawal(
         address _aceContractAddress,
         bytes memory _proof2,
-        bytes memory _proof1OutputNotes,
+        bytes32 _withdrawalNoteHash,
         Types.AztecStream storage _stream
     ) internal returns (bytes32) {
         bytes memory proof2Outputs = _validateJoinSplitProof(
             _aceContractAddress,
             _proof2,
-            _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, // withdrawal note hash
+            _withdrawalNoteHash,
             _stream
         );
 
@@ -225,7 +229,7 @@ library StreamUtilities {
         // Require that change note is owned by contract
         require(
             newStreamNote.owner == address(this),
-            "change note in 2 is not owned by stream contract"
+            'change note in 2 is not owned by stream contract'
         );
 
         // Require that sender and receiver have view access to change note
@@ -245,7 +249,7 @@ library StreamUtilities {
             _noteCoderToStruct(_proof2InputNotes.get(0)).noteHash,
             address(this),
             true,
-            ""
+            ''
         );
 
         // Send transfer
@@ -261,13 +265,13 @@ library StreamUtilities {
     function _processCancelation(
         address _aceContractAddress,
         bytes memory _proof2,
-        bytes memory _proof1OutputNotes,
+        bytes32 _withdrawalNoteHash,
         Types.AztecStream storage _stream
     ) internal returns (bool) {
         bytes memory proof2Outputs = _validateJoinSplitProof(
             _aceContractAddress,
             _proof2,
-            _noteCoderToStruct(_proof1OutputNotes.get(0)).noteHash, // withdrawal note hash
+            _withdrawalNoteHash,
             _stream
         );
         // Extract notes used in proof
@@ -281,16 +285,31 @@ library StreamUtilities {
         bytes32 inputNoteHash = _noteCoderToStruct(_proof2InputNotes.get(0))
             .noteHash;
 
+        Note memory withdrawalNote = _noteCoderToStruct(
+            _proof2OutputNotes.get(0)
+        );
+        Note memory refundNote = _noteCoderToStruct(_proof2OutputNotes.get(1));
+
         // Require that each participant owns an output note
         require(
-            _noteCoderToStruct(_proof2OutputNotes.get(0)).owner ==
-                _stream.recipient,
+            withdrawalNote.owner == _stream.recipient,
             "Stream recipient doesn't own first output note"
         );
         require(
-            _noteCoderToStruct(_proof2OutputNotes.get(1)).owner ==
-                _stream.sender,
+            refundNote.owner == _stream.sender,
             "Stream sender doesn't own second output note"
+        );
+
+        // Require that sender and receiver have view access to their notes
+        require(
+            MetaDataUtils.extractAddress(withdrawalNote.metaData, 0) ==
+                _stream.recipient,
+            "stream recipient can't view withdrawal note"
+        );
+        require(
+            MetaDataUtils.extractAddress(refundNote.metaData, 0) ==
+                _stream.sender,
+            "stream sender can't view refund note"
         );
 
         // Approve contract to spend with stream note
@@ -298,7 +317,7 @@ library StreamUtilities {
             inputNoteHash,
             address(this),
             true,
-            ""
+            ''
         );
 
         // Send transfer

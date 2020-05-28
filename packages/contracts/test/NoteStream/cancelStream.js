@@ -9,6 +9,9 @@ const crypto = require('crypto');
 
 const NoteStream = require('../../build/NoteStream.json');
 const { noteStreamFixture } = require('../fixtures');
+const { mintZkAsset } = require('../helpers/mint/mintZkAssets');
+const { signProof } = require('../helpers/signProof');
+const { createStreamDepositProof } = require('../helpers/deposit/streamNote');
 
 const {
     contextForStreamDidEnd,
@@ -63,7 +66,6 @@ function testValidCancellation() {
         // ).to.be.revertedWith('stream does not exist');
         // }
     );
-    it('returns true');
 }
 
 function runTests() {
@@ -132,29 +134,56 @@ function runTests() {
 }
 
 describe('NoteStream - cancelStream', function () {
+    let ace;
+    let token;
     let noteStream;
     let zkAsset;
     beforeEach(async function () {
-        ({ noteStream, zkAsset } = await loadFixture(noteStreamFixture));
+        ({ ace, token, noteStream, zkAsset } = await loadFixture(
+            noteStreamFixture
+        ));
     });
-
-    const now = bigNumberify(moment().format('X'));
 
     describe('when the stream exists', function () {
         let streamId;
+        const streamDeposit = 100000;
         beforeEach(async function () {
-            const startTime = now.add(
-                STANDARD_TIME_OFFSET.multipliedBy(2).toString()
+            const depositOutputNote = await mintZkAsset(
+                sender.address,
+                streamDeposit,
+                token,
+                zkAsset,
+                ace
             );
+
+            const { depositProof } = await createStreamDepositProof(
+                [depositOutputNote],
+                noteStream.address,
+                sender.address,
+                recipient.address,
+                0
+            );
+
+            const { data, signature } = signProof(
+                zkAsset,
+                depositProof,
+                noteStream.address,
+                sender.signingKey.privateKey
+            );
+
+            const now = bigNumberify(moment().format('X'));
+            const startTime = now.add(STANDARD_TIME_OFFSET.toString());
             const stopTime = startTime.add(STANDARD_TIME_DELTA.toString());
-            const notehash = crypto.randomBytes(32);
+
             const tx = await noteStream.createStream(
                 recipient.address,
-                notehash,
+                data,
+                signature,
                 zkAsset.address,
                 startTime,
                 stopTime
             );
+
             const receipt = await tx.wait();
             streamId = NoteStreamInterface.parseLog(
                 receipt.logs[receipt.logs.length - 1]
