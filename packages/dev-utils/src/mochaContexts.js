@@ -14,9 +14,11 @@ function contextForSpecificTime(
   functions,
 ) {
   const now = bigNumberify(moment().format('X'));
+  let snapshot;
 
   describe(contextText, function () {
     beforeEach(async function () {
+      snapshot = await traveler.takeSnapshot(provider);
       await traveler.advanceBlockAndSetTime(
         provider,
         now.add(timeDuration.toString()).toNumber(),
@@ -26,7 +28,7 @@ function contextForSpecificTime(
     functions();
 
     afterEach(async function () {
-      await traveler.advanceBlockAndSetTime(provider, now.toNumber());
+      await traveler.revertToSnapshot(provider, snapshot);
     });
   });
 }
