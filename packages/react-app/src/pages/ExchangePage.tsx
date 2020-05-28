@@ -1,5 +1,9 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
+import { Contract } from 'ethers';
+import { Web3Provider } from 'ethers/providers';
+import { formatUnits } from 'ethers/utils';
+
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Paper, Grid, Typography, IconButton } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -9,8 +13,11 @@ import ZkAssetSelect from '../components/form/ZkAssetSelect';
 
 import Link from '../components/Link';
 import { useAztec, useZkAssets } from '../contexts/AztecContext';
-import { useAddress } from '../contexts/OnboardContext';
+import { useAddress, useWalletProvider } from '../contexts/OnboardContext';
+
 import { Address } from '../types/types';
+
+import ERC20 from '../abis/ERC20Detailed';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,6 +44,7 @@ const ExchangePage = (): ReactElement => {
   const userAddress = useAddress();
   const aztec = useAztec();
   const zkAssets = useZkAssets();
+  const provider = useWalletProvider();
 
   const [zkAsset, setZkAsset] = useState<any>({} as any);
   const [publicBalance, setPublicBalance] = useState<number>(0);
@@ -64,6 +72,21 @@ const ExchangePage = (): ReactElement => {
       updateZkAsset(Object.keys(zkAssets)[0]);
     }
   }, [aztec.zkAsset, zkAssets, updateZkAsset]);
+
+  useEffect(() => {
+    const updateToken = async (): Promise<void> => {
+      const linkedToken = new Contract(
+        zkAsset.linkedTokenAddress,
+        ERC20.abi,
+        new Web3Provider(provider),
+      );
+      const tokenSymbol = linkedToken.symbol();
+      const tokenDecimals = linkedToken.decimals();
+      zkAsset.token.symbol = await tokenSymbol;
+      zkAsset.token.decimals = await tokenDecimals;
+    };
+    if (provider && zkAsset.linkedTokenAddress) updateToken();
+  }, [provider, zkAsset.linkedTokenAddress]);
 
   async function depositZkToken(depositAmount: string): Promise<void> {
     console.log(zkAsset);
@@ -128,11 +151,12 @@ const ExchangePage = (): ReactElement => {
                 variant="outlined"
                 amount={amount}
                 setAmount={setAmount}
-                balance={publicBalance}
-                symbol={
-                  zkAssets[zkAsset.address] &&
-                  zkAssets[zkAsset.address].symbol.slice(2)
+                balance={
+                  zkAsset.token
+                    ? formatUnits(publicBalance, zkAsset.token.decimals)
+                    : publicBalance
                 }
+                symbol={zkAsset.token && zkAsset.token.symbol}
                 fullWidth
               />
             </Grid>
