@@ -16,6 +16,7 @@ const {
 } = require('@aztec/contract-artifacts');
 const ERC20Mintable = require('../build/ERC20Mintable.json');
 const NoteStream = require('../build/NoteStream.json');
+const StreamUtilitiesMock = require('../build/StreamUtilitiesMock.json');
 
 const generateFactoryId = (epoch, cryptoSystem, assetType) => {
     return epoch * 256 ** 2 + cryptoSystem * 256 ** 1 + assetType * 256 ** 0;
@@ -108,8 +109,38 @@ async function noteStreamFixture(provider, [wallet]) {
     };
 }
 
+async function StreamUtilitiesFixture(provider, [wallet]) {
+    ethers.errors.setLogLevel('error');
+
+    // deploy ace and initialise
+    const {
+        ace,
+        joinSplitValidator,
+        dividendValidator,
+        baseFactory,
+        token,
+        zkAsset,
+    } = await zkAssetFixture(provider, [wallet]);
+
+    const streamUtilitiesMock = await deployContract(
+        wallet,
+        StreamUtilitiesMock
+    );
+
+    return {
+        ace,
+        joinSplitValidator,
+        dividendValidator,
+        baseFactory,
+        token,
+        zkAsset,
+        streamUtilitiesMock,
+    };
+}
+
 module.exports = {
     aztecFixture,
     zkAssetFixture,
     noteStreamFixture,
+    StreamUtilitiesFixture,
 };

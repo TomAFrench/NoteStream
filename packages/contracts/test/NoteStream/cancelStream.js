@@ -37,54 +37,37 @@ const NoteStreamInterface = new Interface(NoteStream.abi);
 function testValidCancellation() {
     // const dividendProof = crypto.randomBytes(1);
     // const joinSplitProof = crypto.randomBytes(1);
-    // const cancellationDuration = new BigNumber(1).toString(10);
-    // testStreamDeletion();
-    // it("transfers the tokens to the sender of the stream", async function() {
-    //   const balance = await this.token.balanceOf(this.sender, this.opts);
-    //   await this.sablier.cancelStream(this.streamId, this.opts);
-    //   const newBalance = await this.token.balanceOf(this.sender, this.opts);
-    //   const tolerateByAddition = false;
-    //   newBalance.should.tolerateTheBlockTimeVariation(
-    //     balance.minus(streamedAmount).plus(this.deposit),
-    //     STANDARD_SCALE,
-    //     tolerateByAddition,
-    //   );
-    // });
-    // it("transfers the tokens to the recipient of the stream", async function() {
-    //   const balance = await this.token.balanceOf(this.recipient, this.opts);
-    //   await this.sablier.cancelStream(this.streamId, this.opts);
-    //   const newBalance = await this.token.balanceOf(this.recipient, this.opts);
-    //   newBalance.should.tolerateTheBlockTimeVariation(balance.plus(streamedAmount), STANDARD_SCALE);
-    // });
-}
+    // const cancellationDuration = bigNumberify(0).toString(10);
 
-// function testStreamDeletion() {
-//     const dividendProof = crypto.randomBytes(1);
-//     const joinSplitProof = crypto.randomBytes(1);
-//     const cancellationDuration = bigNumberify(0).toString(10);
-//     it('cancels the stream', async function () {
-//         await this.noteStream.cancelStream(
-//             this.streamId,
-//             dividendProof,
-//             joinSplitProof,
-//             cancellationDuration
-//         );
-//         await expect(
-//             this.noteStream.getStream(this.streamId)
-//         ).to.be.revertedWith('stream does not exist');
-//     });
-//     it('emits a cancel event', async function () {
-//         await expect(
-//             this.noteStream.cancelStream(
-//                 this.streamId,
-//                 dividendProof,
-//                 joinSplitProof,
-//                 cancellationDuration
-//             )
-//         ).to.emit(this.noteStream, 'CancelStream');
-//         // .withArgs(streamId);
-//     });
-// }
+    it(
+        'emits a cancel event'
+        // , async function () {
+        //         await expect(
+        //             this.noteStream.cancelStream(
+        //                 this.streamId,
+        //                 dividendProof,
+        //                 joinSplitProof,
+        //                 cancellationDuration
+        //             )
+        //         ).to.emit(this.noteStream, 'CancelStream');
+        //     });
+    );
+    it(
+        'deletes the stream object'
+        // , async function () {
+        // await this.noteStream.cancelStream(
+        //     this.streamId,
+        //     dividendProof,
+        //     joinSplitProof,
+        //     cancellationDuration
+        // );
+        // await expect(
+        //     this.noteStream.getStream(this.streamId)
+        // ).to.be.revertedWith('stream does not exist');
+        // }
+    );
+    it('returns true');
+}
 
 function runTests() {
     describe('when the stream did not start', function () {
@@ -122,19 +105,11 @@ function runTests() {
             ).to.be.revertedWith('cancellation with zero unclaimed time');
         });
 
-        describe('when the cancellation is valid', function () {
-            testValidCancellation();
-        });
+        testValidCancellation();
     });
 
     contextForStreamDidEnd(provider, function () {
         describe('when the cancellation has zero duration', function () {
-            describe('when the stream has been fully withdrawn', function () {
-                it('properly deletes the stream');
-                // Need to fully withdraw stream before testing
-                // testStreamDeletion();
-            });
-
             it('reverts when the stream has not been fully withdrawn', async function () {
                 const dividendProof = crypto.randomBytes(1);
                 const joinSplitProof = crypto.randomBytes(1);
@@ -148,13 +123,13 @@ function runTests() {
                     )
                 ).to.be.revertedWith('cancellation with zero unclaimed time');
             });
+
+            testValidCancellation();
         });
 
         describe('when the cancellation has non-zero duration', function () {
             it('reverts when the stream has been fully withdrawn');
-            describe('when the stream has not been fully withdrawn', function () {
-                testValidCancellation();
-            });
+            testValidCancellation();
         });
     });
 }

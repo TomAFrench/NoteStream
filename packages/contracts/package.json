@@ -21,7 +21,7 @@
         "deploy": "buidler run scripts/deploy.js",
         "export": "buidler export",
         "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh contracts",
-        "test": "waffle .waffle.json && mocha test/* --timeout 5000",
+        "test": "waffle .waffle.json && mocha test/runTests.js --timeout 5000",
         "lint:js": "eslint --config .eslintrc.js ./scripts ./test"
     },
     "files": [
