@@ -61,7 +61,7 @@ library StreamUtilities {
     ) internal returns (bytes32 streamNoteHash) {
         // Validate Join-Split proof
         bytes memory proofOutputs = IACE(_aceContractAddress)
-            .validateProof(JOIN_SPLIT_PROOF, address(this), _proof)
+            .validateProof(JOIN_SPLIT_PROOF, msg.sender, _proof)
             .get(0);
 
         // Extract notes used in proof

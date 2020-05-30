@@ -3,7 +3,7 @@ const { waffle } = require('@nomiclabs/buidler');
 const { use, expect } = require('chai');
 const { solidity, createFixtureLoader } = require('ethereum-waffle');
 const { bigNumberify, Interface } = require('ethers/utils');
-
+const { signer } = require('aztec.js');
 const { devConstants } = require('@notestream/dev-utils');
 const moment = require('moment');
 const crypto = require('crypto');
@@ -33,25 +33,26 @@ describe('NoteStream - createStream', function () {
     let zkAsset;
     let depositOutputNotes;
     let data;
-    let signatures;
+    let signature;
     beforeEach(async function () {
         ({ noteStream, zkAsset, depositOutputNotes } = await loadFixture(
             noteStreamFixture
         ));
-        const {
-            depositProof,
-            depositInputOwnerAccounts,
-        } = await createStreamDepositProof(
+        const { depositProof } = await createStreamDepositProof(
             [depositOutputNotes[0]],
             noteStream.address,
             sender.signingKey.privateKey,
             recipient.signingKey.privateKey,
             0
         );
+        console.log('noteHash:', depositOutputNotes[0].noteHash);
         data = depositProof.encodeABI(zkAsset.address);
-        signatures = depositProof.constructSignatures(
+        signature = signer.signApprovalForProof(
             zkAsset.address,
-            depositInputOwnerAccounts
+            depositProof.outputs,
+            noteStream.address,
+            true,
+            sender.signingKey.privateKey
         );
     });
 
@@ -66,7 +67,7 @@ describe('NoteStream - createStream', function () {
                 const tx = await noteStream.createStream(
                     recipient.address,
                     data,
-                    signatures,
+                    signature,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -94,7 +95,7 @@ describe('NoteStream - createStream', function () {
                 await noteStream.createStream(
                     recipient.address,
                     data,
-                    signatures,
+                    signature,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -109,7 +110,7 @@ describe('NoteStream - createStream', function () {
                     noteStream.createStream(
                         recipient.address,
                         data,
-                        signatures,
+                        signature,
                         zkAsset.address,
                         startTime,
                         stopTime
@@ -125,7 +126,7 @@ describe('NoteStream - createStream', function () {
                     noteStream.createStream(
                         recipient.address,
                         data,
-                        signatures,
+                        signature,
                         zkAsset.address,
                         invalidStartTime,
                         stopTime
@@ -138,7 +139,7 @@ describe('NoteStream - createStream', function () {
                     noteStream.createStream(
                         recipient.address,
                         data,
-                        signatures,
+                        signature,
                         zkAsset.address,
                         startTime,
                         startTime
@@ -154,7 +155,7 @@ describe('NoteStream - createStream', function () {
                     noteStream.createStream(
                         recipient.address,
                         data,
-                        signatures,
+                        signature,
                         zkAsset.address,
                         startTime,
                         invalidStopTime
@@ -168,7 +169,7 @@ describe('NoteStream - createStream', function () {
                 noteStream.createStream(
                     sender.address,
                     data,
-                    signatures,
+                    signature,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -181,7 +182,7 @@ describe('NoteStream - createStream', function () {
                 noteStream.createStream(
                     noteStream.address,
                     data,
-                    signatures,
+                    signature,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -194,7 +195,7 @@ describe('NoteStream - createStream', function () {
                 noteStream.createStream(
                     ZERO_ADDRESS,
                     data,
-                    signatures,
+                    signature,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -211,7 +212,7 @@ describe('NoteStream - createStream', function () {
             noteStream.createStream(
                 recipient.address,
                 data,
-                signatures,
+                signature,
                 zkAsset.address,
                 startTime,
                 stopTime

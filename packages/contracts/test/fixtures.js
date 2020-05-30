@@ -73,40 +73,48 @@ async function zkAssetFixture(provider, [wallet]) {
         1,
     ]);
 
-    const depositAmount = '10000000000000';
+    // const depositAmount = '10000000000000';
 
-    await token.mint(wallet.address, depositAmount);
-    await token.approve(ace.address, depositAmount);
+    // await token.mint(wallet.address, depositAmount);
+    // await token.approve(ace.address, depositAmount);
 
-    const {
-        depositInputNotes,
-        depositOutputNotes,
-        depositPublicValue,
-        depositInputOwnerAccounts,
-    } = await getDepositNotes([100000], wallet.signingKey.privateKey);
-    const publicValue = depositPublicValue * -1;
+    // const {
+    //     depositInputNotes,
+    //     depositOutputNotes,
+    //     depositPublicValue,
+    //     depositInputOwnerAccounts,
+    // } = await getDepositNotes([100000], wallet.signingKey.privateKey);
+    // const publicValue = depositPublicValue * -1;
 
-    const sender = wallet.address;
-    const publicOwner = wallet.address;
-    const proof = new JoinSplitProof(
-        depositInputNotes,
-        depositOutputNotes,
-        sender,
-        publicValue,
-        publicOwner
-    );
-    const data = proof.encodeABI(zkAsset.address);
-    const signatures = proof.constructSignatures(
-        zkAsset.address,
-        depositInputOwnerAccounts
-    );
+    // const sender = wallet.address;
+    // const publicOwner = wallet.address;
+    // const proof = new JoinSplitProof(
+    //     depositInputNotes,
+    //     depositOutputNotes,
+    //     sender,
+    //     publicValue,
+    //     publicOwner
+    // );
+    // const data = proof.encodeABI(zkAsset.address);
+    // const signatures = proof.constructSignatures(
+    //     zkAsset.address,
+    //     depositInputOwnerAccounts
+    // );
 
-    // Approve ACE to spend tokens held by the zkAsset contract
-    await ace.publicApprove(zkAsset.address, proof.hash, 100000);
+    // // Approve ACE to spend tokens held by the zkAsset contract
+    // await ace.publicApprove(zkAsset.address, proof.hash, 100000);
 
-    // convert some of sender's assets to zkAssets
-    await zkAsset['confidentialTransfer(bytes,bytes)'](data, signatures);
+    // // convert some of sender's assets to zkAssets
+    // const tx = await zkAsset['confidentialTransfer(bytes,bytes)'](
+    //     data,
+    //     signatures
+    // );
 
+    // const res = await tx.wait();
+
+    // const iface = new ethers.utils.Interface(ZkAsset.abi);
+    // // console.log(res.logs);
+    // res.logs.map((log) => console.log(iface.parseLog(log)));
     // ethers.errors.setLogLevel('warn');
 
     return {
@@ -116,7 +124,7 @@ async function zkAssetFixture(provider, [wallet]) {
         baseFactory,
         token,
         zkAsset,
-        depositOutputNotes,
+        // depositOutputNotes,
     };
 }
 
@@ -159,6 +167,7 @@ async function StreamUtilitiesFixture(provider, [wallet]) {
         baseFactory,
         token,
         zkAsset,
+        // depositOutputNotes,
     } = await zkAssetFixture(provider, [wallet]);
 
     const streamUtilitiesMock = await deployContract(
@@ -173,6 +182,7 @@ async function StreamUtilitiesFixture(provider, [wallet]) {
         baseFactory,
         token,
         zkAsset,
+        // depositOutputNotes,
         streamUtilitiesMock,
     };
 }

@@ -40,6 +40,17 @@ contract StreamUtilitiesMock {
         return StreamUtilities._validateJoinSplitProof(_aceContractAddress, _proof2, _withdrawalNoteHash, stream);
     }
 
+    function processDeposit(
+        bytes memory _proof,
+        bytes memory _proofSignature,
+        address _aceContractAddress,
+        address _sender,
+        address _recipient,
+        address _tokenAddress
+    ) public returns (bytes32) {
+        return StreamUtilities._processDeposit(_proof, _proofSignature, _aceContractAddress, _sender, _recipient, _tokenAddress);
+    }
+
     function processWithdrawal(
         address _aceContractAddress,
         bytes memory _proof2,
