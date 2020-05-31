@@ -61,11 +61,12 @@ library StreamUtilities {
     ) internal returns (bytes32 streamNoteHash) {
         // Validate Join-Split proof
         bytes memory proofOutputs = IACE(_aceContractAddress)
-            .validateProof(JOIN_SPLIT_PROOF, msg.sender, _proof)
-            .get(0);
+            .validateProof(JOIN_SPLIT_PROOF, msg.sender, _proof);
+
+        bytes memory proofOutput = proofOutputs.get(0);
 
         // Extract notes used in proof
-        (, bytes memory _proofOutputNotes, , ) = proofOutputs
+        (, bytes memory _proofOutputNotes, , ) = proofOutput
             .extractProofOutput();
 
         // Ensure that there is only a single output note to avoid loss of funds
@@ -91,7 +92,7 @@ library StreamUtilities {
             MetaDataUtils.extractAddress(streamNote.metaData, 1) == _recipient,
             "stream recipient can't view stream note"
         );
-
+        
         // Approve contract to spend stream note
         IZkAsset(_tokenAddress).approveProof(
             JOIN_SPLIT_PROOF,

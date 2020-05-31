@@ -71,18 +71,18 @@ describe.only('StreamUtilities - processDeposit', function () {
             recipient.signingKey.privateKey,
             0
         );
-        console.log('noteHash:', depositOutputNotes[0].noteHash);
+
         data = depositProof.encodeABI(zkAsset.address);
         signature = signer.signApprovalForProof(
             zkAsset.address,
-            depositProof.outputs,
+            depositProof.eth.outputs,
             streamUtilitiesMock.address,
             true,
             sender.signingKey.privateKey
         );
     });
 
-    it('reverts if there is no output note', async function () {});
+    it('reverts if there is no output note');
     it('reverts if there is more than one output note');
     it('reverts if streamNote is not owned by the contract');
     it('reverts if sender does not have view access to the streamNote');
