@@ -83,7 +83,7 @@ contract StreamUtilitiesMock {
             );
     }
 
-    function processCancelation(
+    function processCancellation(
         address _aceContractAddress,
         bytes memory _proof2,
         bytes32 _proof1OutputNotes,
@@ -91,7 +91,7 @@ contract StreamUtilitiesMock {
     ) public returns (bool) {
         stream = _stream;
         return
-            StreamUtilities._processCancelation(
+            StreamUtilities._processCancellation(
                 _aceContractAddress,
                 _proof2,
                 _proof1OutputNotes,

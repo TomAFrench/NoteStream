@@ -322,7 +322,7 @@ contract NoteStream is Pausable, ReentrancyGuard {
 
         // Check that cancellation transaction is valid and perform transfer
         // i.e. Each party receives a note of correct value
-        StreamUtilities._processCancelation(
+        StreamUtilities._processCancellation(
             aceContractAddress,
             _proof2,
             withdrawalNoteHash,

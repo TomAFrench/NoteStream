@@ -76,7 +76,7 @@ describe('StreamUtilities - processCancellation', function () {
         const badProofData = badProof.encodeABI(zkAsset.address);
 
         await expect(
-            streamUtilitiesMock.processCancelation(
+            streamUtilitiesMock.processCancellation(
                 ace.address,
                 badProofData,
                 withdrawalNote.noteHash,
@@ -149,7 +149,7 @@ describe('StreamUtilities - processCancellation', function () {
         const proofData = proof.encodeABI(zkAsset.address);
 
         await expect(
-            streamUtilitiesMock.processCancelation(
+            streamUtilitiesMock.processCancellation(
                 ace.address,
                 proofData,
                 withdrawalNote.noteHash,

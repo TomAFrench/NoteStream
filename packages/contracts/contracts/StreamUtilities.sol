@@ -262,7 +262,7 @@ library StreamUtilities {
         return newStreamNote.noteHash;
     }
 
-    function _processCancelation(
+    function _processCancellation(
         address _aceContractAddress,
         bytes memory _proof2,
         bytes32 _withdrawalNoteHash,
