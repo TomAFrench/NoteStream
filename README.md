@@ -3,8 +3,12 @@
 <p align="center">NoteStream is the protocol for private real-time finance on Ethereum using AZTEC Protocol.
 
 <p align="center">
+  <a href="https://circleci.com/gh/TomAFrench/NoteStream/tree/dev">
+    <img src="https://circleci.com/gh/TomAFrench/NoteStream/tree/dev.svg?style=svg" alt="CircleCI">
+  </a>
+  
   <a href="https://gitcoin.co/grants/638/quachtli-private-money-streaming">
-    <img src="https://img.shields.io/badge/Gitcoin-Grant%20Active-brightgreen" alt="https://img.shields.io/badge/gitcoin%20grant-active-brightgreen">
+    <img src="https://img.shields.io/badge/Gitcoin-Grant%20Active-brightgreen"      alt="https://img.shields.io/badge/gitcoin%20grant-active-brightgreen">
   </a>
   <a href="https://docs.aztecprotocol.com/">
     <img src="https://img.shields.io/badge/built%20with-AZTEC%20Protocol-3677FF" alt="Built with AZTEC Protocol">
@@ -13,6 +17,8 @@
   <a href="https://www.gnu.org/licenses/lgpl-3.0">
     <img src="https://img.shields.io/badge/License-LGPL%20v3-008033.svg" alt="License: LGPL v3">
   </a>
+  
+
 </p>
 
 ---
