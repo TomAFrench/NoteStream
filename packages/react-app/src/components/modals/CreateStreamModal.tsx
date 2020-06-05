@@ -17,7 +17,7 @@ import { createStream } from '../../utils/stream';
 import AddressInput from '../form/AddressInput';
 import AmountInput from '../form/AmountInput';
 import ZkAssetSelect from '../form/ZkAssetSelect';
-import { Address } from '../../types/types';
+import { Address, ZkAsset } from '../../types/types';
 import { useAztec, useZkAssets } from '../../contexts/AztecContext';
 import { useAddress } from '../../contexts/OnboardContext';
 
@@ -42,7 +42,7 @@ export default function CreateStreamDialog({
   const aztec = useAztec();
   const zkAssets = useZkAssets();
   const [open, setOpen] = useState(false);
-  const [zkAsset, setZkAsset] = useState({} as any);
+  const [zkAsset, setZkAsset] = useState<ZkAsset | undefined>();
   const [privateBalance, setPrivateBalance] = useState(0);
   const [streamAmount, setStreamAmount] = useState<string>('');
   const [recipient, setRecipient] = useState('');
@@ -60,7 +60,7 @@ export default function CreateStreamDialog({
 
   const updateZkAsset = useCallback(
     async (address: Address): Promise<void> => {
-      const newZkAsset = await aztec.zkAsset(address);
+      const newZkAsset: ZkAsset = await aztec.zkAsset(address);
       setZkAsset(newZkAsset);
 
       const newPrivateBalance = await newZkAsset.balance(userAddress);
@@ -119,7 +119,7 @@ export default function CreateStreamDialog({
                 amount={streamAmount}
                 setAmount={setStreamAmount}
                 balance={privateBalance}
-                symbol={zkAsset.address && zkAssets[zkAsset.address].symbol}
+                symbol={zkAsset?.address && zkAssets[zkAsset.address].symbol}
                 fullWidth
               />
             </Grid>

@@ -66,6 +66,23 @@ export type Dividend = {
   residual: number;
 };
 
+export type ZkAsset = {
+  address: Address;
+  balance: Function;
+  balanceOfLinkedToken: Function;
+  deposit: Function;
+  send: Function;
+  withdraw: Function;
+  linkedTokenAddress: Address;
+  token: Token;
+};
+
+export type Token = {
+  name: string;
+  symbol: string;
+  decimals: number;
+};
+
 export type zkAssetMetadata = {
   name: string;
   symbol: string;

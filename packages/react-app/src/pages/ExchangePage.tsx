@@ -15,7 +15,7 @@ import Link from '../components/Link';
 import { useAztec, useZkAssets } from '../contexts/AztecContext';
 import { useAddress, useWalletProvider } from '../contexts/OnboardContext';
 
-import { Address } from '../types/types';
+import { Address, ZkAsset } from '../types/types';
 
 import ERC20 from '../abis/ERC20Detailed';
 
@@ -46,7 +46,7 @@ const ExchangePage = (): ReactElement => {
   const zkAssets = useZkAssets();
   const provider = useWalletProvider();
 
-  const [zkAsset, setZkAsset] = useState<any>({} as any);
+  const [zkAsset, setZkAsset] = useState<ZkAsset | undefined>();
   const [publicBalance, setPublicBalance] = useState<number>(0);
   const [privateBalance, setPrivateBalance] = useState<number>(0);
   const [deposit, setDeposit] = useState<boolean>(true);
@@ -54,7 +54,7 @@ const ExchangePage = (): ReactElement => {
 
   const updateZkAsset = useCallback(
     async (address: Address): Promise<void> => {
-      const newZkAsset = await aztec.zkAsset(address);
+      const newZkAsset: ZkAsset = await aztec.zkAsset(address);
       setZkAsset(newZkAsset);
 
       const newPrivateBalance = await newZkAsset.balance(userAddress);
@@ -75,28 +75,31 @@ const ExchangePage = (): ReactElement => {
 
   useEffect(() => {
     const updateToken = async (): Promise<void> => {
-      const linkedToken = new Contract(
-        zkAsset.linkedTokenAddress,
-        ERC20.abi,
-        new Web3Provider(provider),
-      );
-      const tokenSymbol = linkedToken.symbol();
-      const tokenDecimals = linkedToken.decimals();
-      zkAsset.token.symbol = await tokenSymbol;
-      zkAsset.token.decimals = await tokenDecimals;
+      if (provider && zkAsset?.linkedTokenAddress) {
+        const linkedToken = new Contract(
+          zkAsset.linkedTokenAddress,
+          ERC20.abi,
+          new Web3Provider(provider),
+        );
+        const tokenSymbol = linkedToken.symbol();
+        const tokenDecimals = linkedToken.decimals();
+        zkAsset.token.symbol = await tokenSymbol;
+        zkAsset.token.decimals = await tokenDecimals;
+      }
     };
-    if (provider && zkAsset.linkedTokenAddress) updateToken();
-  }, [provider, zkAsset.linkedTokenAddress]);
+    updateToken();
+  }, [provider, zkAsset]);
 
-  async function depositZkToken(depositAmount: string): Promise<void> {
-    console.log(zkAsset);
-    await zkAsset.deposit([
-      { to: userAddress, amount: parseInt(depositAmount, 10) },
-    ]);
+  function depositZkToken(depositAmount: string): void {
+    if (zkAsset) {
+      zkAsset.deposit([
+        { to: userAddress, amount: parseInt(depositAmount, 10) },
+      ]);
+    }
   }
 
-  async function withdrawZkToken(withdrawAmount: string): Promise<void> {
-    if (zkAsset) await zkAsset.withdraw(parseInt(withdrawAmount, 10));
+  function withdrawZkToken(withdrawAmount: string): void {
+    if (zkAsset) zkAsset.withdraw(parseInt(withdrawAmount, 10));
   }
 
   return (
@@ -152,11 +155,11 @@ const ExchangePage = (): ReactElement => {
                 amount={amount}
                 setAmount={setAmount}
                 balance={
-                  zkAsset.token
+                  zkAsset?.token
                     ? formatUnits(publicBalance, zkAsset.token.decimals)
                     : publicBalance
                 }
-                symbol={zkAsset.token && zkAsset.token.symbol}
+                symbol={zkAsset?.token?.symbol}
                 fullWidth
               />
             </Grid>
@@ -174,7 +177,9 @@ const ExchangePage = (): ReactElement => {
                 setAmount={setAmount}
                 balance={privateBalance}
                 symbol={
-                  zkAssets[zkAsset.address] && zkAssets[zkAsset.address].symbol
+                  zkAsset?.address &&
+                  zkAssets[zkAsset?.address] &&
+                  zkAssets[zkAsset?.address].symbol
                 }
                 fullWidth
               />
@@ -182,7 +187,7 @@ const ExchangePage = (): ReactElement => {
           </Grid>
           <Grid item>
             <Button
-              onClick={(): Promise<void> =>
+              onClick={(): void =>
                 deposit ? depositZkToken(amount) : withdrawZkToken(amount)
               }
               color="primary"
