@@ -75,6 +75,8 @@ export type ZkAsset = {
   withdraw: Function;
   linkedTokenAddress: Address;
   token: Token;
+  toTokenValue: Function;
+  toNoteValue: Function;
 };
 
 export type Token = {

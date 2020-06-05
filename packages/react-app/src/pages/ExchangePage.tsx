@@ -175,7 +175,9 @@ const ExchangePage = (): ReactElement => {
                 variant="outlined"
                 amount={amount}
                 setAmount={setAmount}
-                balance={privateBalance}
+                balance={
+                  zkAsset?.toTokenValue(privateBalance) || privateBalance
+                }
                 symbol={
                   zkAsset?.address &&
                   zkAssets[zkAsset?.address] &&
