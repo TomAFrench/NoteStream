@@ -68,6 +68,7 @@ export type Dividend = {
 
 export type ZkAsset = {
   address: Address;
+  scalingFactor: number;
   balance: Function;
   balanceOfLinkedToken: Function;
   deposit: Function;

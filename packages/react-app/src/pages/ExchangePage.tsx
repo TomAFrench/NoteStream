@@ -2,7 +2,7 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { Contract } from 'ethers';
 import { Web3Provider } from 'ethers/providers';
-import { formatUnits } from 'ethers/utils';
+import { formatUnits, parseUnits, BigNumber } from 'ethers/utils';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Paper, Grid, Typography, IconButton } from '@material-ui/core';
@@ -90,11 +90,9 @@ const ExchangePage = (): ReactElement => {
     updateToken();
   }, [provider, zkAsset]);
 
-  function depositZkToken(depositAmount: string): void {
+  function depositZkToken(depositAmount: BigNumber): void {
     if (zkAsset) {
-      zkAsset.deposit([
-        { to: userAddress, amount: parseInt(depositAmount, 10) },
-      ]);
+      zkAsset.deposit([{ to: userAddress, amount: depositAmount.toString() }]);
     }
   }
 
@@ -190,7 +188,13 @@ const ExchangePage = (): ReactElement => {
           <Grid item>
             <Button
               onClick={(): void =>
-                deposit ? depositZkToken(amount) : withdrawZkToken(amount)
+                deposit
+                  ? depositZkToken(
+                      parseUnits(amount, zkAsset?.token.decimals).div(
+                        zkAsset?.scalingFactor || 1,
+                      ),
+                    )
+                  : withdrawZkToken(amount)
               }
               color="primary"
               variant="contained"
