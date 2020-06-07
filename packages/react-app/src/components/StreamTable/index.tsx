@@ -13,15 +13,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 import { Contract } from 'ethers';
-import NoteDecoder from '../NoteDecoder';
 
 import {
   GET_SENDER_STREAMS,
   GET_RECIPIENT_STREAMS,
 } from '../../graphql/streams';
 
-import { Stream, ZkNote } from '../../types/types';
-import { useAztec } from '../../contexts/AztecContext';
+import { Stream } from '../../types/types';
 import { useAddress } from '../../contexts/OnboardContext';
 import StreamRow from './StreamRow';
 
@@ -33,7 +31,6 @@ const StreamTable = ({
   streamContract: Contract;
 }): ReactElement => {
   const userAddress = useAddress();
-  const aztec = useAztec();
   const { loading, error, data } = useQuery(
     role === 'sender' ? GET_SENDER_STREAMS : GET_RECIPIENT_STREAMS,
     {
@@ -73,21 +70,6 @@ const StreamTable = ({
     );
   }
 
-  const tableContents = streamInProgress.map((stream: Stream) => (
-    <NoteDecoder
-      zkNote={aztec.zkNote}
-      noteHash={stream.noteHash}
-      key={stream.id}
-      render={(note: ZkNote): ReactElement => (
-        <StreamRow
-          stream={stream}
-          note={note}
-          streamContract={streamContract}
-          role={role}
-        />
-      )}
-    />
-  ));
   return (
     <Table>
       <TableHead>
@@ -100,7 +82,16 @@ const StreamTable = ({
           <TableCell align="right"></TableCell>
         </TableRow>
       </TableHead>
-      <TableBody>{tableContents}</TableBody>
+      <TableBody>
+        {streamInProgress.map((stream: Stream) => (
+          <StreamRow
+            key={stream.id}
+            stream={stream}
+            streamContract={streamContract}
+            role={role}
+          />
+        ))}
+      </TableBody>
     </Table>
   );
 };

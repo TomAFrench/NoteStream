@@ -17,15 +17,14 @@ import { useAddress } from '../../contexts/OnboardContext';
 import { convertToTokenValueDisplay } from '../../utils/units/convertToTokenValue';
 import DoubleProgressBar from '../display/DoubleProgressBar';
 import useENSName from '../../hooks/useENSName';
+import useDecodedNote from '../../hooks/useDecodedNote';
 
 const StreamRow = ({
   stream,
-  note,
   streamContract,
   role,
 }: {
   stream: Stream;
-  note: ZkNote;
   streamContract: Contract;
   role: string;
 }): ReactElement | null => {
@@ -38,12 +37,14 @@ const StreamRow = ({
     startTime,
     lastWithdrawTime,
     stopTime,
+    noteHash,
     zkAsset,
   } = stream;
+  const note: ZkNote | undefined = useDecodedNote(noteHash);
   const displayName = useENSName(role === 'recipient' ? sender : recipient);
 
   const displayValue =
-    note.value &&
+    note?.value &&
     convertToTokenValueDisplay(
       note.value,
       zkAsset.scalingFactor,
@@ -71,7 +72,7 @@ const StreamRow = ({
       </Button>
     );
 
-  if (!displayName || note.value === undefined || !zkAsset.symbol) {
+  if (!displayName || note?.value === undefined || !zkAsset.symbol) {
     return null;
   }
   return (
@@ -100,7 +101,6 @@ const StreamRow = ({
 
 StreamRow.propTypes = {
   streamContract: PropTypes.instanceOf(Contract),
-  note: PropTypes.object.isRequired,
   stream: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired,
 };

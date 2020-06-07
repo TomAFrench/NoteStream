@@ -1,17 +1,11 @@
-import { useState, useEffect, ReactElement } from 'react';
+import { useState, useEffect } from 'react';
 
-import { Hash } from '../types/types';
+import { Hash, ZkNote } from '../types/types';
+import { useAztec } from '../contexts/AztecContext';
 
-const NoteDecoder = ({
-  render,
-  zkNote,
-  noteHash,
-}: {
-  render: Function;
-  zkNote: any;
-  noteHash: Hash;
-}): ReactElement => {
-  const [note, setNote] = useState({});
+const useDecodedNote = (noteHash: Hash): ZkNote | undefined => {
+  const { zkNote } = useAztec();
+  const [note, setNote] = useState<ZkNote>();
 
   useEffect(() => {
     const decodeNote = async (hash: Hash, i = 1): Promise<void> => {
@@ -33,7 +27,7 @@ const NoteDecoder = ({
     }
   }, [zkNote, noteHash]);
 
-  return render(note);
+  return note;
 };
 
-export default NoteDecoder;
+export default useDecodedNote;
