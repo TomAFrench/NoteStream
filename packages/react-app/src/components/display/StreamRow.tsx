@@ -16,6 +16,7 @@ import { useAztec } from '../../contexts/AztecContext';
 import { useAddress } from '../../contexts/OnboardContext';
 import { convertToTokenValueDisplay } from '../../utils/units/convertToTokenValue';
 import DoubleProgressBar from './DoubleProgressBar';
+import useENSName from '../../hooks/useENSName';
 
 const StreamRow = ({
   stream,
@@ -39,6 +40,7 @@ const StreamRow = ({
     stopTime,
     zkAsset,
   } = stream;
+  const displayName = useENSName(role === 'recipient' ? sender : recipient);
 
   const displayValue =
     note.value &&
@@ -48,7 +50,6 @@ const StreamRow = ({
       zkAsset.linkedToken.decimals,
     );
 
-  const address = role === 'recipient' ? sender : recipient;
   const button =
     role === 'recipient' ? (
       <Button
@@ -70,13 +71,13 @@ const StreamRow = ({
       </Button>
     );
 
-  if (!address || note.value === undefined || !zkAsset.symbol) {
+  if (!displayName || note.value === undefined || !zkAsset.symbol) {
     return null;
   }
   return (
     <TableRow key={stream.id}>
       <TableCell component="th" scope="row">
-        {address.slice(0, 6)}...{address.slice(-5, -1)}
+        {displayName}
       </TableCell>
       <TableCell align="right">{`${displayValue} ${zkAsset.symbol}`}</TableCell>
       <TableCell align="right">
