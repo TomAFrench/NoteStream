@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactElement } from 'react';
+import React, { useState, useEffect, ReactElement, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
@@ -63,10 +63,14 @@ const StreamRow = ({
     };
   }, [startTime, stopTime]);
 
-  const withdrawPercentage = calculateTime(
-    moment.unix(startTime),
-    moment.unix(stopTime),
-    moment.unix(lastWithdrawTime),
+  const withdrawPercentage = useMemo(
+    () =>
+      calculateTime(
+        moment.unix(startTime),
+        moment.unix(stopTime),
+        moment.unix(lastWithdrawTime),
+      ),
+    [startTime, stopTime, lastWithdrawTime],
   );
 
   const address = role === 'recipient' ? sender : recipient;
