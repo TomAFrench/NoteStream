@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const env = require('@nomiclabs/buidler');
 const { getContractAddressesForNetwork } = require('@aztec/contract-addresses');
-const { ERC20_SCALING_FACTOR } = require('@aztec/dev-utils/lib/constants');
 
 const chalk = require('chalk');
 
@@ -23,7 +22,7 @@ async function main() {
     const zkAsset = await ZkAsset.deploy(
         aceAddress,
         erc20Address,
-        ERC20_SCALING_FACTOR.toString()
+        '10000000000000000'
     );
     await zkAsset.deployed();
 
