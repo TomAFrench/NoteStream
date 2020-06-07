@@ -8,7 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Contract } from 'ethers';
 import CreateStreamDialog from '../components/modals/CreateStreamModal';
 
-import Status from '../components/Status';
+import StreamTable from '../components/StreamTable';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -50,7 +50,7 @@ const SendPage = ({
     <Paper className={classes.paper}>
       <Grid container direction="column" spacing={3}>
         <Grid item>
-          <Status role="sender" streamContract={streamContract} />
+          <StreamTable role="sender" streamContract={streamContract} />
         </Grid>
         <Grid item container justify="center">
           <Grid item>

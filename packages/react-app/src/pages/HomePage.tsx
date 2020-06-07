@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Grid, Typography, CircularProgress } from '@material-ui/core';
 
 import { Contract } from 'ethers';
-import Status from '../components/Status';
+import StreamTable from '../components/StreamTable';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -53,13 +53,13 @@ const HomePage = ({
       <Grid item>
         <Paper className={classes.paper}>
           <Typography variant="h4">Incoming streams</Typography>
-          <Status role="recipient" streamContract={streamContract} />
+          <StreamTable role="recipient" streamContract={streamContract} />
         </Paper>
       </Grid>
       <Grid item>
         <Paper className={classes.paper}>
           <Typography variant="h4">Outgoing streams</Typography>
-          <Status role="sender" streamContract={streamContract} />
+          <StreamTable role="sender" streamContract={streamContract} />
         </Paper>
       </Grid>
     </Grid>

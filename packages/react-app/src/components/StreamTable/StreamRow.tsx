@@ -15,7 +15,7 @@ import { Stream, ZkNote } from '../../types/types';
 import { useAztec } from '../../contexts/AztecContext';
 import { useAddress } from '../../contexts/OnboardContext';
 import { convertToTokenValueDisplay } from '../../utils/units/convertToTokenValue';
-import DoubleProgressBar from './DoubleProgressBar';
+import DoubleProgressBar from '../display/DoubleProgressBar';
 import useENSName from '../../hooks/useENSName';
 
 const StreamRow = ({

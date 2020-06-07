@@ -13,16 +13,19 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 import { Contract } from 'ethers';
-import NoteDecoder from './NoteDecoder';
+import NoteDecoder from '../NoteDecoder';
 
-import { GET_SENDER_STREAMS, GET_RECIPIENT_STREAMS } from '../graphql/streams';
+import {
+  GET_SENDER_STREAMS,
+  GET_RECIPIENT_STREAMS,
+} from '../../graphql/streams';
 
-import { Stream, ZkNote } from '../types/types';
-import { useAztec } from '../contexts/AztecContext';
-import { useAddress } from '../contexts/OnboardContext';
-import StreamRow from './display/StreamRow';
+import { Stream, ZkNote } from '../../types/types';
+import { useAztec } from '../../contexts/AztecContext';
+import { useAddress } from '../../contexts/OnboardContext';
+import StreamRow from './StreamRow';
 
-const Status = ({
+const StreamTable = ({
   role,
   streamContract,
 }: {
@@ -102,9 +105,9 @@ const Status = ({
   );
 };
 
-Status.propTypes = {
+StreamTable.propTypes = {
   streamContract: PropTypes.any.isRequired,
   role: PropTypes.string.isRequired,
 };
 
-export default Status;
+export default StreamTable;

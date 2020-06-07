@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { Contract } from 'ethers';
-import Status from '../components/Status';
+import StreamTable from '../components/StreamTable';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,7 +52,7 @@ const ReceivePage = ({
   }
   return (
     <Paper className={classes.paper}>
-      <Status role="recipient" streamContract={streamContract} />
+      <StreamTable role="recipient" streamContract={streamContract} />
     </Paper>
   );
 };
