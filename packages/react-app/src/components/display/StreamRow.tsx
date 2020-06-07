@@ -16,6 +16,7 @@ import { Stream, ZkNote } from '../../types/types';
 
 import { useAztec } from '../../contexts/AztecContext';
 import { useAddress } from '../../contexts/OnboardContext';
+import { convertToTokenValueDisplay } from '../../utils/convertToTokenValue';
 
 const StreamRow = ({
   stream,
@@ -40,6 +41,14 @@ const StreamRow = ({
     zkAsset,
   } = stream;
   const [timePercentage, setTimePercentage] = useState<number>(0);
+
+  const displayValue =
+    note.value &&
+    convertToTokenValueDisplay(
+      note.value,
+      zkAsset.scalingFactor,
+      zkAsset.linkedToken.decimals,
+    );
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -96,7 +105,7 @@ const StreamRow = ({
       <TableCell component="th" scope="row">
         {address.slice(0, 6)}...{address.slice(-5, -1)}
       </TableCell>
-      <TableCell align="right">{`${note.value} ${zkAsset.symbol}`}</TableCell>
+      <TableCell align="right">{`${displayValue} ${zkAsset.symbol}`}</TableCell>
       <TableCell align="right">
         <LinearProgress variant="determinate" value={timePercentage} />
         <LinearProgress

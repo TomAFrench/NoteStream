@@ -1,13 +1,24 @@
 ### Generic ###
 
+type Token @entity {
+  id: ID!
+  name: String
+  decimals: Int!
+  symbol: String
+  # Only interested in tokens with a linked zkAsset
+  zkAsset: ZkAsset!
+}
+
 type ZkAsset @entity {
   id: ID!
   name: String
-  scalingFactor: Int!
+  scalingFactor: BigInt!
   symbol: String
+  # ZkAsset may be purely private
+  linkedToken: Token
 }
 
-type Transaction @entity {
+interface TransactionEvent {
   id: ID!
   block: Int!
   event: String!
@@ -20,18 +31,31 @@ type Transaction @entity {
 ### NoteStream ###
 
 # The id is the stream's id
-type Cancellation @entity {
+type Cancellation implements TransactionEvent @entity {
   id: ID!
-  duration: BigInt!
+  block: Int!
+  event: String!
+  from: Bytes!
+  stream: Stream!
   timestamp: BigInt!
-  txhash: String!
-  zkAsset: ZkAsset
+  to: Bytes
+  duration: BigInt!
 }
 
-# @derivedFrom makes it possible to map large sets of data to the same stream
-type Stream @entity {
-  cancellation: Cancellation
+type Withdrawal implements TransactionEvent @entity {
   id: ID!
+  block: Int!
+  event: String!
+  from: Bytes!
+  stream: Stream!
+  timestamp: BigInt!
+  to: Bytes
+  duration: BigInt!
+}
+
+type Stream @entity {
+  id: ID!
+  cancellation: Cancellation
   lastWithdrawTime: BigInt!
   # Optional as cancelled streams don't have a note
   noteHash: Bytes
@@ -40,15 +64,8 @@ type Stream @entity {
   startTime: BigInt!
   stopTime: BigInt!
   timestamp: BigInt!
-  txs: [Transaction!] @derivedFrom(field: "stream")
+  # @derivedFrom makes it possible to map large sets of data to the same stream
+  txs: [TransactionEvent!] @derivedFrom(field: "stream")
   withdrawals: [Withdrawal!] @derivedFrom(field: "stream")
-  zkAsset: ZkAsset
-}
-
-type Withdrawal @entity {
-  id: ID!
-  duration: BigInt!
-  stream: Stream!
-  timestamp: BigInt!
   zkAsset: ZkAsset
 }

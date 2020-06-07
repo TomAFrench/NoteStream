@@ -16,6 +16,11 @@ export const GET_RECIPIENT_STREAMS = gql`
       zkAsset {
         id
         symbol
+        scalingFactor
+        linkedToken {
+          id
+          decimals
+        }
       }
     }
   }
@@ -37,6 +42,11 @@ export const GET_SENDER_STREAMS = gql`
       zkAsset {
         id
         symbol
+        scalingFactor
+        linkedToken {
+          id
+          decimals
+        }
       }
     }
   }

@@ -236,7 +236,7 @@ export default function CreateStreamDialog({
           <Button
             onClick={async (): Promise<void> => {
               await createStream(
-                parseInt(streamAmount, 10),
+                zkAsset?.toNoteValue(streamAmount),
                 streamContract,
                 userAddress,
                 recipient,
