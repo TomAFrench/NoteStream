@@ -21792,9 +21792,9 @@ zen-observable@^0.8.14:
   resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.8.15.tgz#96415c512d8e3ffd920afd3889604e30b9eaac15"
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
 
-zkasset-metadata@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/zkasset-metadata/-/zkasset-metadata-0.1.2.tgz#ba6842662fecbca889c3a2431356a30b6d3bb3bb"
-  integrity sha512-gRkBT4mI4SSVyheMSffD5niYNkIEZ9qLh/nteAmV0sgcUH8+sSWktu4nL2qulx85j+oS5w5Y/0rvSkifePbG1g==
+zkasset-metadata@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/zkasset-metadata/-/zkasset-metadata-0.2.0.tgz#b9548200eef2605cc5647735b226ee01b8973d74"
+  integrity sha512-feOP9+RCzPOv9aScLq1btZZcQMzjJaH1nh97lrnKCwV0iiySTbRpiR6e0AOYcNLLvDueMekoyPbtLxgczVEXmA==
   dependencies:
     lodash "^4.17.11"
