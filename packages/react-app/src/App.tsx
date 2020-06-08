@@ -22,7 +22,7 @@ import ExchangePage from './pages/ExchangePage';
 import SendPage from './pages/SendPage';
 import ReceivePage from './pages/ReceivePage';
 
-import SideBar from './components/sidebar/SideBar';
+import SideBar from './components/Sidebar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
