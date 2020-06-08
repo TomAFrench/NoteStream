@@ -76,7 +76,7 @@ class AztecProvider extends Component<Props, State> {
   }
 }
 
-export const useAztec = (): any => {
+export const useAztec = (): AztecSDK => {
   const { aztec } = useAztecContext();
   return aztec;
 };
