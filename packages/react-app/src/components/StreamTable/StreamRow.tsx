@@ -89,10 +89,10 @@ const StreamRow = ({
         />
       </TableCell>
       <TableCell align="right">
-        {moment.unix(startTime).format('DD-MM-YYYY HH:mm')}
+        {moment.unix(startTime).format('MMM D, YYYY - HH:mm')}
       </TableCell>
       <TableCell align="right">
-        {moment.unix(stopTime).format('DD-MM-YYYY HH:mm')}
+        {moment.unix(stopTime).format('MMM D, YYYY - HH:mm')}
       </TableCell>
       <TableCell align="right">{button}</TableCell>
     </TableRow>
