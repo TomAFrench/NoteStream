@@ -1,12 +1,12 @@
 import { Contract } from 'ethers';
 import { calculateWithdrawal } from './withdrawal';
 import { buildCancellationProofs } from '../proofs';
-import { Address, Stream } from '../../types/types';
+import { Address, AztecSDK, Stream } from '../../types/types';
 
 const BUFFER_SECONDS = 120;
 
 export default async function cancelStream(
-  aztec: any,
+  aztec: AztecSDK,
   streamContract: Contract,
   streamId: number,
   userAddress: Address,

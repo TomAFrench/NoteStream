@@ -8,14 +8,14 @@ import PropTypes from 'prop-types';
 import getZkAssetsForNetwork from 'zkasset-metadata';
 
 import { getContractAddressesForNetwork } from '@notestream/contract-artifacts';
-import { zkAssetMap } from '../types/types';
+import { zkAssetMap, AztecSDK } from '../types/types';
 
 interface Props {
   children: ReactElement | Array<ReactElement>;
 }
 
 interface State {
-  aztec: any;
+  aztec: AztecSDK;
   zkAssets: zkAssetMap;
 }
 

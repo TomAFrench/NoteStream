@@ -1,11 +1,17 @@
 import { getFraction, computeRemainderNoteValue } from '../note';
-import { Stream, Address, Fraction, Dividend } from '../../types/types';
+import {
+  Stream,
+  Address,
+  Fraction,
+  Dividend,
+  AztecSDK,
+} from '../../types/types';
 
 const buildDividendProof = async (
   stream: Stream,
   streamContractAddress: Address,
   withdrawalValue: number,
-  aztec: any,
+  aztec: AztecSDK,
 ): Promise<any> => {
   const { recipient, noteHash } = stream;
 

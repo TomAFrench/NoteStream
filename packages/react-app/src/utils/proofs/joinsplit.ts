@@ -1,5 +1,5 @@
 import secp256k1 from '@aztec/secp256k1';
-import { Stream, Address, Note } from '../../types/types';
+import { Stream, Address, Note, AztecSDK } from '../../types/types';
 
 const buildJoinSplitProof = async (
   stream: Stream,
@@ -7,7 +7,7 @@ const buildJoinSplitProof = async (
   streamNote: Note,
   withdrawPaymentNote: Note,
   changeNoteOwner: Address,
-  aztec: any,
+  aztec: AztecSDK,
 ): Promise<any> => {
   const { sender, recipient } = stream;
 

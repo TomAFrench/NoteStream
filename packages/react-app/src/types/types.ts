@@ -5,9 +5,11 @@ export type Address = string;
 
 export type Hash = string;
 
+export type AztecSDK = any;
+
 declare global {
   interface Window {
-    aztec: any;
+    aztec: AztecSDK;
     ethereum: any;
     web3: any;
   }

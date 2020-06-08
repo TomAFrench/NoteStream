@@ -1,9 +1,9 @@
 import buildProofs from './proofs';
-import { Stream, Address } from '../../types/types';
+import { Stream, Address, AztecSDK } from '../../types/types';
 
 // On a withdrawal the change note remains on the contract
 const buildWithdrawalProofs = (
-  aztec: any,
+  aztec: AztecSDK,
   streamContractAddress: Address,
   streamObj: Stream,
   withdrawalValue: number,
@@ -18,7 +18,7 @@ const buildWithdrawalProofs = (
 
 // On a cancellation the change note is returned to the stream sender
 const buildCancellationProofs = (
-  aztec: any,
+  aztec: AztecSDK,
   streamContractAddress: Address,
   streamObj: Stream,
   withdrawalValue: number,
