@@ -3,7 +3,6 @@ import TransakSDK from '@transak/transak-sdk';
 import { Address } from '../types/types';
 
 const setupTransak = (userAddress: Address, themeColor: string): any => {
-  console.log(process.env.REACT_APP_TRANSAK_API_KEY);
   return new TransakSDK({
     apiKey: process.env.REACT_APP_TRANSAK_API_KEY,
     environment: 'STAGING',

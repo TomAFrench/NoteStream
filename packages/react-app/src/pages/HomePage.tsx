@@ -1,9 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Paper, Grid, Typography, CircularProgress } from '@material-ui/core';
 
 import { Contract } from 'ethers';
 import StreamTable from '../components/StreamTable';
@@ -28,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ReceivePage = ({
+const HomePage = ({
   streamContract,
 }: {
   streamContract?: Contract;
@@ -51,10 +49,21 @@ const ReceivePage = ({
     );
   }
   return (
-    <Paper className={classes.paper}>
-      <StreamTable role="recipient" streamContract={streamContract} />
-    </Paper>
+    <Grid container direction="column" spacing={3}>
+      <Grid item>
+        <Paper className={classes.paper}>
+          <Typography variant="h4">Incoming streams</Typography>
+          <StreamTable role="recipient" streamContract={streamContract} />
+        </Paper>
+      </Grid>
+      <Grid item>
+        <Paper className={classes.paper}>
+          <Typography variant="h4">Outgoing streams</Typography>
+          <StreamTable role="sender" streamContract={streamContract} />
+        </Paper>
+      </Grid>
+    </Grid>
   );
 };
 
-export default ReceivePage;
+export default HomePage;

@@ -1,13 +1,13 @@
 import buildProofs from './proofs';
-import { Stream, Address } from '../../types/types';
+import { Stream, Address, AztecSDK, Proof } from '../../types/types';
 
 // On a withdrawal the change note remains on the contract
 const buildWithdrawalProofs = (
-  aztec: any,
+  aztec: AztecSDK,
   streamContractAddress: Address,
   streamObj: Stream,
   withdrawalValue: number,
-): Promise<{ dividendProof: any; joinSplitProof: any }> =>
+): Promise<{ dividendProof: Proof; joinSplitProof: Proof }> =>
   buildProofs(
     aztec,
     streamContractAddress,
@@ -18,11 +18,11 @@ const buildWithdrawalProofs = (
 
 // On a cancellation the change note is returned to the stream sender
 const buildCancellationProofs = (
-  aztec: any,
+  aztec: AztecSDK,
   streamContractAddress: Address,
   streamObj: Stream,
   withdrawalValue: number,
-): Promise<{ dividendProof: any; joinSplitProof: any }> =>
+): Promise<{ dividendProof: Proof; joinSplitProof: Proof }> =>
   buildProofs(
     aztec,
     streamContractAddress,

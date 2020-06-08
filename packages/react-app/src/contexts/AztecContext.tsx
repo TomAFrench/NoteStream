@@ -8,14 +8,14 @@ import PropTypes from 'prop-types';
 import getZkAssetsForNetwork from 'zkasset-metadata';
 
 import { getContractAddressesForNetwork } from '@notestream/contract-artifacts';
-import { zkAssetMap } from '../types/types';
+import { zkAssetMap, AztecSDK } from '../types/types';
 
 interface Props {
   children: ReactElement | Array<ReactElement>;
 }
 
 interface State {
-  aztec: any;
+  aztec: AztecSDK;
   zkAssets: zkAssetMap;
 }
 
@@ -24,9 +24,6 @@ export const AztecContext = createContext({} as State);
 export function useAztecContext(): State {
   return useContext(AztecContext);
 }
-
-// API key for use with GSN for free txs.
-const AZTEC_API_KEY = '9HRKN7S-JSZMRJM-KWSDWSY-B2VSRD9';
 
 const NETWORK_ID: number = parseInt(
   process.env.REACT_APP_NETWORK_ID as string,
@@ -39,7 +36,7 @@ async function setup(networkId: number): Promise<void> {
     contractAddresses: {
       ACE: addresses.ACE,
     },
-    apiKey: AZTEC_API_KEY,
+    apiKey: process.env.REACT_APP_AZTEC_API_KEY, // API key for use with GSN for free txs.
   });
 }
 
@@ -79,7 +76,7 @@ class AztecProvider extends Component<Props, State> {
   }
 }
 
-export const useAztec = (): any => {
+export const useAztec = (): AztecSDK => {
   const { aztec } = useAztecContext();
   return aztec;
 };

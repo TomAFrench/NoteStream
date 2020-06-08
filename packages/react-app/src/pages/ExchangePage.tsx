@@ -1,22 +1,23 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
+import { Contract } from 'ethers';
+import { Web3Provider } from 'ethers/providers';
+import { formatUnits, parseUnits, BigNumber } from 'ethers/utils';
+
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Button,
-  Paper,
-  Grid,
-  Typography,
-  TextField,
-  IconButton,
-} from '@material-ui/core';
+import { Button, Paper, Grid, Typography, IconButton } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import AmountInput from '../components/form/AmountInput';
 import ZkAssetSelect from '../components/form/ZkAssetSelect';
 
 import Link from '../components/Link';
 import { useAztec, useZkAssets } from '../contexts/AztecContext';
-import { useAddress } from '../contexts/OnboardContext';
-import { Address } from '../types/types';
+import { useAddress, useWalletProvider } from '../contexts/OnboardContext';
+
+import { Address, ZkAsset } from '../types/types';
+
+import ERC20 from '../abis/ERC20Detailed';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,8 +44,9 @@ const ExchangePage = (): ReactElement => {
   const userAddress = useAddress();
   const aztec = useAztec();
   const zkAssets = useZkAssets();
+  const provider = useWalletProvider();
 
-  const [zkAsset, setZkAsset] = useState<any>({} as any);
+  const [zkAsset, setZkAsset] = useState<ZkAsset | undefined>();
   const [publicBalance, setPublicBalance] = useState<number>(0);
   const [privateBalance, setPrivateBalance] = useState<number>(0);
   const [deposit, setDeposit] = useState<boolean>(true);
@@ -52,7 +54,7 @@ const ExchangePage = (): ReactElement => {
 
   const updateZkAsset = useCallback(
     async (address: Address): Promise<void> => {
-      const newZkAsset = await aztec.zkAsset(address);
+      const newZkAsset: ZkAsset = await aztec.zkAsset(address);
       setZkAsset(newZkAsset);
 
       const newPrivateBalance = await newZkAsset.balance(userAddress);
@@ -71,15 +73,31 @@ const ExchangePage = (): ReactElement => {
     }
   }, [aztec.zkAsset, zkAssets, updateZkAsset]);
 
-  async function depositZkToken(depositAmount: string): Promise<void> {
-    console.log(zkAsset);
-    await zkAsset.deposit([
-      { to: userAddress, amount: parseInt(depositAmount, 10) },
-    ]);
+  useEffect(() => {
+    const updateToken = async (): Promise<void> => {
+      if (provider && zkAsset?.linkedTokenAddress) {
+        const linkedToken = new Contract(
+          zkAsset.linkedTokenAddress,
+          ERC20.abi,
+          new Web3Provider(provider),
+        );
+        const tokenSymbol = linkedToken.symbol();
+        const tokenDecimals = linkedToken.decimals();
+        zkAsset.token.symbol = await tokenSymbol;
+        zkAsset.token.decimals = await tokenDecimals;
+      }
+    };
+    updateToken();
+  }, [provider, zkAsset]);
+
+  function depositZkToken(depositAmount: BigNumber): void {
+    if (zkAsset) {
+      zkAsset.deposit([{ to: userAddress, amount: depositAmount.toString() }]);
+    }
   }
 
-  async function withdrawZkToken(withdrawAmount: string): Promise<void> {
-    if (zkAsset) await zkAsset.withdraw(parseInt(withdrawAmount, 10));
+  function withdrawZkToken(withdrawAmount: string): void {
+    if (zkAsset) zkAsset.withdraw(parseInt(withdrawAmount, 10));
   }
 
   return (
@@ -115,61 +133,68 @@ const ExchangePage = (): ReactElement => {
         </Grid>
       </Paper>
       <Paper className={`${classes.pageElement} ${classes.paper}`}>
-        <Grid container justify="center" spacing={3}>
+        <Grid container alignItems="center" justify="center" spacing={3}>
           <Grid item>
-            {`Your public balance: ${publicBalance} ${
-              zkAsset.address && zkAssets[zkAsset.address].symbol.slice(2)
-            }`}
+            <Typography variant="body1">ZkAsset to convert:</Typography>
           </Grid>
           <Grid item>
-            {`Your private balance: ${privateBalance} ${
-              zkAsset.address && zkAssets[zkAsset.address].symbol
-            }`}
+            <ZkAssetSelect
+              currentAsset={zkAsset}
+              updateAsset={updateZkAsset}
+              assetList={zkAssets}
+            />
           </Grid>
-          <Grid item container justify="center" spacing={1}>
-            <Grid item>
-              <TextField
-                label="Enter deposit amount"
+          <Grid item container justify="center" spacing={2}>
+            <Grid item xs={3}>
+              <AmountInput
+                label="Public"
                 placeholder=""
                 variant="outlined"
-                value={amount}
-                onChange={(val): void => setAmount(val.target.value)}
+                amount={amount}
+                setAmount={setAmount}
+                balance={
+                  zkAsset?.token
+                    ? formatUnits(publicBalance, zkAsset.token.decimals)
+                    : publicBalance
+                }
+                symbol={zkAsset?.token?.symbol}
                 fullWidth
               />
-            </Grid>
-            <Grid item>
-              <Typography>
-                {zkAssets[zkAsset.address] &&
-                  zkAssets[zkAsset.address].symbol.slice(2)}
-              </Typography>
             </Grid>
             <Grid item>
               <IconButton onClick={(): void => setDeposit(!deposit)}>
                 {deposit ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </IconButton>
             </Grid>
-            <Grid item>
-              <TextField
-                label="Enter deposit amount"
+            <Grid item xs={3}>
+              <AmountInput
+                label="Private"
                 placeholder=""
                 variant="outlined"
-                value={amount}
-                onChange={(val): void => setAmount(val.target.value)}
+                amount={amount}
+                setAmount={setAmount}
+                balance={
+                  zkAsset?.toTokenValue(privateBalance) || privateBalance
+                }
+                symbol={
+                  zkAsset?.address &&
+                  zkAssets[zkAsset?.address] &&
+                  zkAssets[zkAsset?.address].symbol
+                }
                 fullWidth
-              />
-            </Grid>
-            <Grid item>
-              <ZkAssetSelect
-                currentAsset={zkAsset}
-                updateAsset={updateZkAsset}
-                assetList={zkAssets}
               />
             </Grid>
           </Grid>
           <Grid item>
             <Button
-              onClick={(): Promise<void> =>
-                deposit ? depositZkToken(amount) : withdrawZkToken(amount)
+              onClick={(): void =>
+                deposit
+                  ? depositZkToken(
+                      parseUnits(amount, zkAsset?.token.decimals).div(
+                        zkAsset?.scalingFactor || 1,
+                      ),
+                    )
+                  : withdrawZkToken(amount)
               }
               color="primary"
               variant="contained"

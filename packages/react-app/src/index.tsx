@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from '@material-ui/core/styles';
+
 import './index.css';
 import {
   ApolloClient,
@@ -11,6 +13,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import OnboardProvider from './contexts/OnboardContext';
 import AztecProvider from './contexts/AztecContext';
+import theme from './theme';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -20,13 +23,15 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <OnboardProvider>
-    <AztecProvider>
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>
-    </AztecProvider>
-  </OnboardProvider>,
+  <ThemeProvider theme={theme}>
+    <OnboardProvider>
+      <AztecProvider>
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
+      </AztecProvider>
+    </OnboardProvider>
+  </ThemeProvider>,
   document.getElementById('root'),
 );
 

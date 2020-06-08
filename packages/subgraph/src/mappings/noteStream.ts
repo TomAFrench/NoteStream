@@ -5,9 +5,10 @@ import {
   CancelStream as CancelStreamEvent,
 } from '../types/NoteStream/NoteStream';
 import { addZkAsset } from './zkAssets';
-import { addTransaction } from './transactions';
 
 export function handleCreateStream(event: CreateStreamEvent): void {
+  /* Create adjacent but important object */
+  addZkAsset(event.params.zkAsset.toHex());
   /* Create the stream object */
   const streamId = event.params.streamId.toString();
   const stream = new Stream(streamId);
@@ -20,10 +21,6 @@ export function handleCreateStream(event: CreateStreamEvent): void {
   stream.timestamp = event.block.timestamp;
   stream.zkAsset = event.params.zkAsset.toHex();
   stream.save();
-
-  /* Create adjacent but important objects */
-  addTransaction('CreateStream', event, streamId);
-  addZkAsset(event.params.zkAsset.toHex());
 }
 
 export function handleWithdrawFromStream(event: WithdrawFromStreamEvent): void {
@@ -39,13 +36,14 @@ export function handleWithdrawFromStream(event: WithdrawFromStreamEvent): void {
   stream.save();
 
   const withdrawal = new Withdrawal(event.transaction.hash.toHex());
+  withdrawal.block = event.block.number.toI32();
+  withdrawal.event = 'WithdrawFromStream';
+  withdrawal.from = event.transaction.from;
   withdrawal.stream = streamId;
-  withdrawal.duration = event.params.withdrawDuration;
   withdrawal.timestamp = event.block.timestamp;
-  withdrawal.zkAsset = stream.zkAsset;
+  withdrawal.to = event.transaction.to;
+  withdrawal.duration = event.params.withdrawDuration;
   withdrawal.save();
-
-  addTransaction('WithdrawFromStream', event, streamId);
 }
 
 export function handleCancelStream(event: CancelStreamEvent): void {
@@ -55,16 +53,17 @@ export function handleCancelStream(event: CancelStreamEvent): void {
     return;
   }
 
-  const cancellation = new Cancellation(streamId);
+  const cancellation = new Cancellation(event.transaction.hash.toHex());
 
-  cancellation.duration = event.params.cancelDuration;
+  cancellation.block = event.block.number.toI32();
+  cancellation.event = 'CancelStream';
+  cancellation.from = event.transaction.from;
+  cancellation.stream = streamId;
   cancellation.timestamp = event.block.timestamp;
-  cancellation.txhash = event.transaction.hash.toHex();
-  cancellation.zkAsset = stream.zkAsset;
+  cancellation.to = event.transaction.to;
+  cancellation.duration = event.params.cancelDuration;
   cancellation.save();
 
-  stream.cancellation = streamId;
+  stream.cancellation = event.transaction.hash.toHex();
   stream.save();
-
-  addTransaction('CancelStream', event, streamId);
 }

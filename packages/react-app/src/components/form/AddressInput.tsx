@@ -2,7 +2,7 @@ import React, { ReactElement, useState, useEffect } from 'react';
 import { utils } from 'ethers';
 
 import TextField from '@material-ui/core/TextField';
-import { Address } from '../../types/types';
+import { Address, AztecSDK } from '../../types/types';
 
 const AddressInput = (props: any): ReactElement => {
   const {
@@ -12,7 +12,7 @@ const AddressInput = (props: any): ReactElement => {
   }: {
     address: Address;
     setAddress: Function;
-    aztec: any;
+    aztec: AztecSDK;
   } = props;
 
   const [invalidAddress, setInvalidAddress] = useState<boolean>(false);

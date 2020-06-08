@@ -1,21 +1,27 @@
 import React, { ReactElement } from 'react';
 
 import TextField from '@material-ui/core/TextField';
+import {
+  Address,
+  zkAssetMetadata,
+  ZkAsset,
+  zkAssetMap,
+} from '../../types/types';
 
 const ZkAssetSelect = ({
   currentAsset,
   updateAsset,
   assetList,
 }: {
-  currentAsset: any;
+  currentAsset?: ZkAsset;
   updateAsset: Function;
-  assetList: object;
+  assetList: zkAssetMap;
 }): ReactElement => {
   return (
     <TextField
       select
       label="zkAsset"
-      value={currentAsset ? currentAsset.address : undefined}
+      value={currentAsset?.address}
       onChange={(val): Promise<void> => updateAsset(val.target.value)}
       SelectProps={{
         native: true,
@@ -24,11 +30,13 @@ const ZkAssetSelect = ({
       fullWidth
       // className={classes.formControl}
     >
-      {Object.entries(assetList).map(([address, metadata]: [any, any]) => (
-        <option key={address} value={address}>
-          {metadata.symbol}
-        </option>
-      ))}
+      {Object.entries(assetList).map(
+        ([address, metadata]: [Address, zkAssetMetadata]) => (
+          <option key={address} value={address}>
+            {metadata.symbol}
+          </option>
+        ),
+      )}
     </TextField>
   );
 };

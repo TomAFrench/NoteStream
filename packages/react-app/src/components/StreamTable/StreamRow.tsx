@@ -1,33 +1,33 @@
-import React, { useState, useEffect, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 import moment from 'moment';
 
 import { Contract } from 'ethers';
-import calculateTime from '../../utils/time';
 
 import { withdrawFunds, cancelStream } from '../../utils/stream';
 import { Stream, ZkNote } from '../../types/types';
 
 import { useAztec } from '../../contexts/AztecContext';
 import { useAddress } from '../../contexts/OnboardContext';
+import { convertToTokenValueDisplay } from '../../utils/units/convertToTokenValue';
+import DoubleProgressBar from '../display/DoubleProgressBar';
+import useENSName from '../../hooks/useENSName';
+import useDecodedNote from '../../hooks/useDecodedNote';
 
 const StreamRow = ({
   stream,
-  note,
   streamContract,
   role,
 }: {
   stream: Stream;
-  note: ZkNote;
   streamContract: Contract;
   role: string;
-}): ReactElement => {
+}): ReactElement | null => {
   const userAddress = useAddress();
   const aztec = useAztec();
   const {
@@ -37,30 +37,20 @@ const StreamRow = ({
     startTime,
     lastWithdrawTime,
     stopTime,
+    noteHash,
     zkAsset,
   } = stream;
-  const [timePercentage, setTimePercentage] = useState<number>(0);
+  const note: ZkNote | undefined = useDecodedNote(noteHash);
+  const displayName = useENSName(role === 'recipient' ? sender : recipient);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      const newTimePercentage = calculateTime(
-        moment.unix(startTime),
-        moment.unix(stopTime),
-      );
-      setTimePercentage(parseFloat(newTimePercentage.toFixed(2)));
-    }, 1000);
-    return (): void => {
-      clearInterval(intervalId);
-    };
-  }, [startTime, stopTime]);
+  const displayValue =
+    note?.value &&
+    convertToTokenValueDisplay(
+      note.value,
+      zkAsset.scalingFactor,
+      zkAsset.linkedToken.decimals,
+    );
 
-  const withdrawPercentage = calculateTime(
-    moment.unix(startTime),
-    moment.unix(stopTime),
-    moment.unix(lastWithdrawTime),
-  );
-
-  const address = role === 'recipient' ? sender : recipient;
   const button =
     role === 'recipient' ? (
       <Button
@@ -81,25 +71,28 @@ const StreamRow = ({
         Cancel
       </Button>
     );
+
+  if (!displayName || note?.value === undefined || !zkAsset.symbol) {
+    return null;
+  }
   return (
     <TableRow key={stream.id}>
       <TableCell component="th" scope="row">
-        {address.slice(0, 6)}...{address.slice(-5, -1)}
+        {displayName}
       </TableCell>
-      <TableCell align="right">{`${note.value} ${zkAsset.symbol}`}</TableCell>
+      <TableCell align="right">{`${displayValue} ${zkAsset.symbol}`}</TableCell>
       <TableCell align="right">
-        <LinearProgress variant="determinate" value={timePercentage} />
-        <LinearProgress
-          variant="determinate"
-          value={withdrawPercentage}
-          color="secondary"
+        <DoubleProgressBar
+          startTime={startTime}
+          stopTime={stopTime}
+          lastWithdrawTime={lastWithdrawTime}
         />
       </TableCell>
       <TableCell align="right">
-        {moment.unix(startTime).format('DD-MM-YYYY HH:mm')}
+        {moment.unix(startTime).format('MMM D, YYYY - HH:mm')}
       </TableCell>
       <TableCell align="right">
-        {moment.unix(stopTime).format('DD-MM-YYYY HH:mm')}
+        {moment.unix(stopTime).format('MMM D, YYYY - HH:mm')}
       </TableCell>
       <TableCell align="right">{button}</TableCell>
     </TableRow>
@@ -108,7 +101,6 @@ const StreamRow = ({
 
 StreamRow.propTypes = {
   streamContract: PropTypes.instanceOf(Contract),
-  note: PropTypes.object.isRequired,
   stream: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired,
 };

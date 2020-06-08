@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -6,14 +6,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Blockies from 'react-blockies';
 
-import { Web3Provider } from 'ethers/providers';
-
-import lookupAddress from '../../utils/ens/lookupAddress';
-import {
-  useAddress,
-  useSetup,
-  useWalletProvider,
-} from '../../contexts/OnboardContext';
+import { useAddress, useSetup } from '../../contexts/OnboardContext';
+import useENSName from '../../hooks/useENSName';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -28,17 +22,7 @@ const WalletButton = (): ReactElement => {
   const classes = useStyles();
   const setup = useSetup();
   const userAddress = useAddress();
-  const provider = useWalletProvider();
-  const [ensName, setEnsName] = useState<string>(userAddress || '');
-
-  useEffect(() => {
-    if (provider) {
-      const ethersProvider = new Web3Provider(provider);
-      lookupAddress(ethersProvider, userAddress).then((name) => {
-        if (name) setEnsName(name);
-      });
-    }
-  }, [userAddress, provider]);
+  const ensName = useENSName(userAddress);
 
   if (!userAddress) {
     return (
