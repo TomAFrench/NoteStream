@@ -67,7 +67,7 @@ class OnboardProvider extends Component<Props, State> {
 
     const initialisation: Initialization = {
       dappId: testid,
-      networkId: 4,
+      networkId: parseInt(process.env.REACT_APP_NETWORK_ID as string, 10),
       walletCheck: walletChecks,
       walletSelect: {
         heading: 'Select a wallet to connect to NoteStream',
@@ -154,6 +154,11 @@ export const useAddress = (): Address => {
 export const useWallet = (): Wallet => {
   const { wallet } = useOnboardContext();
   return wallet;
+};
+
+export const useNetwork = (): { network: number; appNetworkId: number } => {
+  const { network, appNetworkId } = useOnboardContext();
+  return { network, appNetworkId };
 };
 
 export const useSetup = (): Function => {

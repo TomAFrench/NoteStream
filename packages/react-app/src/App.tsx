@@ -15,7 +15,7 @@ import {
 import { Contract } from 'ethers';
 import { Web3Provider } from 'ethers/providers';
 
-import { useWalletProvider } from './contexts/OnboardContext';
+import { useWalletProvider, useNetwork } from './contexts/OnboardContext';
 
 import HomePage from './pages/HomePage';
 import ExchangePage from './pages/ExchangePage';
@@ -64,29 +64,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NETWORK_ID: number = parseInt(
-  process.env.REACT_APP_NETWORK_ID as string,
-  10,
-);
-
 const App = (): ReactElement => {
   const classes = useStyles();
   const provider = useWalletProvider();
-  const [open, setOpen] = useState(true);
+  const { appNetworkId } = useNetwork();
+  const [open, setOpen] = useState<boolean>(true);
   const [streamContract, setStreamContract] = useState<Contract>();
-  const addresses = getContractAddressesForNetwork(NETWORK_ID);
 
   useEffect(() => {
-    if (provider) {
+    if (appNetworkId && provider) {
+      const { NoteStream } = getContractAddressesForNetwork(appNetworkId);
       const signer = new Web3Provider(provider).getSigner();
       const noteStreamContract = new Contract(
-        addresses.NoteStream,
+        NoteStream,
         abis.NoteStream,
         signer,
       );
       setStreamContract(noteStreamContract);
     }
-  }, [provider, addresses.NoteStream]);
+  }, [provider, appNetworkId]);
 
   return (
     <div className={classes.root}>
