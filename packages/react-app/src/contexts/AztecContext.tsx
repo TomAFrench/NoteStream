@@ -25,9 +25,6 @@ export function useAztecContext(): State {
   return useContext(AztecContext);
 }
 
-// API key for use with GSN for free txs.
-const AZTEC_API_KEY = '9HRKN7S-JSZMRJM-KWSDWSY-B2VSRD9';
-
 const NETWORK_ID: number = parseInt(
   process.env.REACT_APP_NETWORK_ID as string,
   10,
@@ -39,7 +36,7 @@ async function setup(networkId: number): Promise<void> {
     contractAddresses: {
       ACE: addresses.ACE,
     },
-    apiKey: AZTEC_API_KEY,
+    apiKey: process.env.REACT_APP_AZTEC_API_KEY, // API key for use with GSN for free txs.
   });
 }
 
