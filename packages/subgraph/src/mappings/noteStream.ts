@@ -64,6 +64,6 @@ export function handleCancelStream(event: CancelStreamEvent): void {
   cancellation.duration = event.params.cancelDuration;
   cancellation.save();
 
-  stream.cancellation = streamId;
+  stream.cancellation = event.transaction.hash.toHex();
   stream.save();
 }
