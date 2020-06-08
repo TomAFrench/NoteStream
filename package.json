@@ -1,33 +1,54 @@
 {
-  "name": "@notestream/monorepo",
-  "version": "1.0.0",
-  "keywords": [
-    "ethereum",
-    "react",
-    "workspaces",
-    "yarn"
-  ],
-  "private": true,
-  "scripts": {
-    "contracts:compile": "yarn workspace @notestream/contracts compile",
-    "contracts:deploy": "yarn workspace @notestream/contracts deploy",
-    "contracts:test": "yarn workspace @notestream/contracts test",
-    "react-app:build": "yarn workspace @notestream/react-app build",
-    "react-app:eject": "yarn workspace @notestream/react-app eject",
-    "react-app:start": "yarn workspace @notestream/react-app start",
-    "react-app:test": "yarn workspace @notestream/react-app test",
-    "subgraph:auth": "yarn workspace @notestream/subgraph auth",
-    "subgraph:codegen": "yarn workspace @notestream/subgraph codegen",
-    "subgraph:build": "yarn workspace @notestream/subgraph build",
-    "subgraph:deploy": "yarn workspace @notestream/subgraph deploy"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*"
+    "name": "@notestream/monorepo",
+    "version": "1.0.0",
+    "keywords": [
+        "ethereum",
+        "react",
+        "workspaces",
+        "yarn"
     ],
-    "nohoist": [
-      "**/@graphprotocol/graph-ts",
-      "**/@graphprotocol/graph-ts/**"
-    ]
-  }
+    "private": true,
+    "scripts": {
+        "pre-commit": "lint-staged",
+        "build": "lerna link && yarn wsrun --package $PKG --recursive --stages -c build",
+        "clean": "yarn wsrun --package $PKG --parallel -c clean",
+        "clean:node_modules": "lerna clean --yes; shx rm -rf node_modules",
+        "commit": "git-cz",
+        "contracts:compile": "yarn workspace @notestream/contracts compile",
+        "contracts:deploy": "yarn workspace @notestream/contracts deploy",
+        "contracts:test": "yarn workspace @notestream/contracts test",
+        "react-app:build": "yarn workspace @notestream/react-app build",
+        "react-app:eject": "yarn workspace @notestream/react-app eject",
+        "react-app:start": "yarn workspace @notestream/react-app start",
+        "react-app:test": "yarn workspace @notestream/react-app test",
+        "subgraph:auth": "yarn workspace @notestream/subgraph auth",
+        "subgraph:codegen": "yarn workspace @notestream/subgraph codegen",
+        "subgraph:build": "yarn workspace @notestream/subgraph build",
+        "subgraph:deploy": "yarn workspace @notestream/subgraph deploy",
+        "test": "yarn wsrun --package $PKG --serial -c --if has:changed --ifDependency test",
+        "wsrun": "wsrun --exclude-missing --fast-exit"
+    },
+    "workspaces": {
+        "packages": [
+            "packages/*"
+        ],
+        "nohoist": [
+            "**/@graphprotocol/graph-ts",
+            "**/@graphprotocol/graph-ts/**"
+        ]
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^8.3.5",
+        "@commitlint/config-conventional": "^8.3.4",
+        "commitizen": "^4.0.4",
+        "husky": "^4.2.5",
+        "lerna": "^3.20.2",
+        "now": "^18.0.0",
+        "wsrun": "^5.2.0"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
 }

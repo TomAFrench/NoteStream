@@ -5,6 +5,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noEmitOnError": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "moduleResolution": "Node"
   }
 }

@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 description: NoteStream is the Ethereum protocol for private real-time finance
 repository: https://github.com/TomAFrech/NoteStream/packages/subgraph
 schema:

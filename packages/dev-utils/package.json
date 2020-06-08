@@ -9,7 +9,11 @@
     "url": "https://github.com/TomAFrench/NoteStream/issues"
   },
   "dependencies": {
-    "bignumber.js": "^9.0.0"
+    "bignumber.js": "^9.0.0",
+    "ether-time-traveler": "^1.0.0",
+    "ethers": "^4.0.47",
+    "ganache-time-traveler": "^1.0.14",
+    "moment": "^2.25.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -18,11 +22,11 @@
     "@babel/plugin-transform-runtime": "^7.6.0",
     "@babel/preset-env": "^7.5.5",
     "@babel/runtime": "^7.7.6",
-    "@paulrberg/eslint-config": "^1.0.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.18.2",
+    "lint-staged": "^10.2.2",
     "mocha": "^6.2.0",
     "shx": "^0.3.2"
   },
@@ -41,9 +45,17 @@
     "directory": "packages/dev-utils"
   },
   "scripts": {
+    "precommit": "lint-staged",
+    "commit": "git-cz",
     "build": "yarn clean && babel --copy-files --out-dir ./lib --root-mode upward ./src",
     "clean": "shx rm -rf ./lib",
+    "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh dev-utils",
     "lint": "eslint --ignore-path ../../.eslintignore .",
     "watch": "yarn build --watch"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

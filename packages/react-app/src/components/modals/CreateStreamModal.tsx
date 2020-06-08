@@ -11,11 +11,18 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment';
-import createStream from '../../utils/streamCreation';
+import { Contract } from 'ethers';
+import { Web3Provider } from 'ethers/providers';
+import { createStream } from '../../utils/stream';
 
 import AddressInput from '../form/AddressInput';
+import AmountInput from '../form/AmountInput';
 import ZkAssetSelect from '../form/ZkAssetSelect';
-import { Address } from '../../types/types';
+import { Address, ZkAsset } from '../../types/types';
+import { useAztec, useZkAssets } from '../../contexts/AztecContext';
+import { useAddress, useWalletProvider } from '../../contexts/OnboardContext';
+
+import ERC20 from '../../abis/ERC20Detailed';
 
 const daysOption = [...Array(366).keys()];
 const hoursOption = [...Array(24).keys()];
@@ -29,19 +36,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateStreamDialog({
-  aztec,
-  zkAssets,
-  userAddress,
-  streamContractInstance,
+  streamContract,
 }: {
-  aztec: any;
-  zkAssets: Array<any>;
-  userAddress: Address;
-  streamContractInstance: any;
-}): ReactElement {
+  streamContract: Contract;
+}): ReactElement | null {
   const classes = useStyles();
+  const userAddress = useAddress();
+  const aztec = useAztec();
+  const zkAssets = useZkAssets();
+  const provider = useWalletProvider();
   const [open, setOpen] = useState(false);
-  const [zkAsset, setZkAsset] = useState({} as any);
+  const [zkAsset, setZkAsset] = useState<ZkAsset | undefined>();
   const [privateBalance, setPrivateBalance] = useState(0);
   const [streamAmount, setStreamAmount] = useState<string>('');
   const [recipient, setRecipient] = useState('');
@@ -59,7 +64,7 @@ export default function CreateStreamDialog({
 
   const updateZkAsset = useCallback(
     async (address: Address): Promise<void> => {
-      const newZkAsset = await aztec.zkAsset(address);
+      const newZkAsset: ZkAsset = await aztec.zkAsset(address);
       setZkAsset(newZkAsset);
 
       const newPrivateBalance = await newZkAsset.balance(userAddress);
@@ -74,15 +79,35 @@ export default function CreateStreamDialog({
     }
   }, [aztec.zkAsset, zkAssets, updateZkAsset]);
 
+  useEffect(() => {
+    const updateToken = async (): Promise<void> => {
+      if (provider && zkAsset?.linkedTokenAddress) {
+        const linkedToken = new Contract(
+          zkAsset.linkedTokenAddress,
+          ERC20.abi,
+          new Web3Provider(provider),
+        );
+        const tokenSymbol = linkedToken.symbol();
+        const tokenDecimals = linkedToken.decimals();
+        zkAsset.token.symbol = await tokenSymbol;
+        zkAsset.token.decimals = await tokenDecimals;
+      }
+    };
+    updateToken();
+  }, [provider, zkAsset]);
+
+  if (!streamContract) return null;
   return (
     <div>
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
-        2. Create a new stream
+        Create a new stream
       </Button>
       <Dialog open={open} onClose={handleClose} scroll="body">
         <DialogTitle id="form-dialog-title">Create Stream</DialogTitle>
         <DialogContent>
-          <DialogContentText>Enter the address of who you want to stream to:</DialogContentText>
+          <DialogContentText>
+            Enter the address of who you want to stream to:
+          </DialogContentText>
           <Grid container direction="column" spacing={3}>
             <Grid item xs={12}>
               <AddressInput
@@ -96,27 +121,43 @@ export default function CreateStreamDialog({
               />
             </Grid>
             <DialogContentText>
-              Enter the value of the stream: (Note: this value isn&apos;t published on-chain publicly, only in the form
-              on an encrypted AZTEC note.)
-            </DialogContentText>
-            <DialogContentText>
-              {`Your private balance: ${privateBalance} ${zkAsset.address && zkAssets[zkAsset.address].symbol}`}
+              Enter the value of the stream: (Note: this value isn&apos;t
+              published on-chain publicly, only in the form on an encrypted
+              AZTEC note.)
             </DialogContentText>
             <Grid item xs={12}>
-              <ZkAssetSelect currentAsset={zkAsset} updateAsset={updateZkAsset} assetList={zkAssets} />
+              <ZkAssetSelect
+                currentAsset={zkAsset}
+                updateAsset={updateZkAsset}
+                assetList={zkAssets}
+              />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Stream value"
-                placeholder=""
+              <AmountInput
+                label="Stream amount"
+                placeholder="0"
                 variant="outlined"
-                value={streamAmount}
-                onChange={(val): void => setStreamAmount(val.target.value)}
+                amount={streamAmount}
+                setAmount={setStreamAmount}
+                balance={
+                  zkAsset?.toTokenValue(privateBalance) || privateBalance
+                }
+                symbol={zkAsset?.address && zkAssets[zkAsset.address].symbol}
                 fullWidth
               />
             </Grid>
-            <DialogContentText>Enter the duration of the stream:</DialogContentText>
-            <Grid item container direction="row" justify="center" alignContent="stretch" spacing={2} xs={12}>
+            <DialogContentText>
+              Enter the duration of the stream:
+            </DialogContentText>
+            <Grid
+              item
+              container
+              direction="row"
+              justify="center"
+              alignContent="stretch"
+              spacing={2}
+              xs={12}
+            >
               <Grid item>
                 <TextField
                   select
@@ -179,10 +220,13 @@ export default function CreateStreamDialog({
               </Grid>
             </Grid>
             <DialogContentText>
-              After you click &quot;Create Stream&quot;, you will be asked to sign two transactions. The first sends the
-              AZTEC note to the NoteStream contract and the second creates the stream.
+              After you click &quot;Create Stream&quot;, you will be asked to
+              sign two transactions. The first sends the AZTEC note to the
+              NoteStream contract and the second creates the stream.
             </DialogContentText>
-            <DialogContentText>In a later update, these two transactions will be combined.</DialogContentText>
+            <DialogContentText>
+              In a later update, these two transactions will be combined.
+            </DialogContentText>
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -192,8 +236,8 @@ export default function CreateStreamDialog({
           <Button
             onClick={async (): Promise<void> => {
               await createStream(
-                parseInt(streamAmount, 10),
-                streamContractInstance,
+                zkAsset?.toNoteValue(streamAmount),
+                streamContract,
                 userAddress,
                 recipient,
                 zkAsset,

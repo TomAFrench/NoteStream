@@ -106,8 +106,22 @@ library StreamUtilities {
             bytes memory _proof2InputNotes,
             bytes memory _proof2OutputNotes,
             ,
-
+            int256 publicValue
         ) = proof2Outputs.extractProofOutput();
+
+        require(publicValue == 0, "nonzero public value transfer");
+
+        // Ensure stream note is the only input note
+        require(
+            _proof2InputNotes.getLength() == 1,
+            "Incorrect number of input notes"
+        );
+
+        // Ensure that there isn't a third output note used to avoid the below checks
+        require(
+            _proof2OutputNotes.getLength() == 2,
+            "Incorrect number of output notes"
+        );
 
         // Requires that output note respects dividend proof
         require(
@@ -206,12 +220,6 @@ library StreamUtilities {
 
         bytes32 inputNoteHash = _noteCoderToStruct(_proof2InputNotes.get(0))
             .noteHash;
-
-        // Ensure that there isn't a third note used to avoid the below checks
-        require(
-            _proof2OutputNotes.getLength() == 2,
-            "Incorrect number of output notes"
-        );
 
         // Require that each participant owns an output note
         require(

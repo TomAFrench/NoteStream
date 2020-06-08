@@ -11,12 +11,13 @@
     "url": "https://github.com/TomAFrench/NoteStream/issues"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "^0.16.2",
-    "@graphprotocol/graph-ts": "^0.16.0",
+    "@graphprotocol/graph-cli": "^0.18.0",
+    "@graphprotocol/graph-ts": "^0.18.1",
     "axios": "^0.19.0",
     "fs-extra": "^8.1.0",
     "handlebars": "^4.5.2",
     "js-yaml": "^3.13.1",
+    "lint-staged": "^10.2.2",
     "shx": "^0.3.2",
     "typy": "^3.3.0"
   },
@@ -26,7 +27,8 @@
     "url": "git+https://github.com/TomAFrench/NoteStream.git"
   },
   "scripts": {
-    "build": "graph build --debug",
+    "precommit": "lint-staged",
+    "commit": "git-cz",
     "clean": "shx rm -rf ./build ./src/types ./subgraph.yaml",
     "codegen": "graph codegen --debug --output-dir src/types/",
     "create:local": "graph create tomafrench/notestream --node http://127.0.0.1:8020",
@@ -44,6 +46,15 @@
     "prepare:ropsten": "NETWORK_NAME=ropsten node ./updateAddresses.js && NETWORK_NAME=ropsten node ./templatify.js",
     "prepare:local": "NETWORK_NAME=local node ./updateAddresses.js && NETWORK_NAME=local node ./templatify.js",
     "remove-local": "graph remove tomafrench/notestream --node http://127.0.0.1:8020/",
-    "reset-local": "yarn codegen && yarn remove-local && yarn create-local && yarn deploy-local"
+    "reset-local": "yarn codegen && yarn remove-local && yarn create-local && yarn deploy-local",
+    "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh subgraph"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "@graphprotocol/graph-ts": "^0.18.1"
   }
 }

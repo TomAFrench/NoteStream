@@ -1,6 +1,6 @@
 {
   "env": {
-    "node": true
+    "mocha": true
   },
-  "extends": ["airbnb-base", "@paulrberg/eslint-config"]
+  "extends": ["airbnb-base", "plugin:prettier/recommended"]
 }
