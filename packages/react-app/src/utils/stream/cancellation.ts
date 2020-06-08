@@ -1,7 +1,7 @@
 import { Contract } from 'ethers';
 import { calculateWithdrawal } from './withdrawal';
 import { buildCancellationProofs } from '../proofs';
-import { Address, AztecSDK, Stream } from '../../types/types';
+import { Address, AztecSDK, Stream, Proof } from '../../types/types';
 
 const BUFFER_SECONDS = 120;
 
@@ -28,7 +28,13 @@ export default async function cancelStream(
     bufferSeconds,
   );
 
-  const { dividendProof, joinSplitProof } = await buildCancellationProofs(
+  const {
+    dividendProof,
+    joinSplitProof,
+  }: {
+    dividendProof: Proof;
+    joinSplitProof: Proof;
+  } = await buildCancellationProofs(
     aztec,
     streamContract.address,
     streamObj,

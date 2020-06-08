@@ -98,3 +98,25 @@ export type zkAssetMetadata = {
 export type zkAssetMap = {
   [name: string]: zkAssetMetadata;
 };
+
+export type Proof = {
+  blindingFactors: any;
+  blindingScalars: any;
+  challenge: any;
+  challengeHash: { data: string[] };
+  data: string[][];
+  hash: string;
+  inputNotes: Note[];
+  m: number;
+  notes: Note[];
+  output: string;
+  outputNotes: Note[];
+  outputs: string;
+  publicOwner: Address;
+  publicValue: BN;
+  rollingHash: { data: string[] };
+  sender: Address;
+  type: string;
+  validatedProofHash: string;
+  encodeABI: Function;
+};

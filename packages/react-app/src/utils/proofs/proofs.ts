@@ -1,6 +1,6 @@
 import buildDividendProof from './dividend';
 import buildJoinSplitProof from './joinsplit';
-import { Stream, Address, AztecSDK } from '../../types/types';
+import { Stream, Address, AztecSDK, Proof } from '../../types/types';
 
 export default async function buildProofs(
   aztec: AztecSDK,
@@ -8,7 +8,7 @@ export default async function buildProofs(
   streamObj: Stream,
   withdrawalValue: number,
   changeNoteOwner: Address,
-): Promise<{ dividendProof: any; joinSplitProof: any }> {
+): Promise<{ dividendProof: Proof; joinSplitProof: Proof }> {
   const dividendProof = await buildDividendProof(
     streamObj,
     streamContractAddress,
