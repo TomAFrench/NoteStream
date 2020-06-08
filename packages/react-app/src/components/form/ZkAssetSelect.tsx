@@ -13,7 +13,7 @@ const ZkAssetSelect = ({
   updateAsset,
   assetList,
 }: {
-  currentAsset: ZkAsset;
+  currentAsset?: ZkAsset;
   updateAsset: Function;
   assetList: zkAssetMap;
 }): ReactElement => {
@@ -21,7 +21,7 @@ const ZkAssetSelect = ({
     <TextField
       select
       label="zkAsset"
-      value={currentAsset ? currentAsset.address : undefined}
+      value={currentAsset?.address}
       onChange={(val): Promise<void> => updateAsset(val.target.value)}
       SelectProps={{
         native: true,
