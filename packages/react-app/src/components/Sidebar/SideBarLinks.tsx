@@ -75,7 +75,7 @@ const SideBarLinks = (): ReactElement => {
         />
       ))}
       <Divider />
-      <ListItem button disabled onClick={(): Promise<void> => transak.init()}>
+      <ListItem button onClick={(): Promise<void> => transak.init()}>
         <ListItemIcon>
           <ShoppingCartIcon />
         </ListItemIcon>
