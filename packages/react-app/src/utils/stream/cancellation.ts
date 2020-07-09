@@ -23,8 +23,8 @@ export default async function cancelStream(
   // Calculate a valid timestamp to cancel stream at
   const { withdrawalValue, withdrawalDuration } = calculateWithdrawal(
     note.value,
-    streamObj.lastWithdrawTime,
-    streamObj.stopTime,
+    parseInt(streamObj.lastWithdrawTime, 10),
+    parseInt(streamObj.stopTime, 10),
     bufferSeconds,
   );
 

@@ -83,16 +83,16 @@ const StreamRow = ({
       <TableCell align="right">{`${displayValue} ${zkAsset.symbol}`}</TableCell>
       <TableCell align="right">
         <DoubleProgressBar
-          startTime={startTime}
-          stopTime={stopTime}
-          lastWithdrawTime={lastWithdrawTime}
+          startTime={parseInt(startTime, 10)}
+          stopTime={parseInt(stopTime, 10)}
+          lastWithdrawTime={parseInt(lastWithdrawTime, 10)}
         />
       </TableCell>
       <TableCell align="right">
-        {moment.unix(startTime).format('MMM D, YYYY - HH:mm')}
+        {moment.unix(parseInt(startTime, 10)).format('MMM D, YYYY - HH:mm')}
       </TableCell>
       <TableCell align="right">
-        {moment.unix(stopTime).format('MMM D, YYYY - HH:mm')}
+        {moment.unix(parseInt(stopTime, 10)).format('MMM D, YYYY - HH:mm')}
       </TableCell>
       <TableCell align="right">{button}</TableCell>
     </TableRow>

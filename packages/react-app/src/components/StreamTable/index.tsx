@@ -54,10 +54,10 @@ const humanReadableStream = (stream: Stream): HumanReadableStream => {
     zkAsset,
   } = stream;
   const humanStartTime: string = moment
-    .unix(startTime)
+    .unix(parseInt(startTime, 10))
     .format('MMM D, YYYY - HH:mm');
   const humanStopTime: string = moment
-    .unix(stopTime)
+    .unix(parseInt(stopTime, 10))
     .format('MMM D, YYYY - HH:mm');
   const humanDeposit = '';
 
@@ -119,9 +119,9 @@ function NewStreamTable({
   const tableContents: TableRowData[] = streamInProgress.map(
     (stream: Stream) => ({
       ...humanReadableStream(stream),
-      humanStartTimeOrder: stream.startTime,
-      humanStopTimeOrder: stream.stopTime,
-      humanLastWithdrawTimeOrder: stream.lastWithdrawTime,
+      humanStartTimeOrder: parseInt(stream.startTime, 10),
+      humanStopTimeOrder: parseInt(stream.stopTime, 10),
+      humanLastWithdrawTimeOrder: parseInt(stream.lastWithdrawTime, 10),
     }),
   );
   return (
