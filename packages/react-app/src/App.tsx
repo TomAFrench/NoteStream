@@ -13,7 +13,6 @@ import {
   abis,
 } from '@notestream/contract-artifacts';
 import { Contract } from '@ethersproject/contracts';
-import { Web3Provider } from '@ethersproject/providers';
 
 import { useWalletProvider, useNetwork } from './contexts/OnboardContext';
 
@@ -74,11 +73,10 @@ const App = (): ReactElement => {
   useEffect(() => {
     if (appNetworkId && provider) {
       const { NoteStream } = getContractAddressesForNetwork(appNetworkId);
-      const signer = new Web3Provider(provider).getSigner();
       const noteStreamContract = new Contract(
         NoteStream,
         abis.NoteStream,
-        signer,
+        provider.getSigner(),
       );
       setStreamContract(noteStreamContract);
     }

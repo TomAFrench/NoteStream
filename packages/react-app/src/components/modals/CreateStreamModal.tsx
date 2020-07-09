@@ -12,7 +12,6 @@ import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment';
 import { Contract } from '@ethersproject/contracts';
-import { Web3Provider } from '@ethersproject/providers';
 import { createStream } from '../../utils/stream';
 
 import AddressInput from '../form/AddressInput';
@@ -85,7 +84,7 @@ export default function CreateStreamDialog({
         const linkedToken = new Contract(
           zkAsset.linkedTokenAddress,
           ERC20.abi,
-          new Web3Provider(provider),
+          provider,
         );
         const tokenSymbol = linkedToken.symbol();
         const tokenDecimals = linkedToken.decimals();
