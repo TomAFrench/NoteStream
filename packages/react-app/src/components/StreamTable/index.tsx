@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 import { useQuery } from '@apollo/client';
-import { Contract } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 import { Button, Grid, CircularProgress } from '@material-ui/core';
 import { generateColumns, STREAM_TABLE_ID, Column } from '../Table/columns';
 import { cellWidth } from '../Table/TableHead';

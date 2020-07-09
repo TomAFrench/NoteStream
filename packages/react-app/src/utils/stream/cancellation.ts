@@ -1,4 +1,4 @@
-import { Contract } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 import { calculateWithdrawal } from './withdrawal';
 import { buildCancellationProofs } from '../proofs';
 import { Address, AztecSDK, Stream, Proof } from '../../types/types';

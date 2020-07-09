@@ -11,8 +11,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment';
-import { Contract } from 'ethers';
-import { Web3Provider } from 'ethers/providers';
+import { Contract } from '@ethersproject/contracts';
+import { Web3Provider } from '@ethersproject/providers';
 import { createStream } from '../../utils/stream';
 
 import AddressInput from '../form/AddressInput';

@@ -12,8 +12,8 @@ import {
   getContractAddressesForNetwork,
   abis,
 } from '@notestream/contract-artifacts';
-import { Contract } from 'ethers';
-import { Web3Provider } from 'ethers/providers';
+import { Contract } from '@ethersproject/contracts';
+import { Web3Provider } from '@ethersproject/providers';
 
 import { useWalletProvider, useNetwork } from './contexts/OnboardContext';
 

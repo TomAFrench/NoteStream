@@ -1,5 +1,5 @@
 import React, { ReactElement, useState, useEffect } from 'react';
-import { utils } from 'ethers';
+import { getAddress } from '@ethersproject/address';
 
 import TextField from '@material-ui/core/TextField';
 import { Address, AztecSDK } from '../../types/types';
@@ -20,7 +20,7 @@ const AddressInput = (props: any): ReactElement => {
   useEffect(() => {
     const checkAddressIsValid = async (testAddress: Address): Promise<void> => {
       try {
-        if (utils.getAddress(testAddress)) {
+        if (getAddress(testAddress)) {
           const user = await aztec.user(testAddress);
           setInvalidAddress(!user.registered);
         }

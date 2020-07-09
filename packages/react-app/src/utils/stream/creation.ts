@@ -1,4 +1,4 @@
-import { Contract } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 import { buildDepositProof } from '../proofs';
 import { Address, Hash } from '../../types/types';
 

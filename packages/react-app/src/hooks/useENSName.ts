@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Web3Provider } from 'ethers/providers';
+import { Web3Provider } from '@ethersproject/providers';
 import { Address } from '../types/types';
 import { useWalletProvider } from '../contexts/OnboardContext';
 import lookupAddress from '../utils/ens/lookupAddress';

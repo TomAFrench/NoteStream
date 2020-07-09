@@ -1,8 +1,9 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
-import { Contract } from 'ethers';
-import { Web3Provider } from 'ethers/providers';
-import { formatUnits, parseUnits, BigNumber } from 'ethers/utils';
+import { Contract } from '@ethersproject/contracts';
+import { Web3Provider } from '@ethersproject/providers';
+import { BigNumber } from '@ethersproject/bignumber';
+import { formatUnits, parseUnits } from '@ethersproject/units';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Paper, Grid, Typography, IconButton } from '@material-ui/core';

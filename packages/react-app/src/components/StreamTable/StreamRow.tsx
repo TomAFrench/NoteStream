@@ -7,7 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 import moment from 'moment';
 
-import { Contract } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 
 import { withdrawFunds, cancelStream } from '../../utils/stream';
 import { Stream, ZkNote } from '../../types/types';
