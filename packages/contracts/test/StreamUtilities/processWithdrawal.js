@@ -187,7 +187,7 @@ describe('StreamUtilities - processWithdrawal', function () {
         ).to.be.revertedWith("stream recipient can't view new stream note");
     });
 
-    it('transfers the zkAssets to the sender and recipient', async function () {
+    it('transfers the zkAssets to the sender and recipient and returns the hash of the new stream note', async function () {
         const withdrawalNote = await createNote(
             streamNote.k.toNumber() / 4,
             recipient.address,
@@ -219,8 +219,8 @@ describe('StreamUtilities - processWithdrawal', function () {
             )
         )
             .to.emit(zkAsset, 'DestroyNote')
-            .withArgs(streamUtilitiesMock.address, streamNote.noteHash);
+            .withArgs(streamUtilitiesMock.address, streamNote.noteHash)
+            .and.emit(streamUtilitiesMock, 'ProcessWithdrawal')
+            .withArgs(refundNote.noteHash);
     });
-
-    it('returns the hash of the new stream note');
 });

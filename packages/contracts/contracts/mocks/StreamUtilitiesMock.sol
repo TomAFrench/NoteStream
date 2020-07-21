@@ -7,6 +7,11 @@ import '../StreamUtilities.sol';
 contract StreamUtilitiesMock {
     // The provided struct object is stored here as StreamUtilities expects a storage variable.
     Types.AztecStream public stream;
+    event ValidateRatioProof(bytes32 withdrawalNoteHash);
+    event ValidateJoinSplitProof(bytes32 withdrawalNoteHash);
+    event ProcessDeposit(bytes32 streamNoteHash);
+    event ProcessWithdrawal(bytes32 newStreamNoteHash);
+    event ProcessCancellation(bool cancellationSuccess);
 
     function getRatio(bytes memory _proofData)
         public
@@ -23,13 +28,13 @@ contract StreamUtilitiesMock {
         Types.AztecStream memory _stream
     ) public returns (bytes32) {
         stream = _stream;
-        return
-            StreamUtilities._validateRatioProof(
-                _aceContractAddress,
-                _proof1,
-                _withdrawDuration,
-                stream
-            );
+        bytes32 withdrawalNoteHash = StreamUtilities._validateRatioProof(
+            _aceContractAddress,
+            _proof1,
+            _withdrawDuration,
+            stream
+        );
+        emit ValidateRatioProof(withdrawalNoteHash);
     }
 
     function validateJoinSplitProof(
@@ -39,7 +44,7 @@ contract StreamUtilitiesMock {
         Types.AztecStream memory _stream
     ) public returns (bytes memory) {
         stream = _stream;
-        return
+        bytes memory proofOutputs =
             StreamUtilities._validateJoinSplitProof(
                 _aceContractAddress,
                 _proof2,
@@ -56,15 +61,15 @@ contract StreamUtilitiesMock {
         address _recipient,
         address _tokenAddress
     ) public returns (bytes32) {
-        return
-            StreamUtilities._processDeposit(
-                _proof,
-                _proofSignature,
-                _aceContractAddress,
-                _sender,
-                _recipient,
-                _tokenAddress
-            );
+        bytes32 newStreamNoteHash = StreamUtilities._processDeposit(
+            _proof,
+            _proofSignature,
+            _aceContractAddress,
+            _sender,
+            _recipient,
+            _tokenAddress
+        );
+        emit ProcessDeposit(newStreamNoteHash);
     }
 
     function processWithdrawal(
@@ -74,13 +79,13 @@ contract StreamUtilitiesMock {
         Types.AztecStream memory _stream
     ) public returns (bytes32) {
         stream = _stream;
-        return
-            StreamUtilities._processWithdrawal(
-                _aceContractAddress,
-                _proof2,
-                _withdrawalNoteHash,
-                stream
-            );
+        bytes32 newStreamNoteHash = StreamUtilities._processWithdrawal(
+            _aceContractAddress,
+            _proof2,
+            _withdrawalNoteHash,
+            stream
+        );
+        emit ProcessWithdrawal(newStreamNoteHash);
     }
 
     function processCancellation(
@@ -90,12 +95,13 @@ contract StreamUtilitiesMock {
         Types.AztecStream memory _stream
     ) public returns (bool) {
         stream = _stream;
-        return
+        bool cancellationSuccess =
             StreamUtilities._processCancellation(
                 _aceContractAddress,
                 _proof2,
                 _proof1OutputNotes,
                 stream
             );
+        emit ProcessCancellation(cancellationSuccess);
     }
 }

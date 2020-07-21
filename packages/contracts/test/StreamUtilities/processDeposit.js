@@ -209,8 +209,8 @@ describe('StreamUtilities - processDeposit', function () {
             )
         ).to.be.revertedWith("stream recipient can't view stream note");
     });
-    it('transfers the zkAssets to the contract', async function () {
-        const { depositProof } = await createStreamDepositProof(
+    it('transfers the zkAssets to the contract and returns the new stream note hash', async function () {
+        const { depositProof, streamNote } = await createStreamDepositProof(
             [depositOutputNote],
             streamUtilitiesMock.address,
             sender.address,
@@ -235,8 +235,8 @@ describe('StreamUtilities - processDeposit', function () {
             )
         )
             .to.emit(zkAsset, 'DestroyNote')
-            .withArgs(sender.address, depositOutputNote.noteHash);
+            .withArgs(sender.address, depositOutputNote.noteHash)
+            .and.emit(streamUtilitiesMock, 'ProcessDeposit')
+            .withArgs(streamNote.noteHash);
     });
-
-    it('returns the hash of the new stream note');
 });

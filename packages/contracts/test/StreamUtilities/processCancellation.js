@@ -159,4 +159,41 @@ describe('StreamUtilities - processCancellation', function () {
             .to.emit(zkAsset, 'DestroyNote')
             .withArgs(streamUtilitiesMock.address, streamNote.noteHash);
     });
+
+    it('transfers the zkAssets to the sender and recipient and returns true', async function () {
+        const withdrawalNote = await createNote(
+            streamNote.k.toNumber() / 4,
+            recipient.address,
+            [recipient.address]
+        );
+
+        const refundNote = await createNote(
+            (streamNote.k.toNumber() * 3) / 4,
+            sender.address,
+            [sender.address]
+        );
+
+        const proof = new JoinSplitProof(
+            [streamNote],
+            [withdrawalNote, refundNote],
+            streamUtilitiesMock.address,
+            0,
+            sender.address
+        );
+
+        const proofData = proof.encodeABI(zkAsset.address);
+
+        await expect(
+            streamUtilitiesMock.processCancellation(
+                ace.address,
+                proofData,
+                withdrawalNote.noteHash,
+                streamObject
+            )
+        )
+            .to.emit(zkAsset, 'DestroyNote')
+            .withArgs(streamUtilitiesMock.address, streamNote.noteHash)
+            .and.emit(streamUtilitiesMock, 'ProcessCancellation')
+            .withArgs(true);
+    });
 });
