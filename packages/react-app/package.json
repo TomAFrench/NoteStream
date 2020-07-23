@@ -17,6 +17,7 @@
     "@material-ui/icons": "^4.9.1",
     "@notestream/contract-artifacts": "^1.0.1",
     "@transak/transak-sdk": "^1.0.17",
+    "@types/testing-library__dom": "^7.5.0",
     "aztec.js": "^0.17.0",
     "bn.js": "^5.1.1",
     "bnc-onboard": "^1.9.0",
