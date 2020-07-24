@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import isExternal from '../utils/links';
 
-const flexLink = (props: any): ReactElement => {
+const FlexLink = (props: any): ReactElement => {
   return isExternal(props.to) ? (
     <a href={props.to} {...props}>
       {props.children}
@@ -13,4 +13,4 @@ const flexLink = (props: any): ReactElement => {
   );
 };
 
-export default flexLink;
+export default FlexLink;
