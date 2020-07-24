@@ -11,7 +11,7 @@ async function createStream(
   startTime: number,
   endTime: number,
 ): Promise<Hash> {
-  const depositProof = await buildDepositProof(
+  const { proof, signature } = await buildDepositProof(
     streamContract.address,
     zkAsset,
     payerAddress,
@@ -21,7 +21,8 @@ async function createStream(
 
   return streamContract.createStream(
     payeeAddress,
-    depositProof,
+    proof,
+    signature,
     zkAsset.address,
     startTime,
     endTime,

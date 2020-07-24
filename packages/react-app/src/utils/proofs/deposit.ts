@@ -1,13 +1,13 @@
-import { Address } from '../../types/types';
+import { Address, Proof } from '../../types/types';
 
-async function buildDepositProof(
+function buildDepositProof(
   streamContractAddress: Address,
   asset: any,
   payerAddress: Address,
   payeeAddress: Address,
   sendAmount: number,
-): Promise<object> {
-  const { proof } = await asset.send(
+): Promise<{ proof: Proof; signature: string }> {
+  return asset.send(
     [
       {
         to: streamContractAddress,
@@ -22,9 +22,6 @@ async function buildDepositProof(
       sender: streamContractAddress, // proof is being submitted by contract rather than directly
     },
   );
-
-  console.log(proof);
-  return proof;
 }
 
 export default buildDepositProof;
