@@ -19,7 +19,7 @@ export const cellWidth = (width?: number): object | undefined => {
 function TableHeader(props: any): ReactElement {
   const { columns, order, orderBy, onSort } = props;
 
-  const changeSort = (property: string, orderAttr: boolean) => () => {
+  const changeSort = (property: string, orderAttr: boolean) => (): void => {
     onSort(property, orderAttr);
   };
 

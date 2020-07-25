@@ -1,6 +1,7 @@
 import buildProofs from './proofs';
 import { Stream, Address, AztecSDK, Proof } from '../../types/types';
 
+export { default as buildDepositProof } from './deposit';
 // On a withdrawal the change note remains on the contract
 const buildWithdrawalProofs = (
   aztec: AztecSDK,

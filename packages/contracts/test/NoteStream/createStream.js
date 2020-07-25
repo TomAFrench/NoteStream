@@ -3,10 +3,8 @@ const { waffle } = require('@nomiclabs/buidler');
 const { use, expect } = require('chai');
 const { solidity, createFixtureLoader } = require('ethereum-waffle');
 const { bigNumberify, Interface } = require('ethers/utils');
-
 const { devConstants } = require('@notestream/dev-utils');
 const moment = require('moment');
-const crypto = require('crypto');
 
 const {
     // STANDARD_SALARY,
@@ -17,6 +15,9 @@ const {
 
 const NoteStream = require('../../build/NoteStream.json');
 const { noteStreamFixture } = require('../fixtures');
+const { mintZkAsset } = require('../helpers/mint/mintZkAssets');
+const { signProof } = require('../helpers/signProof');
+const { createStreamDepositProof } = require('../helpers/deposit/streamNote');
 
 use(solidity);
 
@@ -27,23 +28,56 @@ describe('NoteStream - createStream', function () {
 
     const NoteStreamInterface = new Interface(NoteStream.abi);
 
+    let ace;
+    let token;
     let noteStream;
     let zkAsset;
+    let streamNote;
+    let data;
+    let signature;
+    const streamDeposit = 100000;
     beforeEach(async function () {
-        ({ noteStream, zkAsset } = await loadFixture(noteStreamFixture));
+        ({ ace, token, noteStream, zkAsset } = await loadFixture(
+            noteStreamFixture
+        ));
+
+        const depositOutputNote = await mintZkAsset(
+            sender.address,
+            streamDeposit,
+            token,
+            zkAsset,
+            ace
+        );
+
+        const { depositProof } = await createStreamDepositProof(
+            [depositOutputNote],
+            noteStream.address,
+            sender.address,
+            recipient.address,
+            0
+        );
+
+        [streamNote] = depositProof.outputNotes;
+
+        ({ data, signature } = signProof(
+            zkAsset,
+            depositProof,
+            noteStream.address,
+            sender.signingKey.privateKey
+        ));
     });
 
     const now = bigNumberify(moment().format('X'));
     const startTime = now.add(STANDARD_TIME_OFFSET.toString());
     const stopTime = startTime.add(STANDARD_TIME_DELTA.toString());
-    const notehash = crypto.randomBytes(32);
 
     describe('when not paused', function () {
         describe('when the recipient is valid', function () {
             it('creates the stream', async function () {
                 const tx = await noteStream.createStream(
                     recipient.address,
-                    notehash,
+                    data,
+                    signature,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -56,9 +90,7 @@ describe('NoteStream - createStream', function () {
                 const streamObject = await noteStream.getStream(streamId);
                 expect(streamObject.sender).to.equal(sender.address);
                 expect(streamObject.recipient).to.equal(recipient.address);
-                expect(streamObject.noteHash).to.equal(
-                    `0x${notehash.toString('hex')}`
-                );
+                expect(streamObject.noteHash).to.equal(streamNote.noteHash);
 
                 expect(streamObject.tokenAddress).to.equal(zkAsset.address);
                 expect(streamObject.startTime).to.equal(startTime);
@@ -70,7 +102,8 @@ describe('NoteStream - createStream', function () {
                 const currentStreamId = await noteStream.nextStreamId();
                 await noteStream.createStream(
                     recipient.address,
-                    notehash,
+                    data,
+                    signature,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -84,7 +117,8 @@ describe('NoteStream - createStream', function () {
                 await expect(
                     noteStream.createStream(
                         recipient.address,
-                        notehash,
+                        data,
+                        signature,
                         zkAsset.address,
                         startTime,
                         stopTime
@@ -99,7 +133,8 @@ describe('NoteStream - createStream', function () {
                 await expect(
                     noteStream.createStream(
                         recipient.address,
-                        notehash,
+                        data,
+                        signature,
                         zkAsset.address,
                         invalidStartTime,
                         stopTime
@@ -111,7 +146,8 @@ describe('NoteStream - createStream', function () {
                 await expect(
                     noteStream.createStream(
                         recipient.address,
-                        notehash,
+                        data,
+                        signature,
                         zkAsset.address,
                         startTime,
                         startTime
@@ -126,7 +162,8 @@ describe('NoteStream - createStream', function () {
                 await expect(
                     noteStream.createStream(
                         recipient.address,
-                        notehash,
+                        data,
+                        signature,
                         zkAsset.address,
                         startTime,
                         invalidStopTime
@@ -139,7 +176,8 @@ describe('NoteStream - createStream', function () {
             await expect(
                 noteStream.createStream(
                     sender.address,
-                    notehash,
+                    data,
+                    signature,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -151,7 +189,8 @@ describe('NoteStream - createStream', function () {
             await expect(
                 noteStream.createStream(
                     noteStream.address,
-                    notehash,
+                    data,
+                    signature,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -163,7 +202,8 @@ describe('NoteStream - createStream', function () {
             await expect(
                 noteStream.createStream(
                     ZERO_ADDRESS,
-                    notehash,
+                    data,
+                    signature,
                     zkAsset.address,
                     startTime,
                     stopTime
@@ -179,7 +219,8 @@ describe('NoteStream - createStream', function () {
         await expect(
             noteStream.createStream(
                 recipient.address,
-                notehash,
+                data,
+                signature,
                 zkAsset.address,
                 startTime,
                 stopTime

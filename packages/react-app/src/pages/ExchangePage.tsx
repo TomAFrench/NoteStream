@@ -1,8 +1,7 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
-import { Contract } from 'ethers';
-import { Web3Provider } from 'ethers/providers';
-import { formatUnits, parseUnits, BigNumber } from 'ethers/utils';
+import { BigNumber } from '@ethersproject/bignumber';
+import { formatUnits, parseUnits } from '@ethersproject/units';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Paper, Grid, Typography, IconButton } from '@material-ui/core';
@@ -16,8 +15,7 @@ import { useAztec, useZkAssets } from '../contexts/AztecContext';
 import { useAddress, useWalletProvider } from '../contexts/OnboardContext';
 
 import { Address, ZkAsset } from '../types/types';
-
-import ERC20 from '../abis/ERC20Detailed';
+import useTokenDetails from '../hooks/useTokenDetails';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,6 +37,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const depositZkToken = (
+  zkAsset: ZkAsset,
+  address: Address,
+  depositAmount: BigNumber,
+): void => zkAsset.deposit([{ to: address, amount: depositAmount.toString() }]);
+
+const withdrawZkToken = (zkAsset: ZkAsset, withdrawAmount: string): void =>
+  zkAsset.withdraw(parseInt(withdrawAmount, 10));
+
 const ExchangePage = (): ReactElement => {
   const classes = useStyles();
   const userAddress = useAddress();
@@ -51,6 +58,8 @@ const ExchangePage = (): ReactElement => {
   const [privateBalance, setPrivateBalance] = useState<number>(0);
   const [deposit, setDeposit] = useState<boolean>(true);
   const [amount, setAmount] = useState<string>('');
+
+  const tokenDetails = useTokenDetails(provider, zkAsset?.linkedTokenAddress);
 
   const updateZkAsset = useCallback(
     async (address: Address): Promise<void> => {
@@ -72,33 +81,6 @@ const ExchangePage = (): ReactElement => {
       updateZkAsset(Object.keys(zkAssets)[0]);
     }
   }, [aztec.zkAsset, zkAssets, updateZkAsset]);
-
-  useEffect(() => {
-    const updateToken = async (): Promise<void> => {
-      if (provider && zkAsset?.linkedTokenAddress) {
-        const linkedToken = new Contract(
-          zkAsset.linkedTokenAddress,
-          ERC20.abi,
-          new Web3Provider(provider),
-        );
-        const tokenSymbol = linkedToken.symbol();
-        const tokenDecimals = linkedToken.decimals();
-        zkAsset.token.symbol = await tokenSymbol;
-        zkAsset.token.decimals = await tokenDecimals;
-      }
-    };
-    updateToken();
-  }, [provider, zkAsset]);
-
-  function depositZkToken(depositAmount: BigNumber): void {
-    if (zkAsset) {
-      zkAsset.deposit([{ to: userAddress, amount: depositAmount.toString() }]);
-    }
-  }
-
-  function withdrawZkToken(withdrawAmount: string): void {
-    if (zkAsset) zkAsset.withdraw(parseInt(withdrawAmount, 10));
-  }
 
   return (
     <>
@@ -187,15 +169,20 @@ const ExchangePage = (): ReactElement => {
           </Grid>
           <Grid item>
             <Button
-              onClick={(): void =>
-                deposit
-                  ? depositZkToken(
-                      parseUnits(amount, zkAsset?.token.decimals).div(
-                        zkAsset?.scalingFactor || 1,
-                      ),
-                    )
-                  : withdrawZkToken(amount)
-              }
+              onClick={(): void => {
+                if (!zkAsset) return;
+                if (deposit) {
+                  depositZkToken(
+                    zkAsset,
+                    userAddress,
+                    parseUnits(amount, tokenDetails.decimals).div(
+                      zkAsset?.scalingFactor || 1,
+                    ),
+                  );
+                } else {
+                  withdrawZkToken(zkAsset, amount);
+                }
+              }}
               color="primary"
               variant="contained"
             >

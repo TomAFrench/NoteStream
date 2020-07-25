@@ -3,6 +3,8 @@ import React, {
   createContext,
   ReactElement,
   useContext,
+  useState,
+  useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 
@@ -17,6 +19,7 @@ import {
   WalletInitOptions,
   // eslint-disable-next-line import/no-unresolved
 } from 'bnc-onboard/dist/src/interfaces';
+import { Web3Provider } from '@ethersproject/providers';
 import { Address } from '../types/types';
 
 interface Props {
@@ -112,7 +115,6 @@ class OnboardProvider extends Component<Props, State> {
         if (ready) {
           const walletState = onboard.getState();
           this.setState({ ...walletState });
-          console.log(walletState);
         } else {
           // Connection to wallet failed
         }
@@ -166,10 +168,14 @@ export const useSetup = (): Function => {
   return setup;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const useWalletProvider = (): any | null => {
+export const useWalletProvider = (): Web3Provider | undefined => {
   const { provider } = useWallet() || {};
-  return provider;
+  const [web3Provider, setWeb3Provider] = useState<Web3Provider>();
+
+  useEffect(() => {
+    if (provider) setWeb3Provider(new Web3Provider(provider));
+  }, [provider]);
+  return web3Provider;
 };
 
 export default OnboardProvider;

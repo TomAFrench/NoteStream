@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Grid, Typography, CircularProgress } from '@material-ui/core';
 
-import { Contract } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 import StreamTable from '../components/StreamTable';
 
 const useStyles = makeStyles((theme) => ({

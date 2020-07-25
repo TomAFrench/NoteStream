@@ -1,16 +1,29 @@
 import React, { ReactElement } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import isExternal from '../utils/links';
 
-const flexLink = (props: any): ReactElement => {
-  return isExternal(props.to) ? (
-    <a href={props.to} {...props}>
-      {props.children}
+interface Props {
+  to: string;
+  children: any;
+  [x: string]: any;
+}
+
+const FlexLink = ({ to, children, ...rest }: Props): ReactElement =>
+  isExternal(to) ? (
+    <a href={to} {...rest}>
+      {children}
     </a>
   ) : (
-    <Link {...props}>{props.children}</Link>
+    <Link to={to} {...rest}>
+      {children}
+    </Link>
   );
+
+FlexLink.propTypes = {
+  to: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
-export default flexLink;
+export default FlexLink;

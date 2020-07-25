@@ -11,8 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
 import moment from 'moment';
-import { Contract } from 'ethers';
-import { Web3Provider } from 'ethers/providers';
+import { Contract } from '@ethersproject/contracts';
 import { createStream } from '../../utils/stream';
 
 import AddressInput from '../form/AddressInput';
@@ -85,7 +84,7 @@ export default function CreateStreamDialog({
         const linkedToken = new Contract(
           zkAsset.linkedTokenAddress,
           ERC20.abi,
-          new Web3Provider(provider),
+          provider,
         );
         const tokenSymbol = linkedToken.symbol();
         const tokenDecimals = linkedToken.decimals();
@@ -219,14 +218,6 @@ export default function CreateStreamDialog({
                 </TextField>
               </Grid>
             </Grid>
-            <DialogContentText>
-              After you click &quot;Create Stream&quot;, you will be asked to
-              sign two transactions. The first sends the AZTEC note to the
-              NoteStream contract and the second creates the stream.
-            </DialogContentText>
-            <DialogContentText>
-              In a later update, these two transactions will be combined.
-            </DialogContentText>
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -235,21 +226,26 @@ export default function CreateStreamDialog({
           </Button>
           <Button
             onClick={async (): Promise<void> => {
+              const startTime = parseInt(
+                moment().add(5, 'minutes').format('X'),
+                10,
+              );
+              const stopTime = parseInt(
+                moment()
+                  .add(days, 'days')
+                  .add(hours, 'hours')
+                  .add(minutes + 5, 'minutes')
+                  .format('X'),
+                10,
+              );
               await createStream(
                 zkAsset?.toNoteValue(streamAmount),
                 streamContract,
                 userAddress,
                 recipient,
                 zkAsset,
-                parseInt(moment().add(5, 'minutes').format('X'), 10),
-                parseInt(
-                  moment()
-                    .add(days, 'days')
-                    .add(hours, 'hours')
-                    .add(minutes + 5, 'minutes')
-                    .format('X'),
-                  10,
-                ),
+                startTime,
+                stopTime,
               );
               handleClose();
             }}

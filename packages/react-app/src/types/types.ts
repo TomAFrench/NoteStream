@@ -20,9 +20,9 @@ export interface Stream {
   cancellation: any;
   sender: Address;
   recipient: Address;
-  startTime: number;
-  lastWithdrawTime: number;
-  stopTime: number;
+  startTime: string;
+  lastWithdrawTime: string;
+  stopTime: string;
   tokenAddress: Address;
   noteHash: Hash;
   zkAsset: any;

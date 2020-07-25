@@ -13,13 +13,14 @@
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-typescript": "^7.9.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.27.0",
-    "eslint": "^5.15.3",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-import": "^2.20.2",
-    "lint-staged": "^10.2.2",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "lint-staged": "^10.2.11",
     "shx": "^0.3.2",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   },
   "engines": {
     "node": ">=8.3"
@@ -53,7 +54,7 @@
     "build:types": "tsc --emitDeclarationOnly",
     "clean": "shx rm -rf ./lib",
     "has:changed": "bash ../monorepo-scripts/ci/hasChanged.sh contract-artifacts",
-    "lint": "eslint --config .eslintrc.js --ext .js,.ts . ",
+    "lint": "eslint --config .eslintrc.js --ext .ts . ",
     "watch": "yarn build --watch"
   },
   "config": {

@@ -1,5 +1,5 @@
-import { Web3Provider } from 'ethers/providers';
-import { getAddress } from 'ethers/utils';
+import { Web3Provider } from '@ethersproject/providers';
+import { getAddress } from '@ethersproject/address';
 
 const lookupAddress = async (
   provider: Web3Provider,

@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { Contract } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 import { buildWithdrawalProofs } from '../proofs';
 import { getFraction } from '../note';
 import { AztecSDK, Proof } from '../../types/types';

@@ -1,4 +1,4 @@
-import { Contract } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 import { calculateWithdrawal } from './withdrawal';
 import { buildCancellationProofs } from '../proofs';
 import { Address, AztecSDK, Stream, Proof } from '../../types/types';
@@ -23,8 +23,8 @@ export default async function cancelStream(
   // Calculate a valid timestamp to cancel stream at
   const { withdrawalValue, withdrawalDuration } = calculateWithdrawal(
     note.value,
-    streamObj.lastWithdrawTime,
-    streamObj.stopTime,
+    parseInt(streamObj.lastWithdrawTime, 10),
+    parseInt(streamObj.stopTime, 10),
     bufferSeconds,
   );
 
