@@ -49,7 +49,7 @@ jobs:
     test:
         working_directory: ~/repo
         docker:
-            - image: circleci/node:10.18.1
+            - image: circleci/node:erbium
         steps:
             - restore_cache:
                   keys:
